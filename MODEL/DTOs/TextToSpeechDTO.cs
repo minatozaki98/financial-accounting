@@ -32,7 +32,7 @@ namespace MODEL.DTOs
 
     }
 
-    public class ResponseHistoryDTO:Common
+    public class ResponseHistoryDTO : Common
     {
         public Guid TextToSpeechID { get; set; }
         public string? Title { get; set; }

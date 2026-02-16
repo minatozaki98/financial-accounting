@@ -13,7 +13,7 @@ namespace REPOSITORY.UnitOfWork
 {
     public class UnitOfWork:IUnitOfWork
     {
-        private DataContext _dataContext;
+        private readonly DataContext _dataContext;
         public UnitOfWork(DataContext dataContext, IOptions<AppSettings> appsettings)
         {
             _dataContext = dataContext;
