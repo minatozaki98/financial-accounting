@@ -47,9 +47,12 @@
 ### Phase 4: Testing and Thesis Metrics
 - [ ] Add unit tests for BAL services.
 - [ ] Add integration tests for auth + financial endpoints.
-- [ ] Add SonarQube scan setup and quality gate.
-- [ ] Add OWASP ZAP baseline and post-improvement scans.
-- [ ] Add Apache JMeter scenarios for 50/100/500 concurrent users.
+- [x] Install SonarQube tooling (Docker) and prepare scan setup.
+- [x] Install OWASP ZAP tooling (Docker) and prepare baseline scan script.
+- [x] Install Apache JMeter tooling (Docker) and prepare test-run script.
+- [x] Setup SonarQube bootstrap + scan scripts for this repository.
+- [x] Setup OWASP ZAP baseline rule profile for this repository.
+- [x] Setup Apache JMeter ready test plan and 50/100/500 profile runners.
 - [ ] Record baseline vs post-improvement metrics:
   - [ ] Vulnerability count and severity
   - [ ] Response time and throughput

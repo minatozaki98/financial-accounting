@@ -8,5 +8,8 @@
 
     <!-- Do not fail restore when remote feeds are unreachable and packages already exist locally. -->
     <RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
+
+    <!-- MSBuild graph restore can fail non-deterministically on some Windows setups when parallelized. -->
+    <RestoreBuildInParallel>false</RestoreBuildInParallel>
   </PropertyGroup>
 </Project>

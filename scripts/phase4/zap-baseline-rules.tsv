@@ -1,0 +1,12 @@
+# ZAP Baseline rule config
+# Format: <ruleId> <TAB> <WARN|FAIL|IGNORE> <TAB> <optional message>
+# Tune these levels for your thesis baseline and post-improvement comparisons.
+
+10010	WARN	Cookie No HttpOnly Flag
+10011	WARN	Cookie Without Secure Flag
+10015	WARN	Incomplete or No Cache-control Header Set
+10016	IGNORE	Web Browser XSS Protection Not Enabled
+10020	WARN	X-Frame-Options Header Not Set
+10021	WARN	X-Content-Type-Options Header Missing
+10038	WARN	Content Security Policy Header Not Set
+10098	WARN	Cross-Domain Misconfiguration

@@ -339,3 +339,10 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /.sonarqube
+
+# Phase 4 generated outputs
+Document/security/zap-baseline.html
+Document/security/zap-baseline.json
+Document/security/zap-baseline.md
+Document/performance/jmeter-*.jtl
+Document/performance/report-*/

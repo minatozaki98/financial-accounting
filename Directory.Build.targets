@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      Force deterministic restore on Windows by disabling parallel MSBuild during restore graph evaluation.
+      Note: NuGet may set RestoreBuildInParallel=true in NuGet.targets; this late import re-overrides it.
+    -->
+    <RestoreBuildInParallel>false</RestoreBuildInParallel>
+
+    <!-- Similar issue can affect project reference evaluation; keep MSBuild task execution single-threaded. -->
+    <BuildInParallel>false</BuildInParallel>
+  </PropertyGroup>
+</Project>
