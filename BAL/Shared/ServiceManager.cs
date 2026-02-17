@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MODEL;
-using REPOSITORY.UnitOfWork;
 using BAL.IServices;
 using BAL.Services;
 
@@ -21,12 +20,13 @@ namespace BAL.Shared
             {
                 options.UseSqlServer(appSettings.ConnectionStrings);
             });
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ITodoService, TodoService>();
-            services.AddScoped<ITextToSpeechService, TextToSpeechService>();
-            services.AddScoped<ILexiconService, LexiconService>();
+            services.AddScoped<FinancialTokenProvider>();
+            services.AddScoped<IAuditLogService, AuditLogService>();
+            services.AddScoped<IFinancialAuthService, FinancialAuthService>();
+            services.AddScoped<IChartOfAccountsService, ChartOfAccountsService>();
+            services.AddScoped<IAccountingPeriodService, AccountingPeriodService>();
+            services.AddScoped<IJournalEntryService, JournalEntryService>();
+            services.AddScoped<IFinancialReportService, FinancialReportService>();
         }
     }
 }
