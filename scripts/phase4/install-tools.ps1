@@ -1,6 +1,7 @@
 param(
     [string]$SonarContainerName = "financial-sonarqube",
-    [string]$SonarImage = "sonarqube:lts-community",
+    # Use community/latest by default to avoid running an EOL "LTS" build that SonarQube flags as inactive.
+    [string]$SonarImage = "sonarqube:community",
     [string]$ZapImage = "ghcr.io/zaproxy/zaproxy:stable",
     [string]$JMeterImage = "justb4/jmeter:5.5",
     [int]$SonarPort = 9000,
@@ -37,6 +38,21 @@ if ($ResetSonarData) {
 }
 
 $existing = docker ps -a --format "{{.Names}}" | Where-Object { $_ -eq $SonarContainerName }
+
+# If the container exists but was created with a different image tag, recreate it so the pulled image is actually used.
+if ($existing -and -not $RecreateSonar) {
+    try {
+        $currentImage = docker inspect $SonarContainerName --format "{{.Config.Image}}"
+        if ($currentImage -and $currentImage -ne $SonarImage) {
+            Write-Host "Existing SonarQube container '$SonarContainerName' uses image '$currentImage'. Recreating to use '$SonarImage'."
+            $RecreateSonar = $true
+        }
+    }
+    catch {
+        # If inspect fails, proceed with existing behavior (start container).
+    }
+}
+
 if ($existing -and $RecreateSonar) {
     Write-Host "Recreating SonarQube container: $SonarContainerName"
     docker rm -f $SonarContainerName | Out-Null

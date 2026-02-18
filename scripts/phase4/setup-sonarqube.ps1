@@ -1,7 +1,7 @@
 param(
     [string]$SonarUrl = "http://localhost:9000",
     [string]$AdminUser = "admin",
-    [string]$AdminPassword = "admin",
+    [string]$AdminPassword = "Admin@123456",
     [string]$AdminToken = "",
     [string]$NewAdminPassword = "",
     [string]$ProjectKey = "financial-accounting",

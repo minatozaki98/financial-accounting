@@ -14,6 +14,36 @@ If you need to fully reset SonarQube (back to default `admin/admin`), run:
 ./scripts/phase4/install-tools.ps1 -ResetSonarData
 ```
 
+If SonarQube shows a banner like "version ... is no longer active", you are running an old image.
+Run a reset (or recreate) so Docker starts the newer `sonarqube:community` image:
+```powershell
+./scripts/phase4/install-tools.ps1 -ResetSonarData
+```
+
+### Upgrade from SonarQube 9.9.x (Docker)
+
+If you are currently on **Community Edition v9.9.x** and want the latest Community Build in Docker:
+
+1) If you do NOT need to keep existing SonarQube data (recommended for local/dev):
+```powershell
+./scripts/phase4/install-tools.ps1 -ResetSonarData
+```
+
+2) If you DO need to keep existing SonarQube data (volumes), upgrade in steps:
+```powershell
+# 9.9.x -> 24.12 (required)
+./scripts/phase4/install-tools.ps1 -RecreateSonar -SonarImage "sonarqube:24.12.0.100206-community"
+
+# 24.12 -> a 2025.x version (avoid 25.12 due to known upgrade issues)
+./scripts/phase4/install-tools.ps1 -RecreateSonar -SonarImage "sonarqube:25.11.0.114957-community"
+
+# 2025.x -> 26.1 (required cutoff for upgrades to later 2026 releases)
+./scripts/phase4/install-tools.ps1 -RecreateSonar -SonarImage "sonarqube:26.1.0.118079-community"
+
+# 26.1 -> latest
+./scripts/phase4/install-tools.ps1 -RecreateSonar -SonarImage "sonarqube:community"
+```
+
 ### Bootstrap SonarQube project
 ```powershell
 ./scripts/phase4/setup-sonarqube.ps1 `
@@ -26,7 +56,9 @@ Notes:
 - SonarQube URL: `http://localhost:9000`
 - Default container: `financial-sonarqube`
 - Save the generated token immediately (shown once).
-- If your admin password is not `admin`, pass `-AdminPassword "<yourPassword>"` (or use `-AdminToken "<token>"`).
+- If your admin password is not `Admin@123456`, pass `-AdminPassword "<yourPassword>"` (or use `-AdminToken "<token>"`).
+- After `-ResetSonarData`, SonarQube starts with the default password `admin`. Either change it in the UI, or run:
+  - `./scripts/phase4/setup-sonarqube.ps1 -AdminPassword "admin" -NewAdminPassword "Admin@123456" -GenerateToken`
 
 ### Run .NET Sonar scan
 ```powershell
