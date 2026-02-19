@@ -6,7 +6,8 @@ param(
     [string]$RulesFile = "scripts/phase4/zap-baseline-rules.tsv",
     [int]$Minutes = 5,
     [string]$Image = "ghcr.io/zaproxy/zaproxy:stable",
-    [switch]$IgnoreWarnings
+    [switch]$IgnoreWarnings,
+    [string]$OutputPrefix = "zap-baseline"
 )
 
 $ErrorActionPreference = "Stop"
@@ -24,6 +25,10 @@ New-Item -ItemType Directory -Path $workDir -Force | Out-Null
 
 $rulesFileName = "zap-rules.tsv"
 Copy-Item -Path $fullRulesPath -Destination (Join-Path $workDir $rulesFileName) -Force
+
+$htmlName = "$OutputPrefix.html"
+$jsonName = "$OutputPrefix.json"
+$mdName = "$OutputPrefix.md"
 
 $workMount = "$($workDir -replace '\\','/'):/zap/wrk"
 $dockerTargetUrl = $TargetUrl
@@ -44,9 +49,9 @@ $args = @(
     $Image,
     "zap-baseline.py",
     "-t", $dockerTargetUrl,
-    "-r", "zap-baseline.html",
-    "-J", "zap-baseline.json",
-    "-w", "zap-baseline.md",
+    "-r", $htmlName,
+    "-J", $jsonName,
+    "-w", $mdName,
     "-c", $rulesFileName,
     "-m", $Minutes.ToString()
 )
@@ -57,13 +62,12 @@ if ($IgnoreWarnings) {
 
 Write-Host "Running ZAP baseline scan for: $TargetUrl"
 Write-Host "Using rules file: $fullRulesPath"
+$exitCode = 0
 try {
     docker @args
-    if ($LASTEXITCODE -ne 0) {
-        throw "ZAP baseline scan failed with exit code $LASTEXITCODE"
-    }
+    $exitCode = $LASTEXITCODE
 
-    foreach ($file in @("zap-baseline.html", "zap-baseline.json", "zap-baseline.md")) {
+    foreach ($file in @($htmlName, $jsonName, $mdName)) {
         $source = Join-Path $workDir $file
         if (Test-Path $source) {
             Copy-Item -Path $source -Destination (Join-Path $fullReportDir $file) -Force
@@ -75,3 +79,32 @@ finally {
 }
 
 Write-Host "Reports generated in: $fullReportDir"
+
+# ZAP baseline exit codes:
+# 0 = pass, 1 = fail, 2 = warnings, 3+ = scan error.
+if ($exitCode -eq 0) {
+    if ($IgnoreWarnings) {
+        Write-Host "ZAP baseline scan completed. Warnings (if any) were ignored for exit code (-IgnoreWarnings)."
+    }
+    else {
+        Write-Host "ZAP baseline scan completed with no new warnings."
+    }
+}
+elseif ($exitCode -eq 2) {
+    Write-Host "ZAP baseline scan completed with warnings (exit code 2). See reports for details."
+    if (-not $IgnoreWarnings) {
+        exit 2
+    }
+}
+else {
+    throw "ZAP baseline scan failed with exit code $exitCode"
+}
+
+[pscustomobject]@{
+    TargetUrl = $TargetUrl
+    DockerTargetUrl = $dockerTargetUrl
+    ExitCode = $exitCode
+    HtmlReportPath = Join-Path $fullReportDir $htmlName
+    JsonReportPath = Join-Path $fullReportDir $jsonName
+    MarkdownReportPath = Join-Path $fullReportDir $mdName
+}

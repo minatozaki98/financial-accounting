@@ -129,12 +129,10 @@ namespace BAL.Services
             string? sort)
         {
             page = page < 1 ? 1 : page;
-            pageSize = pageSize < 1 ? 20 : pageSize;
+            pageSize = pageSize < 1 ? 20 : Math.Min(pageSize, 200);
 
             var query = _context.JournalEntries
                 .AsNoTracking()
-                .Include(x => x.Lines)
-                .ThenInclude(x => x.Account)
                 .AsQueryable();
 
             if (from.HasValue)
@@ -165,7 +163,7 @@ namespace BAL.Services
                     (x.ReferenceNo != null && x.ReferenceNo.Contains(keyword)));
             }
 
-            query = sort?.ToLowerInvariant() switch
+            var orderedQuery = sort?.ToLowerInvariant() switch
             {
                 "entrydate_asc" => query.OrderBy(x => x.EntryDate).ThenBy(x => x.JournalEntryId),
                 "entrydate_desc" => query.OrderByDescending(x => x.EntryDate).ThenByDescending(x => x.JournalEntryId),
@@ -173,10 +171,23 @@ namespace BAL.Services
             };
 
             var totalCount = await query.CountAsync();
-            var entries = await query
+            var pageIds = await orderedQuery
+                .Select(x => x.JournalEntryId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            var entries = await _context.JournalEntries
+                .AsNoTracking()
+                .Where(x => pageIds.Contains(x.JournalEntryId))
+                .Include(x => x.Lines)
+                .ThenInclude(x => x.Account)
+                .ToListAsync();
+
+            var indexMap = pageIds
+                .Select((id, index) => new { id, index })
+                .ToDictionary(x => x.id, x => x.index);
+            entries = entries.OrderBy(x => indexMap[x.JournalEntryId]).ToList();
 
             return new PagedResultDto<JournalEntryResponseDto>
             {
@@ -385,8 +396,8 @@ namespace BAL.Services
                     {
                         grouped.Key.AccountId,
                         grouped.Key.AccountType,
-                        DebitTotal = grouped.Sum(x => x.line.Debit),
-                        CreditTotal = grouped.Sum(x => x.line.Credit)
+                        DebitTotal = grouped.Sum(x => (double)x.line.Debit),
+                        CreditTotal = grouped.Sum(x => (double)x.line.Credit)
                     })
                 .ToListAsync();
 
@@ -409,8 +420,8 @@ namespace BAL.Services
                     _context.LedgerBalances.Add(row);
                 }
 
-                row.DebitTotal = decimal.Round(aggregate.DebitTotal, 2);
-                row.CreditTotal = decimal.Round(aggregate.CreditTotal, 2);
+                row.DebitTotal = decimal.Round(Convert.ToDecimal(aggregate.DebitTotal), 2);
+                row.CreditTotal = decimal.Round(Convert.ToDecimal(aggregate.CreditTotal), 2);
                 row.Balance = NormalizeBalance(aggregate.AccountType, row.DebitTotal, row.CreditTotal);
                 row.UpdatedAt = DateTime.UtcNow;
             }

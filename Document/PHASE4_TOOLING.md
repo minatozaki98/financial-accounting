@@ -74,16 +74,37 @@ Note: the first run installs the `dotnet-sonarscanner` global tool from NuGet (r
 ### Baseline scan with project rules
 ```powershell
 ./scripts/phase4/run-zap-baseline.ps1 `
-  -TargetUrl "http://localhost:5296/swagger"
+  -TargetUrl "http://localhost:5296/swagger" `
+  -OutputPrefix "zap-baseline-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 ```
+
+Notes:
+- ZAP is run via `docker run --rm`, so you won't see a persistent container in Docker Desktop after it finishes.
+- If the script exits with code `2`, that means ZAP found warnings (reports are still generated).
+- To force exit code `0` while keeping warnings in the report, add `-IgnoreWarnings`.
+- Use `-OutputPrefix` to avoid overwriting previous report files.
 
 Config file used:
 - `scripts/phase4/zap-baseline-rules.tsv`
 
 Reports output:
-- `Document/security/zap-baseline.html`
-- `Document/security/zap-baseline.json`
-- `Document/security/zap-baseline.md`
+- `Document/security/<outputPrefix>.html`
+- `Document/security/<outputPrefix>.json`
+- `Document/security/<outputPrefix>.md`
+
+### Authenticated OpenAPI scan (business routes)
+```powershell
+./scripts/phase4/run-zap-api.ps1 `
+  -OpenApiUrl "http://localhost:5296/swagger/v1/swagger.json" `
+  -BaseUrl "http://localhost:5296" `
+  -Username "admin" -Password "Admin@123" `
+  -OutputPrefix "zap-api-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+```
+
+Notes:
+- Logs in first to obtain a JWT token and injects it into API scan requests.
+- Runs pre-checks for expected `401/403` on protected/admin endpoints.
+- Uses API-specific rule profile: `scripts/phase4/zap-api-rules.tsv`.
 
 ## 3) Apache JMeter Setup
 
@@ -95,9 +116,17 @@ Reports output:
 ./scripts/phase4/run-jmeter.ps1 `
   -TestPlanPath "Document/performance/jmeter/financial-api-load-test.jmx" `
   -Users 50 -RampUp 30 -Loops 10 `
+  -Mode "core" -CoreUsers 50 -ComplexUsers 0 `
+  -AccountId 1 -PeriodId 202601 `
   -BaseUrl "http://localhost:5296" `
   -Username "admin" -Password "Admin@123"
 ```
+
+Notes:
+- JMeter is run via `docker run --rm`, so you won't see a persistent container in Docker Desktop after it finishes.
+- The script auto-maps `localhost`/`127.0.0.1` to `host.docker.internal` so the container can reach your host API.
+- Make sure your API is listening on `0.0.0.0:5296` (not only `localhost`) before running JMeter:
+  - `dotnet run --project API/API.csproj --urls http://0.0.0.0:5296 --environment Development`
 
 ### Run thesis profiles (50/100/500 users)
 ```powershell
@@ -106,6 +135,94 @@ Reports output:
 ./scripts/phase4/run-jmeter-profile.ps1 -Profile 500
 ```
 
+Profile behavior:
+- `50`: core flow only (`mode=core`, `coreUsers=50`, `complexUsers=0`)
+- `100`: mixed flow (`mode=mixed`, `coreUsers=70`, `complexUsers=30`)
+- `500`: mixed flow (`mode=mixed`, `coreUsers=350`, `complexUsers=150`)
+
 Outputs:
 - JTL result files under `Document/performance`
 - HTML reports under `Document/performance/report-*`
+
+## 4) Data Bootstrap for Thesis Runs
+
+```powershell
+./scripts/phase4/seed-test-data.ps1 `
+  -PeriodId 202601 `
+  -AccountCount 120 `
+  -JournalEntryCount 30000 `
+  -MinimumPostedEntries 5000
+```
+
+This script ensures:
+- admin user (`admin`) exists with the provided password.
+- roles and role mappings are available (`Admin`, `FinanceManager`).
+- the target accounting period exists and is open.
+- account volume and journal entry targets are met.
+
+## 5) One-Command Thesis Suite
+
+```powershell
+./scripts/phase4/run-thesis-suite.ps1 `
+  -BaseUrl "http://localhost:5296" `
+  -OpenApiUrl "http://localhost:5296/swagger/v1/swagger.json"
+```
+
+This suite runs:
+1. data bootstrap
+2. ZAP baseline scan
+3. ZAP authenticated OpenAPI scan
+4. JMeter profiles 50/100/500
+5. summary generation in `Document/performance/test-summary-<timestamp>.md`
+
+Baseline anchor (first full suite run):
+- `Document/performance/thesis-baseline-anchor.json`
+
+## 6) Runtime Metrics Collection
+
+```powershell
+./scripts/phase4/collect-runtime-metrics.ps1 `
+  -OutputPath "Document/performance/runtime-metrics-manual.csv" `
+  -DurationSeconds 900 `
+  -IntervalSeconds 5
+```
+
+Outputs:
+- CSV samples for CPU and memory trends used by reliability gates.
+
+## 7) JMeter Thesis Matrix Runner
+
+```powershell
+./scripts/phase4/run-jmeter-thesis-matrix.ps1 `
+  -BaseUrl "http://localhost:5296" `
+  -Username "admin" -Password "Admin@123" `
+  -PeriodId 202601 -AccountId 1
+```
+
+This runner executes:
+- profile 50
+- profile 100
+- profile 500
+- soak plan (`financial-api-soak-test.jmx`)
+- spike plan (`financial-api-spike-test.jmx`)
+
+## 8) Sonar Summary Parser
+
+```powershell
+./scripts/phase4/get-sonar-summary.ps1 `
+  -SonarToken "<YOUR_TOKEN>" `
+  -ProjectKey "financial-accounting"
+```
+
+Outputs:
+- quality gate status + key measures for thesis reporting.
+
+## 9) Evidence Generator
+
+```powershell
+./scripts/phase4/generate-thesis-evidence.ps1 -RunId "<RUN_ID>"
+```
+
+Outputs:
+- `Document/performance/thesis-evidence-<RUN_ID>.md`
+- `Document/performance/thesis-evidence-<RUN_ID>.csv`

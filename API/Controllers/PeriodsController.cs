@@ -35,15 +35,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _accountingPeriodService.CreateAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return CreatedAtAction(nameof(GetPeriods), new { periodId = result.PeriodId }, result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _accountingPeriodService.CreateAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return CreatedAtAction(nameof(GetPeriods), new { periodId = result.PeriodId }, result);
         }
 
         [Authorize(Roles = "Admin,FinanceManager")]
@@ -59,7 +52,10 @@ namespace API.Controllers
             var closed = await _accountingPeriodService.CloseAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
             if (!closed)
             {
-                return NotFound(new { message = "Period was not found or is already closed." });
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Period not found",
+                    detail: "Period was not found or is already closed.");
             }
 
             return NoContent();

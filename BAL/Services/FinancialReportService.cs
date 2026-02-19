@@ -115,15 +115,15 @@ namespace BAL.Services
                 into grouped
                     select new
                     {
-                        DebitTotal = grouped.Sum(x => x.Debit),
-                        CreditTotal = grouped.Sum(x => x.Credit)
+                        DebitTotal = grouped.Sum(x => (double)x.Debit),
+                        CreditTotal = grouped.Sum(x => (double)x.Credit)
                     })
                 .FirstOrDefaultAsync();
 
             var openingBalance = NormalizeBalance(
                 account.AccountType,
-                openingSums?.DebitTotal ?? 0m,
-                openingSums?.CreditTotal ?? 0m);
+                decimal.Round(Convert.ToDecimal(openingSums?.DebitTotal ?? 0d), 2),
+                decimal.Round(Convert.ToDecimal(openingSums?.CreditTotal ?? 0d), 2));
 
             var lines = await (
                     from entry in _context.JournalEntries
@@ -225,19 +225,29 @@ namespace BAL.Services
                         account.AccountType
                     }
                 into grouped
-                    select new AccountAggregate
+                    select new
                     {
                         AccountId = grouped.Key.AccountId,
                         AccountCode = grouped.Key.AccountCode,
                         AccountName = grouped.Key.AccountName,
                         AccountType = grouped.Key.AccountType,
-                        DebitTotal = grouped.Sum(x => x.line.Debit),
-                        CreditTotal = grouped.Sum(x => x.line.Credit)
+                        DebitTotal = grouped.Sum(x => (double)x.line.Debit),
+                        CreditTotal = grouped.Sum(x => (double)x.line.Credit)
                     })
                 .OrderBy(x => x.AccountCode)
                 .ToListAsync();
 
-            return rows;
+            return rows
+                .Select(x => new AccountAggregate
+                {
+                    AccountId = x.AccountId,
+                    AccountCode = x.AccountCode,
+                    AccountName = x.AccountName,
+                    AccountType = x.AccountType,
+                    DebitTotal = decimal.Round(Convert.ToDecimal(x.DebitTotal), 2),
+                    CreditTotal = decimal.Round(Convert.ToDecimal(x.CreditTotal), 2)
+                })
+                .ToList();
         }
 
         private async Task PersistReportAsync(

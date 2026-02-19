@@ -22,9 +22,6 @@ namespace BAL.Services
 
         public async Task<FinancialTokenResponseDto?> LoginAsync(FinancialLoginRequestDto request, string? ipAddress)
         {
-
-            await EnsureFinancialRolesSeededAsync();
-
             var username = request.Username.Trim();
             var user = await _context.Users
                 .FirstOrDefaultAsync(x =>
@@ -65,7 +62,6 @@ namespace BAL.Services
 
         public async Task<CurrentUserResponseDto?> GetCurrentUserAsync(Guid userId)
         {
-            await EnsureFinancialRolesSeededAsync();
             var user = await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.UserId == userId && x.IsActive && x.ActiveFlag);
@@ -95,8 +91,6 @@ namespace BAL.Services
 
         public async Task<CreatedUserResponseDto> CreateUserAsync(CreateUserRequestDto request, Guid actorUserId, string? ipAddress)
         {
-            await EnsureFinancialRolesSeededAsync();
-
             var username = request.Username.Trim();
             var email = request.Email.Trim();
             var roleName = request.Role.Trim();
@@ -208,6 +202,11 @@ namespace BAL.Services
             }
 
             var financialRoles = await _context.FinancialRoles.ToListAsync();
+            if (financialRoles.Count == 0)
+            {
+                throw new InvalidOperationException("No financial roles are configured.");
+            }
+
             var role = financialRoles.FirstOrDefault(x => string.Equals(x.RoleName, roleName, StringComparison.OrdinalIgnoreCase))
                 ?? financialRoles.First(x => x.RoleName == "User");
 
@@ -228,42 +227,6 @@ namespace BAL.Services
                 .Join(_context.FinancialRoles, ur => ur.RoleId, r => r.RoleId, (_, r) => r.RoleName)
                 .Distinct()
                 .ToListAsync();
-        }
-
-        private async Task EnsureFinancialRolesSeededAsync()
-        {
-            var seededRoles = await _context.FinancialRoles.Select(x => x.RoleName).ToListAsync();
-            if (seededRoles.Contains("Admin") &&
-                seededRoles.Contains("User") &&
-                seededRoles.Contains("Auditor") &&
-                seededRoles.Contains("FinanceManager"))
-            {
-                return;
-            }
-
-            var definitions = new[]
-            {
-                new { Name = "Admin", Description = "System administrator role" },
-                new { Name = "User", Description = "Default application user role" },
-                new { Name = "Auditor", Description = "Read-only financial audit role" },
-                new { Name = "FinanceManager", Description = "Financial operations manager role" }
-            };
-
-            foreach (var definition in definitions)
-            {
-                if (seededRoles.Any(x => string.Equals(x, definition.Name, StringComparison.OrdinalIgnoreCase)))
-                {
-                    continue;
-                }
-
-                await _context.FinancialRoles.AddAsync(new FinancialRole
-                {
-                    RoleName = definition.Name,
-                    Description = definition.Description
-                });
-            }
-
-            await _context.SaveChangesAsync();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace BAL.Shared
                 options.UseSqlServer(appSettings.ConnectionStrings);
             });
             services.AddScoped<FinancialTokenProvider>();
+            services.AddScoped<FinancialRoleStartupSeeder>();
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IFinancialAuthService, FinancialAuthService>();
             services.AddScoped<IChartOfAccountsService, ChartOfAccountsService>();

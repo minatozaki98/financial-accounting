@@ -1,0 +1,607 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZAP Baseline Detailed Analysis - 2026-02-19 13:24:48</title>
+  <style>
+    body{font-family:Segoe UI,Arial,sans-serif;background:#f7f8fb;color:#1b1f2a;margin:0;padding:24px;}
+    .wrap{max-width:1200px;margin:0 auto;}
+    h1{margin:0 0 8px 0;font-size:28px;} h2{margin:28px 0 12px 0;font-size:20px;}
+    .meta{background:#fff;border:1px solid #dde2ea;border-radius:10px;padding:14px 16px;line-height:1.6;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;}
+    .card{background:#fff;border:1px solid #dde2ea;border-radius:10px;padding:12px 14px;}
+    .num{font-size:28px;font-weight:700;margin-top:6px;}
+    .high{border-left:5px solid #d62828;} .medium{border-left:5px solid #f77f00;} .low{border-left:5px solid #fcbf49;} .info{border-left:5px solid #457b9d;}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #dde2ea;border-radius:10px;overflow:hidden;}
+    th,td{padding:10px 12px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:top;font-size:14px;}
+    th{background:#f2f5fa;font-weight:600;}
+    tr:last-child td{border-bottom:none;}
+    .pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;}
+    .pill-high{background:#ffe5e5;color:#9b111e;} .pill-medium{background:#fff0da;color:#9a5a00;} .pill-low{background:#fff7dc;color:#7a6000;} .pill-info{background:#e9f2ff;color:#1f4a73;}
+    details{background:#fff;border:1px solid #dde2ea;border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+    summary{cursor:pointer;font-weight:600;}
+    .muted{color:#5a6475;font-size:13px;} .small{font-size:12px;color:#5a6475;} .code{font-family:Consolas,monospace;word-break:break-all;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+<h1>ZAP Baseline Detailed Analysis - 2026-02-19 13:24:48</h1>
+<div class="meta">
+  <div><strong>Source JSON:</strong> <span class="code">c:\Users\Asus\Documents\GitHub\school\financial-accounting\Document\security\zap-baseline-20260219-132448.json</span></div>
+  <div><strong>Tool:</strong> ZAP 2.17.0</div>
+  <div><strong>Site:</strong> http://host.docker.internal:5296 <span class="small">(host.docker.internal)</span></div>
+  <div><strong>Generated:</strong> Thu, 19 Feb 2026 06:25:21 <span class="small">created=2026-02-19T06:25:21.472704992Z</span></div>
+</div>
+<h2>Severity Summary</h2>
+<div class="grid">
+  <div class="card high"><div>High Alerts</div><div class="num">1</div></div>
+  <div class="card medium"><div>Medium Alerts</div><div class="num">2</div></div>
+  <div class="card low"><div>Low Alerts</div><div class="num">6</div></div>
+  <div class="card info"><div>Informational Alerts</div><div class="num">4</div></div>
+  <div class="card"><div>Total Alert Types</div><div class="num">13</div></div>
+  <div class="card"><div>Total Insights</div><div class="num">10</div></div>
+</div>
+<h2>Top Affected Endpoints</h2>
+<table>
+<thead><tr><th>Endpoint</th><th>Alert Instances</th><th>Highest Severity</th></tr></thead>
+<tbody>
+<tr><td class="code">/swagger</td><td>9</td><td><span class="pill pill-medium">Medium</span></td></tr>
+<tr><td class="code">/</td><td>8</td><td><span class="pill pill-medium">Medium</span></td></tr>
+<tr><td class="code">/swagger/index.html</td><td>7</td><td><span class="pill pill-medium">Medium</span></td></tr>
+<tr><td class="code">/swagger/swagger-ui-standalone-preset.js</td><td>7</td><td><span class="pill pill-low">Low</span></td></tr>
+<tr><td class="code">/swagger/swagger-ui-bundle.js</td><td>3</td><td><span class="pill pill-high">High</span></td></tr>
+<tr><td class="code">/swagger/favicon-32x32.png</td><td>3</td><td><span class="pill pill-low">Low</span></td></tr>
+<tr><td class="code">/swagger/swagger-ui.css</td><td>2</td><td><span class="pill pill-low">Low</span></td></tr>
+<tr><td class="code">/swagger/favicon-16x16.png</td><td>2</td><td><span class="pill pill-low">Low</span></td></tr>
+<tr><td class="code">/sitemap.xml</td><td>1</td><td><span class="pill pill-info">Informational</span></td></tr>
+<tr><td class="code">/robots.txt</td><td>1</td><td><span class="pill pill-info">Informational</span></td></tr>
+</tbody>
+</table>
+<h2>Alert Catalog</h2>
+<table>
+<thead><tr><th>Alert</th><th>Severity</th><th>Confidence</th><th>Instances</th><th>Rule ID</th><th>Systemic</th></tr></thead>
+<tbody>
+<tr>
+<td>Vulnerable JS Library</td>
+<td><span class="pill pill-high">High</span></td>
+<td>2</td>
+<td>1</td>
+<td class="code">10003</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Content Security Policy (CSP) Header Not Set</td>
+<td><span class="pill pill-medium">Medium</span></td>
+<td>3</td>
+<td>3</td>
+<td class="code">10038</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Missing Anti-clickjacking Header</td>
+<td><span class="pill pill-medium">Medium</span></td>
+<td>2</td>
+<td>3</td>
+<td class="code">10020</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Cross-Origin-Embedder-Policy Header Missing or Invalid</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>2</td>
+<td>3</td>
+<td class="code">90004</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Cross-Origin-Opener-Policy Header Missing or Invalid</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>2</td>
+<td>3</td>
+<td class="code">90004</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Cross-Origin-Resource-Policy Header Missing or Invalid</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>2</td>
+<td>5</td>
+<td class="code">90004</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Permissions Policy Header Not Set</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>2</td>
+<td>5</td>
+<td class="code">10063</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Timestamp Disclosure - Unix</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>1</td>
+<td>5</td>
+<td class="code">10096</td>
+<td>True</td>
+</tr>
+<tr>
+<td>X-Content-Type-Options Header Missing</td>
+<td><span class="pill pill-low">Low</span></td>
+<td>2</td>
+<td>4</td>
+<td class="code">10021</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Information Disclosure - Suspicious Comments</td>
+<td><span class="pill pill-info">Informational</span></td>
+<td>1</td>
+<td>2</td>
+<td class="code">10027</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Modern Web Application</td>
+<td><span class="pill pill-info">Informational</span></td>
+<td>2</td>
+<td>3</td>
+<td class="code">10109</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Non-Storable Content</td>
+<td><span class="pill pill-info">Informational</span></td>
+<td>2</td>
+<td>1</td>
+<td class="code">10049</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Storable and Cacheable Content</td>
+<td><span class="pill pill-info">Informational</span></td>
+<td>2</td>
+<td>5</td>
+<td class="code">10049</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+<h2>Alert Details</h2>
+<details>
+<summary>Vulnerable JS Library <span class="small">(High, instances=1, rule=10003)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The identified library appears to be vulnerable.</p>
+<p><strong>Solution:</strong> Upgrade to the latest version of the affected library.</p>
+<p><strong>Reference:</strong> https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/</p>
+<p><strong>Other Info:</strong> The identified library DOMPurify, version 2.3.3 is vulnerable. CVE-2024-47875 CVE-2025-26791 CVE-2024-48910 CVE-2024-45801 https://github.com/advisories/GHSA-gx9m-whjm-85jf https://github.com/cure53/DOMPurify/releases/tag/3.2.4 https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02 https://github.com/cure53/DOMPurify/commit/6ea80cd8b47640c20f2f230c7920b1f4ce4fdf7a https://github.com/advisories/GHSA-p3vf-v8qc-cwcr https://github.com/cure53/DOMPurify/commit/0ef5e537a514f904b6aa1d7ad9e749e365d7185f https://github.com/cure53/DOMPurify/security/advisories/GHSA-p3vf-v8qc-cwcr https://nvd.nist.gov/vuln/detail/CVE-2024-45801 https://github.com/advisories/GHSA-vhxf-7vqr-mrjg https://github.com/cure53/DOMPurify/security/advisories/GHSA-mmhx-hmjr-r674 https://github.com/cure53/DOMPurify/commit/d1dd0374caef2b4c56c3bd09fe1988c3479166dc https://github.com/cure53/DOMPurify https://github.com/advisories/GHSA-mmhx-hmjr-r674 https://github.com/cure53/DOMPurify/commit/26e1d69ca7f769f5c558619d644d90dd8bf26ebc https://nvd.nist.gov/vuln/detail/CVE-2025-26791 https://nvd.nist.gov/vuln/detail/CVE-2024-47875 https://github.com/cure53/DOMPurify/security/advisories/GHSA-gx9m-whjm-85jf https://github.com/cure53/DOMPurify/blob/0ef5e537a514f904b6aa1d7ad9e749e365d7185f/test/test-suite.js#L2098 https://ensy.zip/posts/dompurify-323-bypass https://nsysean.github.io/posts/dompurify-323-bypass https://github.com/cure53/DOMPurify/commit/1e520262bf4c66b5efda49e2316d6d1246ca7b21 https://nvd.nist.gov/vuln/detail/CVE-2024-48910</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-bundle.js</td>
+<td></td>
+<td class="code">var o=&quot;dompurify&quot;+(n?&quot;#&quot;+n:&quot;&quot;);try{return e.createPolicy(o,{createHTML:function(e){return e}})}catch(e){return console.warn(&quot;TrustedTypes policy &quot;+o+&quot; could not be created.&quot;),null}};function G(){var e=arguments.length&gt;0&amp;&amp;void 0!==arguments[0]?arguments[0]:J(),t=function(e){return G(e)};if(t.version=&quot;2.3.3&quot;</td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Content Security Policy (CSP) Header Not Set <span class="small">(Medium, instances=3, rule=10038)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.</p>
+<p><strong>Solution:</strong> Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header.</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html https://www.w3.org/TR/CSP/ https://w3c.github.io/webappsec-csp/ https://web.dev/articles/csp https://caniuse.com/#feat=contentsecuritypolicy https://content-security-policy.com/</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td></td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Missing Anti-clickjacking Header <span class="small">(Medium, instances=3, rule=10020)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The response does not protect against &#39;ClickJacking&#39; attacks. It should include either Content-Security-Policy with &#39;frame-ancestors&#39; directive or X-Frame-Options.</p>
+<p><strong>Solution:</strong> Modern Web browsers support the Content-Security-Policy and X-Frame-Options HTTP headers. Ensure one of them is set on all web pages returned by your site/app. If you expect the page to be framed only by pages on your server (e.g. it&#39;s part of a FRAMESET) then you&#39;ll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. Alternatively consider implementing Content Security Policy&#39;s &quot;frame-ancestors&quot; directive.</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td>x-frame-options</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td>x-frame-options</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td>x-frame-options</td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Cross-Origin-Embedder-Policy Header Missing or Invalid <span class="small">(Low, instances=3, rule=90004)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> Cross-Origin-Embedder-Policy header is a response header that prevents a document from loading any cross-origin resources that don&#39;t explicitly grant the document permission (using CORP or CORS).</p>
+<p><strong>Solution:</strong> Ensure that the application/web server sets the Cross-Origin-Embedder-Policy header appropriately, and that it sets the Cross-Origin-Embedder-Policy header to &#39;require-corp&#39; for documents. If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Embedder-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-embedder-policy).</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td>Cross-Origin-Embedder-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td>Cross-Origin-Embedder-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td>Cross-Origin-Embedder-Policy</td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Cross-Origin-Opener-Policy Header Missing or Invalid <span class="small">(Low, instances=3, rule=90004)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> Cross-Origin-Opener-Policy header is a response header that allows a site to control if others included documents share the same browsing context. Sharing the same browsing context with untrusted documents might lead to data leak.</p>
+<p><strong>Solution:</strong> Ensure that the application/web server sets the Cross-Origin-Opener-Policy header appropriately, and that it sets the Cross-Origin-Opener-Policy header to &#39;same-origin&#39; for documents. &#39;same-origin-allow-popups&#39; is considered as less secured and should be avoided. If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Opener-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-opener-policy).</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td>Cross-Origin-Opener-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td>Cross-Origin-Opener-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td>Cross-Origin-Opener-Policy</td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Cross-Origin-Resource-Policy Header Missing or Invalid <span class="small">(Low, instances=5, rule=90004)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> Cross-Origin-Resource-Policy header is an opt-in header designed to counter side-channels attacks like Spectre. Resource should be specifically set as shareable amongst different origins.</p>
+<p><strong>Solution:</strong> Ensure that the application/web server sets the Cross-Origin-Resource-Policy header appropriately, and that it sets the Cross-Origin-Resource-Policy header to &#39;same-origin&#39; for all web pages. &#39;same-site&#39; is considered as less secured and should be avoided. If resources must be shared, set the header to &#39;cross-origin&#39;. If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Resource-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-resource-policy).</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td>Cross-Origin-Resource-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td>Cross-Origin-Resource-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/favicon-16x16.png</td>
+<td>Cross-Origin-Resource-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/favicon-32x32.png</td>
+<td>Cross-Origin-Resource-Policy</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui.css</td>
+<td>Cross-Origin-Resource-Policy</td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Permissions Policy Header Not Set <span class="small">(Low, instances=5, rule=10063)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> Permissions Policy Header is an added layer of security that helps to restrict from unauthorized access or usage of browser/client features by web resources. This policy ensures the user privacy by limiting or specifying the features of the browsers can be used by the web resources. Permissions Policy provides a set of standard HTTP headers that allow website owners to limit which features of browsers can be used by the page such as camera, microphone, location, full screen etc.</p>
+<p><strong>Solution:</strong> Ensure that your web server, application server, load balancer, etc. is configured to set the Permissions-Policy header.</p>
+<p><strong>Reference:</strong> https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy https://developer.chrome.com/blog/feature-policy/ https://scotthelme.co.uk/a-new-security-header-feature-policy/ https://w3c.github.io/webappsec-feature-policy/ https://www.smashingmagazine.com/2018/12/feature-policy/</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-bundle.js</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Timestamp Disclosure - Unix <span class="small">(Low, instances=5, rule=10096)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> A timestamp was disclosed by the application/web server. - Unix</p>
+<p><strong>Solution:</strong> Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.</p>
+<p><strong>Reference:</strong> https://cwe.mitre.org/data/definitions/200.html</p>
+<p><strong>Other Info:</strong> 1518500249, which evaluates to: 2018-02-13 05:37:29.</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">1518500249</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">1732584193</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">1750603025</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">1859775393</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">1894007588</td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>X-Content-Type-Options Header Missing <span class="small">(Low, instances=4, rule=10021)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &#39;nosniff&#39;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p>
+<p><strong>Solution:</strong> Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &#39;nosniff&#39; for all web pages. If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p>
+<p><strong>Reference:</strong> https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85) https://owasp.org/www-community/Security_Headers</p>
+<p><strong>Other Info:</strong> This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type. At &quot;High&quot; threshold this scan rule will not alert on client or server error responses.</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td>x-content-type-options</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/favicon-32x32.png</td>
+<td>x-content-type-options</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td>x-content-type-options</td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui.css</td>
+<td>x-content-type-options</td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Information Disclosure - Suspicious Comments <span class="small">(Informational, instances=2, rule=10027)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The response appears to contain suspicious comments which may help an attacker.</p>
+<p><strong>Solution:</strong> Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.</p>
+<p><strong>Other Info:</strong> The following pattern was used: \bXXX\b and was detected in likely comment: &quot;//,&quot;&quot;):-1!==w()(e).call(e,&quot;#/components/schemas/&quot;)?e.replace(/^.*#\/components\/schemas\//,&quot;&quot;):void 0})),v()(c()(n),&quot;getRefSchem&quot;, see evidence field for the suspicious comment/snippet.</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-bundle.js</td>
+<td></td>
+<td class="code">xxx</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/swagger-ui-standalone-preset.js</td>
+<td></td>
+<td class="code">user</td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Modern Web Application <span class="small">(Informational, instances=3, rule=10109)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.</p>
+<p><strong>Solution:</strong> This is an informational alert and so no changes are required.</p>
+<p><strong>Other Info:</strong> No links have been found while there are scripts, which is an indication that this is a modern web application.</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td></td>
+<td class="code">&lt;script&gt;
+        if (window.navigator.userAgent.indexOf(&quot;Edge&quot;) &gt; -1) {
+            console.log(&quot;Removing native Edge fetch in favor of swagger-ui&#39;s polyfill&quot;)
+            window.fetch = undefined;
+        }
+    &lt;/script&gt;</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td></td>
+<td class="code">&lt;script&gt;
+        if (window.navigator.userAgent.indexOf(&quot;Edge&quot;) &gt; -1) {
+            console.log(&quot;Removing native Edge fetch in favor of swagger-ui&#39;s polyfill&quot;)
+            window.fetch = undefined;
+        }
+    &lt;/script&gt;</td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/index.html</td>
+<td></td>
+<td class="code">&lt;script&gt;
+        if (window.navigator.userAgent.indexOf(&quot;Edge&quot;) &gt; -1) {
+            console.log(&quot;Removing native Edge fetch in favor of swagger-ui&#39;s polyfill&quot;)
+            window.fetch = undefined;
+        }
+    &lt;/script&gt;</td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Non-Storable Content <span class="small">(Informational, instances=1, rule=10049)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p>
+<p><strong>Solution:</strong> The content may be marked as storable by ensuring that the following conditions are satisfied: The request method must be understood by the cache and defined as being cacheable (&quot;GET&quot;, &quot;HEAD&quot;, and &quot;POST&quot; are currently defined as cacheable) The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood) The &quot;no-store&quot; cache directive must not appear in the request or response header fields For caching by &quot;shared&quot; caches such as &quot;proxy&quot; caches, the &quot;private&quot; response directive must not appear in the response For caching by &quot;shared&quot; caches such as &quot;proxy&quot; caches, the &quot;Authorization&quot; header field must not appear in the request, unless the response explicitly allows it (using one of the &quot;must-revalidate&quot;, &quot;public&quot;, or &quot;s-maxage&quot; Cache-Control response directives) In addition to the conditions above, at least one of the following conditions must also be satisfied by the response: It must contain an &quot;Expires&quot; header field It must contain a &quot;max-age&quot; response directive For &quot;shared&quot; caches such as &quot;proxy&quot; caches, it must contain a &quot;s-maxage&quot; response directive It must contain a &quot;Cache Control Extension&quot; that allows it to be cached It must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).</p>
+<p><strong>Reference:</strong> https://datatracker.ietf.org/doc/html/rfc7234 https://datatracker.ietf.org/doc/html/rfc7231 https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/</td>
+<td></td>
+<td class="code">302</td>
+</tr>
+</tbody></table>
+</details>
+<details>
+<summary>Storable and Cacheable Content <span class="small">(Informational, instances=5, rule=10049)</span></summary>
+<div class="muted" style="margin-top:10px;">
+<p><strong>Description:</strong> The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where &quot;shared&quot; caching servers such as &quot;proxy&quot; caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p>
+<p><strong>Solution:</strong> Validate that the response does not contain sensitive, personal or user-specific information. If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user: Cache-Control: no-cache, no-store, must-revalidate, private Pragma: no-cache Expires: 0 This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.</p>
+<p><strong>Reference:</strong> https://datatracker.ietf.org/doc/html/rfc7234 https://datatracker.ietf.org/doc/html/rfc7231 https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>
+<p><strong>Other Info:</strong> In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.</p>
+</div>
+<table>
+<thead><tr><th>Method</th><th>URI</th><th>Param</th><th>Evidence</th></tr></thead><tbody>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/robots.txt</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/sitemap.xml</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/favicon-16x16.png</td>
+<td></td>
+<td class="code"></td>
+</tr>
+<tr>
+<td>GET</td>
+<td class="code">http://host.docker.internal:5296/swagger/favicon-32x32.png</td>
+<td></td>
+<td class="code"></td>
+</tr>
+</tbody></table>
+</details>
+<h2>Scan Insights</h2>
+<table>
+<thead><tr><th>Level</th><th>Reason</th><th>Description</th><th>Statistic</th></tr></thead><tbody>
+<tr><td>Low</td><td>Warning</td><td>ZAP warnings logged - see the zap.log file for details</td><td>1</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of responses with status code 2xx</td><td>66</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of responses with status code 3xx</td><td>16</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of responses with status code 4xx</td><td>16</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of endpoints with content type image/png</td><td>20</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of endpoints with content type text/css</td><td>10</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of endpoints with content type text/html</td><td>30</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of endpoints with content type text/javascript</td><td>20</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Percentage of endpoints with method GET</td><td>100</td></tr>
+<tr><td>Info</td><td>Informational</td><td>Count of total endpoints</td><td>10</td></tr>
+</tbody></table>
+<p class="small" style="margin-top:18px;">Generated from c:\Users\Asus\Documents\GitHub\school\financial-accounting\Document\security\zap-baseline-20260219-132448.json at 2026-02-19 13:28:31.</p>
+</div></body></html>

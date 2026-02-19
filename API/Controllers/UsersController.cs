@@ -30,7 +30,7 @@ namespace API.Controllers
             var result = await _financialAuthService.GetCurrentUserAsync(userId.Value);
             if (result == null)
             {
-                return NotFound(new { message = "User was not found." });
+                return Problem(statusCode: StatusCodes.Status404NotFound, title: "User not found", detail: "User was not found.");
             }
 
             return Ok(result);
@@ -46,18 +46,11 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var created = await _financialAuthService.CreateUserAsync(
-                    request,
-                    actorId.Value,
-                    HttpContext.Connection.RemoteIpAddress?.ToString());
-                return StatusCode(StatusCodes.Status201Created, created);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var created = await _financialAuthService.CreateUserAsync(
+                request,
+                actorId.Value,
+                HttpContext.Connection.RemoteIpAddress?.ToString());
+            return StatusCode(StatusCodes.Status201Created, created);
         }
     }
 }

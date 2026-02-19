@@ -31,7 +31,7 @@ namespace API.Controllers
             var result = await _chartOfAccountsService.GetByIdAsync(accountId);
             if (result == null)
             {
-                return NotFound(new { message = "Account was not found." });
+                return Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found", detail: "Account was not found.");
             }
 
             return Ok(result);
@@ -43,7 +43,7 @@ namespace API.Controllers
             var result = await _chartOfAccountsService.GetBalanceAsync(accountId);
             if (result == null)
             {
-                return NotFound(new { message = "Account was not found." });
+                return Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found", detail: "Account was not found.");
             }
 
             return Ok(result);
@@ -59,15 +59,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _chartOfAccountsService.CreateAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return CreatedAtAction(nameof(GetById), new { accountId = result.AccountId }, result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _chartOfAccountsService.CreateAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return CreatedAtAction(nameof(GetById), new { accountId = result.AccountId }, result);
         }
 
         [Authorize(Roles = "Admin")]
@@ -80,20 +73,13 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
+            var updated = await _chartOfAccountsService.UpdateAsync(accountId, request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            if (!updated)
             {
-                var updated = await _chartOfAccountsService.UpdateAsync(accountId, request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                if (!updated)
-                {
-                    return NotFound(new { message = "Account was not found." });
-                }
+                return Problem(statusCode: StatusCodes.Status404NotFound, title: "Account not found", detail: "Account was not found.");
+            }
 
-                return NoContent();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return NoContent();
         }
     }
 }

@@ -5,9 +5,9 @@
 - [ ] JWT secret is hardcoded in `API/Program.cs` and `API/Helpers/TokenGenerator.cs`.
 - [ ] Azure storage secrets are hardcoded in `API/Helpers/ImageHandler.cs`.
 - [ ] Speech API key is hardcoded in `API/Controllers/TextToSpeechController.cs`.
-- [ ] Auth pipeline is incomplete: `UseAuthorization()` exists, but `UseAuthentication()` is missing.
+- [x] Auth pipeline includes `UseAuthentication()` before `UseAuthorization()`.
 - [ ] `[Authorize]` is commented out in `TodoController`, `LogController`, and `TextToSpeechController`.
-- [ ] CORS is too open with credentials enabled.
+- [x] CORS moved to allowlist configuration (`AllowedOrigins`) with credentials only on explicit origins.
 - [ ] Cookie `HttpOnly` is disabled.
 - [ ] No financial domain endpoints/entities for transactions/reports yet.
 
@@ -16,10 +16,10 @@
 ### Phase 1: Foundation and Security
 - [ ] Add `global.json` to pin SDK (use installed `9.0.308`) and make restore/build stable.
 - [ ] Move all secrets to `appsettings`/user-secrets/environment variables.
-- [ ] Add `app.UseAuthentication()` before `app.UseAuthorization()`.
+- [x] Add `app.UseAuthentication()` before `app.UseAuthorization()`.
 - [ ] Re-enable `[Authorize]` and define role policies (`Admin`, `User`, `Auditor`, `FinanceManager`).
-- [ ] Tighten CORS to allowlisted origins only; remove wildcard with credentials.
-- [ ] Set secure cookie defaults (`HttpOnly=true`, proper `SameSite`, secure policy).
+- [x] Tighten CORS to allowlisted origins only; remove wildcard with credentials.
+- [x] Set secure cookie defaults (`HttpOnly=true`, proper `SameSite`, secure policy).
 - [ ] Replace "200 on error" responses with proper HTTP status codes and `ProblemDetails`.
 - [ ] Add request validation (DataAnnotations or FluentValidation) for DTOs.
 
@@ -45,15 +45,15 @@
 - [ ] Add health check endpoint(s) for app and database.
 
 ### Phase 4: Testing and Thesis Metrics
-- [ ] Add unit tests for BAL services.
-- [ ] Add integration tests for auth + financial endpoints.
+- [x] Add unit tests for BAL/config/token generation behaviors.
+- [x] Add integration tests for auth + financial endpoints and RBAC matrix.
 - [x] Install SonarQube tooling (Docker) and prepare scan setup.
 - [x] Install OWASP ZAP tooling (Docker) and prepare baseline scan script.
 - [x] Install Apache JMeter tooling (Docker) and prepare test-run script.
 - [x] Setup SonarQube bootstrap + scan scripts for this repository.
 - [x] Setup OWASP ZAP baseline rule profile for this repository.
 - [x] Setup Apache JMeter ready test plan and 50/100/500 profile runners.
-- [ ] Record baseline vs post-improvement metrics:
+- [ ] Record baseline vs post-improvement metrics (implementation complete; run pending):
   - [ ] Vulnerability count and severity
   - [ ] Response time and throughput
   - [ ] CPU and memory usage
@@ -61,8 +61,7 @@
   - [ ] Maintainability index
 
 ### Phase 5: Documentation and Delivery
-- [ ] Replace placeholder `README.md` with real setup/run/test instructions.
+- [x] Replace placeholder `README.md` with real setup/run/test instructions.
 - [ ] Add API usage examples (Swagger/Postman collection).
 - [ ] Add benchmark and security report summaries for thesis evidence.
 - [ ] Add deployment notes and environment configuration guide.
-

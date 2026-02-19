@@ -1,0 +1,3541 @@
+{
+	"@programName": "ZAP",
+	"@version": "2.17.0",
+	"@generated": "Thu, 19 Feb 2026 09:44:05",
+	"created": "2026-02-19T09:44:05.375661268Z",
+	"insights":[
+		{
+			"level": "Low",
+			"reason": "Warning",
+			"site": "",
+			"key": "insight.log.warn",
+			"description": "ZAP warnings logged - see the zap.log file for details",
+			"statistic": "3"
+		},
+		{
+			"level": "Low",
+			"reason": "Exceeded High",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.code.4xx",
+			"description": "Percentage of responses with status code 4xx",
+			"statistic": "98"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.ctype.application/json",
+			"description": "Percentage of endpoints with content type application/json",
+			"statistic": "1"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.ctype.application/problem+json",
+			"description": "Percentage of endpoints with content type application/problem+json",
+			"statistic": "1"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.ctype.text/html",
+			"description": "Percentage of endpoints with content type text/html",
+			"statistic": "1"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.method.DELETE",
+			"description": "Percentage of endpoints with method DELETE",
+			"statistic": "1"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.method.GET",
+			"description": "Percentage of endpoints with method GET",
+			"statistic": "66"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.method.POST",
+			"description": "Percentage of endpoints with method POST",
+			"statistic": "30"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.method.PUT",
+			"description": "Percentage of endpoints with method PUT",
+			"statistic": "1"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://host.docker.internal:5296",
+			"key": "insight.endpoint.total",
+			"description": "Count of total endpoints",
+			"statistic": "309"
+		}
+	],
+	"site":[ 
+		{
+			"@name": "http://host.docker.internal:5296",
+			"@host": "host.docker.internal",
+			"@port": "5296",
+			"@ssl": "false",
+			"alerts": [ 
+				{
+					"pluginid": "90004",
+					"alertRef": "90004-1",
+					"alert": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"name": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>Cross-Origin-Resource-Policy header is an opt-in header designed to counter side-channels attacks like Spectre. Resource should be specifically set as shareable amongst different origins.</p>",
+					"instances":[ 
+						{
+							"id": "485",
+							"uri": "http://host.docker.internal:5296/swagger/v1/swagger.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/swagger.json",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						}
+					],
+					"count": "1",
+					"systemic": true,
+					"solution": "<p>Ensure that the application/web server sets the Cross-Origin-Resource-Policy header appropriately, and that it sets the Cross-Origin-Resource-Policy header to 'same-origin' for all web pages.</p><p>'same-site' is considered as less secured and should be avoided.</p><p>If resources must be shared, set the header to 'cross-origin'.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Resource-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-resource-policy).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>",
+					"cweid": "693",
+					"wascid": "14",
+					"sourceid": "1"
+				},
+				{
+					"pluginid": "100001",
+					"alertRef": "100001",
+					"alert": "Unexpected Content-Type was returned",
+					"name": "Unexpected Content-Type was returned",
+					"riskcode": "1",
+					"confidence": "3",
+					"riskdesc": "Low (High)",
+					"desc": "<p>A Content-Type of text/html was returned by the server.</p><p>This is not one of the types expected to be returned by an API.</p><p>Raised by the 'Alert on Unexpected Content Types' script</p>",
+					"instances":[ 
+						{
+							"id": "10729",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "5418",
+							"uri": "http://host.docker.internal:5296/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "5362",
+							"uri": "http://host.docker.internal:5296/swagger",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "6020",
+							"uri": "http://host.docker.internal:5296/swagger?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "5373",
+							"uri": "http://host.docker.internal:5296/swagger?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "9733",
+							"uri": "http://host.docker.internal:5296/swagger/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "5361",
+							"uri": "http://host.docker.internal:5296/swagger/index.html",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/index.html",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						}
+					],
+					"count": "7",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "-1",
+					"wascid": "-1",
+					"sourceid": "10863"
+				},
+				{
+					"pluginid": "10021",
+					"alertRef": "10021",
+					"alert": "X-Content-Type-Options Header Missing",
+					"name": "X-Content-Type-Options Header Missing",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p>",
+					"instances":[ 
+						{
+							"id": "268",
+							"uri": "http://host.docker.internal:5296/swagger/v1/swagger.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/swagger.json",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						}
+					],
+					"count": "1",
+					"systemic": true,
+					"solution": "<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p>",
+					"otherinfo": "<p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.</p><p>At \"High\" threshold this scan rule will not alert on client or server error responses.</p>",
+					"reference": "<p>https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)</p><p>https://owasp.org/www-community/Security_Headers</p>",
+					"cweid": "693",
+					"wascid": "15",
+					"sourceid": "1"
+				},
+				{
+					"pluginid": "100000",
+					"alertRef": "100000",
+					"alert": "A Client Error response code was returned by the server",
+					"name": "A Client Error response code was returned by the server",
+					"riskcode": "0",
+					"confidence": "3",
+					"riskdesc": "Informational (High)",
+					"desc": "<p>A response code of 401 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
+					"instances":[ 
+						{
+							"id": "11",
+							"uri": "http://host.docker.internal:5296/journal-entries/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9702",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5983",
+							"uri": "http://host.docker.internal:5296?aaa=bbb",
+							"nodeName": "http:\/\/host.docker.internal:5296 (aaa)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "5977",
+							"uri": "http://host.docker.internal:5296?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296 (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "10452",
+							"uri": "http://host.docker.internal:5296/.DS_Store",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.DS_Store",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10481",
+							"uri": "http://host.docker.internal:5296/._darcs",
+							"nodeName": "http:\/\/host.docker.internal:5296\/._darcs",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10480",
+							"uri": "http://host.docker.internal:5296/.bzr",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.bzr",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10405",
+							"uri": "http://host.docker.internal:5296/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10433",
+							"uri": "http://host.docker.internal:5296/.git/config",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.git\/config",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10479",
+							"uri": "http://host.docker.internal:5296/.hg",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.hg",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10387",
+							"uri": "http://host.docker.internal:5296/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10428",
+							"uri": "http://host.docker.internal:5296/.idea/WebServers.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.idea\/WebServers.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10453",
+							"uri": "http://host.docker.internal:5296/.php_cs.cache",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.php_cs.cache",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10464",
+							"uri": "http://host.docker.internal:5296/.ssh/id_dsa",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.ssh\/id_dsa",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10463",
+							"uri": "http://host.docker.internal:5296/.ssh/id_rsa",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.ssh\/id_rsa",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10435",
+							"uri": "http://host.docker.internal:5296/.svn/entries",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.svn\/entries",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10437",
+							"uri": "http://host.docker.internal:5296/.svn/wc.db",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.svn\/wc.db",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10424",
+							"uri": "http://host.docker.internal:5296/.zap4048080719983548244",
+							"nodeName": "http:\/\/host.docker.internal:5296\/.zap4048080719983548244",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "23",
+							"uri": "http://host.docker.internal:5296/1369161586404206506",
+							"nodeName": "http:\/\/host.docker.internal:5296\/1369161586404206506",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10482",
+							"uri": "http://host.docker.internal:5296/BitKeeper",
+							"nodeName": "http:\/\/host.docker.internal:5296\/BitKeeper",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10467",
+							"uri": "http://host.docker.internal:5296/CHANGELOG.txt",
+							"nodeName": "http:\/\/host.docker.internal:5296\/CHANGELOG.txt",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10438",
+							"uri": "http://host.docker.internal:5296/CVS/root",
+							"nodeName": "http:\/\/host.docker.internal:5296\/CVS\/root",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10454",
+							"uri": "http://host.docker.internal:5296/DEADJOE",
+							"nodeName": "http:\/\/host.docker.internal:5296\/DEADJOE",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10449",
+							"uri": "http://host.docker.internal:5296/FileZilla.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/FileZilla.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1473",
+							"uri": "http://host.docker.internal:5296/WEB-INF/applicationContext.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/WEB-INF\/applicationContext.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1466",
+							"uri": "http://host.docker.internal:5296/WEB-INF/web.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/WEB-INF\/web.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10446",
+							"uri": "http://host.docker.internal:5296/WS_FTP.INI",
+							"nodeName": "http:\/\/host.docker.internal:5296\/WS_FTP.INI",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10444",
+							"uri": "http://host.docker.internal:5296/WS_FTP.ini",
+							"nodeName": "http:\/\/host.docker.internal:5296\/WS_FTP.ini",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10451",
+							"uri": "http://host.docker.internal:5296/WinSCP.ini",
+							"nodeName": "http:\/\/host.docker.internal:5296\/WinSCP.ini",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10478",
+							"uri": "http://host.docker.internal:5296/_framework/blazor.boot.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/_framework\/blazor.boot.json",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10477",
+							"uri": "http://host.docker.internal:5296/_wpeprivate/config.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/_wpeprivate\/config.json",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "35",
+							"uri": "http://host.docker.internal:5296/accounts",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5980",
+							"uri": "http://host.docker.internal:5296/accounts?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5960",
+							"uri": "http://host.docker.internal:5296/accounts?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (class.module.classLoader.DefaultAssertio...)({accountCode,accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5985",
+							"uri": "http://host.docker.internal:5296/accounts?type=type&isActive=true&search=ZAP&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (class.module.classLoader.DefaultAssertio...,isActive,search,type)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "0",
+							"uri": "http://host.docker.internal:5296/accounts?type=type&isActive=true&search=ZAP",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (isActive,search,type)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5394",
+							"uri": "http://host.docker.internal:5296/accounts?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9707",
+							"uri": "http://host.docker.internal:5296/accounts/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10403",
+							"uri": "http://host.docker.internal:5296/accounts/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10384",
+							"uri": "http://host.docker.internal:5296/accounts/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "2",
+							"uri": "http://host.docker.internal:5296/accounts/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5986",
+							"uri": "http://host.docker.internal:5296/accounts/10?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5955",
+							"uri": "http://host.docker.internal:5296/accounts/10?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 (class.module.classLoader.DefaultAssertio...)({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9710",
+							"uri": "http://host.docker.internal:5296/accounts/10/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10410",
+							"uri": "http://host.docker.internal:5296/accounts/10/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10391",
+							"uri": "http://host.docker.internal:5296/accounts/10/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "25",
+							"uri": "http://host.docker.internal:5296/accounts/10/3032451125383076770",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/3032451125383076770",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5979",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9708",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10372",
+							"uri": "http://host.docker.internal:5296/accounts/10/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "24",
+							"uri": "http://host.docker.internal:5296/accounts/1191025057557145045",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/1191025057557145045",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10423",
+							"uri": "http://host.docker.internal:5296/accounts/actuator/health",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/actuator\/health",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10368",
+							"uri": "http://host.docker.internal:5296/accounts/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10465",
+							"uri": "http://host.docker.internal:5296/adminer.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/adminer.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11125",
+							"uri": "http://host.docker.internal:5296/api-docs",
+							"nodeName": "http:\/\/host.docker.internal:5296\/api-docs ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10456",
+							"uri": "http://host.docker.internal:5296/app/etc/local.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/app\/etc\/local.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5982",
+							"uri": "http://host.docker.internal:5296/audit-logs?from=from&to=to&userId=userId&action=action&page=1&pageSize=50&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (action,class.module.classLoader.DefaultAssertio...,from,page,pageSize,to,userId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5",
+							"uri": "http://host.docker.internal:5296/audit-logs?from=from&to=to&userId=userId&action=action&page=1&pageSize=50",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (action,from,page,pageSize,to,userId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9712",
+							"uri": "http://host.docker.internal:5296/audit-logs/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "46",
+							"uri": "http://host.docker.internal:5296/auth",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5988",
+							"uri": "http://host.docker.internal:5296/auth?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "9716",
+							"uri": "http://host.docker.internal:5296/auth/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10404",
+							"uri": "http://host.docker.internal:5296/auth/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10386",
+							"uri": "http://host.docker.internal:5296/auth/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "26",
+							"uri": "http://host.docker.internal:5296/auth/4711072063738185020",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/4711072063738185020",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5398",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "11121",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login ()({username,password})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5959",
+							"uri": "http://host.docker.internal:5296/auth/login?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login (class.module.classLoader.DefaultAssertio...)({username,password})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5432",
+							"uri": "http://host.docker.internal:5296/auth/login?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "10366",
+							"uri": "http://host.docker.internal:5296/auth/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10469",
+							"uri": "http://host.docker.internal:5296/composer.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/composer.json",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10470",
+							"uri": "http://host.docker.internal:5296/composer.lock",
+							"nodeName": "http:\/\/host.docker.internal:5296\/composer.lock",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10431",
+							"uri": "http://host.docker.internal:5296/config/database.yml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/config\/database.yml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10429",
+							"uri": "http://host.docker.internal:5296/config/databases.yml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/config\/databases.yml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10441",
+							"uri": "http://host.docker.internal:5296/core",
+							"nodeName": "http:\/\/host.docker.internal:5296\/core",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11126",
+							"uri": "http://host.docker.internal:5296/docs/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/docs\/ ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10364",
+							"uri": "http://host.docker.internal:5296/elmah.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/elmah.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5370",
+							"uri": "http://host.docker.internal:5296/favicon-16x16.png",
+							"nodeName": "http:\/\/host.docker.internal:5296\/favicon-16x16.png",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5374",
+							"uri": "http://host.docker.internal:5296/favicon.ico",
+							"nodeName": "http:\/\/host.docker.internal:5296\/favicon.ico",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10447",
+							"uri": "http://host.docker.internal:5296/filezilla.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/filezilla.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10475",
+							"uri": "http://host.docker.internal:5296/i.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/i.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10462",
+							"uri": "http://host.docker.internal:5296/id_dsa",
+							"nodeName": "http:\/\/host.docker.internal:5296\/id_dsa",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10461",
+							"uri": "http://host.docker.internal:5296/id_rsa",
+							"nodeName": "http:\/\/host.docker.internal:5296\/id_rsa",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5366",
+							"uri": "http://host.docker.internal:5296/index.css",
+							"nodeName": "http:\/\/host.docker.internal:5296\/index.css",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5367",
+							"uri": "http://host.docker.internal:5296/index.js",
+							"nodeName": "http:\/\/host.docker.internal:5296\/index.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10474",
+							"uri": "http://host.docker.internal:5296/info.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/info.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "60",
+							"uri": "http://host.docker.internal:5296/journal-entries",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5994",
+							"uri": "http://host.docker.internal:5296/journal-entries?from=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (accountId,class.module.classLoader.DefaultAssertio...,from,page,pageSize,search,sort,status,to)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "7",
+							"uri": "http://host.docker.internal:5296/journal-entries?from=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (accountId,from,page,pageSize,search,sort,status,to)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5998",
+							"uri": "http://host.docker.internal:5296/journal-entries?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5957",
+							"uri": "http://host.docker.internal:5296/journal-entries?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (class.module.classLoader.DefaultAssertio...)({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9717",
+							"uri": "http://host.docker.internal:5296/journal-entries/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10406",
+							"uri": "http://host.docker.internal:5296/journal-entries/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10389",
+							"uri": "http://host.docker.internal:5296/journal-entries/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10",
+							"uri": "http://host.docker.internal:5296/journal-entries/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5970",
+							"uri": "http://host.docker.internal:5296/journal-entries/10?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10 (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5392",
+							"uri": "http://host.docker.internal:5296/journal-entries/10?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10 (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9720",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10407",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10385",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "28",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/4105840705074159509",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/4105840705074159509",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5414",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5958",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5404",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5956",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "10369",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "27",
+							"uri": "http://host.docker.internal:5296/journal-entries/6047208159425759194",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/6047208159425759194",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5433",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5961",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk (class.module.classLoader.DefaultAssertio...)({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "10367",
+							"uri": "http://host.docker.internal:5296/journal-entries/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10460",
+							"uri": "http://host.docker.internal:5296/key.pem",
+							"nodeName": "http:\/\/host.docker.internal:5296\/key.pem",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10426",
+							"uri": "http://host.docker.internal:5296/lfm.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/lfm.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10459",
+							"uri": "http://host.docker.internal:5296/myserver.key",
+							"nodeName": "http:\/\/host.docker.internal:5296\/myserver.key",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11124",
+							"uri": "http://host.docker.internal:5296/openapi.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/openapi.json ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11129",
+							"uri": "http://host.docker.internal:5296/openapi.yaml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/openapi.yaml ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "14",
+							"uri": "http://host.docker.internal:5296/periods",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5996",
+							"uri": "http://host.docker.internal:5296/periods?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5971",
+							"uri": "http://host.docker.internal:5296/periods?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods (class.module.classLoader.DefaultAssertio...)({periodId,startDate,endDate})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5388",
+							"uri": "http://host.docker.internal:5296/periods?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9721",
+							"uri": "http://host.docker.internal:5296/periods/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10415",
+							"uri": "http://host.docker.internal:5296/periods/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10396",
+							"uri": "http://host.docker.internal:5296/periods/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "75",
+							"uri": "http://host.docker.internal:5296/periods/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6005",
+							"uri": "http://host.docker.internal:5296/periods/10?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10 (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "9723",
+							"uri": "http://host.docker.internal:5296/periods/10/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10408",
+							"uri": "http://host.docker.internal:5296/periods/10/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10388",
+							"uri": "http://host.docker.internal:5296/periods/10/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "30",
+							"uri": "http://host.docker.internal:5296/periods/10/3503917521844744154",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/3503917521844744154",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5440",
+							"uri": "http://host.docker.internal:5296/periods/10/close",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5962",
+							"uri": "http://host.docker.internal:5296/periods/10/close?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "10370",
+							"uri": "http://host.docker.internal:5296/periods/10/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "29",
+							"uri": "http://host.docker.internal:5296/periods/6148153826917728528",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/6148153826917728528",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10377",
+							"uri": "http://host.docker.internal:5296/periods/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10473",
+							"uri": "http://host.docker.internal:5296/phpinfo.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/phpinfo.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10458",
+							"uri": "http://host.docker.internal:5296/privatekey.key",
+							"nodeName": "http:\/\/host.docker.internal:5296\/privatekey.key",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "90",
+							"uri": "http://host.docker.internal:5296/reports",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6008",
+							"uri": "http://host.docker.internal:5296/reports?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "9725",
+							"uri": "http://host.docker.internal:5296/reports/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10416",
+							"uri": "http://host.docker.internal:5296/reports/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10397",
+							"uri": "http://host.docker.internal:5296/reports/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "31",
+							"uri": "http://host.docker.internal:5296/reports/2649979270841551999",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/2649979270841551999",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6007",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger?accountId=10&periodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger (accountId,class.module.classLoader.DefaultAssertio...,periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "20",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger?accountId=10&periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger (accountId,periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9724",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6010",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet?periodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet (class.module.classLoader.DefaultAssertio...,periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "19",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet (periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9727",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6011",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss?periodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss (class.module.classLoader.DefaultAssertio...,periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "18",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss (periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9726",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10378",
+							"uri": "http://host.docker.internal:5296/reports/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6006",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance?periodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance (class.module.classLoader.DefaultAssertio...,periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "17",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance (periodId)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9728",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10472",
+							"uri": "http://host.docker.internal:5296/server-info",
+							"nodeName": "http:\/\/host.docker.internal:5296\/server-info",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10439",
+							"uri": "http://host.docker.internal:5296/server-status",
+							"nodeName": "http:\/\/host.docker.internal:5296\/server-status",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10457",
+							"uri": "http://host.docker.internal:5296/server.key",
+							"nodeName": "http:\/\/host.docker.internal:5296\/server.key",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10443",
+							"uri": "http://host.docker.internal:5296/sftp-config.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/sftp-config.json",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10448",
+							"uri": "http://host.docker.internal:5296/sitemanager.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/sitemanager.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10468",
+							"uri": "http://host.docker.internal:5296/sites/default/files/.ht.sqlite",
+							"nodeName": "http:\/\/host.docker.internal:5296\/sites\/default\/files\/.ht.sqlite",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10455",
+							"uri": "http://host.docker.internal:5296/sites/default/private/files/backup_migrate/scheduled/test.txt",
+							"nodeName": "http:\/\/host.docker.internal:5296\/sites\/default\/private\/files\/backup_migrate\/scheduled\/test.txt",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5365",
+							"uri": "http://host.docker.internal:5296/swagger-ui-bundle.js",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger-ui-bundle.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5364",
+							"uri": "http://host.docker.internal:5296/swagger-ui-standalone-preset.js",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger-ui-standalone-preset.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5363",
+							"uri": "http://host.docker.internal:5296/swagger-ui.css",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger-ui.css",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11120",
+							"uri": "http://host.docker.internal:5296/swagger-ui/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger-ui\/ ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11128",
+							"uri": "http://host.docker.internal:5296/swagger-ui/index.html",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger-ui\/index.html ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11123",
+							"uri": "http://host.docker.internal:5296/swagger.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger.json ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11130",
+							"uri": "http://host.docker.internal:5296/swagger.yaml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger.yaml ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10419",
+							"uri": "http://host.docker.internal:5296/swagger/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10399",
+							"uri": "http://host.docker.internal:5296/swagger/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "32",
+							"uri": "http://host.docker.internal:5296/swagger/4318107510028519516",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/4318107510028519516",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10382",
+							"uri": "http://host.docker.internal:5296/swagger/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11131",
+							"uri": "http://host.docker.internal:5296/swagger/ui/index.html",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/ui\/index.html ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "123",
+							"uri": "http://host.docker.internal:5296/swagger/v1",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6019",
+							"uri": "http://host.docker.internal:5296/swagger/v1?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1 (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "9731",
+							"uri": "http://host.docker.internal:5296/swagger/v1/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10420",
+							"uri": "http://host.docker.internal:5296/swagger/v1/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10400",
+							"uri": "http://host.docker.internal:5296/swagger/v1/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "33",
+							"uri": "http://host.docker.internal:5296/swagger/v1/2387630945900163967",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/2387630945900163967",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10381",
+							"uri": "http://host.docker.internal:5296/swagger/v1/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10476",
+							"uri": "http://host.docker.internal:5296/test.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/test.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10365",
+							"uri": "http://host.docker.internal:5296/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "142",
+							"uri": "http://host.docker.internal:5296/users",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6023",
+							"uri": "http://host.docker.internal:5296/users?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5965",
+							"uri": "http://host.docker.internal:5296/users?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users (class.module.classLoader.DefaultAssertio...)({username,email,password,role})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5382",
+							"uri": "http://host.docker.internal:5296/users?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "9734",
+							"uri": "http://host.docker.internal:5296/users/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "10421",
+							"uri": "http://host.docker.internal:5296/users/.env",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/.env",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10402",
+							"uri": "http://host.docker.internal:5296/users/.htaccess",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/.htaccess",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "34",
+							"uri": "http://host.docker.internal:5296/users/5612305432861139896",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/5612305432861139896",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "21",
+							"uri": "http://host.docker.internal:5296/users/me",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6025",
+							"uri": "http://host.docker.internal:5296/users/me?class.module.classLoader.DefaultAssertionStatus=nonsense",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me (class.module.classLoader.DefaultAssertio...)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5385",
+							"uri": "http://host.docker.internal:5296/users/me?name=abc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9735",
+							"uri": "http://host.docker.internal:5296/users/me/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10383",
+							"uri": "http://host.docker.internal:5296/users/trace.axd",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/trace.axd",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11127",
+							"uri": "http://host.docker.internal:5296/v2/api-docs",
+							"nodeName": "http:\/\/host.docker.internal:5296\/v2\/api-docs ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "11122",
+							"uri": "http://host.docker.internal:5296/v3/api-docs",
+							"nodeName": "http:\/\/host.docker.internal:5296\/v3\/api-docs ()({accountName,accountType,isActive})",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10466",
+							"uri": "http://host.docker.internal:5296/vb_test.php",
+							"nodeName": "http:\/\/host.docker.internal:5296\/vb_test.php",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10471",
+							"uri": "http://host.docker.internal:5296/vim_settings.xml",
+							"nodeName": "http:\/\/host.docker.internal:5296\/vim_settings.xml",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10450",
+							"uri": "http://host.docker.internal:5296/winscp.ini",
+							"nodeName": "http:\/\/host.docker.internal:5296\/winscp.ini",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10445",
+							"uri": "http://host.docker.internal:5296/ws_ftp.ini",
+							"nodeName": "http:\/\/host.docker.internal:5296\/ws_ftp.ini",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "10422",
+							"uri": "http://host.docker.internal:5296/zap1017774769076979207",
+							"nodeName": "http:\/\/host.docker.internal:5296\/zap1017774769076979207",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5989",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296 ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1603",
+							"uri": "http://host.docker.internal:5296/?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/ (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1606",
+							"uri": "http://host.docker.internal:5296/?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/ (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5974",
+							"uri": "http://host.docker.internal:5296/accounts",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1",
+							"uri": "http://host.docker.internal:5296/accounts",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts ()({accountCode,accountName,accountType,isActive})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1582",
+							"uri": "http://host.docker.internal:5296/accounts?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1595",
+							"uri": "http://host.docker.internal:5296/accounts?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5993",
+							"uri": "http://host.docker.internal:5296/accounts?type=type&isActive=true&search=ZAP",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts (isActive,search,type)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9699",
+							"uri": "http://host.docker.internal:5296/accounts/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/ ()({accountCode,accountName,accountType,isActive})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6029",
+							"uri": "http://host.docker.internal:5296/accounts/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 ()(------d9f6fb1a-0cb7-4c6f-a200-21e830ca3454\r\nContent-Disposition: form-data; name=\"1\"\r\n\r\n{}\r\n------d9f6fb1a-0cb7-4c6f-a200-21e830ca3454\r\nContent-Disposition: form-data; name=\"0\"\r\n\r\n[\"$1:a:a\"]\r\n------d9f6fb1a-0cb7-4c6f-a200-21e830ca3454--\r\n)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5972",
+							"uri": "http://host.docker.internal:5296/accounts/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1585",
+							"uri": "http://host.docker.internal:5296/accounts/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1591",
+							"uri": "http://host.docker.internal:5296/accounts/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5984",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1608",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1614",
+							"uri": "http://host.docker.internal:5296/accounts/10/balance?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1607",
+							"uri": "http://host.docker.internal:5296/audit-logs?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1617",
+							"uri": "http://host.docker.internal:5296/audit-logs?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5992",
+							"uri": "http://host.docker.internal:5296/audit-logs?from=from&to=to&userId=userId&action=action&page=1&pageSize=50",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (action,from,page,pageSize,to,userId)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5995",
+							"uri": "http://host.docker.internal:5296/auth",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1618",
+							"uri": "http://host.docker.internal:5296/auth?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1620",
+							"uri": "http://host.docker.internal:5296/auth?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5966",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "415",
+							"otherinfo": ""
+						},
+						{
+							"id": "4338",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login ()({username,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "6",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login ()({username,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1593",
+							"uri": "http://host.docker.internal:5296/auth/login?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "415",
+							"otherinfo": ""
+						},
+						{
+							"id": "1604",
+							"uri": "http://host.docker.internal:5296/auth/login?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "415",
+							"otherinfo": ""
+						},
+						{
+							"id": "9696",
+							"uri": "http://host.docker.internal:5296/auth/login/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login\/ ()({username,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5968",
+							"uri": "http://host.docker.internal:5296/journal-entries",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "8",
+							"uri": "http://host.docker.internal:5296/journal-entries",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries ()({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1587",
+							"uri": "http://host.docker.internal:5296/journal-entries?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1597",
+							"uri": "http://host.docker.internal:5296/journal-entries?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6003",
+							"uri": "http://host.docker.internal:5296/journal-entries?from=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries (accountId,from,page,pageSize,search,sort,status,to)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9701",
+							"uri": "http://host.docker.internal:5296/journal-entries/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/ ()({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5973",
+							"uri": "http://host.docker.internal:5296/journal-entries/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10 ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1584",
+							"uri": "http://host.docker.internal:5296/journal-entries/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1592",
+							"uri": "http://host.docker.internal:5296/journal-entries/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "12",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5967",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1586",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1589",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9698",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/post/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/post\/",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "13",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5963",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1583",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1588",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9697",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse\/",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5969",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1590",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1599",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9700",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk\/ ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5978",
+							"uri": "http://host.docker.internal:5296/periods",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "15",
+							"uri": "http://host.docker.internal:5296/periods",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods ()({periodId,startDate,endDate})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1594",
+							"uri": "http://host.docker.internal:5296/periods?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1601",
+							"uri": "http://host.docker.internal:5296/periods?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9703",
+							"uri": "http://host.docker.internal:5296/periods/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/ ()({periodId,startDate,endDate})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6009",
+							"uri": "http://host.docker.internal:5296/periods/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10 ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1629",
+							"uri": "http://host.docker.internal:5296/periods/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1635",
+							"uri": "http://host.docker.internal:5296/periods/10?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "16",
+							"uri": "http://host.docker.internal:5296/periods/10/close",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5964",
+							"uri": "http://host.docker.internal:5296/periods/10/close",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1596",
+							"uri": "http://host.docker.internal:5296/periods/10/close?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1602",
+							"uri": "http://host.docker.internal:5296/periods/10/close?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9705",
+							"uri": "http://host.docker.internal:5296/periods/10/close/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods\/10\/close\/",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6012",
+							"uri": "http://host.docker.internal:5296/reports",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1637",
+							"uri": "http://host.docker.internal:5296/reports?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1642",
+							"uri": "http://host.docker.internal:5296/reports?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1632",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1643",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6014",
+							"uri": "http://host.docker.internal:5296/reports/account-ledger?accountId=10&periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/account-ledger (accountId,periodId)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1636",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1640",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6017",
+							"uri": "http://host.docker.internal:5296/reports/balance-sheet?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/balance-sheet (periodId)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1634",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1644",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6016",
+							"uri": "http://host.docker.internal:5296/reports/profit-loss?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/profit-loss (periodId)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1633",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1638",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6015",
+							"uri": "http://host.docker.internal:5296/reports/trial-balance?periodId=10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/reports\/trial-balance (periodId)(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "6022",
+							"uri": "http://host.docker.internal:5296/swagger",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1639",
+							"uri": "http://host.docker.internal:5296/swagger?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1648",
+							"uri": "http://host.docker.internal:5296/swagger?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6024",
+							"uri": "http://host.docker.internal:5296/swagger/v1",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1 ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1646",
+							"uri": "http://host.docker.internal:5296/swagger/v1?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1651",
+							"uri": "http://host.docker.internal:5296/swagger/v1?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6027",
+							"uri": "http://host.docker.internal:5296/swagger/v1/swagger.json",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/swagger.json ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1647",
+							"uri": "http://host.docker.internal:5296/swagger/v1/swagger.json?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/swagger.json (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "1652",
+							"uri": "http://host.docker.internal:5296/swagger/v1/swagger.json?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger\/v1\/swagger.json (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5976",
+							"uri": "http://host.docker.internal:5296/users",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "22",
+							"uri": "http://host.docker.internal:5296/users",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users ()({username,email,password,role})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1598",
+							"uri": "http://host.docker.internal:5296/users?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1600",
+							"uri": "http://host.docker.internal:5296/users?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9704",
+							"uri": "http://host.docker.internal:5296/users/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/ ()({username,email,password,role})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6028",
+							"uri": "http://host.docker.internal:5296/users/me",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me ()(class.module.classLoader.DefaultAssertio...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1649",
+							"uri": "http://host.docker.internal:5296/users/me?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe \/C echo jtesgy92ahs6...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "1654",
+							"uri": "http://host.docker.internal:5296/users/me?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users\/me (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo jtesgy92ahs6u241dtwy',$...)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "3",
+							"uri": "http://host.docker.internal:5296/accounts/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10 ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "9695",
+							"uri": "http://host.docker.internal:5296/accounts/10/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/accounts\/10\/ ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "7576",
+							"uri": "http://host.docker.internal:5296/computeMetadata/v1/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/computeMetadata\/v1\/ ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "7565",
+							"uri": "http://host.docker.internal:5296/latest/meta-data/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/latest\/meta-data\/ ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "7643",
+							"uri": "http://host.docker.internal:5296/metadata/instance",
+							"nodeName": "http:\/\/host.docker.internal:5296\/metadata\/instance ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "7598",
+							"uri": "http://host.docker.internal:5296/opc/v1/instance/",
+							"nodeName": "http:\/\/host.docker.internal:5296\/opc\/v1\/instance\/ ()({accountName,accountType,isActive})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						}
+					],
+					"count": "306",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "388",
+					"wascid": "20",
+					"sourceid": "20"
+				},
+				{
+					"pluginid": "10111",
+					"alertRef": "10111",
+					"alert": "Authentication Request Identified",
+					"name": "Authentication Request Identified",
+					"riskcode": "0",
+					"confidence": "1",
+					"riskdesc": "Informational (Low)",
+					"desc": "<p>The given request has been identified as an authentication request. The 'Other Info' field contains a set of key=value lines which identify any relevant fields. If the request is in a context which has an Authentication Method set to \"Auto-Detect\" then this rule will change the authentication to match the request identified.</p>",
+					"instances":[ 
+						{
+							"id": "411",
+							"uri": "http://host.docker.internal:5296/users",
+							"nodeName": "http:\/\/host.docker.internal:5296\/users ()({username,email,password,role})",
+							"method": "POST",
+							"param": "email",
+							"attack": "",
+							"evidence": "password",
+							"otherinfo": "userParam=email\nuserValue=zaproxy@example.com\npasswordParam=password"
+						},
+						{
+							"id": "260",
+							"uri": "http://host.docker.internal:5296/auth/login",
+							"nodeName": "http:\/\/host.docker.internal:5296\/auth\/login ()({username,password})",
+							"method": "POST",
+							"param": "username",
+							"attack": "",
+							"evidence": "password",
+							"otherinfo": "userParam=username\nuserValue=John Doe\npasswordParam=password"
+						}
+					],
+					"count": "2",
+					"systemic": false,
+					"solution": "<p>This is an informational alert rather than a vulnerability and so there is nothing to fix.</p>",
+					"otherinfo": "<p>userParam=email</p><p>userValue=zaproxy@example.com</p><p>passwordParam=password</p>",
+					"reference": "<p>https://www.zaproxy.org/docs/desktop/addons/authentication-helper/auth-req-id/</p>",
+					"cweid": "-1",
+					"wascid": "-1",
+					"sourceid": "36"
+				},
+				{
+					"pluginid": "10024",
+					"alertRef": "10024",
+					"alert": "Information Disclosure - Sensitive Information in URL",
+					"name": "Information Disclosure - Sensitive Information in URL",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.</p>",
+					"instances":[ 
+						{
+							"id": "255",
+							"uri": "http://host.docker.internal:5296/audit-logs?from=from&to=to&userId=userId&action=action&page=1&pageSize=50",
+							"nodeName": "http:\/\/host.docker.internal:5296\/audit-logs (action,from,page,pageSize,to,userId)",
+							"method": "GET",
+							"param": "userId",
+							"attack": "",
+							"evidence": "userId",
+							"otherinfo": "The URL contains potentially sensitive information. The following string was found via the pattern: user\nuserId"
+						}
+					],
+					"count": "1",
+					"systemic": true,
+					"solution": "<p>Do not pass sensitive information in URIs.</p>",
+					"otherinfo": "<p>The URL contains potentially sensitive information. The following string was found via the pattern: user</p><p>userId</p>",
+					"reference": "",
+					"cweid": "598",
+					"wascid": "13",
+					"sourceid": "12"
+				},
+				{
+					"pluginid": "10049",
+					"alertRef": "10049-1",
+					"alert": "Non-Storable Content",
+					"name": "Non-Storable Content",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p>",
+					"instances":[ 
+						{
+							"id": "254",
+							"uri": "http://host.docker.internal:5296/journal-entries/10",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "380",
+							"uri": "http://host.docker.internal:5296/journal-entries",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries ()({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "395",
+							"uri": "http://host.docker.internal:5296/journal-entries/10/reverse",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/10\/reverse",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "393",
+							"uri": "http://host.docker.internal:5296/journal-entries/bulk",
+							"nodeName": "http:\/\/host.docker.internal:5296\/journal-entries\/bulk ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "371",
+							"uri": "http://host.docker.internal:5296/periods",
+							"nodeName": "http:\/\/host.docker.internal:5296\/periods ()({periodId,startDate,endDate})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "<p>The content may be marked as storable by ensuring that the following conditions are satisfied:</p><p>The request method must be understood by the cache and defined as being cacheable (\"GET\", \"HEAD\", and \"POST\" are currently defined as cacheable)</p><p>The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)</p><p>The \"no-store\" cache directive must not appear in the request or response header fields</p><p>For caching by \"shared\" caches such as \"proxy\" caches, the \"private\" response directive must not appear in the response</p><p>For caching by \"shared\" caches such as \"proxy\" caches, the \"Authorization\" header field must not appear in the request, unless the response explicitly allows it (using one of the \"must-revalidate\", \"public\", or \"s-maxage\" Cache-Control response directives)</p><p>In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:</p><p>It must contain an \"Expires\" header field</p><p>It must contain a \"max-age\" response directive</p><p>For \"shared\" caches such as \"proxy\" caches, it must contain a \"s-maxage\" response directive</p><p>It must contain a \"Cache Control Extension\" that allows it to be cached</p><p>It must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+					"cweid": "524",
+					"wascid": "13",
+					"sourceid": "19"
+				},
+				{
+					"pluginid": "10104",
+					"alertRef": "10104",
+					"alert": "User Agent Fuzzer",
+					"name": "User Agent Fuzzer",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>Check for differences in response based on fuzzed User Agent (eg. mobile sites, access as a Search Engine Crawler). Compares the response statuscode and the hashcode of the response body with the original response.</p>",
+					"instances":[ 
+						{
+							"id": "10840",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296",
+							"method": "GET",
+							"param": "Header User-Agent",
+							"attack": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "10777",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296",
+							"method": "GET",
+							"param": "Header User-Agent",
+							"attack": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "10732",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296",
+							"method": "GET",
+							"param": "Header User-Agent",
+							"attack": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "10915",
+							"uri": "http://host.docker.internal:5296",
+							"nodeName": "http:\/\/host.docker.internal:5296",
+							"method": "GET",
+							"param": "Header User-Agent",
+							"attack": "Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "10926",
+							"uri": "http://host.docker.internal:5296/swagger",
+							"nodeName": "http:\/\/host.docker.internal:5296\/swagger",
+							"method": "GET",
+							"param": "Header User-Agent",
+							"attack": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)",
+							"evidence": "",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "<p>https://owasp.org/wstg</p>",
+					"cweid": "0",
+					"wascid": "0",
+					"sourceid": "10972"
+				}
+			]
+		}
+	],
+	"sequences":[
+	]
+
+}

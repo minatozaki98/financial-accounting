@@ -1,31 +1,61 @@
+using API.Middleware;
 using Asp.Versioning;
 using BAL.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using MODEL;
 using MODEL.ApplicationConfig;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = new AppSettings();
 builder.Configuration.GetSection("AppSettings").Bind(appSettings);
 
-builder.Services.AddControllers();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks().AddDbContextCheck<DataContext>("database");
 ServiceManager.SetServiceInfo(builder.Services, appSettings);
+
+var allowedOrigins = appSettings.AllowedOrigins?
+    .Where(origin => !string.IsNullOrWhiteSpace(origin))
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray() ?? Array.Empty<string>();
+
+if (allowedOrigins.Length == 0 && !string.IsNullOrWhiteSpace(appSettings.LocalTestUrl))
+{
+    allowedOrigins = new[] { appSettings.LocalTestUrl };
+}
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("MyAllowSpecificOrigins", corsBuilder => corsBuilder
-        .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        .WithHeaders(
-            HeaderNames.Accept,
-            HeaderNames.ContentType,
-            HeaderNames.Authorization)
-        .SetIsOriginAllowed(origin => true)
-        .AllowCredentials());
+    options.AddPolicy("AppCors", corsBuilder =>
+    {
+        corsBuilder.WithMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .WithHeaders(
+                HeaderNames.Accept,
+                HeaderNames.ContentType,
+                HeaderNames.Authorization,
+                "X-Api-Version",
+                CorrelationIdMiddleware.HeaderName)
+            .WithExposedHeaders(CorrelationIdMiddleware.HeaderName);
+
+        if (allowedOrigins.Length > 0)
+        {
+            corsBuilder.WithOrigins(allowedOrigins).AllowCredentials();
+        }
+    });
 });
 
 builder.Services.AddApiVersioning(options =>
@@ -69,7 +99,6 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Accounting API", Version = "v1" });
@@ -102,32 +131,62 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
 });
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var roleSeeder = scope.ServiceProvider.GetRequiredService<FinancialRoleStartupSeeder>();
+    await roleSeeder.SeedAsync();
 }
-else
+
+var enableSwagger = app.Environment.IsDevelopment() || appSettings.EnableSwaggerInProduction;
+if (enableSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
+
 app.UseHttpsRedirection();
-app.UseCors("MyAllowSpecificOrigins");
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseCors("AppCors");
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always,
     Secure = CookieSecurePolicy.Always,
-    MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None
+    MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax
+});
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = _ => false
 });
 
-app.MapControllers();
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = _ => true
+});
 
+if (enableSwagger)
+{
+    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+}
+else
+{
+    app.MapGet("/", () => Results.Redirect("/health/live")).ExcludeFromDescription();
+}
+
+app.MapFallback(() => Results.NotFound()).ExcludeFromDescription();
+app.MapControllers();
 app.Run();
+
+public partial class Program
+{
+}

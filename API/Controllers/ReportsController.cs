@@ -26,15 +26,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _financialReportService.GetTrialBalanceAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _financialReportService.GetTrialBalanceAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(result);
         }
 
         [HttpGet("profit-loss")]
@@ -46,15 +39,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _financialReportService.GetProfitLossAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _financialReportService.GetProfitLossAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(result);
         }
 
         [HttpGet("balance-sheet")]
@@ -66,15 +52,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _financialReportService.GetBalanceSheetAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _financialReportService.GetBalanceSheetAsync(periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(result);
         }
 
         [HttpGet("account-ledger")]
@@ -86,15 +65,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _financialReportService.GetAccountLedgerAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _financialReportService.GetAccountLedgerAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(result);
         }
     }
 }

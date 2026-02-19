@@ -28,15 +28,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _journalEntryService.CreateDraftAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return CreatedAtAction(nameof(GetById), new { id = result.JournalEntryId }, result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _journalEntryService.CreateDraftAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return CreatedAtAction(nameof(GetById), new { id = result.JournalEntryId }, result);
         }
 
         [Authorize(Roles = "Admin,FinanceManager")]
@@ -49,15 +42,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var createdIds = await _journalEntryService.BulkCreateDraftAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(new { ids = createdIds });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var createdIds = await _journalEntryService.BulkCreateDraftAsync(request, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(new { ids = createdIds });
         }
 
         [HttpGet("{id:long}")]
@@ -66,7 +52,7 @@ namespace API.Controllers
             var result = await _journalEntryService.GetByIdAsync(id);
             if (result == null)
             {
-                return NotFound(new { message = "Journal entry was not found." });
+                return Problem(statusCode: StatusCodes.Status404NotFound, title: "Journal entry not found", detail: "Journal entry was not found.");
             }
 
             return Ok(result);
@@ -97,20 +83,16 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
+            var posted = await _journalEntryService.PostAsync(id, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            if (!posted)
             {
-                var posted = await _journalEntryService.PostAsync(id, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                if (!posted)
-                {
-                    return NotFound(new { message = "Draft journal entry was not found." });
-                }
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Journal entry not found",
+                    detail: "Draft journal entry was not found.");
+            }
 
-                return NoContent();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return NoContent();
         }
 
         [Authorize(Roles = "Admin,FinanceManager")]
@@ -123,15 +105,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var newId = await _journalEntryService.ReverseAsync(id, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-                return Ok(new { reversingEntryId = newId });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var newId = await _journalEntryService.ReverseAsync(id, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return Ok(new { reversingEntryId = newId });
         }
 
         [Authorize(Roles = "Admin")]
@@ -147,7 +122,10 @@ namespace API.Controllers
             var deleted = await _journalEntryService.DeleteDraftAsync(id, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
             if (!deleted)
             {
-                return NotFound(new { message = "Draft journal entry was not found." });
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Journal entry not found",
+                    detail: "Draft journal entry was not found.");
             }
 
             return NoContent();
