@@ -9,6 +9,20 @@ This repository now has runnable setup and execution scripts for all three tools
 ./scripts/phase4/install-tools.ps1
 ```
 
+This starts persistent containers for all tools:
+- SonarQube: `http://localhost:9000`
+- ZAP Web UI: `http://localhost:8080/zap`
+- ZAP API/proxy: `http://localhost:8090`
+- JMeter report UI: `http://localhost:8088`
+
+You can change ZAP/JMeter ports:
+```powershell
+./scripts/phase4/install-tools.ps1 `
+  -ZapWebPort 8081 `
+  -ZapApiPort 8091 `
+  -JMeterPort 8092
+```
+
 If you need to fully reset SonarQube (back to default `admin/admin`), run:
 ```powershell
 ./scripts/phase4/install-tools.ps1 -ResetSonarData
@@ -55,6 +69,8 @@ If you are currently on **Community Edition v9.9.x** and want the latest Communi
 Notes:
 - SonarQube URL: `http://localhost:9000`
 - Default container: `financial-sonarqube`
+- Default ZAP container: `financial-zap`
+- Default JMeter container: `financial-jmeter`
 - Save the generated token immediately (shown once).
 - If your admin password is not `Admin@123456`, pass `-AdminPassword "<yourPassword>"` (or use `-AdminToken "<token>"`).
 - After `-ResetSonarData`, SonarQube starts with the default password `admin`. Either change it in the UI, or run:
@@ -79,7 +95,9 @@ Note: the first run installs the `dotnet-sonarscanner` global tool from NuGet (r
 ```
 
 Notes:
-- ZAP is run via `docker run --rm`, so you won't see a persistent container in Docker Desktop after it finishes.
+- Persistent ZAP GUI container is available at `http://localhost:8080/zap` (or your custom `-ZapWebPort`).
+- ZAP API/proxy is exposed on `http://localhost:8090` (or your custom `-ZapApiPort`).
+- The baseline/API scan scripts still use isolated scan runs to keep report generation deterministic.
 - If the script exits with code `2`, that means ZAP found warnings (reports are still generated).
 - To force exit code `0` while keeping warnings in the report, add `-IgnoreWarnings`.
 - Use `-OutputPrefix` to avoid overwriting previous report files.
@@ -123,7 +141,8 @@ Notes:
 ```
 
 Notes:
-- JMeter is run via `docker run --rm`, so you won't see a persistent container in Docker Desktop after it finishes.
+- Persistent JMeter container serves `Document/performance` on `http://localhost:8088` (or your custom `-JMeterPort`).
+- JMeter execution scripts still run isolated test executions for reproducible `.jtl` and HTML artifacts.
 - The script auto-maps `localhost`/`127.0.0.1` to `host.docker.internal` so the container can reach your host API.
 - Make sure your API is listening on `0.0.0.0:5296` (not only `localhost`) before running JMeter:
   - `dotnet run --project API/API.csproj --urls http://0.0.0.0:5296 --environment Development`

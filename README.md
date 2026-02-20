@@ -31,6 +31,25 @@ Health endpoints:
 
 ## Test and Quality Commands
 
+### Start Persistent Tool Containers
+
+```powershell
+./scripts/phase4/install-tools.ps1
+```
+
+Default localhost endpoints:
+
+- SonarQube: `http://localhost:9000`
+- ZAP GUI: `http://localhost:8080/zap`
+- ZAP API/proxy: `http://localhost:8090`
+- JMeter report UI: `http://localhost:8088`
+
+Custom ZAP/JMeter ports:
+
+```powershell
+./scripts/phase4/install-tools.ps1 -ZapWebPort 8081 -ZapApiPort 8091 -JMeterPort 8092
+```
+
 ### Unit + Integration Tests (with coverage)
 
 ```powershell
