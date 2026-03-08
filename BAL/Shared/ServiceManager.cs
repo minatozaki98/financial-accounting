@@ -1,18 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MODEL.ApplicationConfig;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MODEL;
 using BAL.IServices;
 using BAL.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MODEL;
+using MODEL.ApplicationConfig;
 
 namespace BAL.Shared
 {
-    public class ServiceManager
+    public static class ServiceManager
     {
         public static void SetServiceInfo(IServiceCollection services, AppSettings appSettings)
         {
@@ -20,6 +15,7 @@ namespace BAL.Shared
             {
                 options.UseSqlServer(appSettings.ConnectionStrings);
             });
+
             services.AddScoped<FinancialTokenProvider>();
             services.AddScoped<FinancialRoleStartupSeeder>();
             services.AddScoped<IAuditLogService, AuditLogService>();

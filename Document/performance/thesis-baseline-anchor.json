@@ -1,0 +1,424 @@
+﻿{
+    "runId":  "20260222-231435",
+    "createdAtUtc":  "2026-02-22T23:35:10Z",
+    "performanceByProfile":  {
+                                 "50":  [
+                                            {
+                                                "value":  "START Running Jmeter on Sun Feb 22 17:19:23 CET 2026",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "JVM_ARGS=-Xmn2578m -Xms10312m -Xmx10312m",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "jmeter args=-n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p50.jtl -e -o /results/report-20260222-231435-p50 -Jusers=50 -Jrampup=30 -Jloops=10 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=core -JcoreUsers=50 -JcomplexUsers=0 -JcoreRampUp=30 -JcomplexRampUp=30 -JcomplexLoops=5",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "jmeter ALL ARGS=-Dlog4j2.formatMsgNoLookups=true -n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p50.jtl -e -o /results/report-20260222-231435-p50 -Jusers=50 -Jrampup=30 -Jloops=10 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=core -JcoreUsers=50 -JcomplexUsers=0 -JcoreRampUp=30 -JcomplexRampUp=30 -JcomplexLoops=5",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "Creating summariser \u003csummary\u003e",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "Created the tree successfully using /tests/financial-api-load-test.jmx",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "Starting standalone test @ February 22, 2026 5:19:29 PM CET (1771777169894)",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "summary +      1 in 00:00:01 =    1.2/s Avg:    41 Min:    41 Max:    41 Err:     0 (0.00%) Active: 2 Started: 2 Finished: 0",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "summary +   1754 in 00:00:29 =   60.3/s Avg:    23 Min:     2 Max:   396 Err:     0 (0.00%) Active: 14 Started: 50 Finished: 36",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "summary =   1755 in 00:00:30 =   58.7/s Avg:    23 Min:     2 Max:   396 Err:     0 (0.00%)",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "summary +    295 in 00:00:08 =   36.4/s Avg:    10 Min:     2 Max:    63 Err:     0 (0.00%) Active: 0 Started: 50 Finished: 50",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "summary =   2050 in 00:00:38 =   53.9/s Avg:    21 Min:     2 Max:   396 Err:     0 (0.00%)",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "Tidying up ...    @ February 22, 2026 5:20:08 PM CET (1771777208144)",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "... end of run",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "value":  "END Running Jmeter on Sun Feb 22 17:20:20 CET 2026",
+                                                "Profile":  "50"
+                                            },
+                                            {
+                                                "Timestamp":  "20260222-231435-p50",
+                                                "TestPlanPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter\\financial-api-load-test.jmx",
+                                                "JtlPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter-20260222-231435-p50.jtl",
+                                                "HtmlReportPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p50",
+                                                "StatisticsPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p50\\statistics.json",
+                                                "Users":  50,
+                                                "RampUp":  30,
+                                                "Loops":  10,
+                                                "Mode":  "core",
+                                                "CoreUsers":  50,
+                                                "ComplexUsers":  0,
+                                                "CoreRampUp":  30,
+                                                "ComplexRampUp":  30,
+                                                "ComplexLoops":  5,
+                                                "RequestedAccountId":  1,
+                                                "RequestedPeriodId":  202601,
+                                                "AccountId":  1,
+                                                "PeriodId":  202601,
+                                                "Profile":  "50"
+                                            }
+                                        ],
+                                 "100":  [
+                                             {
+                                                 "value":  "START Running Jmeter on Sun Feb 22 17:20:22 CET 2026",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "JVM_ARGS=-Xmn2576m -Xms10304m -Xmx10304m",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "jmeter args=-n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p100.jtl -e -o /results/report-20260222-231435-p100 -Jusers=100 -Jrampup=60 -Jloops=10 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=70 -JcomplexUsers=30 -JcoreRampUp=60 -JcomplexRampUp=60 -JcomplexLoops=10",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "jmeter ALL ARGS=-Dlog4j2.formatMsgNoLookups=true -n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p100.jtl -e -o /results/report-20260222-231435-p100 -Jusers=100 -Jrampup=60 -Jloops=10 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=70 -JcomplexUsers=30 -JcoreRampUp=60 -JcomplexRampUp=60 -JcomplexLoops=10",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "Creating summariser \u003csummary\u003e",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "Created the tree successfully using /tests/financial-api-load-test.jmx",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "Starting standalone test @ February 22, 2026 5:20:27 PM CET (1771777227634)",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary +     12 in 00:00:02 =    6.1/s Avg:    32 Min:     5 Max:   131 Err:     0 (0.00%) Active: 4 Started: 4 Finished: 0",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary +   2009 in 00:00:30 =   66.9/s Avg:    16 Min:     2 Max:   259 Err:   445 (22.15%) Active: 21 Started: 54 Finished: 33",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary =   2021 in 00:00:32 =   63.2/s Avg:    16 Min:     2 Max:   259 Err:   445 (22.02%)",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary +   2328 in 00:00:30 =   77.6/s Avg:    16 Min:     2 Max:   133 Err:   596 (25.60%) Active: 17 Started: 100 Finished: 83",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary =   4349 in 00:01:02 =   70.2/s Avg:    16 Min:     2 Max:   259 Err:  1041 (23.94%)",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary +    351 in 00:00:16 =   21.6/s Avg:    16 Min:     3 Max:   109 Err:   159 (45.30%) Active: 0 Started: 100 Finished: 100",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "summary =   4700 in 00:01:18 =   60.0/s Avg:    16 Min:     2 Max:   259 Err:  1200 (25.53%)",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "Tidying up ...    @ February 22, 2026 5:21:46 PM CET (1771777306315)",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "... end of run",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "value":  "END Running Jmeter on Sun Feb 22 17:21:55 CET 2026",
+                                                 "Profile":  "100"
+                                             },
+                                             {
+                                                 "Timestamp":  "20260222-231435-p100",
+                                                 "TestPlanPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter\\financial-api-load-test.jmx",
+                                                 "JtlPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter-20260222-231435-p100.jtl",
+                                                 "HtmlReportPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p100",
+                                                 "StatisticsPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p100\\statistics.json",
+                                                 "Users":  100,
+                                                 "RampUp":  60,
+                                                 "Loops":  10,
+                                                 "Mode":  "mixed",
+                                                 "CoreUsers":  70,
+                                                 "ComplexUsers":  30,
+                                                 "CoreRampUp":  60,
+                                                 "ComplexRampUp":  60,
+                                                 "ComplexLoops":  10,
+                                                 "RequestedAccountId":  1,
+                                                 "RequestedPeriodId":  202601,
+                                                 "AccountId":  1,
+                                                 "PeriodId":  202601,
+                                                 "Profile":  "100"
+                                             }
+                                         ],
+                                 "500":  [
+                                             {
+                                                 "value":  "START Running Jmeter on Sun Feb 22 17:21:58 CET 2026",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "JVM_ARGS=-Xmn2572m -Xms10288m -Xmx10288m",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "jmeter args=-n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p500.jtl -e -o /results/report-20260222-231435-p500 -Jusers=500 -Jrampup=180 -Jloops=5 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=350 -JcomplexUsers=150 -JcoreRampUp=180 -JcomplexRampUp=180 -JcomplexLoops=5",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "jmeter ALL ARGS=-Dlog4j2.formatMsgNoLookups=true -n -t /tests/financial-api-load-test.jmx -l /results/jmeter-20260222-231435-p500.jtl -e -o /results/report-20260222-231435-p500 -Jusers=500 -Jrampup=180 -Jloops=5 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=350 -JcomplexUsers=150 -JcoreRampUp=180 -JcomplexRampUp=180 -JcomplexLoops=5",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "Creating summariser \u003csummary\u003e",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "Created the tree successfully using /tests/financial-api-load-test.jmx",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "Starting standalone test @ February 22, 2026 5:22:01 PM CET (1771777321889)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +      1 in 00:00:00 =    2.1/s Avg:    69 Min:    69 Max:    69 Err:     0 (0.00%) Active: 2 Started: 2 Finished: 0",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   1657 in 00:00:27 =   60.3/s Avg:    19 Min:     2 Max:   238 Err:   380 (22.93%) Active: 18 Started: 79 Finished: 61",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =   1658 in 00:00:28 =   59.3/s Avg:    19 Min:     2 Max:   238 Err:   380 (22.92%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   1994 in 00:00:30 =   66.5/s Avg:    18 Min:     2 Max:   269 Err:   495 (24.82%) Active: 19 Started: 162 Finished: 143",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =   3652 in 00:00:58 =   63.0/s Avg:    19 Min:     2 Max:   269 Err:   875 (23.96%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   1998 in 00:00:30 =   66.6/s Avg:    16 Min:     2 Max:   299 Err:   499 (24.97%) Active: 18 Started: 245 Finished: 227",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =   5650 in 00:01:28 =   64.2/s Avg:    18 Min:     2 Max:   299 Err:  1374 (24.32%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   1931 in 00:00:30 =   64.4/s Avg:    26 Min:     1 Max:   928 Err:   476 (24.65%) Active: 25 Started: 329 Finished: 304",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =   7581 in 00:01:58 =   64.3/s Avg:    20 Min:     1 Max:   928 Err:  1850 (24.40%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   2030 in 00:00:30 =   67.7/s Avg:    14 Min:     2 Max:   257 Err:   511 (25.17%) Active: 22 Started: 412 Finished: 390",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =   9611 in 00:02:28 =   65.0/s Avg:    19 Min:     1 Max:   928 Err:  2361 (24.57%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +   1951 in 00:00:30 =   65.0/s Avg:    16 Min:     2 Max:   237 Err:   489 (25.06%) Active: 22 Started: 495 Finished: 473",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =  11562 in 00:02:58 =   65.0/s Avg:    18 Min:     1 Max:   928 Err:  2850 (24.65%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary +    438 in 00:00:11 =   40.0/s Avg:    25 Min:     3 Max:   305 Err:   150 (34.25%) Active: 0 Started: 500 Finished: 500",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "summary =  12000 in 00:03:09 =   63.5/s Avg:    18 Min:     1 Max:   928 Err:  3000 (25.00%)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "Tidying up ...    @ February 22, 2026 5:25:10 PM CET (1771777510975)",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "... end of run",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "value":  "END Running Jmeter on Sun Feb 22 17:25:15 CET 2026",
+                                                 "Profile":  "500"
+                                             },
+                                             {
+                                                 "Timestamp":  "20260222-231435-p500",
+                                                 "TestPlanPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter\\financial-api-load-test.jmx",
+                                                 "JtlPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter-20260222-231435-p500.jtl",
+                                                 "HtmlReportPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p500",
+                                                 "StatisticsPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-p500\\statistics.json",
+                                                 "Users":  500,
+                                                 "RampUp":  180,
+                                                 "Loops":  5,
+                                                 "Mode":  "mixed",
+                                                 "CoreUsers":  350,
+                                                 "ComplexUsers":  150,
+                                                 "CoreRampUp":  180,
+                                                 "ComplexRampUp":  180,
+                                                 "ComplexLoops":  5,
+                                                 "RequestedAccountId":  1,
+                                                 "RequestedPeriodId":  202601,
+                                                 "AccountId":  1,
+                                                 "PeriodId":  202601,
+                                                 "Profile":  "500"
+                                             }
+                                         ],
+                                 "soak":  [
+                                              "START Running Jmeter on Sun Feb 22 17:25:16 CET 2026",
+                                              "JVM_ARGS=-Xmn2566m -Xms10264m -Xmx10264m",
+                                              "jmeter args=-n -t /tests/financial-api-soak-test.jmx -l /results/jmeter-20260222-231435-soak.jtl -e -o /results/report-20260222-231435-soak -Jusers=100 -Jrampup=60 -Jloops=180 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=100 -JcomplexUsers=30 -JcoreRampUp=60 -JcomplexRampUp=60 -JcomplexLoops=180",
+                                              "jmeter ALL ARGS=-Dlog4j2.formatMsgNoLookups=true -n -t /tests/financial-api-soak-test.jmx -l /results/jmeter-20260222-231435-soak.jtl -e -o /results/report-20260222-231435-soak -Jusers=100 -Jrampup=60 -Jloops=180 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=100 -JcomplexUsers=30 -JcoreRampUp=60 -JcomplexRampUp=60 -JcomplexLoops=180",
+                                              "Creating summariser \u003csummary\u003e",
+                                              "Created the tree successfully using /tests/financial-api-soak-test.jmx",
+                                              "Starting standalone test @ February 22, 2026 5:25:21 PM CET (1771777521751)",
+                                              "Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445",
+                                              "summary +    200 in 00:00:08 =   24.8/s Avg:    15 Min:     3 Max:    93 Err:    16 (8.00%) Active: 15 Started: 15 Finished: 0",
+                                              "summary +   6135 in 00:00:30 =  201.5/s Avg:    23 Min:     1 Max:   641 Err:   697 (11.36%) Active: 82 Started: 82 Finished: 0",
+                                              "summary =   6335 in 00:00:39 =  164.5/s Avg:    23 Min:     1 Max:   641 Err:   713 (11.25%)",
+                                              "summary +  12188 in 00:00:30 =  412.8/s Avg:    42 Min:     1 Max:   958 Err:  1426 (11.70%) Active: 130 Started: 130 Finished: 0",
+                                              "summary =  18523 in 00:01:08 =  272.2/s Avg:    36 Min:     1 Max:   958 Err:  2139 (11.55%)",
+                                              "summary +  13442 in 00:00:30 =  448.1/s Avg:    47 Min:     1 Max:   744 Err:  1597 (11.88%) Active: 130 Started: 130 Finished: 0",
+                                              "summary =  31965 in 00:01:38 =  326.0/s Avg:    40 Min:     1 Max:   958 Err:  3736 (11.69%)",
+                                              "summary +  13256 in 00:00:30 =  441.9/s Avg:    52 Min:     1 Max:  1440 Err:  1610 (12.15%) Active: 130 Started: 130 Finished: 0",
+                                              "summary =  45221 in 00:02:08 =  353.2/s Avg:    44 Min:     1 Max:  1440 Err:  5346 (11.82%)",
+                                              "summary +  13167 in 00:00:30 =  438.7/s Avg:    54 Min:     2 Max:   663 Err:  1591 (12.08%) Active: 130 Started: 130 Finished: 0",
+                                              "summary =  58388 in 00:02:38 =  369.4/s Avg:    46 Min:     1 Max:  1440 Err:  6937 (11.88%)",
+                                              "summary +  13021 in 00:00:30 =  434.1/s Avg:    56 Min:     1 Max:  1396 Err:  1566 (12.03%) Active: 130 Started: 130 Finished: 0",
+                                              "summary =  71409 in 00:03:08 =  379.8/s Avg:    48 Min:     1 Max:  1440 Err:  8503 (11.91%)",
+                                              "summary +  11713 in 00:00:30 =  390.5/s Avg:    42 Min:     1 Max:   896 Err:  1645 (14.04%) Active: 88 Started: 130 Finished: 42",
+                                              "summary =  83122 in 00:03:38 =  381.2/s Avg:    47 Min:     1 Max:  1440 Err: 10148 (12.21%)",
+                                              "summary +   6756 in 00:00:30 =  225.1/s Avg:    24 Min:     1 Max:   956 Err:  1717 (25.41%) Active: 38 Started: 130 Finished: 92",
+                                              "summary =  89878 in 00:04:08 =  362.3/s Avg:    45 Min:     1 Max:  1440 Err: 11865 (13.20%)",
+                                              "summary +   2734 in 00:00:30 =   91.0/s Avg:    17 Min:     3 Max:   235 Err:  1771 (64.78%) Active: 30 Started: 130 Finished: 100",
+                                              "summary =  92612 in 00:04:38 =  333.0/s Avg:    45 Min:     1 Max:  1440 Err: 13636 (14.72%)",
+                                              "summary +   2668 in 00:00:30 =   89.1/s Avg:    16 Min:     2 Max:   315 Err:  1779 (66.68%) Active: 30 Started: 130 Finished: 100",
+                                              "summary =  95280 in 00:05:08 =  309.3/s Avg:    44 Min:     1 Max:  1440 Err: 15415 (16.18%)",
+                                              "summary +   2678 in 00:00:30 =   89.1/s Avg:    13 Min:     2 Max:   113 Err:  1784 (66.62%) Active: 30 Started: 130 Finished: 100",
+                                              "summary =  97958 in 00:05:38 =  289.7/s Avg:    43 Min:     1 Max:  1440 Err: 17199 (17.56%)",
+                                              "summary +   2683 in 00:00:30 =   89.6/s Avg:    12 Min:     2 Max:   100 Err:  1787 (66.60%) Active: 30 Started: 130 Finished: 100",
+                                              "summary = 100641 in 00:06:08 =  273.5/s Avg:    42 Min:     1 Max:  1440 Err: 18986 (18.87%)",
+                                              "summary +   2517 in 00:00:30 =   83.9/s Avg:    13 Min:     3 Max:   132 Err:  1684 (66.91%) Active: 21 Started: 130 Finished: 109",
+                                              "summary = 103158 in 00:06:38 =  259.2/s Avg:    41 Min:     1 Max:  1440 Err: 20670 (20.04%)",
+                                              "summary +   1273 in 00:00:30 =   42.4/s Avg:    13 Min:     3 Max:   256 Err:   861 (67.64%) Active: 6 Started: 130 Finished: 124",
+                                              "summary = 104431 in 00:07:08 =  244.0/s Avg:    41 Min:     1 Max:  1440 Err: 21531 (20.62%)",
+                                              "summary +     99 in 00:00:10 =   10.3/s Avg:    11 Min:     3 Max:    37 Err:    69 (69.70%) Active: 0 Started: 130 Finished: 130",
+                                              "summary = 104530 in 00:07:18 =  238.8/s Avg:    41 Min:     1 Max:  1440 Err: 21600 (20.66%)",
+                                              "Tidying up ...    @ February 22, 2026 5:32:39 PM CET (1771777959641)",
+                                              "... end of run",
+                                              "END Running Jmeter on Sun Feb 22 17:32:55 CET 2026",
+                                              {
+                                                  "Timestamp":  "20260222-231435-soak",
+                                                  "TestPlanPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter\\financial-api-soak-test.jmx",
+                                                  "JtlPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter-20260222-231435-soak.jtl",
+                                                  "HtmlReportPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-soak",
+                                                  "StatisticsPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-soak\\statistics.json",
+                                                  "Users":  100,
+                                                  "RampUp":  60,
+                                                  "Loops":  180,
+                                                  "Mode":  "mixed",
+                                                  "CoreUsers":  100,
+                                                  "ComplexUsers":  30,
+                                                  "CoreRampUp":  60,
+                                                  "ComplexRampUp":  60,
+                                                  "ComplexLoops":  180,
+                                                  "RequestedAccountId":  1,
+                                                  "RequestedPeriodId":  202601,
+                                                  "AccountId":  1,
+                                                  "PeriodId":  202601
+                                              }
+                                          ],
+                                 "spike":  [
+                                               "START Running Jmeter on Sun Feb 22 17:32:55 CET 2026",
+                                               "JVM_ARGS=-Xmn2546m -Xms10184m -Xmx10184m",
+                                               "jmeter args=-n -t /tests/financial-api-spike-test.jmx -l /results/jmeter-20260222-231435-spike.jtl -e -o /results/report-20260222-231435-spike -Jusers=500 -Jrampup=30 -Jloops=20 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=350 -JcomplexUsers=150 -JcoreRampUp=30 -JcomplexRampUp=30 -JcomplexLoops=20",
+                                               "jmeter ALL ARGS=-Dlog4j2.formatMsgNoLookups=true -n -t /tests/financial-api-spike-test.jmx -l /results/jmeter-20260222-231435-spike.jtl -e -o /results/report-20260222-231435-spike -Jusers=500 -Jrampup=30 -Jloops=20 -JbaseUrl=http://host.docker.internal:5296 -Jusername=admin -Jpassword=Admin@123 -JapiVersion=1.0 -JperiodId=202601 -JaccountId=1 -Jmode=mixed -JcoreUsers=350 -JcomplexUsers=150 -JcoreRampUp=30 -JcomplexRampUp=30 -JcomplexLoops=20",
+                                               "Creating summariser \u003csummary\u003e",
+                                               "Created the tree successfully using /tests/financial-api-spike-test.jmx",
+                                               "Starting standalone test @ February 22, 2026 5:33:01 PM CET (1771777981218)",
+                                               "Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445",
+                                               "summary +      1 in 00:00:01 =    1.3/s Avg:   136 Min:   136 Max:   136 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0",
+                                               "summary +   9694 in 00:00:28 =  349.4/s Avg:   314 Min:     1 Max:  4256 Err:  1420 (14.65%) Active: 470 Started: 470 Finished: 0",
+                                               "summary =   9695 in 00:00:29 =  339.9/s Avg:   314 Min:     1 Max:  4256 Err:  1420 (14.65%)",
+                                               "summary +  19687 in 00:00:30 =  655.6/s Avg:   325 Min:     5 Max:  3045 Err:  4070 (20.67%) Active: 420 Started: 500 Finished: 80",
+                                               "summary =  29382 in 00:00:59 =  501.8/s Avg:   322 Min:     1 Max:  4256 Err:  5490 (18.68%)",
+                                               "summary +  15810 in 00:00:30 =  520.6/s Avg:   257 Min:     2 Max:  2269 Err:  5582 (35.31%) Active: 95 Started: 500 Finished: 405",
+                                               "summary =  45192 in 00:01:29 =  508.2/s Avg:   299 Min:     1 Max:  4256 Err: 11072 (24.50%)",
+                                               "summary +   1308 in 00:00:08 =  168.3/s Avg:    38 Min:     3 Max:   373 Err:   928 (70.95%) Active: 0 Started: 500 Finished: 500",
+                                               "summary =  46500 in 00:01:37 =  480.9/s Avg:   292 Min:     1 Max:  4256 Err: 12000 (25.81%)",
+                                               "Tidying up ...    @ February 22, 2026 5:34:38 PM CET (1771778078227)",
+                                               "... end of run",
+                                               "END Running Jmeter on Sun Feb 22 17:34:51 CET 2026",
+                                               {
+                                                   "Timestamp":  "20260222-231435-spike",
+                                                   "TestPlanPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter\\financial-api-spike-test.jmx",
+                                                   "JtlPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\jmeter-20260222-231435-spike.jtl",
+                                                   "HtmlReportPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-spike",
+                                                   "StatisticsPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\report-20260222-231435-spike\\statistics.json",
+                                                   "Users":  500,
+                                                   "RampUp":  30,
+                                                   "Loops":  20,
+                                                   "Mode":  "mixed",
+                                                   "CoreUsers":  350,
+                                                   "ComplexUsers":  150,
+                                                   "CoreRampUp":  30,
+                                                   "ComplexRampUp":  30,
+                                                   "ComplexLoops":  20,
+                                                   "RequestedAccountId":  1,
+                                                   "RequestedPeriodId":  202601,
+                                                   "AccountId":  1,
+                                                   "PeriodId":  202601
+                                               }
+                                           ]
+                             },
+    "zapBaselineJsonPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\security\\zap-baseline-20260222-231435.json",
+    "zapApiJsonPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\security\\zap-api-20260222-231435.json",
+    "summaryPath":  "c:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\performance\\test-summary-20260222-231435.md"
+}

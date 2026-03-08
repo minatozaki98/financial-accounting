@@ -34,6 +34,21 @@ function Get-StatValueOrDefault {
     return [double]$Value
 }
 
+function ConvertFrom-JsonCompat {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Json,
+        [int]$Depth = 100
+    )
+
+    $convertCommand = Get-Command ConvertFrom-Json
+    if ($convertCommand.Parameters.ContainsKey('Depth')) {
+        return $Json | ConvertFrom-Json -Depth $Depth
+    }
+
+    return $Json | ConvertFrom-Json
+}
+
 function Get-ZapFailRuleIds {
     param([Parameter(Mandatory = $true)][string]$RulesPath)
 
@@ -63,7 +78,7 @@ function Get-ZapBusinessSummary {
         [string[]]$FailRuleIds
     )
 
-    $content = Get-Content -Path $JsonPath -Raw | ConvertFrom-Json -Depth 100
+    $content = ConvertFrom-JsonCompat -Json (Get-Content -Path $JsonPath -Raw) -Depth 100
     $high = 0
     $medium = 0
     $low = 0
@@ -132,7 +147,7 @@ function Get-ZapBusinessSummary {
 
 function Get-Statistics {
     param([Parameter(Mandatory = $true)][string]$Path)
-    Get-Content -Path $Path -Raw | ConvertFrom-Json -Depth 20
+    ConvertFrom-JsonCompat -Json (Get-Content -Path $Path -Raw) -Depth 20
 }
 
 function Get-P95 {
@@ -346,7 +361,7 @@ $zapBaselineScript = Join-Path $PSScriptRoot "run-zap-baseline.ps1"
 $zapApiScript = Join-Path $PSScriptRoot "run-zap-api.ps1"
 
 $zapBaselineResult = & $zapBaselineScript `
-    -TargetUrl "$BaseUrl/swagger" `
+    -TargetUrl "$BaseUrl/health/live" `
     -ReportDir $fullSecurityDir `
     -OutputPrefix "zap-baseline-$runId" `
     -IgnoreWarnings:$IgnoreZapWarnings
@@ -573,3 +588,4 @@ $result
 if ($hardFailures.Count -gt 0) {
     throw "Thesis suite failed hard gates. See summary: $summaryPath"
 }
+

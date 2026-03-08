@@ -125,9 +125,10 @@ namespace BAL.Services
                 throw new InvalidOperationException($"Email '{email}' already exists.");
             }
 
-            var role = await _context.FinancialRoles
+            var allRoles = await _context.FinancialRoles
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.RoleName.ToLower() == roleName.ToLower());
+                .ToListAsync();
+            var role = allRoles.FirstOrDefault(x => string.Equals(x.RoleName, roleName, StringComparison.OrdinalIgnoreCase));
             if (role == null)
             {
                 throw new InvalidOperationException($"Role '{roleName}' is invalid.");
@@ -230,3 +231,4 @@ namespace BAL.Services
         }
     }
 }
+

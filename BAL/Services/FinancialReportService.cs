@@ -314,7 +314,7 @@ namespace BAL.Services
             return debitTotal - creditTotal;
         }
 
-        private class AccountAggregate
+        private sealed class AccountAggregate
         {
             public int AccountId { get; set; }
             public string AccountCode { get; set; } = string.Empty;
@@ -325,3 +325,4 @@ namespace BAL.Services
         }
     }
 }
+

@@ -27,6 +27,15 @@ namespace API.Middleware
                     SetHeaderIfMissing(context, "Cross-Origin-Opener-Policy", _options.CrossOriginOpenerPolicy);
                     SetHeaderIfMissing(context, "Cross-Origin-Embedder-Policy", _options.CrossOriginEmbedderPolicy);
                     SetHeaderIfMissing(context, "Cross-Origin-Resource-Policy", _options.CrossOriginResourcePolicy);
+                    SetHeaderIfMissing(context, "Referrer-Policy", _options.ReferrerPolicy);
+                    SetHeaderIfMissing(context, "Cache-Control", _options.CacheControl);
+                    SetHeaderIfMissing(context, "Pragma", _options.Pragma);
+
+                    if (context.Request.IsHttps)
+                    {
+                        SetHeaderIfMissing(context, "Strict-Transport-Security", _options.StrictTransportSecurity);
+                    }
+
                     return Task.CompletedTask;
                 });
             }

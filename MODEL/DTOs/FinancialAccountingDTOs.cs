@@ -180,6 +180,29 @@ namespace MODEL.DTOs
         public List<T> Items { get; set; } = new List<T>();
     }
 
+    public class JournalEntryQueryRequestDto
+    {
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
+
+        [MaxLength(20)]
+        public string? Status { get; set; }
+
+        public int? AccountId { get; set; }
+
+        [MaxLength(200)]
+        public string? Search { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int Page { get; set; } = 1;
+
+        [Range(1, 200)]
+        public int PageSize { get; set; } = 20;
+
+        [MaxLength(30)]
+        public string? Sort { get; set; } = "entryDate_desc";
+    }
+
     public class CreateAccountingPeriodRequestDto
     {
         [Required]
@@ -283,3 +306,4 @@ namespace MODEL.DTOs
         public string? DetailsJson { get; set; }
     }
 }
+

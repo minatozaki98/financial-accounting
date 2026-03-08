@@ -25,6 +25,157 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Get-PropertyValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$Object,
+
+        [Parameter(Mandatory = $true)]
+        [string[]]$Names
+    )
+
+    foreach ($name in $Names) {
+        $property = $Object.PSObject.Properties[$name]
+        if ($null -ne $property) {
+            return $property.Value
+        }
+    }
+
+    return $null
+}
+
+function Resolve-JMeterContext {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BaseUrl,
+        [Parameter(Mandatory = $true)]
+        [string]$Username,
+        [Parameter(Mandatory = $true)]
+        [string]$Password,
+        [Parameter(Mandatory = $true)]
+        [string]$ApiVersion,
+        [Parameter(Mandatory = $true)]
+        [int]$RequestedPeriodId,
+        [Parameter(Mandatory = $true)]
+        [int]$RequestedAccountId
+    )
+
+    $normalizedBaseUrl = $BaseUrl.TrimEnd("/")
+    $commonHeaders = @{
+        "X-Api-Version" = $ApiVersion
+    }
+
+    $loginPayload = @{
+        username = $Username
+        password = $Password
+    } | ConvertTo-Json -Compress
+
+    try {
+        $loginResponse = Invoke-RestMethod -Method Post -Uri "$normalizedBaseUrl/auth/login" -Headers $commonHeaders -Body $loginPayload -ContentType "application/json"
+    }
+    catch {
+        throw "Unable to authenticate for JMeter preflight at '$normalizedBaseUrl/auth/login'. $_"
+    }
+
+    $token = if (-not [string]::IsNullOrWhiteSpace([string]$loginResponse.accessToken)) {
+        [string]$loginResponse.accessToken
+    }
+    else {
+        [string]$loginResponse.AccessToken
+    }
+
+    if ([string]::IsNullOrWhiteSpace($token)) {
+        throw "Login succeeded but no access token was returned for JMeter preflight."
+    }
+
+    $authHeaders = @{
+        "X-Api-Version" = $ApiVersion
+        "Authorization" = "Bearer $token"
+    }
+
+    try {
+        $periodsResponse = Invoke-RestMethod -Method Get -Uri "$normalizedBaseUrl/periods" -Headers $authHeaders
+    }
+    catch {
+        throw "Unable to fetch periods for JMeter preflight at '$normalizedBaseUrl/periods'. $_"
+    }
+
+    $periods = @($periodsResponse)
+    if ($periods.Count -eq 0) {
+        throw "No accounting periods are available. Seed data first using scripts/phase4/seed-test-data.ps1."
+    }
+
+    $resolvedPeriodId = $RequestedPeriodId
+    $periodMatch = $periods | Where-Object {
+        [int](Get-PropertyValue -Object $_ -Names @("periodId", "PeriodId")) -eq $RequestedPeriodId
+    } | Select-Object -First 1
+
+    if ($null -eq $periodMatch) {
+        $openPeriod = $periods | Where-Object {
+            -not [bool](Get-PropertyValue -Object $_ -Names @("isClosed", "IsClosed"))
+        } | Sort-Object {
+            [int](Get-PropertyValue -Object $_ -Names @("periodId", "PeriodId"))
+        } -Descending | Select-Object -First 1
+
+        $fallbackPeriod = if ($null -ne $openPeriod) {
+            $openPeriod
+        }
+        else {
+            $periods | Sort-Object {
+                [int](Get-PropertyValue -Object $_ -Names @("periodId", "PeriodId"))
+            } -Descending | Select-Object -First 1
+        }
+
+        $resolvedPeriodId = [int](Get-PropertyValue -Object $fallbackPeriod -Names @("periodId", "PeriodId"))
+        Write-Host "Requested periodId '$RequestedPeriodId' was not found. Using periodId '$resolvedPeriodId'."
+    }
+
+    try {
+        $accountsResponse = Invoke-RestMethod -Method Get -Uri "$normalizedBaseUrl/accounts?isActive=true" -Headers $authHeaders
+    }
+    catch {
+        throw "Unable to fetch active accounts for JMeter preflight at '$normalizedBaseUrl/accounts'. $_"
+    }
+
+    $accounts = @($accountsResponse)
+    if ($accounts.Count -eq 0) {
+        throw "No active accounts are available. Seed data first using scripts/phase4/seed-test-data.ps1."
+    }
+
+    $resolvedAccountId = $RequestedAccountId
+    $accountMatch = $accounts | Where-Object {
+        [int](Get-PropertyValue -Object $_ -Names @("accountId", "AccountId")) -eq $RequestedAccountId
+    } | Select-Object -First 1
+
+    if ($null -eq $accountMatch) {
+        $assetAccount = $accounts | Where-Object {
+            [string]::Equals(
+                [string](Get-PropertyValue -Object $_ -Names @("accountType", "AccountType")),
+                "Asset",
+                [System.StringComparison]::OrdinalIgnoreCase)
+        } | Sort-Object {
+            [int](Get-PropertyValue -Object $_ -Names @("accountId", "AccountId"))
+        } | Select-Object -First 1
+
+        $fallbackAccount = if ($null -ne $assetAccount) {
+            $assetAccount
+        }
+        else {
+            $accounts | Sort-Object {
+                [int](Get-PropertyValue -Object $_ -Names @("accountId", "AccountId"))
+            } | Select-Object -First 1
+        }
+
+        $resolvedAccountId = [int](Get-PropertyValue -Object $fallbackAccount -Names @("accountId", "AccountId"))
+        Write-Host "Requested accountId '$RequestedAccountId' was not found. Using accountId '$resolvedAccountId'."
+    }
+
+    return [pscustomobject]@{
+        PeriodId = $resolvedPeriodId
+        AccountId = $resolvedAccountId
+    }
+}
+
 $fullTestPlanPath = [System.IO.Path]::GetFullPath($TestPlanPath)
 if (-not (Test-Path $fullTestPlanPath)) {
     throw "Test plan not found: $fullTestPlanPath"
@@ -47,6 +198,17 @@ if ($CoreRampUp -lt 0) {
 if ($ComplexRampUp -lt 0) {
     $ComplexRampUp = $RampUp
 }
+
+$resolvedContext = Resolve-JMeterContext `
+    -BaseUrl $BaseUrl `
+    -Username $Username `
+    -Password $Password `
+    -ApiVersion $ApiVersion `
+    -RequestedPeriodId $PeriodId `
+    -RequestedAccountId $AccountId
+
+$resolvedPeriodId = [int]$resolvedContext.PeriodId
+$resolvedAccountId = [int]$resolvedContext.AccountId
 
 $timestamp = if ([string]::IsNullOrWhiteSpace($OutputTag)) { Get-Date -Format "yyyyMMdd-HHmmss" } else { $OutputTag }
 $jtlFile = "jmeter-$timestamp.jtl"
@@ -84,8 +246,8 @@ $args = @(
     "-Jusername=$Username",
     "-Jpassword=$Password",
     "-JapiVersion=$ApiVersion",
-    "-JperiodId=$PeriodId",
-    "-JaccountId=$AccountId",
+    "-JperiodId=$resolvedPeriodId",
+    "-JaccountId=$resolvedAccountId",
     "-Jmode=$Mode",
     "-JcoreUsers=$CoreUsers",
     "-JcomplexUsers=$ComplexUsers",
@@ -96,7 +258,8 @@ $args = @(
 
 Write-Host "Running JMeter test plan: $fullTestPlanPath"
 Write-Host "users=$Users rampUp=$RampUp loops=$Loops mode=$Mode"
-Write-Host "coreUsers=$CoreUsers complexUsers=$ComplexUsers accountId=$AccountId"
+Write-Host "coreUsers=$CoreUsers complexUsers=$ComplexUsers"
+Write-Host "periodId(requested/resolved)=$PeriodId/$resolvedPeriodId accountId(requested/resolved)=$AccountId/$resolvedAccountId"
 docker @args
 if ($LASTEXITCODE -ne 0) {
     throw "JMeter execution failed with exit code $LASTEXITCODE"
@@ -124,6 +287,8 @@ Write-Host "HTML report: $htmlReportPath"
     CoreRampUp = $CoreRampUp
     ComplexRampUp = $ComplexRampUp
     ComplexLoops = $ComplexLoops
-    AccountId = $AccountId
-    PeriodId = $PeriodId
+    RequestedAccountId = $AccountId
+    RequestedPeriodId = $PeriodId
+    AccountId = $resolvedAccountId
+    PeriodId = $resolvedPeriodId
 }

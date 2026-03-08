@@ -24,6 +24,10 @@ namespace MODEL.ApplicationConfig
         public string CrossOriginOpenerPolicy { get; set; } = "same-origin";
         public string CrossOriginEmbedderPolicy { get; set; } = "require-corp";
         public string CrossOriginResourcePolicy { get; set; } = "same-origin";
+        public string ReferrerPolicy { get; set; } = "no-referrer";
+        public string StrictTransportSecurity { get; set; } = "max-age=31536000; includeSubDomains";
+        public string CacheControl { get; set; } = "no-store, no-cache, max-age=0";
+        public string Pragma { get; set; } = "no-cache";
     }
 
     public class PerformanceGatesOptions

@@ -143,15 +143,16 @@ using (var scope = app.Services.CreateScope())
 }
 
 var enableSwagger = app.Environment.IsDevelopment() || appSettings.EnableSwaggerInProduction;
+
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
+
 if (enableSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors("AppCors");
@@ -174,18 +175,12 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
     Predicate = _ => true
 });
 
-if (enableSwagger)
-{
-    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
-}
-else
-{
-    app.MapGet("/", () => Results.Redirect("/health/live")).ExcludeFromDescription();
-}
+var rootRedirectPath = enableSwagger ? "/swagger" : "/health/live";
+app.MapGet("/", () => Results.Redirect(rootRedirectPath)).ExcludeFromDescription();
 
 app.MapFallback(() => Results.NotFound()).ExcludeFromDescription();
 app.MapControllers();
-app.Run();
+await app.RunAsync();
 
 public partial class Program
 {
