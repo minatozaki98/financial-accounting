@@ -346,3 +346,9 @@ Document/security/zap-baseline.json
 Document/security/zap-baseline.md
 Document/performance/jmeter-*.jtl
 Document/performance/report-*/
+Document/performance/test-results-*/
+
+# Local tooling and scratch work
+.claude/settings.json
+superpowers-main/
+.tmp/
