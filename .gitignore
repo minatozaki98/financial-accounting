@@ -354,3 +354,4 @@ Document/performance/test-results-*/
 superpowers-main/
 .tmp/
 scripts/phase4/seed-realistic-data.ps1
+.worktrees/
