@@ -350,5 +350,7 @@ Document/performance/test-results-*/
 
 # Local tooling and scratch work
 .claude/settings.json
+.claude/settings.local.json
 superpowers-main/
 .tmp/
+scripts/phase4/seed-realistic-data.ps1
