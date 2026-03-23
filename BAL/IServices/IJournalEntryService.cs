@@ -7,10 +7,9 @@ namespace BAL.IServices
         Task<JournalEntryResponseDto> CreateDraftAsync(CreateJournalEntryRequestDto request, Guid actorUserId, string? ipAddress);
         Task<List<long>> BulkCreateDraftAsync(BulkCreateJournalEntriesRequestDto request, Guid actorUserId, string? ipAddress);
         Task<JournalEntryResponseDto?> GetByIdAsync(long journalEntryId);
-        Task<PagedResultDto<JournalEntryResponseDto>> GetPagedAsync(JournalEntryQueryRequestDto query);
+        Task<PagedResultDto<JournalEntryResponseDto>> GetPagedAsync(JournalEntryQueryDto query);
         Task<bool> PostAsync(long journalEntryId, Guid actorUserId, string? ipAddress);
         Task<long> ReverseAsync(long journalEntryId, Guid actorUserId, string? ipAddress);
         Task<bool> DeleteDraftAsync(long journalEntryId, Guid actorUserId, string? ipAddress);
     }
 }
-

@@ -37,18 +37,15 @@
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2019-10-01",
       "name": "[parameters('resourceGroupName')]",
-      "location": "[parameters('resourceGroupLocation')]",
-      "apiVersion": "2019-10-01"
+      "location": "[parameters('resourceGroupLocation')]"
     },
     {
       "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
       "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
-      "apiVersion": "2019-10-01",
-      "dependsOn": [
-        "[parameters('resourceGroupName')]"
-      ],
       "properties": {
         "mode": "Incremental",
         "expressionEvaluationOptions": {
@@ -86,49 +83,49 @@
             }
           },
           "variables": {
-            "storage_name": "[toLower(concat('storage', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId))))]",
-            "appServicePlan_name": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
-            "storage_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Storage/storageAccounts/', variables('storage_name'))]",
-            "appServicePlan_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]",
-            "function_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/sites/', parameters('resourceName'))]"
+            "storageName": "[toLower(concat('storage', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId))))]",
+            "appServicePlanName": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+            "storageResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Storage/storageAccounts/', variables('storageName'))]",
+            "appServicePlanResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlanName'))]",
+            "functionResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/sites/', parameters('resourceName'))]"
           },
           "resources": [
             {
-              "location": "[parameters('resourceLocation')]",
-              "name": "[parameters('resourceName')]",
               "type": "Microsoft.Web/sites",
               "apiVersion": "2015-08-01",
-              "tags": {
-                "[concat('hidden-related:', variables('appServicePlan_ResourceId'))]": "empty"
+              "name": "[parameters('resourceName')]",
+              "location": "[parameters('resourceLocation')]",
+              "kind": "functionapp",
+              "identity": {
+                "type": "SystemAssigned"
               },
               "dependsOn": [
-                "[variables('appServicePlan_ResourceId')]",
-                "[variables('storage_ResourceId')]"
+                "[variables('appServicePlanResourceId')]",
+                "[variables('storageResourceId')]"
               ],
-              "kind": "functionapp",
+              "tags": {
+                "[concat('hidden-related:', variables('appServicePlanResourceId'))]": "empty"
+              },
               "properties": {
                 "name": "[parameters('resourceName')]",
                 "kind": "functionapp",
                 "httpsOnly": true,
                 "reserved": false,
-                "serverFarmId": "[variables('appServicePlan_ResourceId')]",
+                "serverFarmId": "[variables('appServicePlanResourceId')]",
                 "siteConfig": {
                   "alwaysOn": true
                 }
               },
-              "identity": {
-                "type": "SystemAssigned"
-              },
               "resources": [
                 {
-                  "name": "appsettings",
                   "type": "config",
                   "apiVersion": "2015-08-01",
+                  "name": "appsettings",
                   "dependsOn": [
-                    "[variables('function_ResourceId')]"
+                    "[variables('functionResourceId')]"
                   ],
                   "properties": {
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_name'), ';AccountKey=', listKeys(variables('storage_ResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
+                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageName'), ';AccountKey=', listKeys(variables('storageResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
                     "FUNCTIONS_EXTENSION_VERSION": "~3",
                     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
                   }
@@ -136,26 +133,26 @@
               ]
             },
             {
-              "location": "[parameters('resourceGroupLocation')]",
-              "name": "[variables('storage_name')]",
               "type": "Microsoft.Storage/storageAccounts",
               "apiVersion": "2017-10-01",
+              "name": "[variables('storageName')]",
+              "location": "[parameters('resourceGroupLocation')]",
+              "sku": {
+                "name": "Standard_LRS"
+              },
+              "kind": "Storage",
               "tags": {
                 "[concat('hidden-related:', concat('/providers/Microsoft.Web/sites/', parameters('resourceName')))]": "empty"
               },
               "properties": {
                 "supportsHttpsTrafficOnly": true
-              },
-              "sku": {
-                "name": "Standard_LRS"
-              },
-              "kind": "Storage"
+              }
             },
             {
-              "location": "[parameters('resourceGroupLocation')]",
-              "name": "[variables('appServicePlan_name')]",
               "type": "Microsoft.Web/serverFarms",
               "apiVersion": "2015-08-01",
+              "name": "[variables('appServicePlanName')]",
+              "location": "[parameters('resourceGroupLocation')]",
               "sku": {
                 "name": "S1",
                 "tier": "Standard",
@@ -163,7 +160,7 @@
                 "size": "S1"
               },
               "properties": {
-                "name": "[variables('appServicePlan_name')]"
+                "name": "[variables('appServicePlanName')]"
               }
             }
           ]

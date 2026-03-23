@@ -59,7 +59,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPaged([FromQuery] JournalEntryQueryRequestDto query)
+        public async Task<IActionResult> GetPaged([FromQuery] JournalEntryQueryDto query)
         {
             var result = await _journalEntryService.GetPagedAsync(query);
             return Ok(result);
@@ -124,4 +124,3 @@ namespace API.Controllers
         }
     }
 }
-

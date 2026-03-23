@@ -145,6 +145,18 @@ namespace MODEL.DTOs
         public List<CreateJournalEntryRequestDto> Entries { get; set; } = new List<CreateJournalEntryRequestDto>();
     }
 
+    public class JournalEntryQueryDto
+    {
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
+        public string? Status { get; set; }
+        public int? AccountId { get; set; }
+        public string? Search { get; set; }
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 20;
+        public string? Sort { get; set; } = "entryDate_desc";
+    }
+
     public class JournalEntryLineResponseDto
     {
         public long JournalEntryLineId { get; set; }

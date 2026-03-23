@@ -35,24 +35,24 @@
     }
   },
   "variables": {
-    "appServicePlan_name": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
-    "appServicePlan_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]"
+    "appServicePlanName": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+    "appServicePlanResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlanName'))]"
   },
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2019-10-01",
       "name": "[parameters('resourceGroupName')]",
-      "location": "[parameters('resourceGroupLocation')]",
-      "apiVersion": "2019-10-01"
+      "location": "[parameters('resourceGroupLocation')]"
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
-      "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
       "dependsOn": [
         "[parameters('resourceGroupName')]"
       ],
+      "resourceGroup": "[parameters('resourceGroupName')]",
       "properties": {
         "mode": "Incremental",
         "template": {
@@ -60,23 +60,26 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "location": "[parameters('resourceLocation')]",
-              "name": "[parameters('resourceName')]",
               "type": "Microsoft.Web/sites",
               "apiVersion": "2015-08-01",
-              "tags": {
-                "[concat('hidden-related:', variables('appServicePlan_ResourceId'))]": "empty"
+              "name": "[parameters('resourceName')]",
+              "location": "[parameters('resourceLocation')]",
+              "kind": "app",
+              "identity": {
+                "type": "SystemAssigned"
               },
               "dependsOn": [
-                "[variables('appServicePlan_ResourceId')]"
+                "[variables('appServicePlanResourceId')]"
               ],
-              "kind": "app",
+              "tags": {
+                "[concat('hidden-related:', variables('appServicePlanResourceId'))]": "empty"
+              },
               "properties": {
                 "name": "[parameters('resourceName')]",
                 "kind": "app",
                 "httpsOnly": true,
                 "reserved": false,
-                "serverFarmId": "[variables('appServicePlan_ResourceId')]",
+                "serverFarmId": "[variables('appServicePlanResourceId')]",
                 "siteConfig": {
                   "metadata": [
                     {
@@ -85,16 +88,13 @@
                     }
                   ]
                 }
-              },
-              "identity": {
-                "type": "SystemAssigned"
               }
             },
             {
-              "location": "[parameters('resourceLocation')]",
-              "name": "[variables('appServicePlan_name')]",
               "type": "Microsoft.Web/serverFarms",
               "apiVersion": "2015-08-01",
+              "name": "[variables('appServicePlanName')]",
+              "location": "[parameters('resourceLocation')]",
               "sku": {
                 "name": "S1",
                 "tier": "Standard",
@@ -102,7 +102,7 @@
                 "size": "S1"
               },
               "properties": {
-                "name": "[variables('appServicePlan_name')]"
+                "name": "[variables('appServicePlanName')]"
               }
             }
           ]

@@ -9,20 +9,21 @@ namespace MODEL
         {
         }
 
-        public virtual DbSet<Quotation> Quotation { get; set; } = null!;
-        public DbSet<Users> Users { get; set; } = null!;
-        public DbSet<Role> Role { get; set; } = null!;
-        public DbSet<FinancialRole> FinancialRoles { get; set; } = null!;
-        public DbSet<UserRole> UserRoles { get; set; } = null!;
-        public DbSet<ChartOfAccount> ChartOfAccounts { get; set; } = null!;
-        public DbSet<JournalEntry> JournalEntries { get; set; } = null!;
-        public DbSet<JournalEntryLine> JournalEntryLines { get; set; } = null!;
-        public DbSet<AccountingPeriod> AccountingPeriods { get; set; } = null!;
-        public DbSet<Currency> Currencies { get; set; } = null!;
-        public DbSet<FinancialReport> Reports { get; set; } = null!;
-        public DbSet<FinancialReportItem> ReportItems { get; set; } = null!;
-        public DbSet<LedgerBalance> LedgerBalances { get; set; } = null!;
-        public DbSet<AuditLog> AuditLogs { get; set; } = null!;
+        public virtual DbSet<Quotation> Quotation => Set<Quotation>();
+        public DbSet<Users> Users => Set<Users>();
+        public DbSet<Role> Role => Set<Role>();
+
+        public DbSet<FinancialRole> FinancialRoles => Set<FinancialRole>();
+        public DbSet<UserRole> UserRoles => Set<UserRole>();
+        public DbSet<ChartOfAccount> ChartOfAccounts => Set<ChartOfAccount>();
+        public DbSet<JournalEntry> JournalEntries => Set<JournalEntry>();
+        public DbSet<JournalEntryLine> JournalEntryLines => Set<JournalEntryLine>();
+        public DbSet<AccountingPeriod> AccountingPeriods => Set<AccountingPeriod>();
+        public DbSet<Currency> Currencies => Set<Currency>();
+        public DbSet<FinancialReport> Reports => Set<FinancialReport>();
+        public DbSet<FinancialReportItem> ReportItems => Set<FinancialReportItem>();
+        public DbSet<LedgerBalance> LedgerBalances => Set<LedgerBalance>();
+        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,12 +34,12 @@ namespace MODEL
 
             modelBuilder.Entity<Users>(entity =>
             {
-                entity.ToTable("Users", "dbo");
+                entity.ToTable("Users","dbo");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("Role", "dbo");
+                entity.ToTable("Role","dbo");
             });
 
             modelBuilder.Entity<FinancialRole>(entity =>

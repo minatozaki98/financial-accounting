@@ -11,7 +11,7 @@ namespace BAL.Services
         private const string DraftStatus = "Draft";
         private const string PostedStatus = "Posted";
         private const string ReversedStatus = "Reversed";
-        private const string JournalEntriesEntity = "JournalEntries";
+        private const string JournalEntriesEntityName = "JournalEntries";
 
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
@@ -53,7 +53,7 @@ namespace BAL.Services
             await _auditLogService.WriteAsync(
                 actorUserId,
                 "CREATE_DRAFT_ENTRY",
-                JournalEntriesEntity,
+                JournalEntriesEntityName,
                 entity.JournalEntryId.ToString(),
                 ipAddress,
                 new { entity.EntryDate, entity.ReferenceNo, Lines = entity.Lines.Count });
@@ -104,7 +104,7 @@ namespace BAL.Services
             await _auditLogService.WriteAsync(
                 actorUserId,
                 "BULK_CREATE_DRAFT_ENTRIES",
-                JournalEntriesEntity,
+                JournalEntriesEntityName,
                 entities.Count.ToString(),
                 ipAddress,
                 new { Count = entities.Count });
@@ -123,54 +123,51 @@ namespace BAL.Services
             return entity == null ? null : MapToDto(entity);
         }
 
-        public async Task<PagedResultDto<JournalEntryResponseDto>> GetPagedAsync(JournalEntryQueryRequestDto query)
+        public async Task<PagedResultDto<JournalEntryResponseDto>> GetPagedAsync(JournalEntryQueryDto query)
         {
-            ArgumentNullException.ThrowIfNull(query);
-
             var page = query.Page < 1 ? 1 : query.Page;
             var pageSize = query.PageSize < 1 ? 20 : Math.Min(query.PageSize, 200);
-            var status = string.IsNullOrWhiteSpace(query.Status) ? null : query.Status.Trim();
-            var search = string.IsNullOrWhiteSpace(query.Search) ? null : query.Search.Trim();
 
-            var entityQuery = _context.JournalEntries
+            var entriesQuery = _context.JournalEntries
                 .AsNoTracking()
                 .AsQueryable();
 
             if (query.From.HasValue)
             {
-                entityQuery = entityQuery.Where(x => x.EntryDate >= query.From.Value.Date);
+                entriesQuery = entriesQuery.Where(x => x.EntryDate >= query.From.Value.Date);
             }
 
             if (query.To.HasValue)
             {
-                entityQuery = entityQuery.Where(x => x.EntryDate <= query.To.Value.Date);
+                entriesQuery = entriesQuery.Where(x => x.EntryDate <= query.To.Value.Date);
             }
 
-            if (!string.IsNullOrWhiteSpace(status))
+            if (!string.IsNullOrWhiteSpace(query.Status))
             {
-                entityQuery = entityQuery.Where(x => x.Status == status);
+                entriesQuery = entriesQuery.Where(x => x.Status == query.Status);
             }
 
             if (query.AccountId.HasValue)
             {
-                entityQuery = entityQuery.Where(x => x.Lines.Any(l => l.AccountId == query.AccountId.Value));
+                entriesQuery = entriesQuery.Where(x => x.Lines.Any(l => l.AccountId == query.AccountId.Value));
             }
 
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(query.Search))
             {
-                entityQuery = entityQuery.Where(x =>
-                    (x.Description != null && x.Description.Contains(search)) ||
-                    (x.ReferenceNo != null && x.ReferenceNo.Contains(search)));
+                var keyword = query.Search.Trim();
+                entriesQuery = entriesQuery.Where(x =>
+                    (x.Description != null && x.Description.Contains(keyword)) ||
+                    (x.ReferenceNo != null && x.ReferenceNo.Contains(keyword)));
             }
 
             var orderedQuery = query.Sort?.ToLowerInvariant() switch
             {
-                "entrydate_asc" => entityQuery.OrderBy(x => x.EntryDate).ThenBy(x => x.JournalEntryId),
-                "entrydate_desc" => entityQuery.OrderByDescending(x => x.EntryDate).ThenByDescending(x => x.JournalEntryId),
-                _ => entityQuery.OrderByDescending(x => x.EntryDate).ThenByDescending(x => x.JournalEntryId)
+                "entrydate_asc" => entriesQuery.OrderBy(x => x.EntryDate).ThenBy(x => x.JournalEntryId),
+                "entrydate_desc" => entriesQuery.OrderByDescending(x => x.EntryDate).ThenByDescending(x => x.JournalEntryId),
+                _ => entriesQuery.OrderByDescending(x => x.EntryDate).ThenByDescending(x => x.JournalEntryId)
             };
 
-            var totalCount = await entityQuery.CountAsync();
+            var totalCount = await entriesQuery.CountAsync();
             var pageIds = await orderedQuery
                 .Select(x => x.JournalEntryId)
                 .Skip((page - 1) * pageSize)
@@ -235,7 +232,7 @@ namespace BAL.Services
             await _auditLogService.WriteAsync(
                 actorUserId,
                 "POST_ENTRY",
-                JournalEntriesEntity,
+                JournalEntriesEntityName,
                 journalEntryId.ToString(),
                 ipAddress,
                 new { debitTotal, creditTotal });
@@ -306,7 +303,7 @@ namespace BAL.Services
             await _auditLogService.WriteAsync(
                 actorUserId,
                 "REVERSE_ENTRY",
-                JournalEntriesEntity,
+                JournalEntriesEntityName,
                 journalEntryId.ToString(),
                 ipAddress,
                 new { reversingEntryId = reversal.JournalEntryId });
@@ -332,7 +329,7 @@ namespace BAL.Services
             await _auditLogService.WriteAsync(
                 actorUserId,
                 "DELETE_DRAFT_ENTRY",
-                JournalEntriesEntity,
+                JournalEntriesEntityName,
                 journalEntryId.ToString(),
                 ipAddress);
 
@@ -477,4 +474,3 @@ namespace BAL.Services
         }
     }
 }
-
