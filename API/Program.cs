@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using MODEL;
 using MODEL.ApplicationConfig;
 using System.Text;
@@ -102,7 +102,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Accounting API", Version = "v1" });
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    var bearerScheme = new OpenApiSecurityScheme
     {
         Description = "Enter JWT access token only.",
         Name = HeaderNames.Authorization,
@@ -110,19 +110,14 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT"
-    });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    };
+
+    options.AddSecurityDefinition("Bearer", bearerScheme);
+    options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
+            new OpenApiSecuritySchemeReference("Bearer", null, null),
+            new List<string>()
         }
     });
 });
@@ -142,15 +137,19 @@ using (var scope = app.Services.CreateScope())
     await roleSeeder.SeedAsync();
 }
 
-var enableSwagger = app.Environment.IsDevelopment() || appSettings.EnableSwaggerInProduction;
-
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
-if (enableSwagger)
+var enableSwaggerDocument = app.Environment.IsDevelopment() || appSettings.EnableSwaggerInProduction;
+var enableSwaggerUi = enableSwaggerDocument && appSettings.EnableSwaggerUi;
+if (enableSwaggerDocument)
 {
     app.UseSwagger();
+}
+
+if (enableSwaggerUi)
+{
     app.UseSwaggerUI();
 }
 
@@ -175,16 +174,23 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
     Predicate = _ => true
 });
 
-var rootRedirectPath = enableSwagger ? "/swagger" : "/health/live";
-app.MapGet("/", () => Results.Redirect(rootRedirectPath)).ExcludeFromDescription();
+if (enableSwaggerUi)
+{
+    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+}
+else if (enableSwaggerDocument)
+{
+    app.MapGet("/", () => Results.Redirect("/swagger/v1/swagger.json")).ExcludeFromDescription();
+}
+else
+{
+    app.MapGet("/", () => Results.Redirect("/health/live")).ExcludeFromDescription();
+}
 
 app.MapFallback(() => Results.NotFound()).ExcludeFromDescription();
 app.MapControllers();
-await app.RunAsync();
+app.Run();
 
 public partial class Program
 {
-    protected Program()
-    {
-    }
 }
