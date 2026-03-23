@@ -9,21 +9,21 @@ namespace MODEL
         {
         }
 
-        public virtual DbSet<Quotation> Quotation { get; set; }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public virtual DbSet<Quotation> Quotation => Set<Quotation>();
+        public DbSet<Users> Users => Set<Users>();
+        public DbSet<Role> Role => Set<Role>();
 
-        public DbSet<FinancialRole> FinancialRoles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
-        public DbSet<JournalEntry> JournalEntries { get; set; }
-        public DbSet<JournalEntryLine> JournalEntryLines { get; set; }
-        public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
-        public DbSet<FinancialReport> Reports { get; set; }
-        public DbSet<FinancialReportItem> ReportItems { get; set; }
-        public DbSet<LedgerBalance> LedgerBalances { get; set; }
-        public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<FinancialRole> FinancialRoles => Set<FinancialRole>();
+        public DbSet<UserRole> UserRoles => Set<UserRole>();
+        public DbSet<ChartOfAccount> ChartOfAccounts => Set<ChartOfAccount>();
+        public DbSet<JournalEntry> JournalEntries => Set<JournalEntry>();
+        public DbSet<JournalEntryLine> JournalEntryLines => Set<JournalEntryLine>();
+        public DbSet<AccountingPeriod> AccountingPeriods => Set<AccountingPeriod>();
+        public DbSet<Currency> Currencies => Set<Currency>();
+        public DbSet<FinancialReport> Reports => Set<FinancialReport>();
+        public DbSet<FinancialReportItem> ReportItems => Set<FinancialReportItem>();
+        public DbSet<LedgerBalance> LedgerBalances => Set<LedgerBalance>();
+        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,15 +35,6 @@ namespace MODEL
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.ToTable("Users","dbo");
-                //entity.Property(x => x.Username).HasMaxLength(100);
-                //entity.Property(x => x.Email).HasMaxLength(200);
-                //entity.Property(x => x.FullName).HasMaxLength(200);
-                //entity.Property(x => x.DisplayName).HasMaxLength(200);
-                //entity.Property(x => x.PhoneNumber).HasMaxLength(30);
-                //entity.Property(x => x.ProfileUrl).HasMaxLength(500);
-                //entity.Property(x => x.IsActive).HasDefaultValue(true);
-                //entity.HasIndex(x => x.Username).IsUnique();
-                //entity.HasIndex(x => x.Email).IsUnique();
             });
 
             modelBuilder.Entity<Role>(entity =>

@@ -10,6 +10,7 @@ namespace FinancialAccounting.IntegrationTests;
 public class RbacMatrixTests : IClassFixture<TestApiFactory>
 {
     private static readonly string[] Roles = { "Admin", "FinanceManager", "User", "Auditor", "Anonymous" };
+    private static readonly int[] AllowedPeriodCloseStatuses = { 204, 404 };
 
     private readonly HttpClient _client;
     private readonly TokenFixture _tokens;
@@ -20,15 +21,20 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
         _tokens = new TokenFixture(_client);
     }
 
-    public static IEnumerable<object[]> Cases()
+    public static TheoryData<string, string> Cases { get; } = CreateCases();
+
+    private static TheoryData<string, string> CreateCases()
     {
+        var data = new TheoryData<string, string>();
         foreach (var endpoint in ExpectedStatusMatrix.EndpointRoleStatus.Keys)
         {
             foreach (var role in Roles)
             {
-                yield return new object[] { endpoint, role };
+                data.Add(endpoint, role);
             }
         }
+
+        return data;
     }
 
     [Theory]
@@ -43,7 +49,7 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
         var actual = (int)response.StatusCode;
         if (endpointKey == "POST /periods/{id}/close" && (role == "Admin" || role == "FinanceManager"))
         {
-            new[] { 204, 404 }.Should().Contain(actual);
+            AllowedPeriodCloseStatuses.Should().Contain(actual);
             return;
         }
 
