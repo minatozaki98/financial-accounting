@@ -20,7 +20,7 @@ namespace API.Middleware
             {
                 context.Response.OnStarting(() =>
                 {
-                    SetHeaderIfMissing(context, "Content-Security-Policy", _options.ContentSecurityPolicy);
+                    SetHeaderIfMissing(context, "Content-Security-Policy", GetContentSecurityPolicy(context.Request.Path));
                     SetHeaderIfMissing(context, "X-Frame-Options", _options.XFrameOptions);
                     SetHeaderIfMissing(context, "X-Content-Type-Options", _options.XContentTypeOptions);
                     SetHeaderIfMissing(context, "Permissions-Policy", _options.PermissionsPolicy);
@@ -32,6 +32,28 @@ namespace API.Middleware
             }
 
             await _next(context);
+        }
+
+        private string GetContentSecurityPolicy(PathString requestPath)
+        {
+            return IsSwaggerUiRequest(requestPath)
+                ? _options.SwaggerContentSecurityPolicy
+                : _options.ContentSecurityPolicy;
+        }
+
+        private static bool IsSwaggerUiRequest(PathString requestPath)
+        {
+            if (!requestPath.StartsWithSegments("/swagger", out var remainingPath))
+            {
+                return false;
+            }
+
+            return remainingPath == PathString.Empty
+                || remainingPath == "/"
+                || remainingPath == "/index.html"
+                || remainingPath.Value?.EndsWith(".js", StringComparison.OrdinalIgnoreCase) == true
+                || remainingPath.Value?.EndsWith(".css", StringComparison.OrdinalIgnoreCase) == true
+                || remainingPath.Value?.EndsWith(".png", StringComparison.OrdinalIgnoreCase) == true;
         }
 
         private static void SetHeaderIfMissing(HttpContext context, string headerName, string headerValue)
