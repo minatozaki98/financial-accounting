@@ -15,11 +15,13 @@ namespace BAL.Services
 
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
+        private readonly IAccountLedgerCache _accountLedgerCache;
 
-        public JournalEntryService(DataContext context, IAuditLogService auditLogService)
+        public JournalEntryService(DataContext context, IAuditLogService auditLogService, IAccountLedgerCache accountLedgerCache)
         {
             _context = context;
             _auditLogService = auditLogService;
+            _accountLedgerCache = accountLedgerCache;
         }
 
         public async Task<JournalEntryResponseDto> CreateDraftAsync(CreateJournalEntryRequestDto request, Guid actorUserId, string? ipAddress)
@@ -227,6 +229,7 @@ namespace BAL.Services
             if (period != null)
             {
                 await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
+                _accountLedgerCache.Invalidate(entry.Lines.Select(x => x.AccountId), period.PeriodId);
             }
 
             await _auditLogService.WriteAsync(
@@ -298,6 +301,7 @@ namespace BAL.Services
             if (period != null)
             {
                 await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
+                _accountLedgerCache.Invalidate(original.Lines.Select(x => x.AccountId), period.PeriodId);
             }
 
             await _auditLogService.WriteAsync(

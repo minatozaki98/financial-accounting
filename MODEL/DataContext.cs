@@ -84,6 +84,7 @@ namespace MODEL
                 entity.HasIndex(x => x.EntryDate);
                 entity.HasIndex(x => x.ReferenceNo);
                 entity.HasIndex(x => x.Status);
+                entity.HasIndex(x => new { x.Status, x.EntryDate, x.JournalEntryId });
                 entity.HasOne(x => x.CreatedByUser)
                     .WithMany(x => x.CreatedJournalEntries)
                     .HasForeignKey(x => x.CreatedByUserId)
@@ -98,6 +99,7 @@ namespace MODEL
                 entity.Property(x => x.Credit).HasPrecision(18, 2);
                 entity.HasIndex(x => x.JournalEntryId);
                 entity.HasIndex(x => x.AccountId);
+                entity.HasIndex(x => new { x.AccountId, x.JournalEntryId, x.JournalEntryLineId });
                 entity.HasOne(x => x.JournalEntry)
                     .WithMany(x => x.Lines)
                     .HasForeignKey(x => x.JournalEntryId)
