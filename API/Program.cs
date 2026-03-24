@@ -210,8 +210,11 @@ else
 
 app.MapFallback(() => Results.NotFound()).ExcludeFromDescription();
 app.MapControllers();
-app.Run();
+await app.RunAsync();
 
 public partial class Program
 {
+    protected Program()
+    {
+    }
 }
