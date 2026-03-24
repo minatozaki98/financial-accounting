@@ -1,4 +1,5 @@
 using MODEL.DTOs;
+using BAL.Shared;
 
 namespace BAL.IServices
 {
@@ -8,5 +9,6 @@ namespace BAL.IServices
         Task<ProfitLossResponseDto> GetProfitLossAsync(int periodId, Guid actorUserId, string? ipAddress);
         Task<BalanceSheetResponseDto> GetBalanceSheetAsync(int periodId, Guid actorUserId, string? ipAddress);
         Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress);
+        Task<AccountLedgerPayload> GetAccountLedgerPayloadAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress);
     }
 }

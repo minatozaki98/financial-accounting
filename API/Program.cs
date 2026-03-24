@@ -4,11 +4,13 @@ using BAL.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using MODEL;
 using MODEL.ApplicationConfig;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -21,6 +23,21 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
 });
 
 builder.Services.AddControllers();
@@ -138,6 +155,9 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var indexStartup = scope.ServiceProvider.GetRequiredService<SqlServerPerformanceIndexStartup>();
+    await indexStartup.EnsureAsync();
+
     var roleSeeder = scope.ServiceProvider.GetRequiredService<FinancialRoleStartupSeeder>();
     await roleSeeder.SeedAsync();
 }
@@ -152,6 +172,7 @@ if (enableSwagger)
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<SecurityHeadersMiddleware>();
+app.UseResponseCompression();
 
 app.UseHttpsRedirection();
 app.UseCors("AppCors");

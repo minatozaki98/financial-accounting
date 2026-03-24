@@ -20,8 +20,10 @@ namespace BAL.Shared
             {
                 options.UseSqlServer(appSettings.ConnectionStrings);
             });
+            services.AddSingleton<IAccountLedgerCache, AccountLedgerCache>();
             services.AddScoped<FinancialTokenProvider>();
             services.AddScoped<FinancialRoleStartupSeeder>();
+            services.AddScoped<SqlServerPerformanceIndexStartup>();
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IFinancialAuthService, FinancialAuthService>();
             services.AddScoped<IChartOfAccountsService, ChartOfAccountsService>();

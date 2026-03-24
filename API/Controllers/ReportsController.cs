@@ -65,8 +65,8 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            var result = await _financialReportService.GetAccountLedgerAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
-            return Ok(result);
+            var result = await _financialReportService.GetAccountLedgerPayloadAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+            return File(result.JsonUtf8, "application/json");
         }
     }
 }
