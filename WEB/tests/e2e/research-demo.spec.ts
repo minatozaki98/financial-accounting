@@ -30,7 +30,7 @@ test.describe("live API research workflow", () => {
 
     await page.getByRole("link", { name: /Accounts/i }).click();
     await expect(page.getByRole("heading", { name: /Accounts/i })).toBeVisible();
-    await page.getByRole("button", { name: /View balance/i }).first().click();
+    await page.getByRole("button", { name: /View balance for 1000/i }).click();
     await expect(page.locator(".balance-panel .eyebrow", { hasText: "Ledger balance" })).toBeVisible();
     await expect(page.getByRole("columnheader", { name: /Debit total/i })).toBeVisible();
     await expect(page.getByRole("columnheader", { name: /Credit total/i })).toBeVisible();
@@ -49,9 +49,11 @@ test.describe("live API research workflow", () => {
 
     await page.getByRole("link", { name: /Journal Entries/i }).click();
     await expect(page.getByRole("heading", { name: /Journal Entries/i })).toBeVisible();
-    await expect(page.getByRole("columnheader", { name: /Lines/i })).toBeVisible();
-    await expect(page.getByRole("columnheader", { name: /Line debit/i }).first()).toBeVisible();
-    await expect(page.getByRole("columnheader", { name: /Line credit/i }).first()).toBeVisible();
+    await expect(page.getByText("Line debit")).toHaveCount(0);
+    const disclosure = page.getByRole("button", { name: /Show lines for/i }).first();
+    await disclosure.click();
+    await expect(page.getByText("Line debit").first()).toBeVisible();
+    await expect(page.getByRole("button", { name: /Hide lines for/i }).first()).toHaveAttribute("aria-expanded", "true");
 
     await page.getByRole("link", { name: /Audit Logs/i }).click();
     await expect(page.getByRole("heading", { name: /Audit Logs/i })).toBeVisible();

@@ -272,6 +272,7 @@ th {
 .empty-state p { margin: 0.35rem 0 0; }
 .table-actions { flex-wrap: wrap; gap: 0.4rem; }
 .table-actions button { min-height: 2rem; padding: 0.32rem 0.52rem; font-size: 0.8rem; }
+.status-badge { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 0.2rem 0.45rem; color: #40576a; background: var(--surface-subtle); font-size: 0.78rem; font-weight: 750; }
 
 .balance-panel {
   margin: 1rem 0;
@@ -281,11 +282,26 @@ th {
   background: var(--surface-subtle);
 }
 .balance-panel h3 { margin: 0.15rem 0 0; }
-.journal-lines { min-width: 25rem; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-.journal-lines table { min-width: 0; font-size: 0.82rem; }
-.journal-lines th, .journal-lines td { padding: 0.45rem 0.5rem; }
-.journal-lines td strong, .journal-lines td span { display: block; }
-.journal-lines td span { margin-top: 0.15rem; color: var(--ink-muted); }
+.table-link-button {
+  min-height: 2rem;
+  padding: 0.25rem 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--action);
+  background: transparent;
+  font-size: 0.82rem;
+  text-align: left;
+}
+.table-link-button:hover { color: var(--action-hover); background: transparent; text-decoration: underline; }
+.journal-detail-row:hover { background: transparent; }
+.journal-detail-row td { padding: 0; background: #f7fafc; }
+.journal-detail { padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--border); }
+.journal-detail-heading { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; color: var(--ink-muted); }
+.journal-detail-heading strong { color: var(--ink); }
+.journal-line-grid { display: grid; gap: 0.45rem; }
+.journal-line { display: grid; grid-template-columns: minmax(9rem, 1.2fr) minmax(10rem, 2fr) minmax(6rem, 1fr) minmax(6rem, 1fr); gap: 0.75rem; padding: 0.65rem 0; border-top: 1px solid #dfe7ed; }
+.journal-line span, .journal-line small { display: block; color: var(--ink-muted); font-size: 0.76rem; }
+.journal-line strong { display: block; margin-top: 0.15rem; font-size: 0.86rem; }
 
 .evidence-compact { padding: 1rem; }
 .checklist { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
@@ -320,6 +336,7 @@ th {
   .metric-grid { grid-template-columns: 1fr; }
   .toolbar > *, .inline-form > * { flex-basis: 100%; }
   .toolbar > button, .inline-form > button { flex: 1 1 auto; }
+  .journal-line { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .content-shell { padding: 0.85rem; }
 }
 

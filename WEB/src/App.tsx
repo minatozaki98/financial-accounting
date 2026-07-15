@@ -12,6 +12,7 @@ import { ApiError, type Account, type AccountingPeriod, type AuditLog, type Jour
 import { canAccessRoute, canMutate, getAllowedNavigation } from "./lib/permissions";
 import { useAuth } from "./state/AuthContext";
 import { DataTable, Metric, PageHeader, StatusMessages } from "./components/workspace";
+import { JournalEntryTable } from "./components/journal-entry-table";
 
 const demoUsers = [
   { label: "Use admin", username: "admin", password: "Admin@123", role: "Admin + FinanceManager" },
@@ -281,7 +282,7 @@ function AccountsPage() {
         </form>
       ) : <p className="muted">Read-only role for account maintenance.</p>}
       {selectedBalance ? (
-        <section className="balance-panel">
+        <section className="balance-panel" aria-label="Ledger balance details">
           <div className="section-heading">
             <div>
               <span className="eyebrow">Ledger balance</span>
@@ -318,7 +319,7 @@ function AccountsPage() {
           a.accountName,
           a.accountType,
           a.isActive ? "Yes" : "No",
-          <button onClick={() => viewBalance(a.accountId)}>View balance</button>,
+          <button aria-expanded={selectedBalance?.accountId === a.accountId} onClick={() => viewBalance(a.accountId)}>View balance for {a.accountCode}</button>,
         ])}
       />
     </section>
@@ -390,62 +391,17 @@ function JournalEntriesPage() {
           }, "Bulk entry created.")}>Bulk create</button>
         </div>
       ) : <p className="muted">Auditors cannot create journal entries.</p>}
-      <DataTable
-        caption="Journal entries"
-        headers={["ID", "Date", "Reference", "Status", "Debit", "Credit", "Lines", "Actions"]}
-        numericColumns={[0, 4, 5]}
-        rows={entries.map((entry) => [
-          String(entry.journalEntryId),
-          formatDate(entry.entryDate),
-          entry.referenceNo ?? "-",
-          entry.status,
-          formatMoney(entry.debitTotal),
-          formatMoney(entry.creditTotal),
-          <JournalEntryLines lines={entry.lines} />,
-          canMutate(roles, "journals") ? (
-            <div className="table-actions">
-              <button onClick={() => action.run(() => client.postJournalEntry(entry.journalEntryId).then(load), "Entry posted.")}>Post</button>
-              <button onClick={() => action.run(() => client.reverseJournalEntry(entry.journalEntryId).then(load), "Entry reversed.")}>Reverse</button>
-              {roles.includes("Admin") ? <button onClick={() => action.run(() => client.deleteJournalEntry(entry.journalEntryId).then(load), "Draft deleted.")}>Delete</button> : null}
-            </div>
-          ) : "Restricted",
-        ])}
+      <JournalEntryTable
+        entries={entries}
+        canMutate={canMutate(roles, "journals")}
+        canDelete={roles.includes("Admin")}
+        formatMoney={formatMoney}
+        formatDate={formatDate}
+        onPost={(journalEntryId) => { void action.run(() => client.postJournalEntry(journalEntryId).then(load), "Entry posted."); }}
+        onReverse={(journalEntryId) => { void action.run(() => client.reverseJournalEntry(journalEntryId).then(load), "Entry reversed."); }}
+        onDelete={(journalEntryId) => { void action.run(() => client.deleteJournalEntry(journalEntryId).then(load), "Draft deleted."); }}
       />
     </section>
-  );
-}
-
-function JournalEntryLines({ lines }: { lines: JournalEntry["lines"] }) {
-  if (lines.length === 0) {
-    return <span className="muted">No line details loaded.</span>;
-  }
-
-  return (
-    <div className="journal-lines">
-      <table>
-        <thead>
-          <tr>
-            <th>Account</th>
-            <th>Description</th>
-            <th>Line debit</th>
-            <th>Line credit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lines.map((line, index) => (
-            <tr key={`${line.accountId}-${index}`}>
-              <td>
-                <strong>{line.accountCode ?? line.accountId}</strong>
-                {line.accountName ? <span>{line.accountName}</span> : null}
-              </td>
-              <td>{line.lineDescription ?? "-"}</td>
-              <td>{formatMoney(line.debit)}</td>
-              <td>{formatMoney(line.credit)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   );
 }
 
