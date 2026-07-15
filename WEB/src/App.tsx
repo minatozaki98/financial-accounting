@@ -11,7 +11,7 @@ import {
 import { ApiError, type Account, type AccountingPeriod, type AuditLog, type JournalEntry } from "./lib/api";
 import { canAccessRoute, canMutate, getAllowedNavigation } from "./lib/permissions";
 import { useAuth } from "./state/AuthContext";
-import { DataTable, Metric, StatusMessages } from "./components/workspace";
+import { DataTable, Metric, PageHeader, StatusMessages } from "./components/workspace";
 
 const demoUsers = [
   { label: "Use admin", username: "admin", password: "Admin@123", role: "Admin + FinanceManager" },
@@ -152,7 +152,7 @@ function Layout() {
             <span>Research demo</span>
           </div>
         </div>
-        <nav>
+        <nav aria-label="Accounting workspace">
           {nav.map((item) => {
             const Icon = item.icon;
             return (
@@ -165,7 +165,7 @@ function Layout() {
         </nav>
       </aside>
       <div className="content-shell">
-        <header className="topbar">
+        <header className="topbar" aria-label="Current session">
           <div>
             <span className="eyebrow">Connected to {auth.apiBaseUrl}</span>
             <h1>{auth.currentUser?.username ?? "Financial Accounting"}</h1>
@@ -175,17 +175,19 @@ function Layout() {
             <button className="ghost-button" onClick={() => { auth.logout(); navigate("/"); }}><LogOut size={16} /> Logout</button>
           </div>
         </header>
-        <Routes>
-          <Route path="/dashboard" element={<ProtectedRoute path="/dashboard"><Dashboard /></ProtectedRoute>} />
-          <Route path="/accounts" element={<ProtectedRoute path="/accounts"><AccountsPage /></ProtectedRoute>} />
-          <Route path="/journal-entries" element={<ProtectedRoute path="/journal-entries"><JournalEntriesPage /></ProtectedRoute>} />
-          <Route path="/periods" element={<ProtectedRoute path="/periods"><PeriodsPage /></ProtectedRoute>} />
-          <Route path="/reports" element={<ProtectedRoute path="/reports"><ReportsPage /></ProtectedRoute>} />
-          <Route path="/audit-logs" element={<ProtectedRoute path="/audit-logs"><AuditLogsPage /></ProtectedRoute>} />
-          <Route path="/users" element={<ProtectedRoute path="/users"><UsersPage /></ProtectedRoute>} />
-          <Route path="/research-evidence" element={<ProtectedRoute path="/research-evidence"><ResearchEvidencePage /></ProtectedRoute>} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+        <main className="workspace-main">
+          <Routes>
+            <Route path="/dashboard" element={<ProtectedRoute path="/dashboard"><Dashboard /></ProtectedRoute>} />
+            <Route path="/accounts" element={<ProtectedRoute path="/accounts"><AccountsPage /></ProtectedRoute>} />
+            <Route path="/journal-entries" element={<ProtectedRoute path="/journal-entries"><JournalEntriesPage /></ProtectedRoute>} />
+            <Route path="/periods" element={<ProtectedRoute path="/periods"><PeriodsPage /></ProtectedRoute>} />
+            <Route path="/reports" element={<ProtectedRoute path="/reports"><ReportsPage /></ProtectedRoute>} />
+            <Route path="/audit-logs" element={<ProtectedRoute path="/audit-logs"><AuditLogsPage /></ProtectedRoute>} />
+            <Route path="/users" element={<ProtectedRoute path="/users"><UsersPage /></ProtectedRoute>} />
+            <Route path="/research-evidence" element={<ProtectedRoute path="/research-evidence"><ResearchEvidencePage /></ProtectedRoute>} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </main>
       </div>
     </div>
   );
@@ -215,20 +217,16 @@ function Dashboard() {
 
   return (
     <section>
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">Live API overview</span>
-          <h2>Dashboard</h2>
-        </div>
-        <button className="ghost-button" onClick={load}><RefreshCw size={16} /> Refresh</button>
-      </div>
+      <PageHeader title="Dashboard" context="Live API overview" action={<button className="ghost-button" onClick={load}><RefreshCw size={16} /> Refresh</button>} />
       <StatusMessages error={action.error} message={action.message} />
-      <div className="metric-grid">
-        <Metric label="Current user" value={currentUser?.email ?? "-"} />
-        <Metric label="Accounts loaded" value={String(accounts.length)} />
-        <Metric label="Periods loaded" value={String(periods.length)} />
-        <Metric label="Trial balance debit" value={trialBalance === null ? "Role restricted" : formatMoney(trialBalance)} />
-      </div>
+      <section aria-label="Live system overview">
+        <div className="metric-grid">
+          <Metric label="Current user" value={currentUser?.email ?? "-"} />
+          <Metric label="Accounts loaded" value={String(accounts.length)} />
+          <Metric label="Periods loaded" value={String(periods.length)} />
+          <Metric label="Trial balance debit" value={trialBalance === null ? "Role restricted" : formatMoney(trialBalance)} />
+        </div>
+      </section>
       <ResearchEvidencePage compact />
     </section>
   );
@@ -269,7 +267,7 @@ function AccountsPage() {
 
   return (
     <section className="page-card">
-      <div className="section-heading"><h2>Accounts</h2><button onClick={load}>Search</button></div>
+      <PageHeader title="Accounts" context="Search the chart of accounts and inspect current ledger balances." action={<button onClick={load}>Search</button>} />
       <input placeholder="Search accounts" value={search} onChange={(event) => setSearch(event.target.value)} />
       <StatusMessages error={action.error} message={action.message} />
       {canMutate(roles, "accounts") ? (
@@ -370,7 +368,7 @@ function JournalEntriesPage() {
 
   return (
     <section className="page-card">
-      <div className="section-heading"><h2>Journal Entries</h2><button onClick={load}>Refresh</button></div>
+      <PageHeader title="Journal Entries" context="Review balanced entries and their posting status." action={<button className="ghost-button" onClick={load}>Refresh</button>} />
       <StatusMessages error={action.error} message={action.message} />
       {canMutate(roles, "journals") ? (
         <div className="inline-form">
@@ -465,7 +463,7 @@ function PeriodsPage() {
 
   return (
     <section className="page-card">
-      <div className="section-heading"><h2>Accounting Periods</h2><button onClick={load}>Refresh</button></div>
+      <PageHeader title="Accounting Periods" context="Manage reporting windows and period close status." action={<button className="ghost-button" onClick={load}>Refresh</button>} />
       <StatusMessages error={action.error} message={action.message} />
       {roles.includes("Admin") ? (
         <form className="inline-form" onSubmit={(event) => {
@@ -567,8 +565,8 @@ function ReportsPage() {
 
   return (
     <section className="page-card">
-      <h2>Reports Workspace</h2>
-      <div className="inline-form">
+      <PageHeader title="Reports Workspace" context="Generate live financial statements from the selected period and account." />
+      <div className="toolbar">
         <label>Period <input type="number" value={periodId} onChange={(e) => setPeriodId(Number(e.target.value))} /></label>
         <label>Account <input type="number" value={accountId} onChange={(e) => setAccountId(Number(e.target.value))} /></label>
         <button onClick={() => runReport("trial")}>Trial balance</button>
@@ -604,7 +602,7 @@ function AuditLogsPage() {
 
   return (
     <section className="page-card">
-      <div className="section-heading"><h2>Audit Logs</h2><button onClick={load}>Refresh</button></div>
+      <PageHeader title="Audit Logs" context="Review recorded actions and their source context." action={<button className="ghost-button" onClick={load}>Refresh</button>} />
       <input placeholder="Filter by action" value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} />
       <StatusMessages error={action.error} message={action.message} />
       <DataTable caption="Audit logs" headers={["Time", "Action", "Entity", "Entity ID", "IP"]} rows={logs.map((log) => [formatDate(log.timestamp), log.action, log.entityName ?? "-", log.entityId ?? "-", log.ipAddress ?? "-"])} />
@@ -619,7 +617,7 @@ function UsersPage() {
 
   return (
     <section className="page-card">
-      <h2>User Administration</h2>
+      <PageHeader title="User Administration" context="Create local demo users to verify role-based access." />
       <p className="muted">Admin-only endpoint for creating demo users and proving RBAC behavior.</p>
       <form className="form-grid" onSubmit={(event) => {
         event.preventDefault();
@@ -653,13 +651,7 @@ function ResearchEvidencePage({ compact = false }: { compact?: boolean }) {
 
   return (
     <section className={compact ? "evidence-compact" : "page-card"}>
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">Final report evidence</span>
-          <h2>Research Evidence</h2>
-        </div>
-        <Sparkles size={22} />
-      </div>
+      <PageHeader title="Research Evidence" context="Final report evidence for the live API workflow." action={<Sparkles size={22} aria-hidden="true" />} />
       <DataTable caption="Research evidence" headers={["Area", "API coverage", "Evidence value"]} rows={evidence} />
       <div className="checklist">
         {["Login screenshot", "Dashboard screenshot", "Role-restricted navigation", "Reports workspace", "Audit logs", "Final report insertion"].map((item) => (

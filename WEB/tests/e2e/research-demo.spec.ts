@@ -22,6 +22,9 @@ test.describe("live API research workflow", () => {
   test("admin can sign in, run a report, and open audit logs", async ({ page }) => {
     await signInWithDemoUser(page, /Use admin/i);
 
+    await expect(page.getByRole("navigation", { name: "Accounting workspace" })).toBeVisible();
+    await expect(page.getByRole("banner", { name: "Current session" })).toContainText("admin");
+    await expect(page.getByRole("region", { name: "Live system overview" })).toBeVisible();
     await expect(page.getByRole("link", { name: /Journal Entries/i })).toBeVisible();
     await expect(page.getByRole("link", { name: /Users/i })).toBeVisible();
 
