@@ -37,8 +37,10 @@ test.describe("live API research workflow", () => {
 
     await page.getByRole("link", { name: /Reports/i }).click();
     await expect(page.getByRole("heading", { name: /Reports Workspace/i })).toBeVisible();
+    await expect(page.getByRole("group", { name: "Report parameters" })).toBeVisible();
     await page.getByRole("button", { name: /Trial balance/i }).click();
     await expect(page.getByText(/Total debit/i)).toBeVisible();
+    await expect(page.getByRole("table", { name: "Trial balance report" })).toBeVisible();
     await expect(page.getByRole("columnheader", { name: /Account code/i })).toBeVisible();
     await expect(page.getByRole("columnheader", { name: /Balance/i })).toBeVisible();
     await expect(page.locator(".json-preview")).toHaveCount(0);
@@ -68,5 +70,8 @@ test.describe("live API research workflow", () => {
     await expect(page.getByRole("link", { name: /Audit Logs/i })).toBeVisible();
     await expect(page.getByRole("link", { name: /Journal Entries/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /Users/i })).toHaveCount(0);
+
+    await page.getByRole("link", { name: /Accounts/i }).click();
+    await expect(page.getByText(/Read-only access/i)).toBeVisible();
   });
 });

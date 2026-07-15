@@ -3,6 +3,7 @@ import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from "reac
 import {
   CheckCircle2,
   Database,
+  LockKeyhole,
   LogOut,
   RefreshCw,
   Shield,
@@ -269,18 +270,18 @@ function AccountsPage() {
   return (
     <section className="page-card">
       <PageHeader title="Accounts" context="Search the chart of accounts and inspect current ledger balances." action={<button onClick={load}>Search</button>} />
-      <input placeholder="Search accounts" value={search} onChange={(event) => setSearch(event.target.value)} />
+      <label>Search accounts<input placeholder="Account code or name" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
       <StatusMessages error={action.error} message={action.message} />
       {canMutate(roles, "accounts") ? (
         <form onSubmit={create} className="inline-form">
-          <input placeholder="Code" value={form.accountCode} onChange={(e) => setForm({ ...form, accountCode: e.target.value })} />
-          <input placeholder="Name" value={form.accountName} onChange={(e) => setForm({ ...form, accountName: e.target.value })} />
-          <select value={form.accountType} onChange={(e) => setForm({ ...form, accountType: e.target.value })}>
+          <label>Account code<input value={form.accountCode} onChange={(e) => setForm({ ...form, accountCode: e.target.value })} /></label>
+          <label>Account name<input value={form.accountName} onChange={(e) => setForm({ ...form, accountName: e.target.value })} /></label>
+          <label>Account type<select value={form.accountType} onChange={(e) => setForm({ ...form, accountType: e.target.value })}>
             {["Asset", "Liability", "Equity", "Revenue", "Expense"].map((type) => <option key={type}>{type}</option>)}
-          </select>
+          </select></label>
           <button>Create</button>
         </form>
-      ) : <p className="muted">Read-only role for account maintenance.</p>}
+      ) : <p className="read-only-note"><LockKeyhole size={16} />Read-only access: account maintenance is restricted for this role.</p>}
       {selectedBalance ? (
         <section className="balance-panel" aria-label="Ledger balance details">
           <div className="section-heading">
@@ -373,7 +374,7 @@ function JournalEntriesPage() {
       <StatusMessages error={action.error} message={action.message} />
       {canMutate(roles, "journals") ? (
         <div className="inline-form">
-          <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+          <label>Entry amount<input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} /></label>
           <button onClick={createDraft}>Create balanced draft</button>
           <button onClick={() => action.run(async () => {
             const debit = accounts[0];
@@ -429,7 +430,7 @@ function PeriodsPage() {
             await load();
           }, "Period created.");
         }}>
-          <input type="number" value={periodId} onChange={(e) => setPeriodId(Number(e.target.value))} />
+          <label>Period ID<input type="number" value={periodId} onChange={(e) => setPeriodId(Number(e.target.value))} /></label>
           <button>Create period</button>
         </form>
       ) : null}
@@ -454,6 +455,7 @@ function ReportsPage() {
   const action = useAsyncAction();
   const [periodId, setPeriodId] = useState(202601);
   const [accountId, setAccountId] = useState(1);
+  const [reportTitle, setReportTitle] = useState("Financial report");
   const [summary, setSummary] = useState<Array<[string, string]>>([]);
   const [reportTable, setReportTable] = useState<{ headers: string[]; rows: Array<Array<React.ReactNode>> }>({ headers: [], rows: [] });
 
@@ -461,6 +463,7 @@ function ReportsPage() {
     await action.run(async () => {
       if (kind === "trial") {
         const report = await client.getTrialBalance(periodId);
+        setReportTitle("Trial balance report");
         setSummary([["Total debit", formatMoney(report.totalDebit)], ["Total credit", formatMoney(report.totalCredit)]]);
         setReportTable({
           headers: ["Account code", "Account name", "Type", "Debit", "Credit", "Balance"],
@@ -475,6 +478,7 @@ function ReportsPage() {
         });
       } else if (kind === "profit") {
         const report = await client.getProfitLoss(periodId);
+        setReportTitle("Profit and loss report");
         setSummary([["Revenue", formatMoney(report.totalRevenue)], ["Expense", formatMoney(report.totalExpense)], ["Net profit", formatMoney(report.netProfit)]]);
         setReportTable({
           headers: ["Account code", "Account name", "Type", "Debit", "Credit", "Balance"],
@@ -489,6 +493,7 @@ function ReportsPage() {
         });
       } else if (kind === "balance") {
         const report = await client.getBalanceSheet(periodId);
+        setReportTitle("Balance sheet report");
         setSummary([["Assets", formatMoney(report.totalAssets)], ["Liabilities", formatMoney(report.totalLiabilities)], ["Equity", formatMoney(report.totalEquity)]]);
         setReportTable({
           headers: ["Account code", "Account name", "Type", "Debit", "Credit", "Balance"],
@@ -503,6 +508,7 @@ function ReportsPage() {
         });
       } else {
         const report = await client.getAccountLedger(accountId, periodId);
+        setReportTitle("Account ledger report");
         setSummary([["Opening", formatMoney(report.openingBalance)], ["Closing", formatMoney(report.closingBalance)], ["Lines", String(report.lines.length)]]);
         setReportTable({
           headers: ["Date", "Journal ID", "Reference", "Debit", "Credit", "Running balance"],
@@ -522,7 +528,7 @@ function ReportsPage() {
   return (
     <section className="page-card">
       <PageHeader title="Reports Workspace" context="Generate live financial statements from the selected period and account." />
-      <div className="toolbar">
+      <div className="toolbar" role="group" aria-label="Report parameters">
         <label>Period <input type="number" value={periodId} onChange={(e) => setPeriodId(Number(e.target.value))} /></label>
         <label>Account <input type="number" value={accountId} onChange={(e) => setAccountId(Number(e.target.value))} /></label>
         <button onClick={() => runReport("trial")}>Trial balance</button>
@@ -533,7 +539,7 @@ function ReportsPage() {
       <StatusMessages error={action.error} message={action.message} />
       <div className="metric-grid">{summary.map(([label, value]) => <Metric key={label} label={label} value={value} />)}</div>
       {reportTable.headers.length > 0 ? (
-        <DataTable caption="Financial report" headers={reportTable.headers} rows={reportTable.rows} numericColumns={[3, 4, 5]} />
+        <DataTable caption={reportTitle} headers={reportTable.headers} rows={reportTable.rows} numericColumns={[3, 4, 5]} />
       ) : (
         <p className="muted">Select a report to load table rows.</p>
       )}
@@ -559,7 +565,7 @@ function AuditLogsPage() {
   return (
     <section className="page-card">
       <PageHeader title="Audit Logs" context="Review recorded actions and their source context." action={<button className="ghost-button" onClick={load}>Refresh</button>} />
-      <input placeholder="Filter by action" value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} />
+      <label>Filter by action<input placeholder="For example: JournalEntry.Posted" value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} /></label>
       <StatusMessages error={action.error} message={action.message} />
       <DataTable caption="Audit logs" headers={["Time", "Action", "Entity", "Entity ID", "IP"]} rows={logs.map((log) => [formatDate(log.timestamp), log.action, log.entityName ?? "-", log.entityId ?? "-", log.ipAddress ?? "-"])} />
     </section>
@@ -582,12 +588,12 @@ function UsersPage() {
           setForm({ username: "", email: "", password: "Admin@123", role: "User" });
         }, "User created.");
       }}>
-        <input placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
-        <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-        <input placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
-        <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+        <label>Username<input value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} /></label>
+        <label>Email<input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
+        <label>Password<input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} /></label>
+        <label>Role<select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
           {["Admin", "FinanceManager", "User", "Auditor"].map((role) => <option key={role}>{role}</option>)}
-        </select>
+        </select></label>
         <button>Create user</button>
       </form>
       <StatusMessages error={action.error} message={action.message} />
