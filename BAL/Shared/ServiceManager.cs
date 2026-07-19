@@ -20,6 +20,8 @@ namespace BAL.Shared
             {
                 options.UseSqlServer(appSettings.ConnectionStrings);
             });
+            services.AddMemoryCache();
+            services.AddSingleton<FinancialReadCache>();
             services.AddScoped<FinancialTokenProvider>();
             services.AddScoped<FinancialRoleStartupSeeder>();
             services.AddScoped<IAuditLogService, AuditLogService>();

@@ -1,4 +1,5 @@
 using BAL.IServices;
+using BAL.Shared;
 using Microsoft.EntityFrameworkCore;
 using MODEL;
 using MODEL.DTOs;
@@ -10,11 +11,13 @@ namespace BAL.Services
     {
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
+        private readonly FinancialReadCache _cache;
 
-        public JournalEntryService(DataContext context, IAuditLogService auditLogService)
+        public JournalEntryService(DataContext context, IAuditLogService auditLogService, FinancialReadCache cache)
         {
             _context = context;
             _auditLogService = auditLogService;
+            _cache = cache;
         }
 
         public async Task<JournalEntryResponseDto> CreateDraftAsync(CreateJournalEntryRequestDto request, Guid actorUserId, string? ipAddress)
@@ -239,6 +242,7 @@ namespace BAL.Services
                 journalEntryId.ToString(),
                 ipAddress,
                 new { debitTotal, creditTotal });
+            _cache.InvalidatePostedEntries();
 
             return true;
         }
@@ -310,6 +314,7 @@ namespace BAL.Services
                 journalEntryId.ToString(),
                 ipAddress,
                 new { reversingEntryId = reversal.JournalEntryId });
+            _cache.InvalidatePostedEntries();
 
             return reversal.JournalEntryId;
         }

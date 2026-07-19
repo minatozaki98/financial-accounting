@@ -1,4 +1,5 @@
 using BAL.IServices;
+using BAL.Shared;
 using Microsoft.EntityFrameworkCore;
 using MODEL;
 using MODEL.DTOs;
@@ -10,17 +11,19 @@ namespace BAL.Services
     {
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
+        private readonly FinancialReadCache _cache;
 
-        public FinancialReportService(DataContext context, IAuditLogService auditLogService)
+        public FinancialReportService(DataContext context, IAuditLogService auditLogService, FinancialReadCache cache)
         {
             _context = context;
             _auditLogService = auditLogService;
+            _cache = cache;
         }
 
         public async Task<TrialBalanceResponseDto> GetTrialBalanceAsync(int periodId, Guid actorUserId, string? ipAddress)
         {
             var period = await GetPeriodOrThrowAsync(periodId);
-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
+            var aggregates = await GetCachedPeriodAggregatesAsync(period);
             var items = aggregates.Select(MapToReportItem).ToList();
 
             await PersistReportAsync("TrialBalance", periodId, actorUserId, ipAddress, items);
@@ -39,7 +42,7 @@ namespace BAL.Services
         public async Task<ProfitLossResponseDto> GetProfitLossAsync(int periodId, Guid actorUserId, string? ipAddress)
         {
             var period = await GetPeriodOrThrowAsync(periodId);
-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
+            var aggregates = await GetCachedPeriodAggregatesAsync(period);
 
             var items = aggregates
                 .Where(x =>
@@ -72,7 +75,7 @@ namespace BAL.Services
         public async Task<BalanceSheetResponseDto> GetBalanceSheetAsync(int periodId, Guid actorUserId, string? ipAddress)
         {
             var period = await GetPeriodOrThrowAsync(periodId);
-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
+            var aggregates = await GetCachedPeriodAggregatesAsync(period);
 
             var items = aggregates
                 .Where(x =>
@@ -99,6 +102,110 @@ namespace BAL.Services
         public async Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress)
         {
             var period = await GetPeriodOrThrowAsync(periodId);
+            var ledger = await _cache.GetOrCreateLedgerAsync(
+                accountId,
+                periodId,
+                () => BuildAccountLedgerAsync(accountId, period));
+            var ledgerLines = ledger.Lines.Select(CloneLedgerLine).ToList();
+            var runningBalance = ledger.ClosingBalance;
+
+            await PersistReportAsync(
+                "Ledger",
+                periodId,
+                actorUserId,
+                ipAddress,
+                new List<ReportItemDto>
+                {
+                    new ReportItemDto
+                    {
+                        AccountId = ledger.AccountId,
+                        AccountCode = ledger.AccountCode,
+                        AccountName = ledger.AccountName,
+                        AccountType = ledger.AccountType,
+                        DebitTotal = ledgerLines.Sum(x => x.Debit),
+                        CreditTotal = ledgerLines.Sum(x => x.Credit),
+                        Balance = runningBalance
+                    }
+                });
+
+            return new AccountLedgerResponseDto
+            {
+                PeriodId = periodId,
+                AccountId = ledger.AccountId,
+                AccountCode = ledger.AccountCode,
+                AccountName = ledger.AccountName,
+                AccountType = ledger.AccountType,
+                StartDate = period.StartDate,
+                EndDate = period.EndDate,
+                OpeningBalance = ledger.OpeningBalance,
+                ClosingBalance = runningBalance,
+                Lines = ledgerLines
+            };
+        }
+
+        private async Task<AccountingPeriod> GetPeriodOrThrowAsync(int periodId)
+        {
+            var period = await _context.AccountingPeriods.AsNoTracking().FirstOrDefaultAsync(x => x.PeriodId == periodId);
+            if (period == null)
+            {
+                throw new InvalidOperationException($"Accounting period '{periodId}' was not found.");
+            }
+
+            return period;
+        }
+
+        private Task<List<AccountAggregate>> GetCachedPeriodAggregatesAsync(AccountingPeriod period)
+        {
+            return _cache.GetOrCreateReportAsync(
+                period.PeriodId,
+                "aggregates",
+                () => GetPeriodAggregatesAsync(period.StartDate, period.EndDate));
+        }
+
+        private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
+        {
+            var rows = await (
+                    from entry in _context.JournalEntries
+                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
+                    where entry.Status == "Posted" &&
+                          entry.EntryDate >= startDate &&
+                          entry.EntryDate <= endDate
+                    group new { line, account } by new
+                    {
+                        account.AccountId,
+                        account.AccountCode,
+                        account.AccountName,
+                        account.AccountType
+                    }
+                into grouped
+                    select new
+                    {
+                        AccountId = grouped.Key.AccountId,
+                        AccountCode = grouped.Key.AccountCode,
+                        AccountName = grouped.Key.AccountName,
+                        AccountType = grouped.Key.AccountType,
+                        DebitTotal = grouped.Sum(x => (double)x.line.Debit),
+                        CreditTotal = grouped.Sum(x => (double)x.line.Credit)
+                    })
+                .OrderBy(x => x.AccountCode)
+                .ToListAsync();
+
+            return rows
+                .Select(x => new AccountAggregate
+                {
+                    AccountId = x.AccountId,
+                    AccountCode = x.AccountCode,
+                    AccountName = x.AccountName,
+                    AccountType = x.AccountType,
+                    DebitTotal = decimal.Round(Convert.ToDecimal(x.DebitTotal), 2),
+                    CreditTotal = decimal.Round(Convert.ToDecimal(x.CreditTotal), 2)
+                })
+                .ToList();
+        }
+
+        private async Task<AccountLedgerResponseDto> BuildAccountLedgerAsync(int accountId, AccountingPeriod period)
+        {
             var account = await _context.ChartOfAccounts.AsNoTracking().FirstOrDefaultAsync(x => x.AccountId == accountId);
             if (account == null)
             {
@@ -163,28 +270,9 @@ namespace BAL.Services
                 });
             }
 
-            await PersistReportAsync(
-                "Ledger",
-                periodId,
-                actorUserId,
-                ipAddress,
-                new List<ReportItemDto>
-                {
-                    new ReportItemDto
-                    {
-                        AccountId = account.AccountId,
-                        AccountCode = account.AccountCode,
-                        AccountName = account.AccountName,
-                        AccountType = account.AccountType,
-                        DebitTotal = ledgerLines.Sum(x => x.Debit),
-                        CreditTotal = ledgerLines.Sum(x => x.Credit),
-                        Balance = runningBalance
-                    }
-                });
-
             return new AccountLedgerResponseDto
             {
-                PeriodId = periodId,
+                PeriodId = period.PeriodId,
                 AccountId = account.AccountId,
                 AccountCode = account.AccountCode,
                 AccountName = account.AccountName,
@@ -195,59 +283,6 @@ namespace BAL.Services
                 ClosingBalance = runningBalance,
                 Lines = ledgerLines
             };
-        }
-
-        private async Task<AccountingPeriod> GetPeriodOrThrowAsync(int periodId)
-        {
-            var period = await _context.AccountingPeriods.AsNoTracking().FirstOrDefaultAsync(x => x.PeriodId == periodId);
-            if (period == null)
-            {
-                throw new InvalidOperationException($"Accounting period '{periodId}' was not found.");
-            }
-
-            return period;
-        }
-
-        private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
-        {
-            var rows = await (
-                    from entry in _context.JournalEntries
-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
-                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
-                    where entry.Status == "Posted" &&
-                          entry.EntryDate >= startDate &&
-                          entry.EntryDate <= endDate
-                    group new { line, account } by new
-                    {
-                        account.AccountId,
-                        account.AccountCode,
-                        account.AccountName,
-                        account.AccountType
-                    }
-                into grouped
-                    select new
-                    {
-                        AccountId = grouped.Key.AccountId,
-                        AccountCode = grouped.Key.AccountCode,
-                        AccountName = grouped.Key.AccountName,
-                        AccountType = grouped.Key.AccountType,
-                        DebitTotal = grouped.Sum(x => (double)x.line.Debit),
-                        CreditTotal = grouped.Sum(x => (double)x.line.Credit)
-                    })
-                .OrderBy(x => x.AccountCode)
-                .ToListAsync();
-
-            return rows
-                .Select(x => new AccountAggregate
-                {
-                    AccountId = x.AccountId,
-                    AccountCode = x.AccountCode,
-                    AccountName = x.AccountName,
-                    AccountType = x.AccountType,
-                    DebitTotal = decimal.Round(Convert.ToDecimal(x.DebitTotal), 2),
-                    CreditTotal = decimal.Round(Convert.ToDecimal(x.CreditTotal), 2)
-                })
-                .ToList();
         }
 
         private async Task PersistReportAsync(
@@ -299,6 +334,21 @@ namespace BAL.Services
                 DebitTotal = aggregate.DebitTotal,
                 CreditTotal = aggregate.CreditTotal,
                 Balance = NormalizeBalance(aggregate.AccountType, aggregate.DebitTotal, aggregate.CreditTotal)
+            };
+        }
+
+        private static AccountLedgerLineDto CloneLedgerLine(AccountLedgerLineDto line)
+        {
+            return new AccountLedgerLineDto
+            {
+                EntryDate = line.EntryDate,
+                JournalEntryId = line.JournalEntryId,
+                ReferenceNo = line.ReferenceNo,
+                EntryDescription = line.EntryDescription,
+                LineDescription = line.LineDescription,
+                Debit = line.Debit,
+                Credit = line.Credit,
+                RunningBalance = line.RunningBalance
             };
         }
 

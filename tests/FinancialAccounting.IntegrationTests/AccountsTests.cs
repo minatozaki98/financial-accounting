@@ -65,6 +65,30 @@ public class AccountsTests : IClassFixture<TestApiFactory>
     }
 
     [Fact]
+    public async Task GetAccounts_AfterCreate_ReturnsNewAccountFromRefreshedCache()
+    {
+        _client.SetBearer(await _tokens.GetAdminTokenAsync());
+        var code = $"C{DateTime.UtcNow:HHmmssfff}";
+
+        var before = await _client.GetAsync("/accounts");
+        before.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var create = await _client.PostAsJsonAsync("/accounts", new
+        {
+            accountCode = code,
+            accountName = "Cached Account",
+            accountType = "Asset",
+            isActive = true
+        });
+        create.StatusCode.Should().Be(HttpStatusCode.Created);
+
+        var after = await _client.GetAsync("/accounts");
+        after.StatusCode.Should().Be(HttpStatusCode.OK);
+        var body = await after.Content.ReadFromJsonAsync<JsonElement>();
+        body.EnumerateArray().Should().Contain(x => x.GetProperty("accountCode").GetString() == code);
+    }
+
+    [Fact]
     public async Task CreateAccount_NonAdmin_Forbidden()
     {
         _client.SetBearer(await _tokens.GetFinanceManagerTokenAsync());

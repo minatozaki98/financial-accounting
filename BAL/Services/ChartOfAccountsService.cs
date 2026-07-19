@@ -1,4 +1,5 @@
 using BAL.IServices;
+using BAL.Shared;
 using Microsoft.EntityFrameworkCore;
 using MODEL;
 using MODEL.DTOs;
@@ -19,14 +20,26 @@ namespace BAL.Services
 
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
+        private readonly FinancialReadCache _cache;
 
-        public ChartOfAccountsService(DataContext context, IAuditLogService auditLogService)
+        public ChartOfAccountsService(DataContext context, IAuditLogService auditLogService, FinancialReadCache cache)
         {
             _context = context;
             _auditLogService = auditLogService;
+            _cache = cache;
         }
 
         public async Task<List<AccountResponseDto>> GetAccountsAsync(string? type, bool? isActive, string? search)
+        {
+            var cacheKey = $"{type?.Trim()}|{isActive?.ToString() ?? ""}|{search?.Trim()}";
+            var accounts = await _cache.GetOrCreateAccountsAsync(
+                cacheKey,
+                () => GetAccountsUncachedAsync(type, isActive, search));
+
+            return accounts.Select(CloneAccount).ToList();
+        }
+
+        private async Task<List<AccountResponseDto>> GetAccountsUncachedAsync(string? type, bool? isActive, string? search)
         {
             var query = _context.ChartOfAccounts.AsNoTracking().AsQueryable();
 
@@ -135,6 +148,7 @@ namespace BAL.Services
                 entity.AccountId.ToString(),
                 ipAddress,
                 new { entity.AccountCode, entity.AccountName, entity.AccountType });
+            _cache.InvalidateAccounts();
 
             return MapToDto(entity);
         }
@@ -161,11 +175,26 @@ namespace BAL.Services
                 accountId.ToString(),
                 ipAddress,
                 new { entity.AccountName, entity.AccountType, entity.IsActive });
+            _cache.InvalidateAccounts();
 
             return true;
         }
 
         private static AccountResponseDto MapToDto(ChartOfAccount account)
+        {
+            return new AccountResponseDto
+            {
+                AccountId = account.AccountId,
+                AccountCode = account.AccountCode,
+                AccountName = account.AccountName,
+                AccountType = account.AccountType,
+                IsActive = account.IsActive,
+                CreatedAt = account.CreatedAt,
+                UpdatedAt = account.UpdatedAt
+            };
+        }
+
+        private static AccountResponseDto CloneAccount(AccountResponseDto account)
         {
             return new AccountResponseDto
             {
