@@ -1,0 +1,248 @@
+%% IEEE Conference paper draft - 6 pages
+%% Compile on Overleaf with IEEEtran class, or locally:
+%%   pdflatex ieee-paper && pdflatex ieee-paper
+%% (BibTeX not used; references are hard-coded in IEEE numeric style.)
+
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{url}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Evaluating ChatGPT (Codex 5.4) for Security, Performance, and Code-Quality Improvement of a Financial Accounting REST API: A Branch-Isolated Baseline Study\\
+{\footnotesize \textsuperscript{}}
+\thanks{Preprint, March 2026. This work evaluates AI-assisted improvements on a research ASP.NET Core REST API; it is not affiliated with any production financial system.}}
+
+\author{\IEEEauthorblockN{Zaw Ye Htut Ko}
+\IEEEauthorblockA{\textit{Graduate Program in Information Technology} \\
+\textit{Assumption University}\\
+Bangkok, Thailand \\
+kozawyehtutko43@gmail.com}
+\and
+\IEEEauthorblockN{Advisor: Paitoon Porntrakoon}
+\IEEEauthorblockA{\textit{Graduate Program in Information Technology} \\
+\textit{Assumption University}\\
+Bangkok, Thailand}
+}
+
+\maketitle
+
+\begin{abstract}
+Large Language Models (LLMs) such as ChatGPT are increasingly used as \emph{code advisors} on existing codebases, but empirical evidence for their effectiveness beyond pure code generation remains thin. This paper reports a branch-isolated baseline study that evaluates ChatGPT (Codex 5.4) as an improvement advisor for a non-trivial ASP.NET Core RESTful API used in financial accounting, across three independent quality dimensions: static code quality, application security, and load performance. We apply a four-phase workflow---baseline analysis, LLM-guided improvements, post-improvement re-testing, and comparative analysis---and isolate each improvement class onto a dedicated Git branch to enable reproducible before/after comparison. SonarQube findings dropped from 28 to 0 (code smells 21 $\rightarrow$ 0, quality gate OK, coverage 74.3\%). OWASP ZAP baseline + authenticated API scans cleared all Medium and Low alerts on business endpoints. JMeter load profiles at 50, 100, and 500 virtual users improved p95 latency by 73.7--87.0\%, soak p95 by 94.2\%, and spike p95 by 79.1\%, all with 0\% error rate; only a mixed-workload drift heuristic remained red. The results provide empirical support for using LLMs as targeted code-review advisors when paired with automated measurement tools, and surface a concrete limitation on metrics that depend on workload composition rather than absolute latency.
+\end{abstract}
+
+\begin{IEEEkeywords}
+ChatGPT, Large Language Models, code review, API security, performance engineering, static analysis, OWASP ZAP, Apache JMeter, SonarQube, software quality
+\end{IEEEkeywords}
+
+\section{Introduction}
+Software teams routinely adopt AI coding assistants such as ChatGPT and GitHub Copilot for green-field code generation, and a growing body of empirical work evaluates the \emph{generation} quality of these tools~\cite{ref1,ref2,ref8,ref10}. Much less evidence exists on using the \emph{same} models in an advisory role on an existing, non-trivial codebase, where the task shifts from ``produce correct code'' to ``triage and remediate measured issues.'' For enterprise APIs---where bugs are caught by static analyzers, scanners, and load tests rather than by unit tests alone---this gap matters, because the LLM's value proposition is only partially captured by generation benchmarks.
+
+Prior studies have shown that LLM-generated code can introduce security weaknesses~\cite{ref11,ref12,ref13}, and systematic reviews place LLM use in software engineering as an emerging but heterogeneous practice~\cite{ref14}. Meanwhile, static analysis rules can themselves be noisy~\cite{ref15}, and API quality is multidimensional~\cite{ref5}. A coherent experimental framework that (i) fixes an existing API as the unit of analysis, (ii) measures security, performance, and code quality independently, and (iii) uses the LLM only as an \emph{advisor} feeding off tool reports, is still missing from the literature we surveyed.
+
+\textbf{Why this work matters.} Production REST APIs in regulated domains such as finance fail in three distinct ways: a static-analysis violation (a code smell that creeps in over time), a security alert (a missing security header, a vulnerable bundled dependency, an unprotected route), and a performance hotspot (a response that breaks an SLA under load). The three failures are caught by three different tools, demand three different remediation styles, and are usually owned by three different teams. If a general-purpose LLM can give correct, framework-aware advice across all three at once---using only the structured tool report and the relevant code excerpt---it materially shortens the audit-to-fix cycle that is the bottleneck of modern API quality work. Establishing whether and where this works requires the kind of branch-isolated empirical evidence that the present study provides, and the answer is directly actionable for practitioners deciding whether to embed LLMs in their CI/CD review loop.
+
+\textbf{Outcome summary.} On a 98-test ASP.NET Core 8.0 financial-accounting API, ChatGPT (Codex 5.4) acting purely as an advisor on tool output drove SonarQube findings from 28 to 0 (quality gate OK, coverage held at 74.3\%); cleared all High/Medium/Low ZAP alerts on business endpoints; and cut p95 latency by 73.7--94.2\% across five JMeter profiles with 0\% errors. One result also failed: the mixed-workload drift heuristic remained red, because it is a property of how the workload composition shifts over time, not of any single endpoint. The pattern that emerges---strong on per-finding fixes with a clear template, weak on metrics that depend on global workload structure---is the empirical core of this paper and a concrete guide to where the LLM should be trusted and where a human still has to intervene.
+
+\textbf{Contributions.} We present a branch-isolated methodology and empirical results for ChatGPT (Codex 5.4) as an improvement advisor for a research-grade financial accounting REST API built on ASP.NET Core. Specifically, we contribute: (1) a reproducible four-phase workflow that isolates each tool's fixes on a dedicated branch; (2) empirical before/after data across SonarQube code quality, OWASP ZAP security, and Apache JMeter performance; and (3) an honest account of where the LLM-guided fixes clear the gates and where they do not, namely a mixed-workload drift heuristic that survives even after large absolute-latency wins.
+
+\section{Related Work}
+\textbf{LLM code generation and productivity.} Fajkovic and Rundberg~\cite{ref1} and S\'agodi \textit{et al.}~\cite{ref2} compare ChatGPT and GitHub Copilot on code synthesis. Peng \textit{et al.}~\cite{ref10} provide a controlled study of Copilot's effect on developer throughput. \"Ozpolat \textit{et al.}~\cite{ref3} and Chen \textit{et al.}~\cite{ref4} explore ChatGPT-based tools in wider software processes. Yeti\c stiren \textit{et al.}~\cite{ref8} evaluate the code quality of AI-assisted generation tools empirically.
+
+\textbf{LLMs and security.} Pearce \textit{et al.}~\cite{ref11} audit Copilot contributions against CWE categories; Khoury \textit{et al.}~\cite{ref12} evaluate the security of ChatGPT-generated code; Sandoval \textit{et al.}~\cite{ref13} run a user study on LLM code assistants and participant-introduced vulnerabilities. Mousavi \textit{et al.}~\cite{ref6} show that LLMs frequently misuse Java Security APIs. Szab\'o and Bilicki~\cite{ref7} propose using GPT models for source-code security inspection. Flores and Monreal~\cite{ref9} catalog OWASP-aligned vulnerabilities in real-world web applications.
+
+\textbf{APIs, static analysis, and LLMs for SE.} Zhang \textit{et al.}~\cite{ref5} give a large-scale empirical study of Web API features and issues. Lenarduzzi \textit{et al.}~\cite{ref15} question whether SonarQube rules actually catch real bug-inducing changes. Hou \textit{et al.}~\cite{ref14} provide a systematic literature review of LLMs for software engineering, which positions our study within the broader taxonomy of ``LLM as reviewer / advisor.''
+
+Our work differs from prior studies along two axes: (i) the unit of analysis is a \emph{single existing API}, fixed under controlled branches, rather than a corpus of generated snippets; and (ii) three independent measurement tools (SonarQube, ZAP, JMeter) are combined in one before/after framework rather than evaluated in isolation.
+
+\section{Methodology}
+This section presents the methodology in three parts. Section~\ref{sec:sut} describes the system under test---the financial-accounting REST API whose code base is the unit of analysis. Section~\ref{sec:workflow} introduces the four-phase, branch-isolated workflow that captures baseline metrics, generates LLM-guided fixes, re-tests, and aggregates a comparative report. Section~\ref{sec:prompting} documents the prompting protocol that turns raw tool output into a reproducible LLM query, with every prompt and response archived alongside its branch. The intent of this design is that any third party can re-run any phase, on any branch, and reach the same numbers.
+
+\subsection{System Under Test}\label{sec:sut}
+The system under test is a research-grade ASP.NET Core 8.0 RESTful API for double-entry financial accounting. It exposes endpoints for authentication (JWT), chart of accounts, journal entries (including a \texttt{POST /journal-entries/bulk} with debit/credit line validation), accounting-period management, four financial reports (trial balance, profit-and-loss, balance sheet, account ledger), and audit logging. Authorization uses role-based access control with four roles (\textsc{Admin}, \textsc{FinanceManager}, \textsc{User}, \textsc{Auditor}). The solution is multi-tier (API, BAL/Services, MODEL/Entities, Tests) with 98 unit and integration tests backing the baseline.
+
+\subsection{Four-Phase Workflow}\label{sec:workflow}
+Fig.~\ref{fig:workflow} separates the four-phase workflow into readable phase panels. Each phase addresses one objective of the study, and each tool's fixes are isolated on a dedicated Git branch so that before/after deltas are attributable to a single dimension.
+
+\begin{figure*}[t]
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}cc@{}}
+\includegraphics[width=0.485\textwidth]{figures/workflow-phase1.png} &
+\includegraphics[width=0.485\textwidth]{figures/workflow-phase2.png} \\[0.45em]
+\includegraphics[width=0.485\textwidth]{figures/workflow-phase3.png} &
+\includegraphics[width=0.485\textwidth]{figures/workflow-phase4.png}
+\end{tabular}
+\caption{Separated four-phase research workflow with branch isolation per tool. Phase 1 captures baseline metrics; Phase 2 generates LLM-guided fixes; Phase 3 re-runs the same tool matrix on each fix branch; Phase 4 aggregates the comparative report.}
+\label{fig:workflow}
+\end{figure*}
+
+\textbf{Phase 1: Baseline.} On branch \texttt{baseline-v0.1} we run SonarQube (code quality), OWASP ZAP (baseline scan + authenticated API scan), and Apache JMeter (load profiles at 50, 100, and 500 virtual users, a 15-min soak, and a burst spike). These runs produce the reference metrics.
+
+\textbf{Phase 2: LLM-guided improvements.} We prompt ChatGPT (Codex 5.4) with the \emph{structured tool output} (SonarQube issue keys, ZAP alert metadata, JMeter hotspot endpoints with their p95/p99 latencies) together with the affected code. The model proposes targeted edits. Each class of fix is merged into a dedicated branch: \texttt{baseline-sonarqube-v1}, \texttt{baseline-zap-v1}, and \texttt{baseline-jmeter-v1}. The branches are independent; they never cross-contaminate fixes.
+
+\textbf{Phase 3: Post-improvement testing.} The same tool matrix is re-run against each fix branch, using identical configuration, identical endpoint coverage, and identical load profiles. This ensures apples-to-apples comparison.
+
+\textbf{Phase 4: Comparative analysis.} Baseline and post-fix outputs are aggregated into a comparison report that classifies every metric as PASS, Improved, or FAIL against pre-registered thresholds.
+
+\subsection{Prompting Protocol}\label{sec:prompting}
+To reduce drift from non-deterministic LLM output, all prompts follow a three-part template: (a) \emph{context} = the tool-reported issue block in its native format; (b) \emph{code excerpt} = the smallest compilable unit that contains the finding; (c) \emph{instruction} = ``propose a minimal patch that keeps existing tests green and does not introduce new dependencies.'' Every prompt and response is archived alongside the branch for traceability, consistent with the reproducibility guidance surfaced in recent LLM-for-SE reviews~\cite{ref14}.
+
+\section{Experiments and Results}
+We instrument the system under test with three independent measurement tools---SonarQube for static code quality, OWASP ZAP for application security, and Apache JMeter for load performance---and run each tool both on the baseline branch (\texttt{baseline-v0.1}) and on its dedicated fix branch (\texttt{baseline-sonarqube-v1}, \texttt{baseline-zap-v1}, \texttt{baseline-jmeter-v1}). Sections~\ref{sec:sonar}--\ref{sec:jmeter} take each tool in turn and present, for that tool: (i) what the tool is and what it measures, (ii) why this study targets that quality dimension, (iii) the experimental configuration, (iv) the result table, (v) how to read the table, and (vi) a discussion of where the LLM helped and where it did not. Section~\ref{sec:hotspots} zooms in on the endpoint-level performance hotspots that dominated baseline failures.
+
+\subsection{Code Quality with SonarQube}\label{sec:sonar}
+\textbf{What is SonarQube?} SonarQube is an open-source static-analysis platform that scans source code for \emph{bugs} (probable defects), \emph{vulnerabilities} (known security weaknesses), \emph{code smells} (maintainability issues), \emph{security hotspots} (suspicious patterns flagged for manual review), test coverage, and code duplication. Findings are emitted with rule IDs (e.g., \textsc{S125}, \textsc{S6966}), severities, and human-readable remediation guidance.
+
+\textbf{Why this dimension?} Code bases of any age accumulate code smells faster than they accumulate bugs. If an LLM can address rule-by-rule findings without regressions on the test suite, it removes one of the chief reasons that quality dashboards stay red and refactoring backlogs grow without bound.
+
+\textbf{Experiment.} SonarQube Community Edition 10.x runs against \texttt{baseline-v0.1} and \texttt{baseline-sonarqube-v1} with the default C\# quality profile. Coverage is supplied by \texttt{coverlet} from the xUnit run (98 tests). The same scanner configuration is used on both branches; only the source under analysis differs.
+
+\begin{table}[t]
+\caption{SonarQube code quality, before vs.\ after.}
+\label{tab:sonar}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Metric & Before & After & $\Delta$ \\
+\midrule
+Baseline C\# findings & 28 & 0 & $-$28 \\
+Bugs & 0 & 0 & 0 \\
+Vulnerabilities & 0 & 0 & 0 \\
+Code Smells & 21 & 0 & $-$21 \\
+Security Hotspots & 0 & 0 & 0 \\
+Coverage (\%) & 74.3 & 74.3 & 0.0 \\
+Duplicated lines (\%) & 0.0 & 0.0 & 0.0 \\
+Quality Gate & n/a\footnotemark[1] & OK & pass \\
+\bottomrule
+\end{tabular}
+\footnotetext[1]{The retained baseline event payload did not preserve a quality-gate flag; the regenerated measure history shows a clean after-state.}
+\end{table}
+
+\textbf{Reading the table.} \emph{Baseline C\# findings} is the total raw issue count emitted by the scanner before any de-duplication. \emph{Bugs}, \emph{Vulnerabilities}, \emph{Code Smells}, and \emph{Security Hotspots} are SonarQube's four issue categories. \emph{Coverage (\%)} is the proportion of executable lines exercised by the test suite. \emph{Duplicated lines (\%)} is the fraction of source duplicated against another file according to SonarQube's clone detector. \emph{Quality Gate} is the pass/fail decision SonarQube emits against the project's gate criteria.
+
+\textbf{Findings.} The baseline carried 28 C\# issues. After the LLM-guided fixes on \texttt{baseline-sonarqube-v1}, the regenerated issue file contained zero findings, the quality gate reached \textsc{OK}, line coverage held at 74.3\%, and duplicated-lines density reached 0.0\%. Fixes were predominantly mechanical and aligned with rule intent: removing dead commented code (\textsc{S125}), converting an entrypoint to \texttt{await app.RunAsync()} (\textsc{S6966}), collapsing a many-parameter paging signature into a query DTO (\textsc{S107}), extracting repeated string literals (\textsc{S1192}), and sealing a private nested type (\textsc{S3260}). A subset of fixes---Azure Resource Manager template ordering (\textsc{S6975}) and camelCase (\textsc{S117}) in ARM contexts---required the model to respect provider-specific conventions and were accepted only after manual review; the LLM needed two or three rounds before it produced text the linter accepted, consistent with prior security-oriented findings that models can misuse framework conventions when the ``obvious'' template is subtly wrong in the target framework~\cite{ref6,ref11,ref12}.
+
+\subsection{Security with OWASP ZAP}\label{sec:zap}
+\textbf{What is OWASP ZAP?} OWASP Zed Attack Proxy (ZAP) is a free, open-source dynamic application security testing (DAST) tool. It performs a \emph{passive} baseline scan that observes responses to crawled requests for missing security headers, cookie problems, and known-vulnerable bundled JavaScript libraries; and an \emph{active} API scan that, given an OpenAPI definition and a valid authentication token, exercises every endpoint and probes for OWASP Top-10--style flaws. Findings are emitted by \emph{risk level}: High, Medium, Low, Informational.
+
+\textbf{Why this dimension?} APIs in financial domains are routinely targeted: they handle money, identity, and audit-grade records. A vulnerability that survives into production can cost more than the entire engineering budget to remediate. DAST tools such as ZAP catch real-world exposures (missing CSP, weak CORS, vulnerable dependencies) that static analysis cannot see, and they do so on the running service rather than on the source tree.
+
+\textbf{Experiment.} OWASP ZAP 2.14 with two profiles run against both branches: (i) a \emph{baseline} passive scan over the public surface (\texttt{/}, \texttt{/swagger}, \texttt{/swagger/index.html}, \texttt{/swagger/v1/swagger.json}); (ii) an \emph{authenticated API scan} driven by the OpenAPI definition against every business endpoint with a valid JWT. Identical configuration, identical endpoint list.
+
+\begin{table}[t]
+\caption{OWASP ZAP alerts, before vs.\ after.}
+\label{tab:zap}
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+ & \multicolumn{2}{c}{Baseline scan} & \multicolumn{2}{c}{API scan} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Severity & Before & After & Before & After \\
+\midrule
+High          & 0 & 0 & 0 & 0 \\
+Medium        & 2 & 0 & 0 & 0 \\
+Low           & 6 & 0 & 3 & 0 \\
+Informational & 3 & 4 & 5 & 5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Reading the table.} Each cell is the count of distinct alerts at the given severity. \emph{High} alerts are findings ZAP considers exploitable with high confidence (e.g., SQL injection, exposed credentials). \emph{Medium} indicates real but lower-impact issues such as missing security headers on user-facing pages. \emph{Low} flags hardening recommendations. \emph{Informational} alerts are observations rather than vulnerabilities (e.g., authentication-request fingerprinting, non-storable/cacheable content noted by the scanner). The pre-registered gate is that no High, Medium, or Low alert remains on a business endpoint after fixes; informational alerts are reported but not gated.
+
+\textbf{Findings.} Both scans cleared all gated severities on business endpoints. Five alert classes were closed: (i) Content Security Policy header missing on Swagger routes, fixed by moving \texttt{SecurityHeadersMiddleware} ahead of the Swagger middleware; (ii) missing \texttt{X-Content-Type-Options} on the OpenAPI document; (iii) missing cross-origin headers (\texttt{COEP}, \texttt{COOP}, \texttt{CORP}, \texttt{Permissions-Policy}) on Swagger routes; (iv) a vulnerable DOMPurify bundled in Swashbuckle, cleared by upgrading \texttt{Swashbuckle.AspNetCore} from 6.7.3 to 10.1.5; and (v) an unexpected \texttt{Content-Type} on the Swagger index, resolved by disabling the UI by default and redirecting to the OpenAPI document. Each fix matches a well-known remediation template, and the LLM's role was to point the developer at the right template once the ZAP alert had localized the problem---consistent with prior reports that LLMs propose valid security-header remediations when the vulnerability class is well-documented~\cite{ref7,ref11}.
+
+\subsection{Performance with Apache JMeter}\label{sec:jmeter}
+\textbf{What is Apache JMeter?} Apache JMeter is a load-testing tool that simulates concurrent virtual users (VUs) issuing HTTP requests according to a configurable plan. For each request it records latency (response time), throughput (transactions per second), and error rate (HTTP 4xx/5xx responses). Test plans can hold load constant, sustain it for a soak window, or burst it for a spike, and JMeter aggregates the resulting \texttt{.jtl} event log into per-endpoint percentiles.
+
+\textbf{Why this dimension?} Static analysis and security scanning cannot tell you whether the API will keep responding under realistic load. p95 latency and error rate under load are the primary user-facing quality signals that determine whether an SLA is met, and they degrade in ways that none of the other tools can detect.
+
+\textbf{Experiment.} Apache JMeter 5.6 with five profiles run against both branches: \emph{p50}, \emph{p100}, \emph{p500} (constant load at 50, 100, and 500 VUs respectively), \emph{soak} (15-minute mixed workload), and \emph{spike} (burst to peak then release). Each profile emits an end-to-end \texttt{.jtl} file from which we compute p95, p99, throughput, and error rate per endpoint. Benchmark gates are pre-registered.
+
+\begin{table}[t]
+\caption{JMeter results by profile (p95 in ms; error rate in \%).}
+\label{tab:jmeter}
+\centering
+\begin{tabular}{lrrrrr}
+\toprule
+Profile & p95 Before & p95 After & $\Delta$ (\%) & Err After & Gate \\
+\midrule
+p50    &    49.45 &   13.00 & $-$73.7 & 0.00 & PASS \\
+p100   &   261.95 &   34.00 & $-$87.0 & 0.00 & PASS \\
+p500   &   176.00 &   28.00 & $-$84.1 & 0.00 & PASS \\
+Soak   &   970.95 &   56.00 & $-$94.2 & 0.00 & Improved\footnotemark[2] \\
+Spike  &  6795.00 & 1420.00 & $-$79.1 & 0.00 & Improved\footnotemark[2] \\
+\bottomrule
+\end{tabular}
+\footnotetext[2]{Absolute latency passes; the mixed-workload drift heuristic remains FAIL; see \emph{Findings}.}
+\end{table}
+
+\textbf{Reading the table.} \emph{p95 Before/After} is the 95th-percentile response time across all requests in the profile, in milliseconds---i.e., the latency that 95\% of requests come in under. \emph{$\Delta$ (\%)} is the relative improvement; a negative number is a latency reduction. \emph{Err After} is the error rate (any HTTP 4xx or 5xx response) after the fixes. \emph{Gate} is the binary outcome against the pre-registered threshold: \emph{PASS} means the absolute p95 and error-rate gates were both met; \emph{Improved} indicates a large absolute improvement but at least one secondary heuristic still red.
+
+\textbf{Findings.} Latency drops 73.7--87.0\% on the constant-load profiles with 0\% errors. Soak p95 drops by 94.2\% (970.95\,ms $\rightarrow$ 56.00\,ms) and spike p95 by 79.1\% (6795.00\,ms $\rightarrow$ 1420.00\,ms). The remaining red is the mixed-workload \emph{drift} heuristic: even after per-endpoint latency improves dramatically, the last window of the mixed run is \emph{compositionally heavier} than the first, which keeps drift above the 20\% threshold. This is not a per-endpoint problem---it is a property of how the workload composition shifts over time. The model repeatedly suggested local optimizations (more caching, additional indexes) that did not address the global composition issue. The pattern is now clear: where the diagnostic localizes a fix template (a slow report endpoint, a redundant snapshot write), the LLM is highly effective; where the metric is structural, no per-endpoint patch can move it without redefining the metric or restructuring the workload.
+
+\subsection{Endpoint-Level Hotspots}\label{sec:hotspots}
+Table~\ref{tab:hotspots} zooms in on the endpoints that dominated baseline failures.
+
+\begin{table}[t]
+\caption{Endpoint-level spike-profile p95 hotspots.}
+\label{tab:hotspots}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Endpoint & Before (ms) & After (ms) & $\Delta$ (\%) \\
+\midrule
+\texttt{GET /reports/trial-balance}  & 10585.00 & 1244.85 & $-$88.2 \\
+\texttt{GET /reports/profit-loss}    &  7118.35 &  690.90 & $-$90.3 \\
+\texttt{GET /reports/balance-sheet}  &  5768.95 &  650.95 & $-$88.7 \\
+\texttt{GET /reports/account-ledger} &  8073.40 & 3435.95 & $-$57.4 \\
+\texttt{POST /journal-entries/bulk}  &  1401.70 &  634.00 & $-$54.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Reading the table.} Spike-profile p95 latency is reported in milliseconds for the five endpoints that dominated baseline failures---three financial summary reports plus the account-ledger view and the bulk journal-entry write. \emph{$\Delta$ (\%)} is the relative improvement on the same endpoint between branches.
+
+\textbf{Findings.} The three summary reports (trial-balance, profit-loss, balance-sheet) improved by 88--90\% under spike after the model recommended reusing the pre-computed \texttt{LedgerBalances} aggregate rather than recomputing from raw journal lines on every request. The account-ledger endpoint, which stays static during the run, benefited additionally from response-payload caching. \texttt{POST /journal-entries/bulk} gained 54.8\% on spike p95 after removing unnecessary snapshot writes on the hot path. Across all three dimensions, the model performed best where the \emph{fix template} is well understood---replacing dynamic SQL with parameterized forms, moving security headers earlier in the pipeline, upgrading a bundled JS library with a known CVE, introducing composite indexes for a filter-and-join query path, reusing a materialized aggregate, and caching a provably static payload. These are patterns the model has seen many times, and the tool diagnostic gave it enough anchoring to pick the right template, in line with Szab\'o and Bilicki~\cite{ref7} and Hou \textit{et al.}~\cite{ref14}.
+
+\section{Threats to Validity}
+\textbf{Internal.} Non-determinism is a known concern with LLMs~\cite{ref13}; we mitigate it by archiving every prompt/response pair. The LLM was not the only author of the patches---manual review and the 98-test suite acted as a safety net; we do not attribute every delta to the model alone.
+
+\textbf{External.} We evaluate one model (ChatGPT Codex 5.4), one framework (ASP.NET Core 8.0), one language (C\#), and one API domain (financial accounting). Generalization to Node.js/Express, Java/Spring, or Python/FastAPI is future work, as is a controlled multi-model comparison against GitHub Copilot, Google Gemini, and Meta Llama.
+
+\textbf{Construct.} SonarQube rules themselves are imperfect~\cite{ref15}; ZAP's informational alerts blur the boundary between noise and signal; JMeter's mixed-workload drift heuristic is sensitive to workload composition. We pre-register the gates to avoid post-hoc tuning, and we publish the full configuration so that third parties can re-run on their own branch.
+
+\section{Conclusion}
+This paper reports empirical, branch-isolated evidence that ChatGPT (Codex 5.4) is an effective \emph{improvement advisor} on an existing non-trivial REST API when paired with automated measurement tools. On a financial accounting API, the LLM-guided pipeline eliminated 28 SonarQube findings, cleared all gated ZAP severities on business endpoints, and cut p95 latency by 73.7--94.2\% across five load profiles with zero errors. The study also documents an honest limitation: metrics that depend on workload composition, rather than on absolute latency, are not moved by per-endpoint local optimizations, and the LLM has no particular advantage on them. Future work will extend the methodology to additional models and frameworks, and will integrate the loop into CI/CD so that tool diagnostics are submitted to an LLM automatically and the proposed patches are re-measured without human intervention.
+
+\section*{AI Usage Disclosure}
+ChatGPT (Codex 5.4) is the \emph{subject} of this study and was used to generate candidate patches for the three fix branches. All patches were reviewed, tested, and accepted or rejected by the author. Language polishing of this manuscript used an LLM for proofreading only; all scientific claims, measurements, tables, and figures were produced and verified manually from the experimental artifacts.
+
+\begin{thebibliography}{15}
+\bibitem{ref1} E.~Fajkovic and E.~Rundberg, ``The impact of AI-generated code on web development: A comparative study of ChatGPT and GitHub Copilot,'' Bachelor's Thesis, Blekinge Inst.\ of Technology, 2023.
+\bibitem{ref2} Z.~S\'agodi, I.~Siket, and R.~Ferenc, ``Methodology for code synthesis evaluation of LLMs presented by a case study of ChatGPT and Copilot,'' \emph{IEEE Access}, 2024, doi:10.1109/ACCESS.2024.3403858.
+\bibitem{ref3} Z.~\"Ozpolat, \"O.~Y\i ld\i r\i m, and M.~Karabatak, ``Artificial intelligence-based tools in software development processes: Application of ChatGPT,'' \emph{European J.\ of Technique}, vol.~13, no.~2, 2023, doi:10.36222/ejt.1330631.
+\bibitem{ref4} E.~Chen, R.~Huang, H.-S.~Chen, Y.-H.~Tseng, and L.-Y.~Li, ``GPTutor: A ChatGPT-powered programming tool for code explanation,'' arXiv:2305.01863, 2023.
+\bibitem{ref5} N.~Zhang, Y.~Zou, X.~Xia, Q.~Huang, D.~Lo, and S.~Li, ``Web APIs features, issues, and expectations: A large-scale empirical study of web APIs,'' \emph{IEEE Trans.\ Softw.\ Eng.}, 2022, doi:10.1109/TSE.2022.3154769.
+\bibitem{ref6} Z.~Mousavi, C.~Islam, K.~Moore, A.~Abuadbba, and M.~A.~Babar, ``An investigation into misuse of Java Security APIs by large language models,'' in \emph{Proc.\ ACM ASIACCS}, 2024, doi:10.1145/3634737.3661134.
+\bibitem{ref7} Z.~Szab\'o and V.~Bilicki, ``A new approach to web application security: Utilizing GPT language models for source code inspection,'' \emph{Future Internet}, vol.~15, art.~326, 2023, doi:10.3390/fi15100326.
+\bibitem{ref8} B.~Yeti\c stiren, \.I.~\"Ozsoy, M.~Ayerdem, and E.~T\"uz\"un, ``Evaluating the code quality of AI-assisted code generation tools: An empirical study on GitHub Copilot, Amazon CodeWhisperer, and ChatGPT,'' arXiv:2304.10778, 2023.
+\bibitem{ref9} C.~P.~Flores and R.~N.~Monreal, ``Evaluation of common security vulnerabilities of state universities and colleges websites based on OWASP,'' \emph{J.\ of Electrical Systems}, vol.~20, no.~5s, pp.~1396--1404, 2024, doi:10.52783/jes.2471.
+\bibitem{ref10} S.~Peng, E.~Kalliamvakou, P.~Cihon, and M.~Demirer, ``The impact of AI on developer productivity: Evidence from GitHub Copilot,'' arXiv:2302.06590, 2023.
+\bibitem{ref11} H.~Pearce, B.~Ahmad, B.~Tan, B.~Dolan-Gavitt, and R.~Karri, ``Asleep at the keyboard? Assessing the security of GitHub Copilot's code contributions,'' in \emph{Proc.\ IEEE Symp.\ Security and Privacy (SP)}, 2022, pp.~754--768, doi:10.1109/SP46214.2022.9833571.
+\bibitem{ref12} R.~Khoury, A.~R.~Avila, J.~Brunelle, and B.~M.~Camara, ``How secure is code generated by ChatGPT?,'' in \emph{Proc.\ IEEE Int'l Conf.\ Systems, Man, and Cybernetics (SMC)}, 2023, pp.~2445--2451, doi:10.1109/SMC53992.2023.10394237.
+\bibitem{ref13} G.~Sandoval, H.~Pearce, T.~Nys, R.~Karri, S.~Garg, and B.~Dolan-Gavitt, ``Lost at C: A user study on the security implications of large language model code assistants,'' in \emph{Proc.\ 32nd USENIX Security Symp.}, 2023, pp.~2205--2222.
+\bibitem{ref14} X.~Hou \textit{et al.}, ``Large language models for software engineering: A systematic literature review,'' \emph{ACM Trans.\ Softw.\ Eng.\ Methodol.}, vol.~33, no.~8, art.~220, 2024, doi:10.1145/3695988.
+\bibitem{ref15} V.~Lenarduzzi, F.~Lomio, H.~Huttunen, and D.~Taibi, ``Are SonarQube rules inducing bugs?'' in \emph{Proc.\ IEEE 27th Int'l Conf.\ Software Analysis, Evolution and Reengineering (SANER)}, 2020, pp.~501--511, doi:10.1109/SANER48275.2020.9054821.
+\end{thebibliography}
+
+\end{document}

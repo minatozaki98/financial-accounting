@@ -29,6 +29,39 @@ Health endpoints:
 - `GET /health/live`
 - `GET /health/ready`
 
+## Run Research Web App Locally
+
+The React/Vite web app in `WEB/` demonstrates the current API surface for the final report research.
+
+```powershell
+./scripts/phase4/seed-test-data.ps1
+dotnet run --project API/API.csproj --urls http://0.0.0.0:5296 --environment Development
+cd WEB
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
+
+Demo users:
+
+- `admin / Admin@123`
+- `finance-manager / Admin@123`
+- `normal-user / Admin@123`
+- `auditor-user / Admin@123`
+
+Frontend checks:
+
+```powershell
+cd WEB
+npm test
+npm run build
+npm run test:e2e
+$env:RUN_LIVE_E2E="1"; npm run test:e2e
+```
+
+The live e2e command expects the API to be running at `http://localhost:5296` with seed data loaded.
+
 ## Test and Quality Commands
 
 ### Start Persistent Tool Containers

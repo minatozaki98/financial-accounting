@@ -48,6 +48,12 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+# Financial Accounting web app generated artifacts
+WEB/node_modules/
+WEB/dist/
+WEB/test-results/
+WEB/playwright-report/
+
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
@@ -346,3 +352,43 @@ Document/security/zap-baseline.json
 Document/security/zap-baseline.md
 Document/performance/jmeter-*.jtl
 Document/performance/report-*/
+Document/performance/test-results-*/
+
+# Local tooling and scratch work
+.agents/
+.mcp.json
+.claude/settings.json
+.claude/settings.local.json
+.claude/skills/
+superpowers-main/
+.tmp/
+tmp/
+output/
+scripts/phase4/seed-realistic-data.ps1
+.worktrees/
+
+# Generated TypeScript configuration output
+WEB/*.config.js
+WEB/*.config.d.ts
+WEB/*.tsbuildinfo
+
+# Downloaded references and unpacked document internals
+Document/references/
+Document/unpacked_*/
+
+# Superseded research-document revisions and duplicate exports
+Document/(Paitoon)Proposal_latest_6519692_ZAWYEHTUTKO_UPDATED_v2.docx
+Document/(Paitoon)Proposal_latest_6519692_ZAWYEHTUTKO_UPDATED_v3.docx
+Document/(Paitoon)Proposal_latest_6519692_ZAWYEHTUTKO_UPDATED_v4.docx
+Document/Full_Report_6519692_ZAWYEHTUTKO_DARUN_UPDATED_v6.docx
+Document/Improving Security and Performance of Financial RESTful APIs Using ChatGPT in ASP.docx
+Document/Improving Security and Performance of Financial RESTful APIs Using ChatGPT in ASP.pdf
+Document/outputs/incit2026-ieee-submission-template-*.docx
+Document/outputs/incit2026-ieee-submission-template-*.pdf
+Document/paper/ieee-paper-v*.docx
+Document/paper/ieee-paper-v*.pdf
+Document/paper/incit2026-ieee-submission_docx.docx
+
+# Historical duplicate benchmark summaries
+Document/performance/benchmark-report-latest.md
+Document/performance/test-summary-20260308.md

@@ -222,6 +222,84 @@ IF @FinanceManagerRoleId IS NOT NULL AND NOT EXISTS (SELECT 1 FROM dbo.UserRoles
         "@UserId" = $adminUserId
     }
 
+    $demoUsers = @(
+        @{ Username = "finance-manager"; Email = "finance-manager@local.invalid"; Role = "FinanceManager" },
+        @{ Username = "normal-user"; Email = "normal-user@local.invalid"; Role = "User" },
+        @{ Username = "auditor-user"; Email = "auditor-user@local.invalid"; Role = "Auditor" }
+    )
+
+    foreach ($demoUser in $demoUsers) {
+        $demoHmac = New-Object System.Security.Cryptography.HMACSHA512
+        $demoPasswordSalt = $demoHmac.Key
+        $demoPasswordHash = $demoHmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($AdminPassword))
+        $demoHmac.Dispose()
+
+        $demoHashParam = New-Object System.Data.SqlClient.SqlParameter("@PasswordHash", [System.Data.SqlDbType]::VarBinary, -1)
+        $demoHashParam.Value = $demoPasswordHash
+        $demoSaltParam = New-Object System.Data.SqlClient.SqlParameter("@PasswordSalt", [System.Data.SqlDbType]::VarBinary, -1)
+        $demoSaltParam.Value = $demoPasswordSalt
+
+        $demoUserIdObj = Invoke-SqlScalar -Connection $connection -Sql @"
+DECLARE @ExistingUserId uniqueidentifier;
+SELECT TOP 1 @ExistingUserId = UserId
+FROM dbo.Users
+WHERE Username = @Username OR Email = @Email;
+
+IF @ExistingUserId IS NULL
+BEGIN
+    SET @ExistingUserId = NEWID();
+    INSERT INTO dbo.Users
+    (
+        UserId, Username, Email, IsActive, RoleId, PasswordHash, PasswordSalt,
+        FullName, DisplayName, PhoneNumber, ProfileUrl, LastAcvite,
+        CreatedBy, UpdatedBy, CreatedAt, UpdatedAt, ActiveFlag
+    )
+    VALUES
+    (
+        @ExistingUserId, @Username, @Email, 1, NULL, @PasswordHash, @PasswordSalt,
+        @Username, @Username, N'', N'', NULL,
+        N'seed-test-data', N'seed-test-data', SYSUTCDATETIME(), SYSUTCDATETIME(), 1
+    );
+END
+ELSE
+BEGIN
+    UPDATE dbo.Users
+    SET Username = @Username,
+        Email = @Email,
+        IsActive = 1,
+        ActiveFlag = 1,
+        PasswordHash = @PasswordHash,
+        PasswordSalt = @PasswordSalt,
+        UpdatedBy = N'seed-test-data',
+        UpdatedAt = SYSUTCDATETIME()
+    WHERE UserId = @ExistingUserId;
+END;
+
+SELECT @ExistingUserId;
+"@ -Parameters @{
+            "@Username" = $demoUser.Username
+            "@Email" = $demoUser.Email
+            "@PasswordHash" = $demoHashParam
+            "@PasswordSalt" = $demoSaltParam
+        }
+
+        if ($null -eq $demoUserIdObj) {
+            throw "Failed to resolve demo user id after upsert: $($demoUser.Username)"
+        }
+
+        Invoke-SqlNonQuery -Connection $connection -Sql @"
+DECLARE @RoleId int = (SELECT RoleId FROM dbo.Roles WHERE RoleName = @RoleName);
+IF @RoleId IS NULL
+    THROW 50001, 'Demo role was not found.', 1;
+
+DELETE FROM dbo.UserRoles WHERE UserId = @UserId;
+INSERT INTO dbo.UserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);
+"@ -Parameters @{
+            "@UserId" = [Guid]$demoUserIdObj
+            "@RoleName" = $demoUser.Role
+        }
+    }
+
     Invoke-SqlNonQuery -Connection $connection -Sql @"
 IF NOT EXISTS (SELECT 1 FROM dbo.AccountingPeriods WHERE PeriodId = @PeriodId)
 BEGIN
@@ -468,6 +546,7 @@ FROM dbo.JournalEntries;
 
     Write-Host "Seed completed."
     Write-Host "Admin user: $AdminUsername ($adminUserId)"
+    Write-Host "Demo users: finance-manager, normal-user, auditor-user (password: $AdminPassword)"
     Write-Host "Period: $PeriodId"
     Write-Host "Accounts: $finalAccountCount"
     Write-Host "Journal entries: $finalTotalEntries (posted: $finalPostedEntries)"
