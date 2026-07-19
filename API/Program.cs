@@ -143,15 +143,15 @@ using (var scope = app.Services.CreateScope())
 }
 
 var enableSwagger = app.Environment.IsDevelopment() || appSettings.EnableSwaggerInProduction;
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
+
 if (enableSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors("AppCors");

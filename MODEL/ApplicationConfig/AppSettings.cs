@@ -17,7 +17,7 @@ namespace MODEL.ApplicationConfig
     public class SecurityHeadersOptions
     {
         public bool Enabled { get; set; } = true;
-        public string ContentSecurityPolicy { get; set; } = "default-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none';";
+        public string ContentSecurityPolicy { get; set; } = "default-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'none';";
         public string XFrameOptions { get; set; } = "DENY";
         public string XContentTypeOptions { get; set; } = "nosniff";
         public string PermissionsPolicy { get; set; } = "camera=(), microphone=(), geolocation=()";

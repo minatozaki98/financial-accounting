@@ -1,0 +1,2603 @@
+# ZAP Scanning Report
+
+ZAP by [Checkmarx](https://checkmarx.com/).
+
+
+## Summary of Alerts
+
+| Risk Level | Number of Alerts |
+| --- | --- |
+| High | 0 |
+| Medium | 1 |
+| Low | 1 |
+| Informational | 5 |
+
+
+
+
+## Insights
+
+| Level | Reason | Site | Description | Statistic |
+| --- | --- | --- | --- | --- |
+| Low | Warning |  | ZAP warnings logged - see the zap.log file for details | 1    |
+| Low | Exceeded High | http://host.docker.internal:5296 | Percentage of responses with status code 4xx | 98 % |
+| Info | Informational |  | Percentage of network failures | 1 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with content type application/json | 1 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with content type application/problem+json | 1 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with content type text/html | 2 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with method DELETE | 1 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with method GET | 66 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with method POST | 30 % |
+| Info | Informational | http://host.docker.internal:5296 | Percentage of endpoints with method PUT | 2 % |
+| Info | Informational | http://host.docker.internal:5296 | Count of total endpoints | 312    |
+| Info | Informational | https://host.docker.internal:5296 | Percentage of endpoints with method PUT | 100 % |
+| Info | Informational | https://host.docker.internal:5296 | Count of total endpoints | 1    |
+
+
+
+
+
+
+
+## Alerts
+
+| Name | Risk Level | Number of Instances |
+| --- | --- | --- |
+| HTTP Only Site | Medium | 1 |
+| Unexpected Content-Type was returned | Low | 8 |
+| A Client Error response code was returned by the server | Informational | 308 |
+| Authentication Request Identified | Informational | 2 |
+| Information Disclosure - Sensitive Information in URL | Informational | 1 |
+| Non-Storable Content | Informational | Systemic |
+| User Agent Fuzzer | Informational | Systemic |
+
+
+
+
+## Alert Detail
+
+
+
+### [ HTTP Only Site ](https://www.zaproxy.org/docs/alerts/10106/)
+
+
+
+##### Medium (Medium)
+
+### Description
+
+The site is only served under HTTP and not HTTPS.
+
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `https://host.docker.internal:5296/accounts/10 ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: ``
+  * Other Info: `Failed to connect.
+ZAP attempted to connect via: https://host.docker.internal:5296/accounts/10`
+
+
+Instances: 1
+
+### Solution
+
+Configure your web or application server to use SSL (https).
+
+### Reference
+
+
+* [ https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html ](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
+* [ https://letsencrypt.org/ ](https://letsencrypt.org/)
+
+
+#### CWE Id: [ 311 ](https://cwe.mitre.org/data/definitions/311.html)
+
+
+#### WASC Id: 4
+
+#### Source ID: 1
+
+### [ Unexpected Content-Type was returned ](https://www.zaproxy.org/docs/alerts/100001/)
+
+
+
+##### Low (High)
+
+### Description
+
+A Content-Type of text/html was returned by the server.
+This is not one of the types expected to be returned by an API.
+Raised by the 'Alert on Unexpected Content Types' script
+
+* URL: http://host.docker.internal:5296
+  * Node Name: `http://host.docker.internal:5296`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/
+  * Node Name: `http://host.docker.internal:5296/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/ (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger
+  * Node Name: `http://host.docker.internal:5296/swagger`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/swagger (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/swagger (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/
+  * Node Name: `http://host.docker.internal:5296/swagger/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/index.html
+  * Node Name: `http://host.docker.internal:5296/swagger/index.html`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `text/html`
+  * Other Info: ``
+
+
+Instances: 8
+
+### Solution
+
+
+
+### Reference
+
+
+
+
+#### Source ID: 4
+
+### [ A Client Error response code was returned by the server ](https://www.zaproxy.org/docs/alerts/100000/)
+
+
+
+##### Informational (High)
+
+### Description
+
+A response code of 401 was returned by the server.
+This may indicate that the application is failing to handle unexpected input correctly.
+Raised by the 'Alert on HTTP Response Code Error' script
+
+* URL: http://host.docker.internal:5296/journal-entries/10
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10`
+  * Method: `DELETE`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/`
+  * Method: `DELETE`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296%3Faaa=bbb
+  * Node Name: `http://host.docker.internal:5296 (aaa)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `400`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296 (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `400`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.DS_Store
+  * Node Name: `http://host.docker.internal:5296/.DS_Store`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/._darcs
+  * Node Name: `http://host.docker.internal:5296/._darcs`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.bzr
+  * Node Name: `http://host.docker.internal:5296/.bzr`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.env
+  * Node Name: `http://host.docker.internal:5296/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.git/config
+  * Node Name: `http://host.docker.internal:5296/.git/config`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.hg
+  * Node Name: `http://host.docker.internal:5296/.hg`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.htaccess
+  * Node Name: `http://host.docker.internal:5296/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.idea/WebServers.xml
+  * Node Name: `http://host.docker.internal:5296/.idea/WebServers.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.php_cs.cache
+  * Node Name: `http://host.docker.internal:5296/.php_cs.cache`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.ssh/id_dsa
+  * Node Name: `http://host.docker.internal:5296/.ssh/id_dsa`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.ssh/id_rsa
+  * Node Name: `http://host.docker.internal:5296/.ssh/id_rsa`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.svn/entries
+  * Node Name: `http://host.docker.internal:5296/.svn/entries`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.svn/wc.db
+  * Node Name: `http://host.docker.internal:5296/.svn/wc.db`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/.zap5465552926432073083
+  * Node Name: `http://host.docker.internal:5296/.zap5465552926432073083`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/657621962918049861
+  * Node Name: `http://host.docker.internal:5296/657621962918049861`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/BitKeeper
+  * Node Name: `http://host.docker.internal:5296/BitKeeper`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/CHANGELOG.txt
+  * Node Name: `http://host.docker.internal:5296/CHANGELOG.txt`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/CVS/root
+  * Node Name: `http://host.docker.internal:5296/CVS/root`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/DEADJOE
+  * Node Name: `http://host.docker.internal:5296/DEADJOE`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/FileZilla.xml
+  * Node Name: `http://host.docker.internal:5296/FileZilla.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/WEB-INF/applicationContext.xml
+  * Node Name: `http://host.docker.internal:5296/WEB-INF/applicationContext.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/WEB-INF/web.xml
+  * Node Name: `http://host.docker.internal:5296/WEB-INF/web.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/WS_FTP.INI
+  * Node Name: `http://host.docker.internal:5296/WS_FTP.INI`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/WS_FTP.ini
+  * Node Name: `http://host.docker.internal:5296/WS_FTP.ini`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/WinSCP.ini
+  * Node Name: `http://host.docker.internal:5296/WinSCP.ini`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/_framework/blazor.boot.json
+  * Node Name: `http://host.docker.internal:5296/_framework/blazor.boot.json`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/_wpeprivate/config.json
+  * Node Name: `http://host.docker.internal:5296/_wpeprivate/config.json`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts
+  * Node Name: `http://host.docker.internal:5296/accounts`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts (class.module.classLoader.DefaultAssertio...)({accountCode,accountName,accountType,isActive})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Ftype=type&isActive=true&search=ZAP&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts (class.module.classLoader.DefaultAssertio...,isActive,search,type)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Ftype=type&isActive=true&search=ZAP
+  * Node Name: `http://host.docker.internal:5296/accounts (isActive,search,type)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/accounts (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/
+  * Node Name: `http://host.docker.internal:5296/accounts/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/.env
+  * Node Name: `http://host.docker.internal:5296/accounts/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/.htaccess
+  * Node Name: `http://host.docker.internal:5296/accounts/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `http://host.docker.internal:5296/accounts/10`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts/10 (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts/10 (class.module.classLoader.DefaultAssertio...)({accountName,accountType,isActive})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/accounts/10 (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/
+  * Node Name: `http://host.docker.internal:5296/accounts/10/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/.env
+  * Node Name: `http://host.docker.internal:5296/accounts/10/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/.htaccess
+  * Node Name: `http://host.docker.internal:5296/accounts/10/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/7990452949375039470
+  * Node Name: `http://host.docker.internal:5296/accounts/10/7990452949375039470`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance/
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/trace.axd
+  * Node Name: `http://host.docker.internal:5296/accounts/10/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/2741760008556709055
+  * Node Name: `http://host.docker.internal:5296/accounts/2741760008556709055`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/actuator/health
+  * Node Name: `http://host.docker.internal:5296/accounts/actuator/health`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/trace.axd
+  * Node Name: `http://host.docker.internal:5296/accounts/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/adminer.php
+  * Node Name: `http://host.docker.internal:5296/adminer.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/app/etc/local.xml
+  * Node Name: `http://host.docker.internal:5296/app/etc/local.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs%3Ffrom=from&to=to&userId=userId&action=action&page=1&pageSize=50&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/audit-logs (action,class.module.classLoader.DefaultAssertio...,from,page,pageSize,to,userId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs%3Ffrom=from&to=to&userId=userId&action=action&page=1&pageSize=50
+  * Node Name: `http://host.docker.internal:5296/audit-logs (action,from,page,pageSize,to,userId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs/
+  * Node Name: `http://host.docker.internal:5296/audit-logs/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth
+  * Node Name: `http://host.docker.internal:5296/auth`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/auth (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/auth (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/
+  * Node Name: `http://host.docker.internal:5296/auth/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/.env
+  * Node Name: `http://host.docker.internal:5296/auth/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/.htaccess
+  * Node Name: `http://host.docker.internal:5296/auth/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/1807934864836868899
+  * Node Name: `http://host.docker.internal:5296/auth/1807934864836868899`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login
+  * Node Name: `http://host.docker.internal:5296/auth/login`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/auth/login (class.module.classLoader.DefaultAssertio...)({username,password})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/auth/login (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/trace.axd
+  * Node Name: `http://host.docker.internal:5296/auth/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/composer.json
+  * Node Name: `http://host.docker.internal:5296/composer.json`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/composer.lock
+  * Node Name: `http://host.docker.internal:5296/composer.lock`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/config/database.yml
+  * Node Name: `http://host.docker.internal:5296/config/database.yml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/config/databases.yml
+  * Node Name: `http://host.docker.internal:5296/config/databases.yml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/core
+  * Node Name: `http://host.docker.internal:5296/core`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/elmah.axd
+  * Node Name: `http://host.docker.internal:5296/elmah.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/favicon-16x16.png
+  * Node Name: `http://host.docker.internal:5296/favicon-16x16.png`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/favicon.ico
+  * Node Name: `http://host.docker.internal:5296/favicon.ico`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/filezilla.xml
+  * Node Name: `http://host.docker.internal:5296/filezilla.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/i.php
+  * Node Name: `http://host.docker.internal:5296/i.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/id_dsa
+  * Node Name: `http://host.docker.internal:5296/id_dsa`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/id_rsa
+  * Node Name: `http://host.docker.internal:5296/id_rsa`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/index.css
+  * Node Name: `http://host.docker.internal:5296/index.css`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/index.js
+  * Node Name: `http://host.docker.internal:5296/index.js`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/info.php
+  * Node Name: `http://host.docker.internal:5296/info.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries
+  * Node Name: `http://host.docker.internal:5296/journal-entries`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Ffrom=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries (accountId,class.module.classLoader.DefaultAssertio...,from,page,pageSize,search,sort,status,to)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Ffrom=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc
+  * Node Name: `http://host.docker.internal:5296/journal-entries (accountId,from,page,pageSize,search,sort,status,to)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries (class.module.classLoader.DefaultAssertio...)({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/journal-entries (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/.env
+  * Node Name: `http://host.docker.internal:5296/journal-entries/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/.htaccess
+  * Node Name: `http://host.docker.internal:5296/journal-entries/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10 (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10 (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/.env
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/.htaccess
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/2422547749711308961
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/2422547749711308961`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/trace.axd
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/8240358546276057844
+  * Node Name: `http://host.docker.internal:5296/journal-entries/8240358546276057844`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk (class.module.classLoader.DefaultAssertio...)({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/trace.axd
+  * Node Name: `http://host.docker.internal:5296/journal-entries/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/key.pem
+  * Node Name: `http://host.docker.internal:5296/key.pem`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/lfm.php
+  * Node Name: `http://host.docker.internal:5296/lfm.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/myserver.key
+  * Node Name: `http://host.docker.internal:5296/myserver.key`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods
+  * Node Name: `http://host.docker.internal:5296/periods`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/periods (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/periods (class.module.classLoader.DefaultAssertio...)({periodId,startDate,endDate})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/periods (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/
+  * Node Name: `http://host.docker.internal:5296/periods/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/.env
+  * Node Name: `http://host.docker.internal:5296/periods/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/.htaccess
+  * Node Name: `http://host.docker.internal:5296/periods/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10
+  * Node Name: `http://host.docker.internal:5296/periods/10`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/periods/10 (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/periods/10 (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/
+  * Node Name: `http://host.docker.internal:5296/periods/10/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/.env
+  * Node Name: `http://host.docker.internal:5296/periods/10/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/.htaccess
+  * Node Name: `http://host.docker.internal:5296/periods/10/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/6088685052023410443
+  * Node Name: `http://host.docker.internal:5296/periods/10/6088685052023410443`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close
+  * Node Name: `http://host.docker.internal:5296/periods/10/close`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/periods/10/close (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/periods/10/close (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/trace.axd
+  * Node Name: `http://host.docker.internal:5296/periods/10/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/2849178819740015031
+  * Node Name: `http://host.docker.internal:5296/periods/2849178819740015031`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/trace.axd
+  * Node Name: `http://host.docker.internal:5296/periods/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/phpinfo.php
+  * Node Name: `http://host.docker.internal:5296/phpinfo.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/privatekey.key
+  * Node Name: `http://host.docker.internal:5296/privatekey.key`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports
+  * Node Name: `http://host.docker.internal:5296/reports`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/reports (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/reports (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/
+  * Node Name: `http://host.docker.internal:5296/reports/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/.env
+  * Node Name: `http://host.docker.internal:5296/reports/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/.htaccess
+  * Node Name: `http://host.docker.internal:5296/reports/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/6306198357316043315
+  * Node Name: `http://host.docker.internal:5296/reports/6306198357316043315`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger%3FaccountId=10&periodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger (accountId,class.module.classLoader.DefaultAssertio...,periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger%3FaccountId=10&periodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger (accountId,periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger/
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet%3FperiodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet (class.module.classLoader.DefaultAssertio...,periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet (periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet/
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss%3FperiodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss (class.module.classLoader.DefaultAssertio...,periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss (periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss/
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trace.axd
+  * Node Name: `http://host.docker.internal:5296/reports/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance%3FperiodId=10&class.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance (class.module.classLoader.DefaultAssertio...,periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance (periodId)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance/
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/server-info
+  * Node Name: `http://host.docker.internal:5296/server-info`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/server-status
+  * Node Name: `http://host.docker.internal:5296/server-status`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/server.key
+  * Node Name: `http://host.docker.internal:5296/server.key`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/sftp-config.json
+  * Node Name: `http://host.docker.internal:5296/sftp-config.json`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/sitemanager.xml
+  * Node Name: `http://host.docker.internal:5296/sitemanager.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/sites/default/files/.ht.sqlite
+  * Node Name: `http://host.docker.internal:5296/sites/default/files/.ht.sqlite`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/sites/default/private/files/backup_migrate/scheduled/test.txt
+  * Node Name: `http://host.docker.internal:5296/sites/default/private/files/backup_migrate/scheduled/test.txt`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger-ui-bundle.js
+  * Node Name: `http://host.docker.internal:5296/swagger-ui-bundle.js`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger-ui-standalone-preset.js
+  * Node Name: `http://host.docker.internal:5296/swagger-ui-standalone-preset.js`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger-ui.css
+  * Node Name: `http://host.docker.internal:5296/swagger-ui.css`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/.env
+  * Node Name: `http://host.docker.internal:5296/swagger/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/.htaccess
+  * Node Name: `http://host.docker.internal:5296/swagger/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/1652579259368383948
+  * Node Name: `http://host.docker.internal:5296/swagger/1652579259368383948`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/trace.axd
+  * Node Name: `http://host.docker.internal:5296/swagger/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1
+  * Node Name: `http://host.docker.internal:5296/swagger/v1`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/swagger/v1 (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/swagger/v1 (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/.env
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/.htaccess
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/2315942545512745918
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/2315942545512745918`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/trace.axd
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/test.php
+  * Node Name: `http://host.docker.internal:5296/test.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/trace.axd
+  * Node Name: `http://host.docker.internal:5296/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users
+  * Node Name: `http://host.docker.internal:5296/users`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/users (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/users (class.module.classLoader.DefaultAssertio...)({username,email,password,role})`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/users (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/
+  * Node Name: `http://host.docker.internal:5296/users/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/.env
+  * Node Name: `http://host.docker.internal:5296/users/.env`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/.htaccess
+  * Node Name: `http://host.docker.internal:5296/users/.htaccess`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/8832383400220482197
+  * Node Name: `http://host.docker.internal:5296/users/8832383400220482197`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me
+  * Node Name: `http://host.docker.internal:5296/users/me`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me%3Fclass.module.classLoader.DefaultAssertionStatus=nonsense
+  * Node Name: `http://host.docker.internal:5296/users/me (class.module.classLoader.DefaultAssertio...)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me%3Fname=abc
+  * Node Name: `http://host.docker.internal:5296/users/me (name)`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me/
+  * Node Name: `http://host.docker.internal:5296/users/me/`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/trace.axd
+  * Node Name: `http://host.docker.internal:5296/users/trace.axd`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/vb_test.php
+  * Node Name: `http://host.docker.internal:5296/vb_test.php`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/vim_settings.xml
+  * Node Name: `http://host.docker.internal:5296/vim_settings.xml`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/winscp.ini
+  * Node Name: `http://host.docker.internal:5296/winscp.ini`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/ws_ftp.ini
+  * Node Name: `http://host.docker.internal:5296/ws_ftp.ini`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/zap3382792435505208229
+  * Node Name: `http://host.docker.internal:5296/zap3382792435505208229`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296
+  * Node Name: `http://host.docker.internal:5296 ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/ (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/ (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts
+  * Node Name: `http://host.docker.internal:5296/accounts ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts
+  * Node Name: `http://host.docker.internal:5296/accounts ()({accountCode,accountName,accountType,isActive})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts%3Ftype=type&isActive=true&search=ZAP
+  * Node Name: `http://host.docker.internal:5296/accounts (isActive,search,type)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/
+  * Node Name: `http://host.docker.internal:5296/accounts/ ()({accountCode,accountName,accountType,isActive})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `http://host.docker.internal:5296/accounts/10 ()(------1fc0732c-838e-49a4-9fbd-0a7aaf380e6d
+Content-Disposition: form-data; name="1"
+
+{}
+------1fc0732c-838e-49a4-9fbd-0a7aaf380e6d
+Content-Disposition: form-data; name="0"
+
+["$1:a:a"]
+------1fc0732c-838e-49a4-9fbd-0a7aaf380e6d--
+)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `http://host.docker.internal:5296/accounts/10 ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/balance%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/accounts/10/balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/audit-logs (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/audit-logs (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/audit-logs%3Ffrom=from&to=to&userId=userId&action=action&page=1&pageSize=50
+  * Node Name: `http://host.docker.internal:5296/audit-logs (action,from,page,pageSize,to,userId)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth
+  * Node Name: `http://host.docker.internal:5296/auth ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/auth (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/auth (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login
+  * Node Name: `http://host.docker.internal:5296/auth/login ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `415`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login
+  * Node Name: `http://host.docker.internal:5296/auth/login ()({username,password})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `400`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login
+  * Node Name: `http://host.docker.internal:5296/auth/login ()({username,password})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/auth/login (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `415`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/auth/login (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `415`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/auth/login/
+  * Node Name: `http://host.docker.internal:5296/auth/login/ ()({username,password})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries
+  * Node Name: `http://host.docker.internal:5296/journal-entries ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries
+  * Node Name: `http://host.docker.internal:5296/journal-entries ()({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries%3Ffrom=from&to=to&status=status&accountId=10&search=ZAP&page=1&pageSize=20&sort=entryDate_desc
+  * Node Name: `http://host.docker.internal:5296/journal-entries (accountId,from,page,pageSize,search,sort,status,to)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/ ()({entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10 ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/post/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/post/`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/10/reverse/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10/reverse/`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk/
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk/ ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods
+  * Node Name: `http://host.docker.internal:5296/periods ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods
+  * Node Name: `http://host.docker.internal:5296/periods ()({periodId,startDate,endDate})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/
+  * Node Name: `http://host.docker.internal:5296/periods/ ()({periodId,startDate,endDate})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10
+  * Node Name: `http://host.docker.internal:5296/periods/10 ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods/10 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close
+  * Node Name: `http://host.docker.internal:5296/periods/10/close`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close
+  * Node Name: `http://host.docker.internal:5296/periods/10/close ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods/10/close (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/periods/10/close (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods/10/close/
+  * Node Name: `http://host.docker.internal:5296/periods/10/close/`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports
+  * Node Name: `http://host.docker.internal:5296/reports ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/account-ledger%3FaccountId=10&periodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/account-ledger (accountId,periodId)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/balance-sheet%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/balance-sheet (periodId)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/profit-loss%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/profit-loss (periodId)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/reports/trial-balance%3FperiodId=10
+  * Node Name: `http://host.docker.internal:5296/reports/trial-balance (periodId)(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger
+  * Node Name: `http://host.docker.internal:5296/swagger ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1
+  * Node Name: `http://host.docker.internal:5296/swagger/v1 ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger/v1 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger/v1 (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/swagger.json
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/swagger.json ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/swagger.json%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/swagger.json (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger/v1/swagger.json%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/swagger/v1/swagger.json (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users
+  * Node Name: `http://host.docker.internal:5296/users ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users
+  * Node Name: `http://host.docker.internal:5296/users ()({username,email,password,role})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/users (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/users (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/
+  * Node Name: `http://host.docker.internal:5296/users/ ()({username,email,password,role})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me
+  * Node Name: `http://host.docker.internal:5296/users/me ()(class.module.classLoader.DefaultAssertio...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/users/me (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('cmd.exe /C echo 7uxs948p9jjv...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/users/me%3F-d+allow_url_include%253d1+-d+auto_prepend_file%253dphp://input
+  * Node Name: `http://host.docker.internal:5296/users/me (-d allow_url_include=1 -d auto_prepend_f...)(<?php exec('echo 7uxs948p9jjvjr18wzoa',$...)`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `405`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `http://host.docker.internal:5296/accounts/10 ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10/
+  * Node Name: `http://host.docker.internal:5296/accounts/10/ ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `401`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/computeMetadata/v1/
+  * Node Name: `http://host.docker.internal:5296/computeMetadata/v1/ ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/latest/meta-data/
+  * Node Name: `http://host.docker.internal:5296/latest/meta-data/ ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/metadata/instance
+  * Node Name: `http://host.docker.internal:5296/metadata/instance ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/metadata/v1
+  * Node Name: `http://host.docker.internal:5296/metadata/v1 ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/opc/v1/instance/
+  * Node Name: `http://host.docker.internal:5296/opc/v1/instance/ ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/opc/v2/instance/
+  * Node Name: `http://host.docker.internal:5296/opc/v2/instance/ ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/openstack/latest/meta_data.json
+  * Node Name: `http://host.docker.internal:5296/openstack/latest/meta_data.json ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `404`
+  * Other Info: ``
+
+
+Instances: 308
+
+### Solution
+
+
+
+### Reference
+
+
+
+#### CWE Id: [ 388 ](https://cwe.mitre.org/data/definitions/388.html)
+
+
+#### WASC Id: 20
+
+#### Source ID: 4
+
+### [ Authentication Request Identified ](https://www.zaproxy.org/docs/alerts/10111/)
+
+
+
+##### Informational (High)
+
+### Description
+
+The given request has been identified as an authentication request. The 'Other Info' field contains a set of key=value lines which identify any relevant fields. If the request is in a context which has an Authentication Method set to "Auto-Detect" then this rule will change the authentication to match the request identified.
+
+* URL: http://host.docker.internal:5296/users
+  * Node Name: `http://host.docker.internal:5296/users ()({username,email,password,role})`
+  * Method: `POST`
+  * Parameter: `email`
+  * Attack: ``
+  * Evidence: `password`
+  * Other Info: `userParam=email
+userValue=zaproxy@example.com
+passwordParam=password`
+* URL: http://host.docker.internal:5296/auth/login
+  * Node Name: `http://host.docker.internal:5296/auth/login ()({username,password})`
+  * Method: `POST`
+  * Parameter: `username`
+  * Attack: ``
+  * Evidence: `password`
+  * Other Info: `userParam=username
+userValue=John Doe
+passwordParam=password`
+
+
+Instances: 2
+
+### Solution
+
+This is an informational alert rather than a vulnerability and so there is nothing to fix.
+
+### Reference
+
+
+* [ https://www.zaproxy.org/docs/desktop/addons/authentication-helper/auth-req-id/ ](https://www.zaproxy.org/docs/desktop/addons/authentication-helper/auth-req-id/)
+
+
+
+#### Source ID: 3
+
+### [ Information Disclosure - Sensitive Information in URL ](https://www.zaproxy.org/docs/alerts/10024/)
+
+
+
+##### Informational (Medium)
+
+### Description
+
+The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.
+
+* URL: http://host.docker.internal:5296/audit-logs%3Ffrom=from&to=to&userId=userId&action=action&page=1&pageSize=50
+  * Node Name: `http://host.docker.internal:5296/audit-logs (action,from,page,pageSize,to,userId)`
+  * Method: `GET`
+  * Parameter: `userId`
+  * Attack: ``
+  * Evidence: `userId`
+  * Other Info: `The URL contains potentially sensitive information. The following string was found via the pattern: user
+userId`
+
+
+Instances: 1
+
+### Solution
+
+Do not pass sensitive information in URIs.
+
+### Reference
+
+
+
+#### CWE Id: [ 598 ](https://cwe.mitre.org/data/definitions/598.html)
+
+
+#### WASC Id: 13
+
+#### Source ID: 3
+
+### [ Non-Storable Content ](https://www.zaproxy.org/docs/alerts/10049/)
+
+
+
+##### Informational (Medium)
+
+### Description
+
+The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.
+
+* URL: http://host.docker.internal:5296/journal-entries/10
+  * Node Name: `http://host.docker.internal:5296/journal-entries/10`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `authorization:`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods
+  * Node Name: `http://host.docker.internal:5296/periods`
+  * Method: `GET`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `authorization:`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/journal-entries/bulk
+  * Node Name: `http://host.docker.internal:5296/journal-entries/bulk ()({entries:[{entryDate,description,referenceNo,lines:[{accountId,lineDescription,debit,credit}]}]})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `authorization:`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/periods
+  * Node Name: `http://host.docker.internal:5296/periods ()({periodId,startDate,endDate})`
+  * Method: `POST`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `authorization:`
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/accounts/10
+  * Node Name: `http://host.docker.internal:5296/accounts/10 ()({accountName,accountType,isActive})`
+  * Method: `PUT`
+  * Parameter: ``
+  * Attack: ``
+  * Evidence: `PUT `
+  * Other Info: ``
+
+Instances: Systemic
+
+
+### Solution
+
+The content may be marked as storable by ensuring that the following conditions are satisfied:
+The request method must be understood by the cache and defined as being cacheable ("GET", "HEAD", and "POST" are currently defined as cacheable)
+The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)
+The "no-store" cache directive must not appear in the request or response header fields
+For caching by "shared" caches such as "proxy" caches, the "private" response directive must not appear in the response
+For caching by "shared" caches such as "proxy" caches, the "Authorization" header field must not appear in the request, unless the response explicitly allows it (using one of the "must-revalidate", "public", or "s-maxage" Cache-Control response directives)
+In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:
+It must contain an "Expires" header field
+It must contain a "max-age" response directive
+For "shared" caches such as "proxy" caches, it must contain a "s-maxage" response directive
+It must contain a "Cache Control Extension" that allows it to be cached
+It must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).
+
+### Reference
+
+
+* [ https://datatracker.ietf.org/doc/html/rfc7234 ](https://datatracker.ietf.org/doc/html/rfc7234)
+* [ https://datatracker.ietf.org/doc/html/rfc7231 ](https://datatracker.ietf.org/doc/html/rfc7231)
+* [ https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html ](https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html)
+
+
+#### CWE Id: [ 524 ](https://cwe.mitre.org/data/definitions/524.html)
+
+
+#### WASC Id: 13
+
+#### Source ID: 3
+
+### [ User Agent Fuzzer ](https://www.zaproxy.org/docs/alerts/10104/)
+
+
+
+##### Informational (Medium)
+
+### Description
+
+Check for differences in response based on fuzzed User Agent (eg. mobile sites, access as a Search Engine Crawler). Compares the response statuscode and the hashcode of the response body with the original response.
+
+* URL: http://host.docker.internal:5296
+  * Node Name: `http://host.docker.internal:5296`
+  * Method: `GET`
+  * Parameter: `Header User-Agent`
+  * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
+  * Evidence: ``
+  * Other Info: ``
+* URL: http://host.docker.internal:5296
+  * Node Name: `http://host.docker.internal:5296`
+  * Method: `GET`
+  * Parameter: `Header User-Agent`
+  * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
+  * Evidence: ``
+  * Other Info: ``
+* URL: http://host.docker.internal:5296
+  * Node Name: `http://host.docker.internal:5296`
+  * Method: `GET`
+  * Parameter: `Header User-Agent`
+  * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
+  * Evidence: ``
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger
+  * Node Name: `http://host.docker.internal:5296/swagger`
+  * Method: `GET`
+  * Parameter: `Header User-Agent`
+  * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
+  * Evidence: ``
+  * Other Info: ``
+* URL: http://host.docker.internal:5296/swagger
+  * Node Name: `http://host.docker.internal:5296/swagger`
+  * Method: `GET`
+  * Parameter: `Header User-Agent`
+  * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
+  * Evidence: ``
+  * Other Info: ``
+
+Instances: Systemic
+
+
+### Solution
+
+
+
+### Reference
+
+
+* [ https://owasp.org/wstg ](https://owasp.org/wstg)
+
+
+
+#### Source ID: 1
+
+
