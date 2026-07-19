@@ -1,0 +1,19 @@
+﻿{
+    "ProjectKey":  "financial-accounting-gpt54-normalized-sonar",
+    "QualityGate":  "OK",
+    "QualityConditions":  [
+
+                          ],
+    "Measures":  {
+                     "coverage":  "74.3",
+                     "security_rating":  "1.0",
+                     "sqale_rating":  "1.0",
+                     "complexity":  "889",
+                     "bugs":  "0",
+                     "ncloc":  "3198",
+                     "reliability_rating":  "1.0",
+                     "duplicated_lines_density":  "0.0",
+                     "code_smells":  "0",
+                     "vulnerabilities":  "0"
+                 }
+}

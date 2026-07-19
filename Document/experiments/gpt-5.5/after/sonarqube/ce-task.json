@@ -1,0 +1,25 @@
+﻿{
+    "task":  {
+                 "id":  "43ca10e6-26c5-4ff1-a4f9-f6e760ed3374",
+                 "type":  "REPORT",
+                 "componentId":  "250fa6e0-d01d-42e6-b82f-34d0c0049a81",
+                 "componentKey":  "financial-accounting-gpt55-baseline",
+                 "componentName":  "Financial Accounting GPT-5.5 Baseline",
+                 "componentQualifier":  "TRK",
+                 "analysisId":  "ae64a5df-8a00-49fb-92ba-832d6d942b27",
+                 "status":  "SUCCESS",
+                 "submittedAt":  "2026-07-19T12:02:14+0000",
+                 "submitterLogin":  "admin",
+                 "startedAt":  "2026-07-19T12:02:14+0000",
+                 "executedAt":  "2026-07-19T12:02:23+0000",
+                 "executionTimeMs":  8132,
+                 "hasScannerContext":  true,
+                 "warningCount":  1,
+                 "warnings":  [
+                                  "Missing blame information for 12 files. This may lead to some features not working correctly. Please check the analysis logs and refer to \u003ca href=\"https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/scm-integration/\" rel=\"noopener noreferrer\" target=\"_blank\"\u003ethe documentation\u003c/a\u003e."
+                              ],
+                 "infoMessages":  [
+
+                                  ]
+             }
+}
