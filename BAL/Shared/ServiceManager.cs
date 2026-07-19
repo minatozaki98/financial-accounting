@@ -12,7 +12,7 @@ using BAL.Services;
 
 namespace BAL.Shared
 {
-    public class ServiceManager
+    public static class ServiceManager
     {
         public static void SetServiceInfo(IServiceCollection services, AppSettings appSettings)
         {

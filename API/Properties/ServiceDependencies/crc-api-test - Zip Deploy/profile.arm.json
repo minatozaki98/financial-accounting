@@ -37,18 +37,15 @@
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2019-10-01",
       "name": "[parameters('resourceGroupName')]",
-      "location": "[parameters('resourceGroupLocation')]",
-      "apiVersion": "2019-10-01"
+      "location": "[parameters('resourceGroupLocation')]"
     },
     {
       "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
       "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
-      "apiVersion": "2019-10-01",
-      "dependsOn": [
-        "[parameters('resourceGroupName')]"
-      ],
       "properties": {
         "mode": "Incremental",
         "expressionEvaluationOptions": {

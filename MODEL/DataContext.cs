@@ -35,15 +35,6 @@ namespace MODEL
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.ToTable("Users","dbo");
-                //entity.Property(x => x.Username).HasMaxLength(100);
-                //entity.Property(x => x.Email).HasMaxLength(200);
-                //entity.Property(x => x.FullName).HasMaxLength(200);
-                //entity.Property(x => x.DisplayName).HasMaxLength(200);
-                //entity.Property(x => x.PhoneNumber).HasMaxLength(30);
-                //entity.Property(x => x.ProfileUrl).HasMaxLength(500);
-                //entity.Property(x => x.IsActive).HasDefaultValue(true);
-                //entity.HasIndex(x => x.Username).IsUnique();
-                //entity.HasIndex(x => x.Email).IsUnique();
             });
 
             modelBuilder.Entity<Role>(entity =>

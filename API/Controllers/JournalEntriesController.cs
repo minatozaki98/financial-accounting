@@ -59,17 +59,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPaged(
-            [FromQuery] DateTime? from,
-            [FromQuery] DateTime? to,
-            [FromQuery] string? status,
-            [FromQuery] int? accountId,
-            [FromQuery] string? search,
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 20,
-            [FromQuery] string? sort = "entryDate_desc")
+        public async Task<IActionResult> GetPaged([FromQuery] JournalEntryQueryDto query)
         {
-            var result = await _journalEntryService.GetPagedAsync(from, to, status, accountId, search, page, pageSize, sort);
+            var result = await _journalEntryService.GetPagedAsync(query);
             return Ok(result);
         }
 
