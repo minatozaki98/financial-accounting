@@ -1,0 +1,21 @@
+{
+  "capturedAtUtc": "2026-07-19T10:55:01.0316484Z",
+  "modelLabel": "GPT-5.5",
+  "baseCommit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "dotnet": "9.0.308",
+  "os": {
+    "Caption": "Microsoft Windows 11 Home Single Language",
+    "Version": "10.0.26200",
+    "OSArchitecture": "64-bit"
+  },
+  "cpu": {
+    "Name": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "NumberOfCores": 8,
+    "NumberOfLogicalProcessors": 16
+  },
+  "memoryBytes": 34021269504,
+  "dockerVersion": "29.2.0",
+  "sonarImage": "sha256:160bd2f6a3485bd09b655ef22dd63c02bd1fa7ba82aa5d9973fd010b8bcca0b3|sonarqube@sha256:160bd2f6a3485bd09b655ef22dd63c02bd1fa7ba82aa5d9973fd010b8bcca0b3",
+  "zapImage": "sha256:8d387b1a63e3425beef4846e39719f5af2a787753af2d8b6558c6257d7a577a2|ghcr.io/zaproxy/zaproxy@sha256:8d387b1a63e3425beef4846e39719f5af2a787753af2d8b6558c6257d7a577a2",
+  "jmeterImage": "sha256:088ac52b759a198a5afa5ae13d0a6306e9f2017d71ad140ff57427f6930406f7|justb4/jmeter@sha256:088ac52b759a198a5afa5ae13d0a6306e9f2017d71ad140ff57427f6930406f7"
+}
