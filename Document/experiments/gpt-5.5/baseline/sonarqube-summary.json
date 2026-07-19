@@ -1,0 +1,25 @@
+﻿{
+    "ProjectKey":  "financial-accounting-gpt55-baseline",
+    "QualityGate":  "OK",
+    "QualityConditions":  [
+                              {
+                                  "status":  "OK",
+                                  "metricKey":  "new_violations",
+                                  "comparator":  "GT",
+                                  "errorThreshold":  "0",
+                                  "actualValue":  "0"
+                              }
+                          ],
+    "Measures":  {
+                     "coverage":  "74.4",
+                     "security_rating":  "1.0",
+                     "sqale_rating":  "1.0",
+                     "complexity":  "886",
+                     "bugs":  "0",
+                     "ncloc":  "3211",
+                     "reliability_rating":  "1.0",
+                     "duplicated_lines_density":  "0.0",
+                     "code_smells":  "21",
+                     "vulnerabilities":  "0"
+                 }
+}
