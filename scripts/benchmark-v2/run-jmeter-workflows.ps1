@@ -2,7 +2,7 @@ param(
     [string]$CandidateRoot = ".",
     [ValidateSet("all", "period-close", "journal-import", "reconciliation")]
     [string]$Profile = "all",
-    [string]$OutputDir = "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter",
+    [string]$OutputDir = "Document/performance/jmeter/results-v2",
     [string]$BaseUrl = "http://localhost:5296",
     [string]$SqlServer = "localhost",
     [string]$DatabaseName = "FinancialBenchmarkV2",
