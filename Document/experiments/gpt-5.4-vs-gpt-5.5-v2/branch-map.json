@@ -1,42 +1,46 @@
-{
-  "reference": {
-    "branch": "codex/sonar-challenge-api-reference",
-    "sourceBaseBranch": "baseline-v0.2",
-    "sourceBaseCommit": "11f8cfd664e09f1c6831dd1e8f7f05a5c40bfc08",
-    "codeCommit": "703a33ddcc7e62ee45d263e34084ff4244526c68",
-    "tag": "benchmark-v2-reference-code",
-    "manifestCommit": "43eacdd8d82af8ffa00967de7743953649d3f3f3"
-  },
-  "controller": {
-    "branch": "codex/gpt-model-retest-v2-controller",
-    "startCommit": "43eacdd8d82af8ffa00967de7743953649d3f3f3",
-    "status": "protocol-registered"
-  },
-  "challengeSources": {
-    "sonar": {
-      "branch": "codex/benchmark-sonar-v2-source",
-      "status": "registered"
-    },
-    "zap": {
-      "branch": "codex/benchmark-zap-v2-source",
-      "status": "registered"
-    },
-    "jmeter": {
-      "branch": "codex/benchmark-jmeter-v2-source",
-      "status": "registered"
-    }
-  },
-  "modelBranches": {
-    "gpt-5.4": {
-      "sonar": "codex/gpt-5.4-sonar-v2",
-      "zap": "codex/gpt-5.4-zap-v2",
-      "jmeter": "codex/gpt-5.4-jmeter-v2"
-    },
-    "gpt-5.5": {
-      "sonar": "codex/gpt-5.5-sonar-v2",
-      "zap": "codex/gpt-5.5-zap-v2",
-      "jmeter": "codex/gpt-5.5-jmeter-v2"
-    }
-  },
-  "comparisonBranch": "codex/gpt-5.4-vs-gpt-5.5-v2"
+﻿{
+    "reference":  {
+                      "branch":  "codex/sonar-challenge-api-reference",
+                      "sourceBaseBranch":  "baseline-v0.2",
+                      "sourceBaseCommit":  "11f8cfd664e09f1c6831dd1e8f7f05a5c40bfc08",
+                      "codeCommit":  "703a33ddcc7e62ee45d263e34084ff4244526c68",
+                      "tag":  "benchmark-v2-reference-code",
+                      "manifestCommit":  "43eacdd8d82af8ffa00967de7743953649d3f3f3"
+                  },
+    "controller":  {
+                       "branch":  "codex/gpt-model-retest-v2-controller",
+                       "startCommit":  "43eacdd8d82af8ffa00967de7743953649d3f3f3",
+                       "status":  "protocol-registered"
+                   },
+    "challengeSources":  {
+                             "sonar":  {
+                                           "branch":  "codex/benchmark-sonar-v2-source",
+                                           "status":  "frozen-baseline-verified",
+                                           "sourceCommit":  "072c35b9339aceb11c0c06efd5782374eb73acb4",
+                                           "rootCommitCount":  1,
+                                           "mutationWorktreeBranch":  "codex/sonar-v2-mutation-source",
+                                           "mutationWorktreeCommit":  "a7b49e3f14f273aa62cb4497253d85eae03ccd4d"
+                                       },
+                             "zap":  {
+                                         "branch":  "codex/benchmark-zap-v2-source",
+                                         "status":  "registered"
+                                     },
+                             "jmeter":  {
+                                            "branch":  "codex/benchmark-jmeter-v2-source",
+                                            "status":  "registered"
+                                        }
+                         },
+    "modelBranches":  {
+                          "gpt-5.4":  {
+                                          "sonar":  "codex/gpt-5.4-sonar-v2",
+                                          "zap":  "codex/gpt-5.4-zap-v2",
+                                          "jmeter":  "codex/gpt-5.4-jmeter-v2"
+                                      },
+                          "gpt-5.5":  {
+                                          "sonar":  "codex/gpt-5.5-sonar-v2",
+                                          "zap":  "codex/gpt-5.5-zap-v2",
+                                          "jmeter":  "codex/gpt-5.5-jmeter-v2"
+                                      }
+                      },
+    "comparisonBranch":  "codex/gpt-5.4-vs-gpt-5.5-v2"
 }

@@ -1,0 +1,67 @@
+﻿{
+    "component":  {
+                      "key":  "financial-accounting-sonar-v2-source",
+                      "name":  "Financial Accounting Sonar v2 Source",
+                      "qualifier":  "TRK",
+                      "measures":  [
+                                       {
+                                           "metric":  "coverage",
+                                           "value":  "73.0",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "bugs",
+                                           "value":  "1",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "complexity",
+                                           "value":  "1484"
+                                       },
+                                       {
+                                           "metric":  "reliability_rating",
+                                           "value":  "3.0",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "code_smells",
+                                           "value":  "59",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "duplicated_lines_density",
+                                           "value":  "0.0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "cognitive_complexity",
+                                           "value":  "399",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "security_rating",
+                                           "value":  "1.0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "ncloc",
+                                           "value":  "5486"
+                                       },
+                                       {
+                                           "metric":  "vulnerabilities",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "security_hotspots",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "sqale_rating",
+                                           "value":  "1.0",
+                                           "bestValue":  true
+                                       }
+                                   ]
+                  }
+}

@@ -1,0 +1,2985 @@
+﻿[
+    {
+        "key":  "4b8637a1-8406-471b-8a3a-5affc0291d06",
+        "rule":  "csharpsquid:S1192",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  36,
+        "message":  "Define a constant instead of using this literal \u0027manual-review-required\u0027 7 times.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "4min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:52:57+0000",
+        "updateDate":  "2026-07-20T04:52:57+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  36,
+                          "endLine":  36,
+                          "startOffset":  27,
+                          "endOffset":  51
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  49,
+                                                                  "endLine":  49,
+                                                                  "startOffset":  47,
+                                                                  "endOffset":  71
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  53,
+                                                                  "endLine":  53,
+                                                                  "startOffset":  47,
+                                                                  "endOffset":  71
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  58,
+                                                                  "endLine":  58,
+                                                                  "startOffset":  43,
+                                                                  "endOffset":  67
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  71,
+                                                                  "endLine":  71,
+                                                                  "startOffset":  27,
+                                                                  "endOffset":  51
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  77,
+                                                                  "endLine":  77,
+                                                                  "startOffset":  27,
+                                                                  "endOffset":  51
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  79,
+                                                                  "endLine":  79,
+                                                                  "startOffset":  27,
+                                                                  "endOffset":  51
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "09bec43f-d418-4e0b-8285-dc774b68ed3b",
+        "rule":  "external_roslyn:CA1861",
+        "component":  "financial-accounting-sonar-v2-source:API/Program.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  32,
+        "message":  "Prefer \u0027static readonly\u0027 fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  32,
+                          "endLine":  32,
+                          "startOffset":  69,
+                          "endOffset":  97
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "eb568a9f-f89f-40c2-aec4-9729f28286e5",
+        "rule":  "csharpsquid:S125",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  7,
+        "message":  "Remove this commented out code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "unused"
+                 ],
+        "textRange":  {
+                          "startLine":  7,
+                          "endLine":  7,
+                          "startOffset":  8,
+                          "endOffset":  49
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "19dff80d-857c-4733-8b19-42a1d94d373b",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Member \u0027BuildAuditTrace\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  11,
+                          "startOffset":  22,
+                          "endOffset":  37
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "71dfbd5f-a75e-4698-9d1a-0ce5440f1051",
+        "rule":  "csharpsquid:S107",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Method has 10 parameters, which is greater than the 7 authorized.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  21,
+                          "startOffset":  37,
+                          "endOffset":  30
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "cacbfb2c-006d-4b92-b086-afc76a1ca644",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Make \u0027BuildAuditTrace\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  11,
+                          "startOffset":  22,
+                          "endOffset":  37
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "14873bf7-b4e6-4b41-b473-af839de32a93",
+        "rule":  "csharpsquid:S3776",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  28,
+        "message":  "Refactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.",
+        "type":  "CODE_SMELL",
+        "severity":  "CRITICAL",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "HIGH"
+                        }
+                    ],
+        "effort":  "6min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  28,
+                          "endLine":  28,
+                          "startOffset":  22,
+                          "endOffset":  41
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  37,
+                                                                  "endLine":  37,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  14
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  39,
+                                                                  "endLine":  39,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  41,
+                                                                  "endLine":  41,
+                                                                  "startOffset":  20,
+                                                                  "endOffset":  22
+                                                              },
+                                                "msg":  "+3 (incl 2 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  43,
+                                                                  "endLine":  43,
+                                                                  "startOffset":  24,
+                                                                  "endOffset":  26
+                                                              },
+                                                "msg":  "+4 (incl 3 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  45,
+                                                                  "endLine":  45,
+                                                                  "startOffset":  28,
+                                                                  "endOffset":  30
+                                                              },
+                                                "msg":  "+5 (incl 4 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  47,
+                                                                  "endLine":  47,
+                                                                  "startOffset":  32,
+                                                                  "endOffset":  34
+                                                              },
+                                                "msg":  "+6 (incl 5 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  51,
+                                                                  "endLine":  51,
+                                                                  "startOffset":  32,
+                                                                  "endOffset":  36
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  56,
+                                                                  "endLine":  56,
+                                                                  "startOffset":  28,
+                                                                  "endOffset":  32
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "350b2618-ac68-4db4-8651-29794cf51a94",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  28,
+        "message":  "Member \u0027ClassifyRequestRisk\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  28,
+                          "endLine":  28,
+                          "startOffset":  22,
+                          "endOffset":  41
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "fcabc167-3097-4211-a6f5-3640c723005d",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  28,
+        "message":  "Make \u0027ClassifyRequestRisk\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  28,
+                          "endLine":  28,
+                          "startOffset":  22,
+                          "endOffset":  41
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "c7b2276f-96f1-44a3-a8b1-74b2e141a0d1",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  39,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  39,
+                          "endLine":  39,
+                          "startOffset":  16,
+                          "endOffset":  18
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  37,
+                                                                  "endLine":  37,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  14
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "552e1eb6-c2cc-47b7-b630-d94c51bea7f9",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  41,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  41,
+                          "endLine":  41,
+                          "startOffset":  20,
+                          "endOffset":  22
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  39,
+                                                                  "endLine":  39,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "00240dcd-caee-4492-b969-cb6c7bf3c0cb",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  43,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  43,
+                          "endLine":  43,
+                          "startOffset":  24,
+                          "endOffset":  26
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  41,
+                                                                  "endLine":  41,
+                                                                  "startOffset":  20,
+                                                                  "endOffset":  22
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "8d9c4ff7-3327-4f9c-a1e6-b4f4ee70a0cc",
+        "rule":  "csharpsquid:S3923",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  47,
+        "message":  "Remove this conditional structure or edit its code blocks so that they\u0027re not all the same.",
+        "type":  "BUG",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "RELIABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "15min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  47,
+                          "endLine":  47,
+                          "startOffset":  32,
+                          "endOffset":  34
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "1f5ec2e7-3b24-46b4-a243-b8a8e3079167",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  68,
+        "message":  "Make \u0027RenderCsvProblem\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  68,
+                          "endLine":  68,
+                          "startOffset":  22,
+                          "endOffset":  38
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "8a54ba67-f6b5-4290-8b79-d275dc2a4323",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  68,
+        "message":  "Member \u0027RenderCsvProblem\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  68,
+                          "endLine":  68,
+                          "startOffset":  22,
+                          "endOffset":  38
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "018422cb-1cbc-450a-80c5-10a5472a5bfc",
+        "rule":  "external_roslyn:CA1834",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  74,
+        "message":  "Use \u0027StringBuilder.Append(char)\u0027 instead of \u0027StringBuilder.Append(string)\u0027 when the input is a constant unit string",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:56:34+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  74,
+                          "endLine":  74,
+                          "startOffset":  27,
+                          "endOffset":  30
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "6fe575a2-2b53-4198-800b-d51202c18ab3",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  83,
+        "message":  "Make \u0027ResolveDocumentationLink\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  83,
+                          "endLine":  83,
+                          "startOffset":  22,
+                          "endOffset":  46
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "b3fec920-4088-4c85-b414-8d4c0fd4a730",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  83,
+        "message":  "Member \u0027ResolveDocumentationLink\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  83,
+                          "endLine":  83,
+                          "startOffset":  22,
+                          "endOffset":  46
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "91fcc9df-1e24-4854-aee2-a03b51f074f8",
+        "rule":  "csharpsquid:S1192",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  87,
+        "message":  "Define a constant instead of using this literal \u0027http://localhost:5296/swagger/v1/swagger.json\u0027 4 times.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "4min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  87,
+                          "endLine":  87,
+                          "startOffset":  23,
+                          "endOffset":  70
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  91,
+                                                                  "endLine":  91,
+                                                                  "startOffset":  23,
+                                                                  "endOffset":  70
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  95,
+                                                                  "endLine":  95,
+                                                                  "startOffset":  23,
+                                                                  "endOffset":  70
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                                "textRange":  {
+                                                                  "startLine":  98,
+                                                                  "endLine":  98,
+                                                                  "startOffset":  19,
+                                                                  "endOffset":  66
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "264301f8-7aae-439c-9032-e3a186b11a53",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  101,
+        "message":  "Make \u0027ThrowForUnsupportedRoute\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  101,
+                          "endLine":  101,
+                          "startOffset":  20,
+                          "endOffset":  44
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "dd7fc3fe-495d-4e75-a50e-f51b82dace5c",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  101,
+        "message":  "Member \u0027ThrowForUnsupportedRoute\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  101,
+                          "endLine":  101,
+                          "startOffset":  20,
+                          "endOffset":  44
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "6f38dcf4-4f8c-441b-ba96-d062dbcf8fd3",
+        "rule":  "csharpsquid:S112",
+        "component":  "financial-accounting-sonar-v2-source:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  105,
+        "message":  "\u0027System.Exception\u0027 should not be thrown by user code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "cwe",
+                     "error-handling"
+                 ],
+        "textRange":  {
+                          "startLine":  105,
+                          "endLine":  105,
+                          "startOffset":  22,
+                          "endOffset":  56
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "dae9db51-ec5a-4061-8463-91a9e185a1c2",
+        "rule":  "csharpsquid:S4136",
+        "component":  "financial-accounting-sonar-v2-source:BAL/IServices/IAccountingPeriodService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  9,
+        "message":  "All \u0027CloseAsync\u0027 method overloads should be adjacent.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "1min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "convention"
+                 ],
+        "textRange":  {
+                          "startLine":  9,
+                          "endLine":  9,
+                          "startOffset":  19,
+                          "endOffset":  29
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/IServices/IAccountingPeriodService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  11,
+                                                                  "endLine":  11,
+                                                                  "startOffset":  35,
+                                                                  "endOffset":  45
+                                                              },
+                                                "msg":  "Non-adjacent overload",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "d31b7389-5341-427a-909e-732fde857cd8",
+        "rule":  "csharpsquid:S4136",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/AccountingPeriodService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  80,
+        "message":  "All \u0027CloseAsync\u0027 method overloads should be adjacent.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "1min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "convention"
+                 ],
+        "textRange":  {
+                          "startLine":  80,
+                          "endLine":  80,
+                          "startOffset":  32,
+                          "endOffset":  42
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/AccountingPeriodService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  159,
+                                                                  "endLine":  159,
+                                                                  "startOffset":  48,
+                                                                  "endOffset":  58
+                                                              },
+                                                "msg":  "Non-adjacent overload",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "0962d3b8-421e-4fe3-8be6-4e5506000549",
+        "rule":  "csharpsquid:S1192",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/BankReconciliationService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  111,
+        "message":  "Define a constant instead of using this literal \u0027BankReconciliations\u0027 4 times.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "4min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  111,
+                          "endLine":  111,
+                          "startOffset":  20,
+                          "endOffset":  41
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/BankReconciliationService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  231,
+                                                                  "endLine":  231,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  37
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/BankReconciliationService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  279,
+                                                                  "endLine":  279,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  37
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/BankReconciliationService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  348,
+                                                                  "endLine":  348,
+                                                                  "startOffset":  20,
+                                                                  "endOffset":  41
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "3a866d93-5613-49eb-b467-6da832580826",
+        "rule":  "csharpsquid:S1144",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalEntryService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  385,
+        "message":  "Remove the unused private method \u0027NormalizeBalance\u0027.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "2min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "unused"
+                 ],
+        "textRange":  {
+                          "startLine":  385,
+                          "endLine":  385,
+                          "startOffset":  31,
+                          "endOffset":  47
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "03f8fa61-31da-4a76-bfd1-2c0f051d45e4",
+        "rule":  "csharpsquid:S3776",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  265,
+        "message":  "Refactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.",
+        "type":  "CODE_SMELL",
+        "severity":  "CRITICAL",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "HIGH"
+                        }
+                    ],
+        "effort":  "6min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  265,
+                          "endLine":  265,
+                          "startOffset":  27,
+                          "endOffset":  44
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  276,
+                                                                  "endLine":  276,
+                                                                  "startOffset":  77,
+                                                                  "endOffset":  79
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  282,
+                                                                  "endLine":  282,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  19
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  284,
+                                                                  "endLine":  284,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  288,
+                                                                  "endLine":  288,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  20
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  301,
+                                                                  "endLine":  301,
+                                                                  "startOffset":  76,
+                                                                  "endOffset":  78
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  303,
+                                                                  "endLine":  303,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  19
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  306,
+                                                                  "endLine":  306,
+                                                                  "startOffset":  59,
+                                                                  "endOffset":  61
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  308,
+                                                                  "endLine":  308,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  312,
+                                                                  "endLine":  312,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  20
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  325,
+                                                                  "endLine":  325,
+                                                                  "startOffset":  58,
+                                                                  "endOffset":  60
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  330,
+                                                                  "endLine":  330,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  19
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  332,
+                                                                  "endLine":  332,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  336,
+                                                                  "endLine":  336,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  340,
+                                                                  "endLine":  340,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  344,
+                                                                  "endLine":  344,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  354,
+                                                                  "endLine":  354,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+                                                "textRange":  {
+                                                                  "startLine":  354,
+                                                                  "endLine":  354,
+                                                                  "startOffset":  37,
+                                                                  "endOffset":  39
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "1833812a-e9f3-4f67-8b0c-5007a247b6fc",
+        "rule":  "csharpsquid:S127",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/JournalImportService.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  374,
+        "message":  "Do not update the stop condition variable \u0027index\u0027 in the body of the for loop.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "10min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  374,
+                          "endLine":  374,
+                          "startOffset":  24,
+                          "endOffset":  29
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "83877b13-3b91-44cc-895e-85d887e2a4b9",
+        "rule":  "csharpsquid:S125",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  7,
+        "message":  "Remove this commented out code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "unused"
+                 ],
+        "textRange":  {
+                          "startLine":  7,
+                          "endLine":  7,
+                          "startOffset":  8,
+                          "endOffset":  51
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "7ba7b728-46d8-4885-ae4f-1a83cdb653f0",
+        "rule":  "csharpsquid:S107",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Method has 9 parameters, which is greater than the 7 authorized.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  20,
+                          "startOffset":  45,
+                          "endOffset":  28
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "8066efff-eaa4-4006-b809-d71e36b6997e",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Make \u0027BuildCandidateNarrative\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  11,
+                          "startOffset":  22,
+                          "endOffset":  45
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "cd3d8d11-86a6-4b55-bf87-6e99de07a1ee",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Member \u0027BuildCandidateNarrative\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  11,
+                          "startOffset":  22,
+                          "endOffset":  45
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "4d8ec02e-b74a-4d0c-a586-aa1870e1139b",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  26,
+        "message":  "Member \u0027CalculateManualReviewScore\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  26,
+                          "endLine":  26,
+                          "startOffset":  19,
+                          "endOffset":  45
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "bfd5c229-d3b5-41bc-916e-3c781b94f779",
+        "rule":  "csharpsquid:S3776",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  26,
+        "message":  "Refactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.",
+        "type":  "CODE_SMELL",
+        "severity":  "CRITICAL",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "HIGH"
+                        }
+                    ],
+        "effort":  "6min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  26,
+                          "endLine":  26,
+                          "startOffset":  19,
+                          "endOffset":  45
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  35,
+                                                                  "endLine":  35,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  14
+                                                              },
+                                                "msg":  "+1",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  37,
+                                                                  "endLine":  37,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "+2 (incl 1 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  39,
+                                                                  "endLine":  39,
+                                                                  "startOffset":  20,
+                                                                  "endOffset":  22
+                                                              },
+                                                "msg":  "+3 (incl 2 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  41,
+                                                                  "endLine":  41,
+                                                                  "startOffset":  24,
+                                                                  "endOffset":  26
+                                                              },
+                                                "msg":  "+4 (incl 3 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  43,
+                                                                  "endLine":  43,
+                                                                  "startOffset":  28,
+                                                                  "endOffset":  30
+                                                              },
+                                                "msg":  "+5 (incl 4 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  46,
+                                                                  "endLine":  46,
+                                                                  "startOffset":  32,
+                                                                  "endOffset":  34
+                                                              },
+                                                "msg":  "+6 (incl 5 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  49,
+                                                                  "endLine":  49,
+                                                                  "startOffset":  36,
+                                                                  "endOffset":  38
+                                                              },
+                                                "msg":  "+7 (incl 6 for nesting)",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "ffc7a568-3652-49ad-8fbb-47a2b432265e",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  26,
+        "message":  "Make \u0027CalculateManualReviewScore\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  26,
+                          "endLine":  26,
+                          "startOffset":  19,
+                          "endOffset":  45
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "6ac08351-bfe7-4c14-bdd1-499457fa8fdb",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  37,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  37,
+                          "endLine":  37,
+                          "startOffset":  16,
+                          "endOffset":  18
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  35,
+                                                                  "endLine":  35,
+                                                                  "startOffset":  12,
+                                                                  "endOffset":  14
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "ab26c8ba-66ab-4537-bd9e-14e3b1d1e320",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  39,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  39,
+                          "endLine":  39,
+                          "startOffset":  20,
+                          "endOffset":  22
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  37,
+                                                                  "endLine":  37,
+                                                                  "startOffset":  16,
+                                                                  "endOffset":  18
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "2ab9de02-9fc4-441b-8212-6a0e661bf281",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  41,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  41,
+                          "endLine":  41,
+                          "startOffset":  24,
+                          "endOffset":  26
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  39,
+                                                                  "endLine":  39,
+                                                                  "startOffset":  20,
+                                                                  "endOffset":  22
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "e469ed7e-c959-4160-91ea-73bd45726b5d",
+        "rule":  "csharpsquid:S1066",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  43,
+        "message":  "Merge this if statement with the enclosing one.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "clumsy"
+                 ],
+        "textRange":  {
+                          "startLine":  43,
+                          "endLine":  43,
+                          "startOffset":  28,
+                          "endOffset":  30
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  41,
+                                                                  "endLine":  41,
+                                                                  "startOffset":  24,
+                                                                  "endOffset":  26
+                                                              },
+                                                "msg":  "Merge this if statement with its nested one.",
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "84460f39-d45f-4c4b-b977-0819b9c57dd7",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  63,
+        "message":  "Member \u0027DescribePendingState\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  63,
+                          "endLine":  63,
+                          "startOffset":  22,
+                          "endOffset":  42
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "d4a13d23-20c7-4fe5-854f-fa025bec815a",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  63,
+        "message":  "Make \u0027DescribePendingState\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  63,
+                          "endLine":  63,
+                          "startOffset":  22,
+                          "endOffset":  42
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "fb93d6a5-876f-4ef5-ac39-a12d4b2911fc",
+        "rule":  "csharpsquid:S1192",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  73,
+        "message":  "Define a constant instead of using this literal \u0027Ambiguous\u0027 4 times.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "4min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  73,
+                          "endLine":  73,
+                          "startOffset":  26,
+                          "endOffset":  37
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  83,
+                                                                  "endLine":  83,
+                                                                  "startOffset":  29,
+                                                                  "endOffset":  40
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  88,
+                                                                  "endLine":  88,
+                                                                  "startOffset":  29,
+                                                                  "endOffset":  40
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                                "textRange":  {
+                                                                  "startLine":  93,
+                                                                  "endLine":  93,
+                                                                  "startOffset":  29,
+                                                                  "endOffset":  40
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "2d6ab7f4-4a23-48f5-8b38-ba8accd124a0",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  96,
+        "message":  "Make \u0027ThrowWhenCandidateIsMissing\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  96,
+                          "endLine":  96,
+                          "startOffset":  20,
+                          "endOffset":  47
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "4976dda3-e7b1-42fe-8be1-173e998f8745",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  96,
+        "message":  "Member \u0027ThrowWhenCandidateIsMissing\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  96,
+                          "endLine":  96,
+                          "startOffset":  20,
+                          "endOffset":  47
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "1958bac3-793c-49c2-9651-a1d6756e0169",
+        "rule":  "csharpsquid:S112",
+        "component":  "financial-accounting-sonar-v2-source:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  100,
+        "message":  "\u0027System.Exception\u0027 should not be thrown by user code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "cwe",
+                     "error-handling"
+                 ],
+        "textRange":  {
+                          "startLine":  100,
+                          "endLine":  100,
+                          "startOffset":  22,
+                          "endOffset":  59
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "8e6420ce-deed-4f62-9f18-a243e329df44",
+        "rule":  "csharpsquid:S1192",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  5,
+        "message":  "Define a constant instead of using this literal \u0027open-review\u0027 6 times.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "4min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  5,
+                          "endLine":  5,
+                          "startOffset":  45,
+                          "endOffset":  58
+                      },
+        "flows":  [
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+                                                "textRange":  {
+                                                                  "startLine":  33,
+                                                                  "endLine":  33,
+                                                                  "startOffset":  23,
+                                                                  "endOffset":  36
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+                                                "textRange":  {
+                                                                  "startLine":  37,
+                                                                  "endLine":  37,
+                                                                  "startOffset":  23,
+                                                                  "endOffset":  36
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+                                                "textRange":  {
+                                                                  "startLine":  41,
+                                                                  "endLine":  41,
+                                                                  "startOffset":  23,
+                                                                  "endOffset":  36
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+                                                "textRange":  {
+                                                                  "startLine":  44,
+                                                                  "endLine":  44,
+                                                                  "startOffset":  19,
+                                                                  "endOffset":  32
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      },
+                      {
+                          "locations":  [
+                                            {
+                                                "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+                                                "textRange":  {
+                                                                  "startLine":  53,
+                                                                  "endLine":  53,
+                                                                  "startOffset":  26,
+                                                                  "endOffset":  39
+                                                              },
+                                                "msgFormattings":  [
+
+                                                                   ]
+                                            }
+                                        ]
+                      }
+                  ]
+    },
+    {
+        "key":  "c26284f4-0e49-4bdd-88d9-91a7cf36204d",
+        "rule":  "csharpsquid:S125",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  11,
+        "message":  "Remove this commented out code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "unused"
+                 ],
+        "textRange":  {
+                          "startLine":  11,
+                          "endLine":  11,
+                          "startOffset":  8,
+                          "endOffset":  36
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "2aa5692e-e44a-4cb0-ab99-4ab01ec98b2b",
+        "rule":  "csharpsquid:S107",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  15,
+        "message":  "Method has 8 parameters, which is greater than the 7 authorized.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "brain-overload"
+                 ],
+        "textRange":  {
+                          "startLine":  15,
+                          "endLine":  23,
+                          "startOffset":  35,
+                          "endOffset":  28
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "9dac0a7b-08aa-4b25-b89d-258cefbc076f",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  15,
+        "message":  "Member \u0027FormatDisplay\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  15,
+                          "endLine":  15,
+                          "startOffset":  22,
+                          "endOffset":  35
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "c1a1d356-4d23-4ae9-99d0-cd788907aa56",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  15,
+        "message":  "Make \u0027FormatDisplay\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  15,
+                          "endLine":  15,
+                          "startOffset":  22,
+                          "endOffset":  35
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "725b802a-9511-4601-a69b-8ae4afffaa5e",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  29,
+        "message":  "Member \u0027BuildStatusLabel\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  29,
+                          "endLine":  29,
+                          "startOffset":  22,
+                          "endOffset":  38
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "e2a73232-0fb6-454b-995b-e8a972744d73",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  29,
+        "message":  "Make \u0027BuildStatusLabel\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  29,
+                          "endLine":  29,
+                          "startOffset":  22,
+                          "endOffset":  38
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "20747ddb-2da8-4574-bb41-d0b6d16ded95",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  61,
+        "message":  "Member \u0027ThrowWhenReferenceMissing\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  61,
+                          "endLine":  61,
+                          "startOffset":  22,
+                          "endOffset":  47
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "9532e09a-1c66-4fbe-a8d9-bcfbc398e5f6",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  61,
+        "message":  "Make \u0027ThrowWhenReferenceMissing\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  61,
+                          "endLine":  61,
+                          "startOffset":  22,
+                          "endOffset":  47
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "cf09b0c2-24d7-4fff-a6f2-852e01413633",
+        "rule":  "csharpsquid:S112",
+        "component":  "financial-accounting-sonar-v2-source:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  65,
+        "message":  "\u0027System.Exception\u0027 should not be thrown by user code.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "20min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "cwe",
+                     "error-handling"
+                 ],
+        "textRange":  {
+                          "startLine":  65,
+                          "endLine":  65,
+                          "startOffset":  22,
+                          "endOffset":  59
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "288e4c48-40a0-4f36-a5b3-56e316203d4f",
+        "rule":  "csharpsquid:S2699",
+        "component":  "financial-accounting-sonar-v2-source:tests/FinancialAccounting.IntegrationTests/SonarChallengeWeakTests.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  24,
+        "message":  "Add at least one assertion to this test case.",
+        "type":  "CODE_SMELL",
+        "severity":  "BLOCKER",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "BLOCKER"
+                        }
+                    ],
+        "effort":  "10min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+                     "tests"
+                 ],
+        "textRange":  {
+                          "startLine":  24,
+                          "endLine":  24,
+                          "startOffset":  16,
+                          "endOffset":  63
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "bc941a81-2d54-4a82-a5bb-6952f45fb2d1",
+        "rule":  "external_roslyn:CA1861",
+        "component":  "financial-accounting-sonar-v2-source:tests/FinancialAccounting.UnitTests/DataContextModelTests.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  43,
+        "message":  "Prefer \u0027static readonly\u0027 fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  43,
+                          "endLine":  43,
+                          "startOffset":  77,
+                          "endOffset":  103
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "4e005390-9ee9-4b70-b55b-71e32771a904",
+        "rule":  "external_roslyn:CA1861",
+        "component":  "financial-accounting-sonar-v2-source:tests/FinancialAccounting.UnitTests/DataContextModelTests.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  59,
+        "message":  "Prefer \u0027static readonly\u0027 fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  59,
+                          "endLine":  59,
+                          "startOffset":  31,
+                          "endOffset":  76
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "1d7360cd-1639-4b64-972c-f5a9caf83fe1",
+        "rule":  "external_roslyn:CA1861",
+        "component":  "financial-accounting-sonar-v2-source:tests/FinancialAccounting.UnitTests/DataContextModelTests.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  81,
+        "message":  "Prefer \u0027static readonly\u0027 fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  81,
+                          "endLine":  81,
+                          "startOffset":  77,
+                          "endOffset":  106
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "23a2e9cb-4f67-47be-a5c4-25670f9969d9",
+        "rule":  "external_roslyn:CA1861",
+        "component":  "financial-accounting-sonar-v2-source:tests/FinancialAccounting.UnitTests/DataContextModelTests.cs",
+        "project":  "financial-accounting-sonar-v2-source",
+        "line":  87,
+        "message":  "Prefer \u0027static readonly\u0027 fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:42:54+0000",
+        "updateDate":  "2026-07-20T04:44:22+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  87,
+                          "endLine":  87,
+                          "startOffset":  31,
+                          "endOffset":  78
+                      },
+        "flows":  [
+
+                  ]
+    }
+]

@@ -1,0 +1,12 @@
+﻿{
+    "projectKey":  "financial-accounting-sonar-v2-source",
+    "projectName":  "Financial Accounting Sonar v2 Source",
+    "projectVersion":  "sonar-v2-source-072c35b",
+    "solutionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-sonar-v2-source-export-v3\\API\\API.sln",
+    "outputDir":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\sonar\\exported-source-scan",
+    "coveragePath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\sonar\\exported-source-scan\\coverage.xml",
+    "ceTaskId":  "2049e7b5-d5d1-46f1-8640-f8def23a458d",
+    "ceTaskStatus":  "SUCCESS",
+    "analysisId":  "3d5b05f7-35cf-4354-874f-1491fec4cc28",
+    "completedAtUtc":  "2026-07-20T04:57:00.0727642Z"
+}

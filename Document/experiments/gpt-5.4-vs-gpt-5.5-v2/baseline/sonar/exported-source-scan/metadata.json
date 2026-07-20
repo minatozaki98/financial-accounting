@@ -1,0 +1,9 @@
+﻿{
+    "projectKey":  "financial-accounting-sonar-v2-source",
+    "projectVersion":  "sonar-v2-source-072c35b",
+    "sourceRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-sonar-v2-source-export-v3",
+    "sourceSha":  "072c35b9339aceb11c0c06efd5782374eb73acb4",
+    "sonarUrl":  "http://localhost:9000",
+    "scannerVersion":  "SonarScanner for .NET 11.1",
+    "exportedAtUtc":  "2026-07-20T04:57:15.0358712Z"
+}
