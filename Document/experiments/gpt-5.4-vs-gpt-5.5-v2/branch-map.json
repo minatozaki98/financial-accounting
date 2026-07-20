@@ -23,7 +23,11 @@
                                        },
                              "zap":  {
                                          "branch":  "codex/benchmark-zap-v2-source",
-                                         "status":  "registered"
+                                         "status":  "frozen-baseline-verified",
+                                         "sourceCommit":  "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+                                         "rootCommitCount":  1,
+                                         "mutationWorktreeBranch":  "codex/zap-v2-mutation-source",
+                                         "mutationWorktreeCommit":  "e9462ae0ea4161b41cb5b0894f87696a61e35d87"
                                      },
                              "jmeter":  {
                                             "branch":  "codex/benchmark-jmeter-v2-source",

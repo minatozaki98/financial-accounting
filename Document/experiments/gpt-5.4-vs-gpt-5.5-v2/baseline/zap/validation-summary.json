@@ -1,0 +1,92 @@
+﻿{
+    "track":  "zap",
+    "status":  "valid-baseline-frozen",
+    "sourceBranch":  "codex/benchmark-zap-v2-source",
+    "sourceCommit":  "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+    "sourceRootCommitCount":  1,
+    "mutationWorktreeBranch":  "codex/zap-v2-mutation-source",
+    "mutationWorktreeCommit":  "e9462ae0ea4161b41cb5b0894f87696a61e35d87",
+    "referenceTag":  "benchmark-v2-reference-code",
+    "referenceCommit":  "703a33ddcc7e62ee45d263e34084ff4244526c68",
+    "zapImageId":  "sha256:8d387b1a63e3425beef4846e39719f5af2a787753af2d8b6558c6257d7a577a2",
+    "databaseBackupSha256":  "E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722",
+    "runnerScriptSha256":  "2D228640DE6A128BC41E160CCCF05A81E49F89480466D340A3417A3E0D0BFF64",
+    "rulesFileSha256":  "7DF8E1AD6B3ADA21AD129584A57D13E5CFC3A86E41F4B594550945AE57D2121D",
+    "safeMode":  true,
+    "zapExitCode":  0,
+    "importedUrlCount":  38,
+    "endpointCoverageValid":  true,
+    "totalProbeCount":  33,
+    "validBusinessProbeCount":  15,
+    "authorizationBoundaryProbeCount":  5,
+    "verifiedBusinessAlertInstances":  36,
+    "distinctAlertIds":  8,
+    "mediumOrHigherInstances":  5,
+    "alertGroups":  [
+                        {
+                            "alertId":  "10021",
+                            "count":  5,
+                            "name":  "X-Content-Type-Options Header Missing",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10056",
+                            "count":  5,
+                            "name":  "X-Debug-Token Information Leak",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10049",
+                            "count":  5,
+                            "name":  "Non-Storable Content",
+                            "risk":  "Informational"
+                        },
+                        {
+                            "alertId":  "10039",
+                            "count":  5,
+                            "name":  "X-Backend-Server Header Information Leak",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10098",
+                            "count":  5,
+                            "name":  "Cross-Domain Misconfiguration",
+                            "risk":  "Medium"
+                        },
+                        {
+                            "alertId":  "10037",
+                            "count":  5,
+                            "name":  "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10061",
+                            "count":  5,
+                            "name":  "X-AspNet-Version Response Header",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10024",
+                            "count":  1,
+                            "name":  "Information Disclosure - Sensitive Information in URL",
+                            "risk":  "Informational"
+                        }
+                    ],
+    "validityGate":  {
+                         "endpointCoverage":  true,
+                         "atLeastEightBusinessAlertInstances":  true,
+                         "atLeastFourDistinctAlertIds":  true,
+                         "atLeastTwoMediumOrHigherInstances":  true
+                     },
+    "publicUnitTestsPassed":  9,
+    "publicIntegrationTestsPassed":  134,
+    "releaseBuildWarnings":  0,
+    "releaseBuildErrors":  0,
+    "hiddenPassed":  14,
+    "hiddenTotal":  14,
+    "cleanReferencePilot":  "clean-reference-pilot-safe completed with 0 alerts; not accepted as challenge source",
+    "finalEvidenceDir":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/zap/exported-source-scan",
+    "publicVerificationDir":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/zap/public-verification",
+    "hiddenVerificationDir":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/zap/hidden-tests-source-final",
+    "recordedAtUtc":  "2026-07-20T05:45:04.9176277Z"
+}

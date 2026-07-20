@@ -1,0 +1,12 @@
+﻿{
+    "runTag":  "zap-source-final",
+    "candidateRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-zap-v2-source-candidate",
+    "outcome":  "Completed",
+    "total":  14,
+    "executed":  14,
+    "passed":  14,
+    "failed":  0,
+    "skipped":  0,
+    "trxPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\hidden-tests-source-final\\hidden-zap-source-final.trx",
+    "completedAtUtc":  "2026-07-20T05:41:48.9789583Z"
+}

@@ -1,0 +1,76 @@
+﻿{
+    "baseUrl":  "http://localhost:5296",
+    "openApiUrl":  "http://localhost:5296/swagger/v1/swagger.json",
+    "dockerOpenApiUrl":  "http://host.docker.internal:5296/swagger/v1/swagger.json",
+    "image":  "ghcr.io/zaproxy/zaproxy:stable",
+    "outputPrefix":  "zap-exported-source-baseline",
+    "skipZapScan":  false,
+    "safeMode":  true,
+    "zapExitCode":  0,
+    "endpointCoveragePath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\endpoint-coverage.json",
+    "endpointCoverageSummaryPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\endpoint-coverage-summary.json",
+    "verifiedAlertsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\verified-alerts.json",
+    "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\zap-exported-source-baseline.html",
+    "jsonReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\zap-exported-source-baseline.json",
+    "markdownReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\zap\\exported-source-scan\\zap-exported-source-baseline.md",
+    "verifiedBusinessAlertInstances":  36,
+    "distinctAlertIds":  8,
+    "mediumOrHigherInstances":  5,
+    "alertGroups":  [
+                        {
+                            "alertId":  "10021",
+                            "count":  5,
+                            "name":  "X-Content-Type-Options Header Missing",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10056",
+                            "count":  5,
+                            "name":  "X-Debug-Token Information Leak",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10049",
+                            "count":  5,
+                            "name":  "Non-Storable Content",
+                            "risk":  "Informational"
+                        },
+                        {
+                            "alertId":  "10039",
+                            "count":  5,
+                            "name":  "X-Backend-Server Header Information Leak",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10098",
+                            "count":  5,
+                            "name":  "Cross-Domain Misconfiguration",
+                            "risk":  "Medium"
+                        },
+                        {
+                            "alertId":  "10037",
+                            "count":  5,
+                            "name":  "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10061",
+                            "count":  5,
+                            "name":  "X-AspNet-Version Response Header",
+                            "risk":  "Low"
+                        },
+                        {
+                            "alertId":  "10024",
+                            "count":  1,
+                            "name":  "Information Disclosure - Sensitive Information in URL",
+                            "risk":  "Informational"
+                        }
+                    ],
+    "validityGate":  {
+                         "endpointCoverage":  true,
+                         "atLeastEightBusinessAlertInstances":  true,
+                         "atLeastFourDistinctAlertIds":  true,
+                         "atLeastTwoMediumOrHigherInstances":  true
+                     },
+    "completedAtUtc":  "2026-07-20T05:44:06.0573762Z"
+}
