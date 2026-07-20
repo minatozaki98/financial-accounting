@@ -1,0 +1,36 @@
+You are remediating the Apache JMeter v2 benchmark source in the current checkout.
+
+Model/run identity:
+- Before changing files, record the displayed model label, reasoning setting if visible, start time, current branch, and current commit SHA.
+- Stop and report if the model label is not the requested model for this run.
+
+Allowed evidence:
+- Use only the Apache JMeter evidence pasted into this task by the controller.
+- You may inspect the current checkout.
+- Do not inspect sibling directories, other worktrees, other branches, remotes, reflogs, stashes, previous comparison reports, hidden tests, mutation manifests, reference manifests, or another model's patch.
+
+Goal:
+- Improve evidence-supported JMeter business-transaction latency or throughput while preserving all API behavior, authorization boundaries, accounting invariants, audit semantics, database consistency, DTO JSON shapes, route names, and public test contracts.
+- Make only changes justified by the supplied JMeter evidence and current source inspection.
+
+Hard constraints:
+- Do not change JMeter workloads, JMX files, runner scripts, database restore scripts, thresholds, generated evidence files, or measurement rules.
+- Do not reduce work by deleting endpoints, skipping validations, weakening accounting rules, bypassing audit writes, returning incomplete DTOs, changing status-code contracts, or hiding failures.
+- Do not add caching that returns stale ledger, period, import, reconciliation, authorization, or audit data after mutations.
+- Do not remove idempotency, concurrency, transaction, atomicity, journal-balancing, or reconciliation uniqueness guarantees.
+- Do not inspect or modify files outside this checkout.
+
+Implementation expectations:
+- Prefer source-level performance fixes that preserve the measured workflow contract.
+- Add or update focused public tests when changing query shape, transaction boundaries, caching, idempotency, or persistence behavior.
+- Keep a short interaction record with attempted fixes, commands run, changed files, elapsed time, and any remaining bottlenecks.
+
+Verification before stopping:
+- Run `dotnet test .\API\API.sln -c Debug --nologo`.
+- Run `dotnet build .\API\API.sln -c Release --nologo`.
+- Run `git diff --check`.
+- Commit only source/test changes needed for this JMeter remediation when the controller asks you to freeze the run.
+
+Attempt limit:
+- You get one initial remediation attempt and at most two correction attempts from raw controller feedback.
+- Stop after the third attempt, even if bottlenecks remain.

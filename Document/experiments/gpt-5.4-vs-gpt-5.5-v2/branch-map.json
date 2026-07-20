@@ -51,5 +51,103 @@
                                           "jmeter":  "codex/gpt-5.5-jmeter-v2"
                                       }
                       },
-    "comparisonBranch":  "codex/gpt-5.4-vs-gpt-5.5-v2"
+    "comparisonBranch":  "codex/gpt-5.4-vs-gpt-5.5-v2",
+    "prompts":  {
+                    "sonar":  {
+                                  "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/prompts/sonar.txt",
+                                  "sha256":  "68ECE8956A96D7BEE1FE0659B53C3E87E0759534198B204D3EDD35AED281468B"
+                              },
+                    "zap":  {
+                                "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/prompts/zap.txt",
+                                "sha256":  "A93AECDB3EE0EEE014117D540DB819DAFC398D57AF4EF524B042BF432E34672E"
+                            },
+                    "jmeter":  {
+                                   "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/prompts/jmeter.txt",
+                                   "sha256":  "5975E6A9AFBB527B0DA70AFBC3C6581221E93AC1BDC078C21517D06BB09D06DB"
+                               }
+                },
+    "modelLabs":  {
+                      "gpt-5.4":  {
+                                      "sonar":  {
+                                                    "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-sonar-v2",
+                                                    "modelBranch":  "codex/gpt-5.4-sonar-v2",
+                                                    "currentBranch":  "codex/gpt-5.4-sonar-v2",
+                                                    "sourceBranch":  "codex/benchmark-sonar-v2-source",
+                                                    "sourceCommit":  "072c35b9339aceb11c0c06efd5782374eb73acb4",
+                                                    "rootCommitCount":  1,
+                                                    "remoteCount":  0,
+                                                    "clean":  true,
+                                                    "leakMatches":  0,
+                                                    "unreachableObjects":  0,
+                                                    "promptSha256":  "68ECE8956A96D7BEE1FE0659B53C3E87E0759534198B204D3EDD35AED281468B"
+                                                },
+                                      "zap":  {
+                                                  "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-zap-v2",
+                                                  "modelBranch":  "codex/gpt-5.4-zap-v2",
+                                                  "currentBranch":  "codex/gpt-5.4-zap-v2",
+                                                  "sourceBranch":  "codex/benchmark-zap-v2-source",
+                                                  "sourceCommit":  "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+                                                  "rootCommitCount":  1,
+                                                  "remoteCount":  0,
+                                                  "clean":  true,
+                                                  "leakMatches":  0,
+                                                  "unreachableObjects":  0,
+                                                  "promptSha256":  "A93AECDB3EE0EEE014117D540DB819DAFC398D57AF4EF524B042BF432E34672E"
+                                              },
+                                      "jmeter":  {
+                                                     "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-jmeter-v2",
+                                                     "modelBranch":  "codex/gpt-5.4-jmeter-v2",
+                                                     "currentBranch":  "codex/gpt-5.4-jmeter-v2",
+                                                     "sourceBranch":  "codex/benchmark-jmeter-v2-source",
+                                                     "sourceCommit":  "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+                                                     "rootCommitCount":  1,
+                                                     "remoteCount":  0,
+                                                     "clean":  true,
+                                                     "leakMatches":  0,
+                                                     "unreachableObjects":  0,
+                                                     "promptSha256":  "5975E6A9AFBB527B0DA70AFBC3C6581221E93AC1BDC078C21517D06BB09D06DB"
+                                                 }
+                                  },
+                      "gpt-5.5":  {
+                                      "sonar":  {
+                                                    "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-sonar-v2",
+                                                    "modelBranch":  "codex/gpt-5.5-sonar-v2",
+                                                    "currentBranch":  "codex/gpt-5.5-sonar-v2",
+                                                    "sourceBranch":  "codex/benchmark-sonar-v2-source",
+                                                    "sourceCommit":  "072c35b9339aceb11c0c06efd5782374eb73acb4",
+                                                    "rootCommitCount":  1,
+                                                    "remoteCount":  0,
+                                                    "clean":  true,
+                                                    "leakMatches":  0,
+                                                    "unreachableObjects":  0,
+                                                    "promptSha256":  "68ECE8956A96D7BEE1FE0659B53C3E87E0759534198B204D3EDD35AED281468B"
+                                                },
+                                      "zap":  {
+                                                  "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-zap-v2",
+                                                  "modelBranch":  "codex/gpt-5.5-zap-v2",
+                                                  "currentBranch":  "codex/gpt-5.5-zap-v2",
+                                                  "sourceBranch":  "codex/benchmark-zap-v2-source",
+                                                  "sourceCommit":  "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+                                                  "rootCommitCount":  1,
+                                                  "remoteCount":  0,
+                                                  "clean":  true,
+                                                  "leakMatches":  0,
+                                                  "unreachableObjects":  0,
+                                                  "promptSha256":  "A93AECDB3EE0EEE014117D540DB819DAFC398D57AF4EF524B042BF432E34672E"
+                                              },
+                                      "jmeter":  {
+                                                     "labPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-jmeter-v2",
+                                                     "modelBranch":  "codex/gpt-5.5-jmeter-v2",
+                                                     "currentBranch":  "codex/gpt-5.5-jmeter-v2",
+                                                     "sourceBranch":  "codex/benchmark-jmeter-v2-source",
+                                                     "sourceCommit":  "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+                                                     "rootCommitCount":  1,
+                                                     "remoteCount":  0,
+                                                     "clean":  true,
+                                                     "leakMatches":  0,
+                                                     "unreachableObjects":  0,
+                                                     "promptSha256":  "5975E6A9AFBB527B0DA70AFBC3C6581221E93AC1BDC078C21517D06BB09D06DB"
+                                                 }
+                                  }
+                  }
 }
