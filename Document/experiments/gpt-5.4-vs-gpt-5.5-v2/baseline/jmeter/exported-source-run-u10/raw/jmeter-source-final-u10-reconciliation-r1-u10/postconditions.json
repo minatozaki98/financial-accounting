@@ -1,0 +1,11 @@
+﻿{
+    "unbalancedImportedEntries":  0,
+    "invalidAtomicCreatedEntries":  0,
+    "duplicateImportedReferences":  0,
+    "closedBenchmarkPeriods":  0,
+    "invalidClosedPeriods":  0,
+    "duplicateMatchesWithinReconciliation":  0,
+    "duplicateFinalizeRequestIds":  0,
+    "unfinalizedWithFinalizeRequest":  0,
+    "passed":  true
+}

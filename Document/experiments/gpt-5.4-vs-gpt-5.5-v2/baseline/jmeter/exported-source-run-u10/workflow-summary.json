@@ -1,0 +1,545 @@
+﻿{
+    "candidateRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-jmeter-v2-source-candidate",
+    "outputDir":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10",
+    "baseUrl":  "http://127.0.0.1:5298",
+    "sqlServer":  "localhost",
+    "databaseName":  "FinancialBenchmarkV2",
+    "image":  "justb4/jmeter:5.5",
+    "users":  10,
+    "rampUpSeconds":  60,
+    "loops":  10,
+    "repetitions":  3,
+    "journalRows":  20,
+    "profiles":  [
+                     "period-close",
+                     "journal-import",
+                     "reconciliation"
+                 ],
+    "runs":  [
+                 {
+                     "profile":  "period-close",
+                     "runLabel":  "jmeter-source-final-u10-period-close-r1-u10",
+                     "runTag":  "jmeter-source-final-u10-period-close-r1-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r1-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r1-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r1-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r1-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "period-close",
+                                         "label":  "BUSINESS period-close preview-close-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  2397,
+                                         "p95Ms":  5574,
+                                         "p99Ms":  8471,
+                                         "throughputPerSecond":  1.2193
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  100,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  94.245,
+                                            "apiCpuPercent":  0.0187,
+                                            "apiWorkingSetMb":  94.27
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.146 seconds (241.876 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:51:00.7070163Z\"\n}",
+                     "profileProperties":  {
+
+                                           }
+                 },
+                 {
+                     "profile":  "journal-import",
+                     "runLabel":  "jmeter-source-final-u10-journal-import-r1-u10",
+                     "runTag":  "jmeter-source-final-u10-journal-import-r1-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r1-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r1-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r1-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r1-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import validate-commit-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  492,
+                                         "p95Ms":  864,
+                                         "p99Ms":  1089,
+                                         "throughputPerSecond":  1.6976
+                                     },
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  231,
+                                         "p95Ms":  444,
+                                         "p99Ms":  555,
+                                         "throughputPerSecond":  1.7598
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  76.603,
+                                            "apiCpuPercent":  0.065,
+                                            "apiWorkingSetMb":  97.95
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.194 seconds (182.030 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:52:51.6418540Z\"\n}",
+                     "profileProperties":  {
+                                               "debitAccountCode":  "A000001",
+                                               "creditAccountCode":  "L000002",
+                                               "journalRows":  "20"
+                                           }
+                 },
+                 {
+                     "profile":  "reconciliation",
+                     "runLabel":  "jmeter-source-final-u10-reconciliation-r1-u10",
+                     "runTag":  "jmeter-source-final-u10-reconciliation-r1-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r1-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r1-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r1-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r1-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "reconciliation",
+                                         "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  1667,
+                                         "p95Ms":  4872,
+                                         "p99Ms":  9116,
+                                         "throughputPerSecond":  1.5578
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  82.024,
+                                            "apiCpuPercent":  0.0238,
+                                            "apiWorkingSetMb":  93.71
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.136 seconds (259.661 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:54:23.4243751Z\"\n}",
+                     "profileProperties":  {
+                                               "bankAccountId":  "1",
+                                               "exactReference":  "JM-RECON-EXACT-jmeter-source-final-u10-reconciliation-r1-u10",
+                                               "exactDate":  "2026-06-15",
+                                               "exactAmount":  "321.45",
+                                               "ambiguousDate":  "2026-06-16",
+                                               "ambiguousAmount":  "654.32",
+                                               "exactEntryId":  "50001",
+                                               "ambiguousEntryIdA":  "50002",
+                                               "ambiguousEntryIdB":  "50003"
+                                           }
+                 },
+                 {
+                     "profile":  "period-close",
+                     "runLabel":  "jmeter-source-final-u10-period-close-r2-u10",
+                     "runTag":  "jmeter-source-final-u10-period-close-r2-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r2-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r2-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r2-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r2-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "period-close",
+                                         "label":  "BUSINESS period-close preview-close-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  1753,
+                                         "p95Ms":  5954,
+                                         "p99Ms":  9961,
+                                         "throughputPerSecond":  1.4435
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  100,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  87.576,
+                                            "apiCpuPercent":  0.0123,
+                                            "apiWorkingSetMb":  93.18
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.091 seconds (388.065 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:55:56.8611535Z\"\n}",
+                     "profileProperties":  {
+
+                                           }
+                 },
+                 {
+                     "profile":  "journal-import",
+                     "runLabel":  "jmeter-source-final-u10-journal-import-r2-u10",
+                     "runTag":  "jmeter-source-final-u10-journal-import-r2-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r2-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r2-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r2-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r2-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import validate-commit-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  456,
+                                         "p95Ms":  921,
+                                         "p99Ms":  1158,
+                                         "throughputPerSecond":  1.7397
+                                     },
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  202,
+                                         "p95Ms":  551,
+                                         "p99Ms":  607,
+                                         "throughputPerSecond":  1.8312
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  73.308,
+                                            "apiCpuPercent":  0.0133,
+                                            "apiWorkingSetMb":  98.55
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.121 seconds (291.850 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:57:36.2156600Z\"\n}",
+                     "profileProperties":  {
+                                               "debitAccountCode":  "A000001",
+                                               "creditAccountCode":  "L000002",
+                                               "journalRows":  "20"
+                                           }
+                 },
+                 {
+                     "profile":  "reconciliation",
+                     "runLabel":  "jmeter-source-final-u10-reconciliation-r2-u10",
+                     "runTag":  "jmeter-source-final-u10-reconciliation-r2-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r2-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r2-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r2-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r2-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "reconciliation",
+                                         "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  2858,
+                                         "p95Ms":  5875,
+                                         "p99Ms":  7577,
+                                         "throughputPerSecond":  1.2372
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  102.28,
+                                            "apiCpuPercent":  0.0602,
+                                            "apiWorkingSetMb":  96.49
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.093 seconds (379.720 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T07:59:01.7651949Z\"\n}",
+                     "profileProperties":  {
+                                               "bankAccountId":  "1",
+                                               "exactReference":  "JM-RECON-EXACT-jmeter-source-final-u10-reconciliation-r2-u10",
+                                               "exactDate":  "2026-06-15",
+                                               "exactAmount":  "321.45",
+                                               "ambiguousDate":  "2026-06-16",
+                                               "ambiguousAmount":  "654.32",
+                                               "exactEntryId":  "50001",
+                                               "ambiguousEntryIdA":  "50002",
+                                               "ambiguousEntryIdB":  "50003"
+                                           }
+                 },
+                 {
+                     "profile":  "period-close",
+                     "runLabel":  "jmeter-source-final-u10-period-close-r3-u10",
+                     "runTag":  "jmeter-source-final-u10-period-close-r3-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r3-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r3-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r3-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-period-close-r3-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "period-close",
+                                         "label":  "BUSINESS period-close preview-close-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  2720,
+                                         "p95Ms":  5246,
+                                         "p99Ms":  6262,
+                                         "throughputPerSecond":  1.3695
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  100,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  91.588,
+                                            "apiCpuPercent":  0.0395,
+                                            "apiWorkingSetMb":  92.29
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.210 seconds (168.161 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T08:00:58.8470521Z\"\n}",
+                     "profileProperties":  {
+
+                                           }
+                 },
+                 {
+                     "profile":  "journal-import",
+                     "runLabel":  "jmeter-source-final-u10-journal-import-r3-u10",
+                     "runTag":  "jmeter-source-final-u10-journal-import-r3-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r3-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r3-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r3-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-journal-import-r3-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import validate-commit-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  543,
+                                         "p95Ms":  1093,
+                                         "p99Ms":  1304,
+                                         "throughputPerSecond":  1.814
+                                     },
+                                     {
+                                         "profile":  "journal-import",
+                                         "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  236,
+                                         "p95Ms":  475,
+                                         "p99Ms":  863,
+                                         "throughputPerSecond":  1.9233
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  69.688,
+                                            "apiCpuPercent":  0.0294,
+                                            "apiWorkingSetMb":  94.1
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.099 seconds (356.706 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T08:02:40.4778572Z\"\n}",
+                     "profileProperties":  {
+                                               "debitAccountCode":  "A000001",
+                                               "creditAccountCode":  "L000002",
+                                               "journalRows":  "20"
+                                           }
+                 },
+                 {
+                     "profile":  "reconciliation",
+                     "runLabel":  "jmeter-source-final-u10-reconciliation-r3-u10",
+                     "runTag":  "jmeter-source-final-u10-reconciliation-r3-u10",
+                     "users":  10,
+                     "rampUpSeconds":  60,
+                     "loops":  10,
+                     "journalRows":  20,
+                     "jtlPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r3-u10\\results.jtl",
+                     "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r3-u10\\html",
+                     "metricsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r3-u10\\metrics.json",
+                     "postconditionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\baseline\\jmeter\\exported-source-run-u10\\raw\\jmeter-source-final-u10-reconciliation-r3-u10\\postconditions.json",
+                     "metrics":  [
+                                     {
+                                         "profile":  "reconciliation",
+                                         "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                                         "samples":  100,
+                                         "failures":  0,
+                                         "errorRatePercent":  0,
+                                         "p50Ms":  2116,
+                                         "p95Ms":  4534,
+                                         "p99Ms":  5678,
+                                         "throughputPerSecond":  1.4582
+                                     }
+                                 ],
+                     "postconditions":  {
+                                            "unbalancedImportedEntries":  0,
+                                            "invalidAtomicCreatedEntries":  0,
+                                            "duplicateImportedReferences":  0,
+                                            "closedBenchmarkPeriods":  0,
+                                            "invalidClosedPeriods":  0,
+                                            "duplicateMatchesWithinReconciliation":  0,
+                                            "duplicateFinalizeRequestIds":  0,
+                                            "unfinalizedWithFinalizeRequest":  0,
+                                            "passed":  true
+                                        },
+                     "processMetrics":  {
+                                            "durationSeconds":  86.907,
+                                            "apiCpuPercent":  0.0292,
+                                            "apiWorkingSetMb":  94.43
+                                        },
+                     "restoreSummary":  "11 percent processed.\n22 percent processed.\n31 percent processed.\n42 percent processed.\n51 percent processed.\n62 percent processed.\n70 percent processed.\n82 percent processed.\n90 percent processed.\n100 percent processed.\nProcessed 4520 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2\u0027 on file 1.\nProcessed 1 pages for database \u0027FinancialBenchmarkV2\u0027, file \u0027FinancialBenchmarkV2_log\u0027 on file 1.\nRESTORE DATABASE successfully processed 4521 pages in 0.143 seconds (246.950 MB/sec).\n{\n    \"sqlServer\":  \"localhost\",\n    \"targetDatabase\":  \"FinancialBenchmarkV2\",\n    \"backupPath\":  \"C:\\\\Temp\\\\financial-accounting-benchmark-v2\\\\financial-benchmark-v2-clean.bak\",\n    \"backupSha256\":  \"E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722\",\n    \"restoredAtUtc\":  \"2026-07-20T08:04:02.5294582Z\"\n}",
+                     "profileProperties":  {
+                                               "bankAccountId":  "1",
+                                               "exactReference":  "JM-RECON-EXACT-jmeter-source-final-u10-reconciliation-r3-u10",
+                                               "exactDate":  "2026-06-15",
+                                               "exactAmount":  "321.45",
+                                               "ambiguousDate":  "2026-06-16",
+                                               "ambiguousAmount":  "654.32",
+                                               "exactEntryId":  "50001",
+                                               "ambiguousEntryIdA":  "50002",
+                                               "ambiguousEntryIdB":  "50003"
+                                           }
+                 }
+             ],
+    "aggregate":  [
+                      {
+                          "profile":  "period-close",
+                          "label":  "BUSINESS period-close preview-close-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  5574,
+                          "medianThroughputPerSecond":  1.3695,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  6.3369,
+                          "throughputCoefficientOfVariationPercent":  8.4992
+                      },
+                      {
+                          "profile":  "journal-import",
+                          "label":  "BUSINESS journal-import validate-commit-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  921,
+                          "medianThroughputPerSecond":  1.7397,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  12.4269,
+                          "throughputCoefficientOfVariationPercent":  3.367
+                      },
+                      {
+                          "profile":  "journal-import",
+                          "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                          "repetitions":  3,
+                          "medianP95Ms":  475,
+                          "medianThroughputPerSecond":  1.8312,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  11.2356,
+                          "throughputCoefficientOfVariationPercent":  4.4594
+                      },
+                      {
+                          "profile":  "reconciliation",
+                          "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  4872,
+                          "medianThroughputPerSecond":  1.4582,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  13.6923,
+                          "throughputCoefficientOfVariationPercent":  11.5738
+                      }
+                  ],
+    "validityGate":  {
+                         "allBusinessSamplesSuccessful":  true,
+                         "allPostconditionsPassed":  true,
+                         "coefficientOfVariationWithin15Percent":  true
+                     },
+    "capturedAtUtc":  "2026-07-20T08:05:37.1345650Z"
+}

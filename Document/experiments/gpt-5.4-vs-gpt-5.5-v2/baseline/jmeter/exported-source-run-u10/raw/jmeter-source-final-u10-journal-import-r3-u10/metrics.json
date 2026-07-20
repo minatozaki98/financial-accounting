@@ -1,0 +1,24 @@
+﻿[
+    {
+        "profile":  "journal-import",
+        "label":  "BUSINESS journal-import validate-commit-replay",
+        "samples":  100,
+        "failures":  0,
+        "errorRatePercent":  0,
+        "p50Ms":  543,
+        "p95Ms":  1093,
+        "p99Ms":  1304,
+        "throughputPerSecond":  1.814
+    },
+    {
+        "profile":  "journal-import",
+        "label":  "BUSINESS journal-import invalid-atomic-rejection",
+        "samples":  100,
+        "failures":  0,
+        "errorRatePercent":  0,
+        "p50Ms":  236,
+        "p95Ms":  475,
+        "p99Ms":  863,
+        "throughputPerSecond":  1.9233
+    }
+]

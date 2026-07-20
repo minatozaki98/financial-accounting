@@ -1,0 +1,11 @@
+﻿{
+    "profile":  "reconciliation",
+    "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+    "samples":  100,
+    "failures":  0,
+    "errorRatePercent":  0,
+    "p50Ms":  1667,
+    "p95Ms":  4872,
+    "p99Ms":  9116,
+    "throughputPerSecond":  1.5578
+}

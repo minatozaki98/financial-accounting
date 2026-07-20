@@ -1,0 +1,260 @@
+﻿{
+    "track":  "jmeter",
+    "status":  "frozen-baseline-verified",
+    "challengeSource":  {
+                            "branch":  "codex/benchmark-jmeter-v2-source",
+                            "sourceCommit":  "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+                            "rootCommitCount":  1,
+                            "exportedSourcePath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-jmeter-v2-source-candidate",
+                            "mutationWorktreeBranch":  "codex/jmeter-v2-mutation-source",
+                            "mutationWorktreeCommit":  "2f27fa5c888138912e3c4a346a95f2fd1a66bca5"
+                        },
+    "finalFrozenLoad":  {
+                            "users":  10,
+                            "rampUpSeconds":  60,
+                            "loops":  10,
+                            "repetitions":  3,
+                            "journalRows":  20,
+                            "outputTag":  "jmeter-source-final-u10",
+                            "outputPath":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10",
+                            "rationale":  "Highest attempted levels with valid behavior were reduced because u50 produced a SQL timeout/HTTP 500 and u25 exceeded the pre-registered CV threshold; u10 satisfies all JMeter validity gates."
+                        },
+    "validityGate":  {
+                         "allBusinessSamplesSuccessful":  true,
+                         "allPostconditionsPassed":  true,
+                         "coefficientOfVariationWithin15Percent":  true
+                     },
+    "aggregate":  [
+                      {
+                          "profile":  "period-close",
+                          "label":  "BUSINESS period-close preview-close-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  5574,
+                          "medianThroughputPerSecond":  1.3695,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  6.3369,
+                          "throughputCoefficientOfVariationPercent":  8.4992
+                      },
+                      {
+                          "profile":  "journal-import",
+                          "label":  "BUSINESS journal-import validate-commit-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  921,
+                          "medianThroughputPerSecond":  1.7397,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  12.4269,
+                          "throughputCoefficientOfVariationPercent":  3.367
+                      },
+                      {
+                          "profile":  "journal-import",
+                          "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                          "repetitions":  3,
+                          "medianP95Ms":  475,
+                          "medianThroughputPerSecond":  1.8312,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  11.2356,
+                          "throughputCoefficientOfVariationPercent":  4.4594
+                      },
+                      {
+                          "profile":  "reconciliation",
+                          "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                          "repetitions":  3,
+                          "medianP95Ms":  4872,
+                          "medianThroughputPerSecond":  1.4582,
+                          "maxErrorRatePercent":  0,
+                          "p95CoefficientOfVariationPercent":  13.6923,
+                          "throughputCoefficientOfVariationPercent":  11.5738
+                      }
+                  ],
+    "rejectedCalibration":  {
+                                "u50":  {
+                                            "attemptedUsers":  50,
+                                            "attemptedRampUpSeconds":  60,
+                                            "attemptedLoops":  10,
+                                            "attemptedRepetitions":  3,
+                                            "stoppedDuring":  "period-close repetition 1",
+                                            "failureType":  "HTTP 500 caused by SQL command timeout",
+                                            "evidence":  "Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.",
+                                            "queryEvidence":  "SELECT [j].[EntryDate], [j].[Status], [j].[JournalEntryId], [j0].[Debit], [j0].[Credit], [j0].[JournalEntryLineId]",
+                                            "disposition":  "rejected as invalid baseline because business assertions cannot rely on server errors/timeouts"
+                                        },
+                                "u25":  {
+                                            "attemptedUsers":  25,
+                                            "attemptedRampUpSeconds":  60,
+                                            "attemptedLoops":  10,
+                                            "attemptedRepetitions":  3,
+                                            "allBusinessSamplesSuccessful":  true,
+                                            "allPostconditionsPassed":  true,
+                                            "coefficientOfVariationWithin15Percent":  false,
+                                            "aggregate":  [
+                                                              {
+                                                                  "profile":  "period-close",
+                                                                  "label":  "BUSINESS period-close preview-close-replay",
+                                                                  "repetitions":  3,
+                                                                  "medianP95Ms":  28838,
+                                                                  "medianThroughputPerSecond":  0.9951,
+                                                                  "maxErrorRatePercent":  0,
+                                                                  "p95CoefficientOfVariationPercent":  61.7329,
+                                                                  "throughputCoefficientOfVariationPercent":  46.1247
+                                                              },
+                                                              {
+                                                                  "profile":  "journal-import",
+                                                                  "label":  "BUSINESS journal-import validate-commit-replay",
+                                                                  "repetitions":  3,
+                                                                  "medianP95Ms":  2305,
+                                                                  "medianThroughputPerSecond":  4.0172,
+                                                                  "maxErrorRatePercent":  0,
+                                                                  "p95CoefficientOfVariationPercent":  74.9602,
+                                                                  "throughputCoefficientOfVariationPercent":  16.6405
+                                                              },
+                                                              {
+                                                                  "profile":  "journal-import",
+                                                                  "label":  "BUSINESS journal-import invalid-atomic-rejection",
+                                                                  "repetitions":  3,
+                                                                  "medianP95Ms":  1337,
+                                                                  "medianThroughputPerSecond":  4.1685,
+                                                                  "maxErrorRatePercent":  0,
+                                                                  "p95CoefficientOfVariationPercent":  93.8511,
+                                                                  "throughputCoefficientOfVariationPercent":  16.5477
+                                                              },
+                                                              {
+                                                                  "profile":  "reconciliation",
+                                                                  "label":  "BUSINESS reconciliation create-match-confirm-finalize-replay",
+                                                                  "repetitions":  3,
+                                                                  "medianP95Ms":  16438,
+                                                                  "medianThroughputPerSecond":  2.0312,
+                                                                  "maxErrorRatePercent":  0,
+                                                                  "p95CoefficientOfVariationPercent":  68.0213,
+                                                                  "throughputCoefficientOfVariationPercent":  46.7395
+                                                              }
+                                                          ],
+                                            "disposition":  "rejected as noisy because the pre-registered CV gate failed",
+                                            "summaryPath":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u25/workflow-summary.json"
+                                        }
+                            },
+    "publicVerification":  {
+                               "dotnetTestLog":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/public-verification/dotnet-test.log",
+                               "dotnetBuildReleaseLog":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/public-verification/dotnet-build-release.log",
+                               "dotnetTestResult":  "passed: 9 unit, 134 integration",
+                               "releaseBuildResult":  "passed: 0 warnings, 0 errors"
+                           },
+    "hiddenVerification":  {
+                               "outcome":  "Completed",
+                               "total":  14,
+                               "passed":  14,
+                               "failed":  0,
+                               "skipped":  0,
+                               "summaryPath":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/hidden-tests-source-final/hidden-jmeter-v2-source-final-summary.json"
+                           },
+    "environment":  {
+                        "databaseName":  "FinancialBenchmarkV2",
+                        "databaseBackupSha256":  "E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722",
+                        "jmeterImage":  "justb4/jmeter:5.5",
+                        "jmeterImageId":  "sha256:088ac52b759a198a5afa5ae13d0a6306e9f2017d71ad140ff57427f6930406f7",
+                        "baseUrl":  "http://127.0.0.1:5298",
+                        "dockerBaseUrl":  "http://host.docker.internal:5298"
+                    },
+    "checksums":  [
+                      {
+                          "path":  "Document/performance/jmeter/v2-period-close.jmx",
+                          "sha256":  "1E62370E46D55E9D2DF40E928259015060FA4E54A98791B8F928811FDDD17B34"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-journal-import.jmx",
+                          "sha256":  "D6623B26FF6802188E920753FDD4751FF52B4A3A3AFC937CFC5D29F70277CE9B"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-reconciliation.jmx",
+                          "sha256":  "8D33ABB867D87C94309012A00866CCAB890749036F71EB4345D48E7D24F89994"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-common.groovy",
+                          "sha256":  "60FF62712126121CA8649BCC96397B29D26B892004C50B3C6B817A4318BA9DC0"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-auth.groovy",
+                          "sha256":  "13E7C146A45A6E0EB2FA379FC18782E41D7A1625571E8E299FFDD22C3EBF3F1B"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-period-close-setup.groovy",
+                          "sha256":  "F5AABE7758BB306D548B596852647D99FBEFA6375107562BD16AE6615C14B573"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-period-close-business.groovy",
+                          "sha256":  "A9C373CAA9F254BA75ABA4F2991A078B5B73E791A333AC4DDC0FDA11EB06DA39"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-journal-import-valid.groovy",
+                          "sha256":  "7235E8A22FDA76083AA3A5BC702A41798BBCFF077962EB1B20F4D6AB1DA094E2"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-journal-import-invalid-atomic.groovy",
+                          "sha256":  "B7345E1AA738BCECBD396354AB120E5FB67A68DAFE4CF017F2E5419DE80BAEA5"
+                      },
+                      {
+                          "path":  "Document/performance/jmeter/v2-reconciliation-business.groovy",
+                          "sha256":  "FF4B1F0C17FAF6F1365FDDAA302AC17CFD674FF010498142D08AAFEABF7969B3"
+                      },
+                      {
+                          "path":  "scripts/benchmark-v2/run-jmeter-workflows.ps1",
+                          "sha256":  "72E68A21B87842BFA3E15164B66C6A368701DE3EEFDE88DF59FF2D9B0F1681AE"
+                      },
+                      {
+                          "path":  "scripts/benchmark-v2/restore-benchmark-database.ps1",
+                          "sha256":  "A6398E6C233679756F35FE6FC49DF08EEAFF36395DC4A389909996471D31D683"
+                      }
+                  ],
+    "notes":  [
+                  "JMeter HTML dashboards are retained as zipped html-reports artifacts instead of raw duplicated dashboard trees.",
+                  "API stdout/stderr logs are generated diagnostics and are not part of the retained JMeter evidence set; JTL, zipped HTML, metrics, postconditions, workflow summary, public logs, and hidden-test summary are retained.",
+                  "The runner\u0027s process CPU percent is retained as captured but treated as supporting evidence only because Windows process accounting does not include all child/runtime work reliably."
+              ],
+    "capturedAtUtc":  "2026-07-20T08:07:58.7825240Z",
+    "htmlReports":  [
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-journal-import-r1-u10-html.zip",
+                            "bytes":  1065998,
+                            "sha256":  "1A894EC77504433984957F968E8F88A492DEC9DAD3B73A92A60E4C020378A933"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-journal-import-r2-u10-html.zip",
+                            "bytes":  1065959,
+                            "sha256":  "A796DB786F68438D7F4FD6589B50A5463B65AB0CE526B479098C87784FCC287F"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-journal-import-r3-u10-html.zip",
+                            "bytes":  1065839,
+                            "sha256":  "17A11105BB312395FB393740F91467144B7DA9167E2FCF49F5D9651E141FF229"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-period-close-r1-u10-html.zip",
+                            "bytes":  1066172,
+                            "sha256":  "7480C602599300021C47FB052ECA2F3677EE89FF4030B1735F4C2942A806CB01"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-period-close-r2-u10-html.zip",
+                            "bytes":  1066315,
+                            "sha256":  "6F81AF6F49FF3D04100CD587060088DB24F5E8EA5AED51862900C5A596DD37EF"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-period-close-r3-u10-html.zip",
+                            "bytes":  1066351,
+                            "sha256":  "112DBDFE09CDAFCB644EA143D944E201A1DAC30AABAC1C4108FCBEDDCE234175"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-reconciliation-r1-u10-html.zip",
+                            "bytes":  1063669,
+                            "sha256":  "DE34F7F3E20AA68BA7625453E763969F35E88425BEF87CD935A457285B6576DB"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-reconciliation-r2-u10-html.zip",
+                            "bytes":  1063767,
+                            "sha256":  "A39D73DC8ABF9E821602714F49F369830B99E4564AD157129F93DFED18F267E4"
+                        },
+                        {
+                            "path":  "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/baseline/jmeter/exported-source-run-u10/html-reports/jmeter-source-final-u10-reconciliation-r3-u10-html.zip",
+                            "bytes":  1063669,
+                            "sha256":  "4F4588D88D080DDA92CFD99AC4555C9F3378A4D9A67357CF93F61A0FD26268E2"
+                        }
+                    ]
+}

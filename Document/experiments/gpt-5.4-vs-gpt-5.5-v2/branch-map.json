@@ -31,7 +31,12 @@
                                      },
                              "jmeter":  {
                                             "branch":  "codex/benchmark-jmeter-v2-source",
-                                            "status":  "registered"
+                                            "status":  "frozen-baseline-verified",
+                                            "sourceCommit":  "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+                                            "rootCommitCount":  1,
+                                            "mutationWorktreeBranch":  "codex/jmeter-v2-mutation-source",
+                                            "mutationWorktreeCommit":  "2f27fa5c888138912e3c4a346a95f2fd1a66bca5",
+                                            "finalFrozenUsers":  10
                                         }
                          },
     "modelBranches":  {

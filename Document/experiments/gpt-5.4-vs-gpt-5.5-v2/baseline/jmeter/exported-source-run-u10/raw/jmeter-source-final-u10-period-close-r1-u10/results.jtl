@@ -1,0 +1,211 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1784533873504,3381,AUTH login once,200,OK,Period Close Thread Group 1-1,text,true,,0,0,1,1,null,0,0,0
+1784533876889,906,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,1,1,null,0,0,0
+1784533879493,494,AUTH login once,200,OK,Period Close Thread Group 1-2,text,true,,0,0,2,2,null,0,0,0
+1784533879988,438,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,2,2,null,0,0,0
+1784533877796,3909,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,2,2,null,0,0,0
+1784533880427,1408,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,2,2,null,0,0,0
+1784533881706,354,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,2,2,null,0,0,0
+1784533881835,357,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,2,2,null,0,0,0
+1784533882060,1938,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533885492,418,AUTH login once,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533885851,393,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533885912,438,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533882193,2597,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533886644,353,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533886245,1741,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533887987,274,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533886350,2145,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533888495,264,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533886997,1920,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533888917,267,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533888261,1985,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533888760,1531,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533890250,272,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,3,3,null,0,0,0
+1784533890292,323,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,3,3,null,0,0,0
+1784533889185,1443,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533890628,413,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,3,3,null,0,0,0
+1784533891493,375,AUTH login once,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533890522,1640,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,4,4,null,0,0,0
+1784533891869,295,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533892162,396,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,4,4,null,0,0,0
+1784533890615,1952,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,4,4,null,0,0,0
+1784533892567,400,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,4,4,null,0,0,0
+1784533892165,1855,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533891041,3021,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,4,4,null,0,0,0
+1784533894021,731,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533894063,699,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,4,4,null,0,0,0
+1784533892967,2233,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,4,4,null,0,0,0
+1784533892558,2916,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,4,4,null,0,0,0
+1784533895201,372,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,4,4,null,0,0,0
+1784533895475,259,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,4,4,null,0,0,0
+1784533894752,1858,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533896610,354,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,4,4,null,0,0,0
+1784533897491,403,AUTH login once,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533895574,2487,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533897895,329,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533895735,2490,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533898061,262,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533898225,305,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533896964,1838,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533898803,211,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533894763,4316,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,5,5,null,0,0,0
+1784533899079,373,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,5,5,null,0,0,0
+1784533898225,1704,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533899929,231,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533898530,1734,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533900264,281,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533898323,2884,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533901207,249,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533899452,2487,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,5,5,null,0,0,0
+1784533901939,240,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,5,5,null,0,0,0
+1784533900546,1852,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533902398,257,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-1,text,true,,0,0,5,5,null,0,0,0
+1784533900160,2567,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533902727,277,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533899014,4247,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533903262,246,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,6,6,null,0,0,0
+1784533903492,368,AUTH login once,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533902179,1826,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,6,6,null,0,0,0
+1784533903860,349,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533904006,628,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,6,6,null,0,0,0
+1784533901456,4425,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,6,6,null,0,0,0
+1784533902656,3348,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-1,text,true,,0,0,6,6,null,0,0,0
+1784533905881,389,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533903508,3369,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533906876,221,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533904209,2920,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533907129,353,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533906270,1785,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533908055,309,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,5,5,null,0,0,0
+1784533907097,1863,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533903008,6190,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533908960,353,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533909197,373,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533907483,2114,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533904634,5166,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,6,6,null,0,0,0
+1784533909492,414,AUTH login once,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533909597,345,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533909906,506,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533909799,667,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-2,text,true,,0,0,6,6,null,0,0,0
+1784533908365,2857,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,6,6,null,0,0,0
+1784533911223,242,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-3,text,true,,0,0,6,6,null,0,0,0
+1784533909314,2843,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,6,6,null,0,0,0
+1784533910466,1717,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-2,text,true,,0,0,6,6,null,0,0,0
+1784533912157,276,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533910413,2512,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533912926,233,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533913644,335,AUTH login once,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533911466,2601,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-3,text,true,,0,0,6,6,null,0,0,0
+1784533913979,333,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533912434,2218,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533914653,213,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533909570,5536,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533909943,5574,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533915107,419,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533913159,2450,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533917369,276,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533914312,1485,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533917462,287,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533917650,551,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533914867,2110,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533918830,241,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533917378,2390,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533917646,2235,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533919768,331,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533919882,266,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533919071,1490,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-4,text,true,,0,0,5,5,null,0,0,0
+1784533917749,3377,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,4,4,null,0,0,0
+1784533921126,580,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533921492,324,AUTH login once,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533918202,3787,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533920149,1925,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533921816,267,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533922075,510,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533921989,608,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533920101,2533,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533922634,645,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533922084,2244,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533922598,2004,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533924331,286,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533924603,326,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533923279,2568,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533925847,319,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,5,5,null,0,0,0
+1784533924618,2707,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533924930,2397,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533927326,406,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,6,6,null,0,0,0
+1784533927490,381,AUTH login once,200,OK,Period Close Thread Group 1-10,text,true,,0,0,6,6,null,0,0,0
+1784533927328,544,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533921706,6182,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533922585,5792,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533927871,509,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,6,6,null,0,0,0
+1784533927889,506,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533928378,506,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533926166,2851,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533929017,475,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533927872,2749,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533930621,405,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533928395,2961,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533931357,199,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533929492,2885,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533932378,302,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533928884,3931,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533932815,278,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533931026,2631,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533933657,237,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,6,6,null,0,0,0
+1784533931557,3362,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533934920,250,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,6,6,null,0,0,0
+1784533933093,2616,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,6,6,null,0,0,0
+1784533932680,3208,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-5,text,true,,0,0,6,6,null,0,0,0
+1784533935710,182,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533933894,2670,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533936564,284,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533928380,8471,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,5,5,null,0,0,0
+1784533936851,267,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,5,5,null,0,0,0
+1784533927732,9504,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533937236,319,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,5,5,null,0,0,0
+1784533935171,2872,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533938044,154,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533935893,2406,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533938300,194,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533936849,1772,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533938621,237,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,5,5,null,0,0,0
+1784533938198,2012,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,5,5,null,0,0,0
+1784533938494,1881,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-6,text,true,,0,0,5,5,null,0,0,0
+1784533940210,242,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,4,4,null,0,0,0
+1784533938858,1944,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,4,4,null,0,0,0
+1784533937118,3775,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,4,4,null,0,0,0
+1784533937556,3337,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,4,4,null,0,0,0
+1784533940802,232,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-8,text,true,,0,0,4,4,null,0,0,0
+1784533940893,427,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,4,4,null,0,0,0
+1784533940893,445,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,4,4,null,0,0,0
+1784533940453,1938,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,4,4,null,0,0,0
+1784533942392,175,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-7,text,true,,0,0,4,4,null,0,0,0
+1784533941035,2262,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-8,text,true,,0,0,4,4,null,0,0,0
+1784533941320,4148,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,3,3,null,0,0,0
+1784533942568,2910,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-7,text,true,,0,0,3,3,null,0,0,0
+1784533941338,4211,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533945468,253,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533945549,221,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533945721,2175,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533945770,2134,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533949808,216,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533949801,228,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533950026,1629,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533950030,1687,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533951659,292,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533951718,241,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533951959,1999,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533951951,2073,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533953959,224,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533954024,239,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533954263,2019,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533954183,2182,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533956282,198,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533956365,217,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533956480,1541,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,2,2,null,0,0,0
+1784533956582,1478,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-9,text,true,,0,0,2,2,null,0,0,0
+1784533958022,145,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,1,1,null,0,0,0
+1784533958167,723,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,1,1,null,0,0,0
+1784533958890,70,SETUP period-close create dedicated period,200,OK,Period Close Thread Group 1-10,text,true,,0,0,1,1,null,0,0,0
+1784533958961,846,BUSINESS period-close preview-close-replay,200,OK,Period Close Thread Group 1-10,text,true,,0,0,1,1,null,0,0,0
