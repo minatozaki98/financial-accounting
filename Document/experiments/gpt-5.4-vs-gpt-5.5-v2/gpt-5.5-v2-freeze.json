@@ -1,0 +1,129 @@
+{
+  "freezeName": "gpt-5.5-complex-api-v2",
+  "freezeDate": "2026-07-20",
+  "freezeBranch": "codex/gpt-5.5-v2-freeze",
+  "reportingDecision": {
+    "currentReportUses": "normalized-v1-gpt-5.4-vs-gpt-5.5",
+    "v2Use": "future-gpt-5.5-vs-gpt-5.6",
+    "notAClaim": "gpt-5.4-vs-gpt-5.5-v2"
+  },
+  "controllerBaseCommit": "2d5802e2b10bbc800e77b7a415c1d397e4d2e781",
+  "challengeSources": {
+    "sonar": {
+      "sourceBranch": "codex/benchmark-sonar-v2-source",
+      "sourceCommit": "072c35b9339aceb11c0c06efd5782374eb73acb4",
+      "baselineStatus": "valid-baseline-frozen",
+      "verifiedIssues": 60,
+      "ruleFamilies": 15,
+      "coveragePercent": 73.0,
+      "hiddenPassed": 14,
+      "hiddenTotal": 14
+    },
+    "zap": {
+      "sourceBranch": "codex/benchmark-zap-v2-source",
+      "sourceCommit": "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+      "baselineStatus": "valid-baseline-frozen",
+      "verifiedBusinessAlertInstances": 36,
+      "distinctAlertIds": 8,
+      "mediumOrHigherInstances": 5,
+      "hiddenPassed": 14,
+      "hiddenTotal": 14
+    },
+    "jmeter": {
+      "sourceBranch": "codex/benchmark-jmeter-v2-source",
+      "sourceCommit": "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+      "baselineStatus": "frozen-baseline-verified",
+      "frozenUsers": 10,
+      "rampUpSeconds": 60,
+      "loops": 10,
+      "repetitions": 3,
+      "validityGate": {
+        "allBusinessSamplesSuccessful": true,
+        "allPostconditionsPassed": true,
+        "coefficientOfVariationWithin15Percent": true
+      },
+      "hiddenPassed": 14,
+      "hiddenTotal": 14
+    }
+  },
+  "gpt55Results": {
+    "sonar": {
+      "branch": "codex/gpt-5.5-sonar-v2",
+      "startingCommit": "072c35b9339aceb11c0c06efd5782374eb73acb4",
+      "frozenCommit": "59e2e3d73172fd4aef8814573bde8af96c7d1f74",
+      "commitMessage": "fix: apply GPT-5.5 SonarQube v2 remediation",
+      "patch": {
+        "filesChanged": 11,
+        "insertions": 311,
+        "deletions": 307
+      },
+      "publicVerification": {
+        "dotnetTest": "passed: 9 unit, 139 integration",
+        "releaseBuild": "passed: 0 warnings, 0 errors",
+        "diffCheck": "passed"
+      },
+      "hiddenVerification": {
+        "summaryPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/sonar/hidden-tests/hidden-gpt-5.5-sonar-v2-summary.json",
+        "trxPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/sonar/hidden-tests/hidden-gpt-5.5-sonar-v2.trx",
+        "passed": 14,
+        "failed": 0,
+        "total": 14
+      },
+      "status": "candidate-frozen"
+    },
+    "zap": {
+      "branch": "codex/gpt-5.5-zap-v2",
+      "startingCommit": "bb3fd3c1105d40ad63509d3f4aa57853872c6739",
+      "frozenCommit": "169278763962a966ec37bda4209624fb7763946f",
+      "commitMessage": "fix: apply GPT-5.5 ZAP v2 remediation",
+      "patch": {
+        "filesChanged": 2,
+        "insertions": 33,
+        "deletions": 21
+      },
+      "publicVerification": {
+        "dotnetTest": "passed: 9 unit, 142 integration",
+        "releaseBuild": "passed: 0 warnings, 0 errors",
+        "diffCheck": "passed"
+      },
+      "hiddenVerification": {
+        "summaryPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/zap/hidden-tests/hidden-gpt-5.5-zap-v2-summary.json",
+        "trxPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/zap/hidden-tests/hidden-gpt-5.5-zap-v2.trx",
+        "passed": 14,
+        "failed": 0,
+        "total": 14
+      },
+      "status": "candidate-frozen"
+    },
+    "jmeter": {
+      "branch": "codex/gpt-5.5-jmeter-v2",
+      "startingCommit": "3eb8f26b633701f9aa6caad424f6c387e25de37e",
+      "frozenCommit": "12d8d6e9a18ed79a773635c4a98fe580e9fd27a9",
+      "commitMessage": "fix: apply GPT-5.5 JMeter v2 remediation",
+      "patch": {
+        "filesChanged": 3,
+        "insertions": 96,
+        "deletions": 40
+      },
+      "publicVerification": {
+        "dotnetTest": "passed: 9 unit, 134 integration",
+        "releaseBuild": "passed: 0 warnings, 0 errors",
+        "diffCheck": "passed"
+      },
+      "hiddenVerification": {
+        "summaryPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/jmeter/hidden-tests/hidden-gpt-5.5-jmeter-v2-summary.json",
+        "trxPath": "Document/experiments/gpt-5.4-vs-gpt-5.5-v2/results/gpt-5.5/jmeter/hidden-tests/hidden-gpt-5.5-jmeter-v2.trx",
+        "passed": 14,
+        "failed": 0,
+        "total": 14
+      },
+      "status": "candidate-frozen"
+    }
+  },
+  "integrityNote": "This freeze intentionally does not combine the three challenge source trees. The v2 protocol keeps challenge mutations independent for attribution and later GPT-5.5-vs-GPT-5.6 pairing.",
+  "postRemediationToolMeasurements": {
+    "sonarqube": "pending future paired GPT-5.5-vs-GPT-5.6 execution",
+    "owaspZap": "pending future paired GPT-5.5-vs-GPT-5.6 execution",
+    "jmeter": "pending future paired GPT-5.5-vs-GPT-5.6 execution"
+  }
+}
