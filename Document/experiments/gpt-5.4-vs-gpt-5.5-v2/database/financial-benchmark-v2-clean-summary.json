@@ -1,0 +1,20 @@
+﻿{
+    "databaseName":  "FinancialBenchmarkV2",
+    "sqlServer":  "localhost",
+    "backupPath":  "C:\\Temp\\financial-accounting-benchmark-v2\\financial-benchmark-v2-clean.bak",
+    "backupSha256":  "E192FD597529F741229042422EB66A96CC48446220D880D4E17B2E70FA58D722",
+    "accountingPeriods":  25,
+    "activeAccounts":  200,
+    "postedJournalEntries":  50000,
+    "reconciliationTransactions":  5000,
+    "reconciliationCandidates":  5000,
+    "journalImportFixtures":  [
+                                  10,
+                                  100,
+                                  1000,
+                                  10000
+                              ],
+    "debitFixtureAccountCode":  "A000001",
+    "creditFixtureAccountCode":  "L000002",
+    "capturedAtUtc":  "2026-07-20T04:05:55.4983606Z"
+}
