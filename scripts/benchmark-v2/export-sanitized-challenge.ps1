@@ -108,7 +108,13 @@ if (Test-Path -LiteralPath (Join-Path $sourceRootFull "scripts\phase4")) {
     Copy-IfExists -Source (Join-Path $sourceRootFull "scripts\phase4") -Destination (Join-Path $exportRootFull "scripts\phase4")
 }
 if (Test-Path -LiteralPath (Join-Path $sourceRootFull "scripts\benchmark-v2")) {
-    Copy-IfExists -Source (Join-Path $sourceRootFull "scripts\benchmark-v2") -Destination (Join-Path $exportRootFull "scripts\benchmark-v2")
+    $benchmarkScriptsDestination = Join-Path $exportRootFull "scripts\benchmark-v2"
+    New-Item -ItemType Directory -Force $benchmarkScriptsDestination | Out-Null
+    foreach ($benchmarkScript in @("restore-benchmark-database.ps1", "run-jmeter-workflows.ps1")) {
+        Copy-IfExists `
+            -Source (Join-Path $sourceRootFull "scripts\benchmark-v2\$benchmarkScript") `
+            -Destination (Join-Path $benchmarkScriptsDestination $benchmarkScript)
+    }
 }
 
 $blockedPattern = "sonar-mutations|hidden-tests|gpt-5\.4-vs-gpt-5\.5|baseline-sonarqube-v1|baseline-zap-v1|baseline-jmeter-v1|benchmark-v2-reference-code|Document\\outputs"
