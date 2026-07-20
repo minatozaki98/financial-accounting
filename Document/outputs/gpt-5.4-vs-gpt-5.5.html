@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-5.4 vs GPT-5.5 Financial Accounting API Benchmark</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --panel-soft: #eef4ff;
+      --ink: #142033;
+      --muted: #5e6b80;
+      --line: #d9e0ea;
+      --accent: #1f6feb;
+      --accent-strong: #0b4db3;
+      --accent-soft: #dbeafe;
+      --good: #1f7a4d;
+      --warn: #a15c06;
+      --bad: #b42318;
+      --radius: 18px;
+      --shadow: 0 22px 70px rgb(20 32 51 / 10%);
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Aptos, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% 0%, rgb(31 111 235 / 13%), transparent 32rem),
+        linear-gradient(180deg, #fbfcff 0%, var(--bg) 34rem);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 56px 0 26px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgb(255 255 255 / 72%);
+      color: var(--accent-strong);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-size: clamp(38px, 6vw, 72px);
+    }
+
+    h2 {
+      font-size: clamp(26px, 3.3vw, 42px);
+    }
+
+    h3 {
+      font-size: 22px;
+      letter-spacing: -.02em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .lead {
+      max-width: 76ch;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #35445b;
+    }
+
+    .hero-card,
+    .panel,
+    .metric-card,
+    .callout {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgb(255 255 255 / 88%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 300px;
+    }
+
+    .verdict {
+      display: grid;
+      gap: 14px;
+    }
+
+    .verdict-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f6f9ff;
+      border: 1px solid #e4ebf7;
+    }
+
+    .verdict-row strong {
+      color: var(--ink);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
+    .badge.tie {
+      color: #26435f;
+      background: #e8eef7;
+    }
+
+    .badge.g54 {
+      color: #0f5132;
+      background: #daf4e8;
+    }
+
+    .badge.g55 {
+      color: #073b86;
+      background: var(--accent-soft);
+    }
+
+    .meta {
+      margin-top: 20px;
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta code,
+    code {
+      font-family: var(--mono);
+      color: #24364d;
+      background: #eef3fb;
+      border-radius: 7px;
+      padding: 2px 5px;
+      font-size: .92em;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin: 18px 0 34px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgb(255 255 255 / 92%);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 32px rgb(20 32 51 / 8%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .nav a,
+    .nav button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 13px;
+      text-decoration: none;
+    }
+
+    .nav a:hover,
+    .nav button:hover {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    main {
+      display: grid;
+      gap: 34px;
+      padding-bottom: 70px;
+    }
+
+    section {
+      scroll-margin-top: 110px;
+    }
+
+    .panel {
+      padding: clamp(22px, 4vw, 34px);
+    }
+
+    .section-head {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .section-head p {
+      max-width: 86ch;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .metric-card {
+      padding: 18px;
+      box-shadow: none;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .metric-note {
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #26354a;
+      background: #f2f6fd;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td.num,
+    th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mini-bars {
+      display: grid;
+      gap: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 145px 1fr 80px;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .bar-track {
+      height: 11px;
+      border-radius: 999px;
+      background: #e8eef7;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      width: var(--w);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    .bar-fill.warn {
+      background: var(--warn);
+    }
+
+    .bar-fill.good {
+      background: var(--good);
+    }
+
+    .bar-value {
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: #314258;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .callout {
+      padding: 20px;
+      box-shadow: none;
+      background: #f7fbff;
+    }
+
+    .callout h3 {
+      margin-bottom: 8px;
+    }
+
+    .callout ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .callout li + li {
+      margin-top: 8px;
+    }
+
+    .winner-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .winner-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .winner-card .badge {
+      margin-bottom: 12px;
+    }
+
+    .small {
+      font-size: 13px;
+    }
+
+    .footer {
+      padding: 26px 0 44px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .split,
+      .winner-strip,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        border-radius: 18px;
+        justify-content: flex-start;
+      }
+
+      .verdict-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .nav,
+      .print-hide {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+      }
+
+      .panel,
+      .hero-card,
+      .metric-card,
+      .callout,
+      .winner-card {
+        box-shadow: none;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="page hero-grid">
+      <div>
+        <p class="eyebrow">Financial Accounting API Benchmark</p>
+        <h1>GPT-5.4 vs GPT-5.5 remediation comparison</h1>
+        <p class="lead">
+          A normalized comparison of two model-assisted remediation tracks across SonarQube,
+          OWASP ZAP, and Apache JMeter 5.5. The benchmark uses the same pre-fix Financial
+          Accounting API lineage and re-measures GPT-5.4 outcomes under the GPT-5.5 environment.
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="Overall verdict">
+        <div class="verdict">
+          <div class="verdict-row">
+            <span class="badge tie">Tie</span>
+            <p><strong>SonarQube:</strong> both models reached 0 code smells and quality gate OK.</p>
+          </div>
+          <div class="verdict-row">
+            <span class="badge g54">GPT-5.4</span>
+            <p><strong>ZAP:</strong> cleaner normalized residual alert profile.</p>
+          </div>
+          <div class="verdict-row">
+            <span class="badge g55">GPT-5.5</span>
+            <p><strong>JMeter:</strong> more balanced performance with smaller patch size.</p>
+          </div>
+        </div>
+        <div class="meta">
+          <span>Source commit: <code>7a0469d9401a3061941b44fcd46b3beca1c9c729</code></span>
+          <span>Normalized rerun date: <code>2026-07-19</code></span>
+          <span>Clean database backup: <code>financial-gpt55-clean.bak</code></span>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <nav class="page nav" aria-label="Report sections">
+    <a href="#controls">Controls</a>
+    <a href="#summary">Summary</a>
+    <a href="#sonar">SonarQube</a>
+    <a href="#zap">OWASP ZAP</a>
+    <a href="#jmeter">JMeter</a>
+    <a href="#patches">Patches</a>
+    <a href="#validity">Validity</a>
+    <button class="print-hide" type="button" onclick="window.print()">Print</button>
+  </nav>
+
+  <main class="page">
+    <section id="controls" class="panel">
+      <div class="section-head">
+        <h2>Experimental controls</h2>
+        <p>
+          GPT-5.5 remediation was blinded from GPT-5.4 branches, commits, reflogs, reports,
+          prompts, and patches until all GPT-5.5 fix branches were committed and pushed.
+          GPT-5.4 was then rerun from the historical 5.4 fix branches under the same local
+          tool environment. For JMeter, the tested code commit is in the branch history because
+          the branch head later received a documentation-only commit.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Track</th>
+              <th>Branch or source</th>
+              <th>Commit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Common pre-fix code</td>
+              <td>Historical pre-fix parent</td>
+              <td><code>7a0469d9401a3061941b44fcd46b3beca1c9c729</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.5 baseline evidence</td>
+              <td><code>codex/gpt-5.5-baseline</code></td>
+              <td><code>ec034038c284e77efa4ed2310b13fc9662259286</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.5 SonarQube</td>
+              <td><code>codex/gpt-5.5-sonarqube-v1</code></td>
+              <td><code>19763f15cbc8412eb74ff5b9d706be69456e62ff</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.5 OWASP ZAP</td>
+              <td><code>codex/gpt-5.5-zap-v1</code></td>
+              <td><code>aa1a9bd7cefe4f3a07c3bd10d0bde7d5409e3f4b</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.5 JMeter</td>
+              <td><code>codex/gpt-5.5-jmeter-v1</code></td>
+              <td><code>8d0be3b918008f1cf38a7c61669f8d7609df0963</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.5 comparison report</td>
+              <td><code>codex/gpt-5.5-comparison</code></td>
+              <td><code>d1baa7afc4c79a0177a7534235c55cf3c97d8a91</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.4 SonarQube normalized code</td>
+              <td><code>baseline-sonarqube-v1</code></td>
+              <td><code>a2279bcbdc20751529335cf72f8baac1bc6f994b</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.4 OWASP ZAP normalized code</td>
+              <td><code>baseline-zap-v1</code></td>
+              <td><code>5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d</code></td>
+            </tr>
+            <tr>
+              <td>GPT-5.4 JMeter normalized code</td>
+              <td><code>baseline-jmeter-v1</code> tested code commit; branch head is docs commit <code>3c9392d</code></td>
+              <td><code>78b08b62570dcf6fe436354e8e6b770ab2074445</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="summary" class="panel">
+      <div class="section-head">
+        <h2>Outcome summary</h2>
+        <p>
+          The headline result is mixed. GPT-5.5 is stronger where balanced performance and
+          smaller code changes matter. GPT-5.4 remains stronger on normalized ZAP residual
+          cleanliness. Static analysis ends in a tie.
+        </p>
+      </div>
+
+      <div class="winner-strip">
+        <article class="winner-card">
+          <span class="badge tie">Tie</span>
+          <h3>SonarQube</h3>
+          <p>Both models reduced code smells from 21 to 0 with gate OK and 74.3% coverage.</p>
+        </article>
+        <article class="winner-card">
+          <span class="badge g54">GPT-5.4 lead</span>
+          <h3>OWASP ZAP</h3>
+          <p>GPT-5.4 had fewer residual alert categories and instances in normalized reruns.</p>
+        </article>
+        <article class="winner-card">
+          <span class="badge g55">GPT-5.5 lead</span>
+          <h3>Apache JMeter</h3>
+          <p>GPT-5.5 had better p50 and spike tails with a smaller, less invasive patch.</p>
+        </article>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric-card">
+          <div class="metric-label">Sonar smells after</div>
+          <div class="metric-value">0 / 0</div>
+          <p class="metric-note">GPT-5.4 and GPT-5.5</p>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">ZAP API instances</div>
+          <div class="metric-value">110 vs 330</div>
+          <p class="metric-note">GPT-5.4 cleaner</p>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">JMeter p50 p99</div>
+          <div class="metric-value">1086 vs 48</div>
+          <p class="metric-note">GPT-5.5 better, ms</p>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">JMeter errors</div>
+          <div class="metric-value">0.00%</div>
+          <p class="metric-note">All profiles, all compared runs</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sonar" class="panel">
+      <div class="section-head">
+        <h2>SonarQube comparison</h2>
+        <p>
+          Both models cleared the measured SonarQube smells. GPT-5.5 reached the same gate
+          with fewer source/test insertions and deletions.
+        </p>
+      </div>
+
+      <div class="split">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Gate</th>
+                <th class="num">Coverage</th>
+                <th class="num">Smells</th>
+                <th class="num">Bugs</th>
+                <th class="num">Vulns</th>
+                <th class="num">NCLOC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Before fixes</td>
+                <td>OK</td>
+                <td class="num">74.4</td>
+                <td class="num">21</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">3211</td>
+              </tr>
+              <tr>
+                <td>GPT-5.4 normalized</td>
+                <td>OK</td>
+                <td class="num">74.3</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">3198</td>
+              </tr>
+              <tr>
+                <td>GPT-5.5 final</td>
+                <td>OK</td>
+                <td class="num">74.3</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">3199</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <h3>Read</h3>
+          <p>
+            Final static quality is effectively tied. Both achieved 100% code-smell reduction
+            from the GPT-5.5 pre-fix baseline count.
+          </p>
+          <ul>
+            <li>GPT-5.4 Sonar patch: 13 files, 148 insertions, 160 deletions.</li>
+            <li>GPT-5.5 Sonar patch: 13 files, 86 insertions, 99 deletions.</li>
+            <li>Interpretation: same measured gate, smaller GPT-5.5 patch.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="zap" class="panel">
+      <div class="section-head">
+        <h2>OWASP ZAP comparison</h2>
+        <p>
+          Counts include all alert categories, including informational alerts. Business-endpoint
+          high/medium gate interpretation is separate from raw residual count.
+        </p>
+      </div>
+
+      <div class="split">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Scan</th>
+                <th class="num">Before</th>
+                <th class="num">GPT-5.4</th>
+                <th class="num">GPT-5.5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Baseline alert categories</td>
+                <td class="num">11</td>
+                <td class="num">2</td>
+                <td class="num">5</td>
+              </tr>
+              <tr>
+                <td>Baseline alert instances</td>
+                <td class="num">35</td>
+                <td class="num">5</td>
+                <td class="num">12</td>
+              </tr>
+              <tr>
+                <td>API alert categories</td>
+                <td class="num">9</td>
+                <td class="num">4</td>
+                <td class="num">7</td>
+              </tr>
+              <tr>
+                <td>API alert instances</td>
+                <td class="num">332</td>
+                <td class="num">110</td>
+                <td class="num">330</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mini-bars" aria-label="ZAP residual alert bars">
+          <div class="bar-row">
+            <span>Baseline categories, 5.4</span>
+            <span class="bar-track"><span class="bar-fill good" style="--w: 18%"></span></span>
+            <span class="bar-value">2</span>
+          </div>
+          <div class="bar-row">
+            <span>Baseline categories, 5.5</span>
+            <span class="bar-track"><span class="bar-fill warn" style="--w: 45%"></span></span>
+            <span class="bar-value">5</span>
+          </div>
+          <div class="bar-row">
+            <span>API instances, 5.4</span>
+            <span class="bar-track"><span class="bar-fill good" style="--w: 33%"></span></span>
+            <span class="bar-value">110</span>
+          </div>
+          <div class="bar-row">
+            <span>API instances, 5.5</span>
+            <span class="bar-track"><span class="bar-fill warn" style="--w: 99%"></span></span>
+            <span class="bar-value">330</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:18px">
+        <h3>Residual alert interpretation</h3>
+        <p>
+          GPT-5.4 residuals were informational in baseline mode and local HTTP transport plus
+          informational alerts in API mode. GPT-5.5 still had local HTTP transport, low unexpected
+          content type, and Swagger/static-asset residuals. Result: GPT-5.4 is cleaner on ZAP.
+        </p>
+      </div>
+    </section>
+
+    <section id="jmeter" class="panel">
+      <div class="section-head">
+        <h2>Apache JMeter comparison</h2>
+        <p>
+          All compared runs had 0.00% error rate in p50, p100, p500, soak, and spike profiles.
+          The meaningful difference is tail-latency shape and drift behavior.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Profile</th>
+              <th>Metric</th>
+              <th class="num">Before</th>
+              <th class="num">GPT-5.4</th>
+              <th class="num">GPT-5.5</th>
+              <th>Read</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>p50</td>
+              <td>p95 ms</td>
+              <td class="num">24</td>
+              <td class="num">229</td>
+              <td class="num">23</td>
+              <td>GPT-5.5 avoids the p50 regression.</td>
+            </tr>
+            <tr>
+              <td>p50</td>
+              <td>p99 ms</td>
+              <td class="num">62</td>
+              <td class="num">1086</td>
+              <td class="num">48</td>
+              <td>Largest GPT-5.4 weakness.</td>
+            </tr>
+            <tr>
+              <td>p100</td>
+              <td>p99 ms</td>
+              <td class="num">585</td>
+              <td class="num">127</td>
+              <td class="num">141</td>
+              <td>GPT-5.4 slightly faster.</td>
+            </tr>
+            <tr>
+              <td>p500</td>
+              <td>p99 ms</td>
+              <td class="num">170</td>
+              <td class="num">92</td>
+              <td class="num">99</td>
+              <td>GPT-5.4 slightly faster.</td>
+            </tr>
+            <tr>
+              <td>soak</td>
+              <td>p99 ms</td>
+              <td class="num">892</td>
+              <td class="num">284</td>
+              <td class="num">287</td>
+              <td>Effectively close.</td>
+            </tr>
+            <tr>
+              <td>spike</td>
+              <td>p99 ms</td>
+              <td class="num">6431</td>
+              <td class="num">4932</td>
+              <td class="num">4226</td>
+              <td>GPT-5.5 wins spike tail.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="split" style="margin-top:18px">
+        <div class="callout">
+          <h3>Drift gates</h3>
+          <div class="table-wrap" style="margin-top:12px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Run</th>
+                  <th class="num">Soak drift</th>
+                  <th class="num">Spike drift</th>
+                  <th>Gate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Before fixes</td>
+                  <td class="num">-14.44%</td>
+                  <td class="num">44.16%</td>
+                  <td>Fail</td>
+                </tr>
+                <tr>
+                  <td>GPT-5.4 normalized</td>
+                  <td class="num">-64.99%</td>
+                  <td class="num">1.01%</td>
+                  <td>Pass</td>
+                </tr>
+                <tr>
+                  <td>GPT-5.5 final</td>
+                  <td class="num">-29.70%</td>
+                  <td class="num">-23.69%</td>
+                  <td>Pass</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="callout">
+          <h3>Performance read</h3>
+          <p>
+            GPT-5.4 is competitive on selected p100, p500, and soak tail values. GPT-5.5 is
+            more balanced because it improves every p99 profile relative to baseline and wins
+            spike p99/throughput while avoiding the p50 tail regression.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="patches" class="panel">
+      <div class="section-head">
+        <h2>Patch size and verification</h2>
+        <p>
+          Source/test-only diff statistics exclude generated benchmark evidence under
+          <code>Document/**</code>. GPT-5.5 used smaller patches in all three tool tracks.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Track</th>
+              <th>GPT-5.4 patch</th>
+              <th>GPT-5.5 patch</th>
+              <th>Verification evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SonarQube</td>
+              <td>13 files, 148 insertions, 160 deletions</td>
+              <td>13 files, 86 insertions, 99 deletions</td>
+              <td>Both final scans gate OK with 0 code smells.</td>
+            </tr>
+            <tr>
+              <td>OWASP ZAP</td>
+              <td>7 files, 104 insertions, 24 deletions</td>
+              <td>4 files, 38 insertions, 6 deletions</td>
+              <td>Both passed business-endpoint high/medium gates.</td>
+            </tr>
+            <tr>
+              <td>JMeter</td>
+              <td>13 files, 783 insertions, 56 deletions</td>
+              <td>8 files, 316 insertions, 79 deletions</td>
+              <td>Both passed 0% error and drift gates after normalized rerun.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top:18px">
+        <h3>Process evidence</h3>
+        <p>
+          GPT-5.5 has stronger process metadata because it was run live with complete Codex
+          task logs. GPT-5.4 historical prompt counts and elapsed task timings are incomplete,
+          so output comparisons are stronger than process-efficiency comparisons.
+        </p>
+      </div>
+    </section>
+
+    <section id="validity" class="panel">
+      <div class="section-head">
+        <h2>Validity constraints and final interpretation</h2>
+        <p>
+          The benchmark is useful for this project, but it is not a universal model ranking.
+          It evaluates one API, one local host environment, and one normalized benchmark setup.
+        </p>
+      </div>
+
+      <div class="split">
+        <div class="callout">
+          <h3>Threats to validity</h3>
+          <ul>
+            <li>JMeter latency can be affected by Windows, Docker, SQL Server, and background load.</li>
+            <li>GPT-5.4 was evaluated from historical commits, while GPT-5.5 was evaluated live.</li>
+            <li>ZAP local HTTP transport and Swagger/static-asset alerts are not always business-endpoint vulnerabilities.</li>
+            <li>GPT-5.5 JMeter caching is valid for a single instance but needs distributed invalidation for multi-instance deployment.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <h3>Conclusion</h3>
+          <p>
+            GPT-5.5 matched SonarQube quality with less code, was weaker than GPT-5.4 on ZAP
+            residual cleanliness, and produced the more balanced JMeter remediation. If the
+            priority is stable performance with lower implementation risk, GPT-5.5 is stronger.
+            If the priority is ZAP residual cleanliness, GPT-5.4 remains ahead.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page footer">
+    <p>
+      Generated as a standalone HTML artifact from the GPT-5.5 comparison report. Source:
+      <code>.worktrees/gpt-5.5-lab/Document/experiments/gpt-5.5/gpt-5.4-vs-gpt-5.5.md</code>.
+    </p>
+  </footer>
+</body>
+</html>
