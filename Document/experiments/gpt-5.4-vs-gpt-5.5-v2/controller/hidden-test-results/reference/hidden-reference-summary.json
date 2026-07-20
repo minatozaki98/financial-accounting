@@ -1,0 +1,12 @@
+﻿{
+    "runTag":  "reference",
+    "candidateRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\benchmark-v2-reference-candidate",
+    "outcome":  "Completed",
+    "total":  14,
+    "executed":  14,
+    "passed":  14,
+    "failed":  0,
+    "skipped":  0,
+    "trxPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\sonar-challenge-api-reference\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\controller\\hidden-test-results\\reference\\hidden-reference.trx",
+    "completedAtUtc":  "2026-07-20T04:15:55.9244572Z"
+}
