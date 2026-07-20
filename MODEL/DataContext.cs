@@ -24,6 +24,11 @@ namespace MODEL
         public DbSet<FinancialReportItem> ReportItems => Set<FinancialReportItem>();
         public DbSet<LedgerBalance> LedgerBalances => Set<LedgerBalance>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+        public DbSet<JournalImportBatch> JournalImportBatches => Set<JournalImportBatch>();
+        public DbSet<JournalImportRow> JournalImportRows => Set<JournalImportRow>();
+        public DbSet<BankReconciliation> BankReconciliations => Set<BankReconciliation>();
+        public DbSet<BankTransaction> BankTransactions => Set<BankTransaction>();
+        public DbSet<BankReconciliationCandidate> BankReconciliationCandidates => Set<BankReconciliationCandidate>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,6 +94,10 @@ namespace MODEL
                     .WithMany(x => x.CreatedJournalEntries)
                     .HasForeignKey(x => x.CreatedByUserId)
                     .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(x => x.ImportBatch)
+                    .WithMany(x => x.CreatedEntries)
+                    .HasForeignKey(x => x.ImportBatchId)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<JournalEntryLine>(entity =>
@@ -116,6 +125,10 @@ namespace MODEL
                 entity.Property(x => x.StartDate).HasColumnType("date");
                 entity.Property(x => x.EndDate).HasColumnType("date");
                 entity.HasIndex(x => x.IsClosed);
+                entity.HasIndex(x => x.CloseRequestId)
+                    .IsUnique()
+                    .HasFilter("[CloseRequestId] IS NOT NULL");
+                entity.Property(x => x.Version).IsConcurrencyToken();
                 entity.HasOne(x => x.ClosedByUser)
                     .WithMany(x => x.ClosedPeriods)
                     .HasForeignKey(x => x.ClosedByUserId)
@@ -191,6 +204,89 @@ namespace MODEL
                     .WithMany(x => x.AuditLogs)
                     .HasForeignKey(x => x.UserId)
                     .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<JournalImportBatch>(entity =>
+            {
+                entity.ToTable("JournalImportBatches", "dbo");
+                entity.Property(x => x.IdempotencyKey).HasMaxLength(100);
+                entity.Property(x => x.FileName).HasMaxLength(260);
+                entity.Property(x => x.Status).HasMaxLength(20);
+                entity.HasIndex(x => new { x.CreatedByUserId, x.IdempotencyKey }).IsUnique();
+            });
+
+            modelBuilder.Entity<JournalImportRow>(entity =>
+            {
+                entity.ToTable("JournalImportRows", "dbo");
+                entity.Property(x => x.EntryReference).HasMaxLength(100);
+                entity.Property(x => x.Description).HasMaxLength(500);
+                entity.Property(x => x.AccountCode).HasMaxLength(20);
+                entity.Property(x => x.Error).HasMaxLength(1000);
+                entity.Property(x => x.Debit).HasPrecision(18, 2);
+                entity.Property(x => x.Credit).HasPrecision(18, 2);
+                entity.HasIndex(x => new { x.ImportId, x.RowNumber }).IsUnique();
+                entity.HasOne(x => x.ImportBatch)
+                    .WithMany(x => x.Rows)
+                    .HasForeignKey(x => x.ImportId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(x => x.Account)
+                    .WithMany(x => x.JournalImportRows)
+                    .HasForeignKey(x => x.AccountId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<BankReconciliation>(entity =>
+            {
+                entity.ToTable("BankReconciliations", "dbo");
+                entity.Property(x => x.DateFrom).HasColumnType("date");
+                entity.Property(x => x.DateTo).HasColumnType("date");
+                entity.Property(x => x.Status).HasMaxLength(20);
+                entity.Property(x => x.Version).IsConcurrencyToken();
+                entity.HasIndex(x => x.FinalizeRequestId)
+                    .IsUnique()
+                    .HasFilter("[FinalizeRequestId] IS NOT NULL");
+                entity.HasIndex(x => new { x.PeriodId, x.BankAccountId, x.Status });
+                entity.HasOne(x => x.Period)
+                    .WithMany(x => x.BankReconciliations)
+                    .HasForeignKey(x => x.PeriodId)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(x => x.BankAccount)
+                    .WithMany(x => x.BankReconciliations)
+                    .HasForeignKey(x => x.BankAccountId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<BankTransaction>(entity =>
+            {
+                entity.ToTable("BankTransactions", "dbo");
+                entity.Property(x => x.TransactionDate).HasColumnType("date");
+                entity.Property(x => x.Amount).HasPrecision(18, 2);
+                entity.Property(x => x.ReferenceNo).HasMaxLength(100);
+                entity.Property(x => x.Description).HasMaxLength(500);
+                entity.Property(x => x.MatchStatus).HasMaxLength(20);
+                entity.HasIndex(x => new { x.ReconciliationId, x.MatchStatus });
+                entity.HasOne(x => x.Reconciliation)
+                    .WithMany(x => x.Transactions)
+                    .HasForeignKey(x => x.ReconciliationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(x => x.MatchedJournalEntry)
+                    .WithMany(x => x.MatchedBankTransactions)
+                    .HasForeignKey(x => x.MatchedJournalEntryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<BankReconciliationCandidate>(entity =>
+            {
+                entity.ToTable("BankReconciliationCandidates", "dbo");
+                entity.HasIndex(x => new { x.BankTransactionId, x.JournalEntryId }).IsUnique();
+                entity.HasOne(x => x.BankTransaction)
+                    .WithMany(x => x.Candidates)
+                    .HasForeignKey(x => x.BankTransactionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(x => x.JournalEntry)
+                    .WithMany(x => x.ReconciliationCandidates)
+                    .HasForeignKey(x => x.JournalEntryId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             base.OnModelCreating(modelBuilder);

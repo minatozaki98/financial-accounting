@@ -25,6 +25,9 @@ namespace BAL.Shared
             services.AddScoped<IAccountingPeriodService, AccountingPeriodService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
             services.AddScoped<IFinancialReportService, FinancialReportService>();
+            services.AddScoped<ILedgerBalanceService, LedgerBalanceService>();
+            services.AddScoped<IJournalImportService, JournalImportService>();
+            services.AddScoped<IBankReconciliationService, BankReconciliationService>();
         }
     }
 }

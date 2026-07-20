@@ -360,6 +360,32 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID(N'dbo.JournalImportBatches', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.JournalImportBatches
+    (
+        ImportId uniqueidentifier NOT NULL CONSTRAINT PK_JournalImportBatches PRIMARY KEY,
+        CreatedByUserId uniqueidentifier NOT NULL,
+        IdempotencyKey nvarchar(100) NOT NULL,
+        FileName nvarchar(260) NOT NULL,
+        Atomic bit NOT NULL,
+        Status nvarchar(20) NOT NULL,
+        TotalRows int NOT NULL,
+        ValidRows int NOT NULL,
+        InvalidRows int NOT NULL,
+        CreatedAt datetime2 NOT NULL CONSTRAINT DF_JournalImportBatches_CreatedAt DEFAULT SYSUTCDATETIME(),
+        CommittedAt datetime2 NULL
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalImportBatches') AND name = N'UX_JournalImportBatches_UserKey')
+BEGIN
+    CREATE UNIQUE INDEX UX_JournalImportBatches_UserKey
+        ON dbo.JournalImportBatches(CreatedByUserId, IdempotencyKey);
+END;
+GO
+
 IF OBJECT_ID(N'dbo.JournalEntries', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.JournalEntries
@@ -373,8 +399,24 @@ BEGIN
         CreatedAt datetime2 NOT NULL CONSTRAINT DF_JournalEntries_CreatedAt DEFAULT SYSUTCDATETIME(),
         PostedAt datetime2 NULL,
         ReversedAt datetime2 NULL,
-        CONSTRAINT FK_JournalEntries_Users FOREIGN KEY (CreatedByUserId) REFERENCES dbo.Users(UserId)
+        ImportBatchId uniqueidentifier NULL,
+        CONSTRAINT FK_JournalEntries_Users FOREIGN KEY (CreatedByUserId) REFERENCES dbo.Users(UserId),
+        CONSTRAINT FK_JournalEntries_JournalImportBatches FOREIGN KEY (ImportBatchId) REFERENCES dbo.JournalImportBatches(ImportId) ON DELETE SET NULL
     );
+END;
+GO
+
+IF COL_LENGTH(N'dbo.JournalEntries', N'ImportBatchId') IS NULL
+BEGIN
+    ALTER TABLE dbo.JournalEntries ADD ImportBatchId uniqueidentifier NULL;
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = N'FK_JournalEntries_JournalImportBatches')
+BEGIN
+    ALTER TABLE dbo.JournalEntries
+        ADD CONSTRAINT FK_JournalEntries_JournalImportBatches
+        FOREIGN KEY (ImportBatchId) REFERENCES dbo.JournalImportBatches(ImportId) ON DELETE SET NULL;
 END;
 GO
 
@@ -425,6 +467,35 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID(N'dbo.JournalImportRows', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.JournalImportRows
+    (
+        JournalImportRowId bigint IDENTITY(1,1) NOT NULL CONSTRAINT PK_JournalImportRows PRIMARY KEY,
+        ImportId uniqueidentifier NOT NULL,
+        RowNumber int NOT NULL,
+        EntryReference nvarchar(100) NOT NULL,
+        EntryDate datetime2 NULL,
+        Description nvarchar(500) NULL,
+        AccountCode nvarchar(20) NOT NULL,
+        AccountId int NULL,
+        Debit decimal(18,2) NOT NULL,
+        Credit decimal(18,2) NOT NULL,
+        IsValid bit NOT NULL,
+        Error nvarchar(1000) NULL,
+        CONSTRAINT FK_JournalImportRows_JournalImportBatches FOREIGN KEY (ImportId) REFERENCES dbo.JournalImportBatches(ImportId) ON DELETE CASCADE,
+        CONSTRAINT FK_JournalImportRows_ChartOfAccounts FOREIGN KEY (AccountId) REFERENCES dbo.ChartOfAccounts(AccountId)
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalImportRows') AND name = N'UX_JournalImportRows_ImportRow')
+BEGIN
+    CREATE UNIQUE INDEX UX_JournalImportRows_ImportRow
+        ON dbo.JournalImportRows(ImportId, RowNumber);
+END;
+GO
+
 IF OBJECT_ID(N'dbo.AccountingPeriods', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.AccountingPeriods
@@ -435,14 +506,120 @@ BEGIN
         IsClosed bit NOT NULL CONSTRAINT DF_AccountingPeriods_IsClosed DEFAULT (0),
         ClosedAt datetime2 NULL,
         ClosedByUserId uniqueidentifier NULL,
+        CloseRequestId uniqueidentifier NULL,
+        Version int NOT NULL CONSTRAINT DF_AccountingPeriods_Version DEFAULT (1),
         CONSTRAINT FK_AccountingPeriods_Users FOREIGN KEY (ClosedByUserId) REFERENCES dbo.Users(UserId)
     );
+END;
+GO
+
+IF COL_LENGTH(N'dbo.AccountingPeriods', N'CloseRequestId') IS NULL
+BEGIN
+    ALTER TABLE dbo.AccountingPeriods ADD CloseRequestId uniqueidentifier NULL;
+END;
+GO
+
+IF COL_LENGTH(N'dbo.AccountingPeriods', N'Version') IS NULL
+BEGIN
+    ALTER TABLE dbo.AccountingPeriods
+        ADD Version int NOT NULL CONSTRAINT DF_AccountingPeriods_Version_Auto DEFAULT (1);
 END;
 GO
 
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.AccountingPeriods') AND name = N'IX_AccountingPeriods_IsClosed')
 BEGIN
     CREATE INDEX IX_AccountingPeriods_IsClosed ON dbo.AccountingPeriods(IsClosed);
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.AccountingPeriods') AND name = N'UX_AccountingPeriods_CloseRequestId')
+BEGIN
+    CREATE UNIQUE INDEX UX_AccountingPeriods_CloseRequestId
+        ON dbo.AccountingPeriods(CloseRequestId)
+        WHERE CloseRequestId IS NOT NULL;
+END;
+GO
+
+IF OBJECT_ID(N'dbo.BankReconciliations', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.BankReconciliations
+    (
+        ReconciliationId uniqueidentifier NOT NULL CONSTRAINT PK_BankReconciliations PRIMARY KEY,
+        PeriodId int NOT NULL,
+        BankAccountId int NOT NULL,
+        DateFrom date NOT NULL,
+        DateTo date NOT NULL,
+        Status nvarchar(20) NOT NULL,
+        CreatedByUserId uniqueidentifier NOT NULL,
+        CreatedAt datetime2 NOT NULL CONSTRAINT DF_BankReconciliations_CreatedAt DEFAULT SYSUTCDATETIME(),
+        FinalizedAt datetime2 NULL,
+        FinalizeRequestId uniqueidentifier NULL,
+        Version int NOT NULL CONSTRAINT DF_BankReconciliations_Version DEFAULT (1),
+        CONSTRAINT FK_BankReconciliations_AccountingPeriods FOREIGN KEY (PeriodId) REFERENCES dbo.AccountingPeriods(PeriodId),
+        CONSTRAINT FK_BankReconciliations_ChartOfAccounts FOREIGN KEY (BankAccountId) REFERENCES dbo.ChartOfAccounts(AccountId)
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.BankReconciliations') AND name = N'IX_BankReconciliations_PeriodAccountStatus')
+BEGIN
+    CREATE INDEX IX_BankReconciliations_PeriodAccountStatus
+        ON dbo.BankReconciliations(PeriodId, BankAccountId, Status);
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.BankReconciliations') AND name = N'UX_BankReconciliations_FinalizeRequestId')
+BEGIN
+    CREATE UNIQUE INDEX UX_BankReconciliations_FinalizeRequestId
+        ON dbo.BankReconciliations(FinalizeRequestId)
+        WHERE FinalizeRequestId IS NOT NULL;
+END;
+GO
+
+IF OBJECT_ID(N'dbo.BankTransactions', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.BankTransactions
+    (
+        BankTransactionId bigint IDENTITY(1,1) NOT NULL CONSTRAINT PK_BankTransactions PRIMARY KEY,
+        ReconciliationId uniqueidentifier NOT NULL,
+        TransactionDate date NOT NULL,
+        Amount decimal(18,2) NOT NULL,
+        ReferenceNo nvarchar(100) NULL,
+        Description nvarchar(500) NULL,
+        MatchStatus nvarchar(20) NOT NULL,
+        MatchedJournalEntryId bigint NULL,
+        CONSTRAINT FK_BankTransactions_BankReconciliations FOREIGN KEY (ReconciliationId) REFERENCES dbo.BankReconciliations(ReconciliationId) ON DELETE CASCADE,
+        CONSTRAINT FK_BankTransactions_JournalEntries FOREIGN KEY (MatchedJournalEntryId) REFERENCES dbo.JournalEntries(JournalEntryId)
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.BankTransactions') AND name = N'IX_BankTransactions_ReconciliationStatus')
+BEGIN
+    CREATE INDEX IX_BankTransactions_ReconciliationStatus
+        ON dbo.BankTransactions(ReconciliationId, MatchStatus);
+END;
+GO
+
+IF OBJECT_ID(N'dbo.BankReconciliationCandidates', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.BankReconciliationCandidates
+    (
+        BankReconciliationCandidateId bigint IDENTITY(1,1) NOT NULL CONSTRAINT PK_BankReconciliationCandidates PRIMARY KEY,
+        BankTransactionId bigint NOT NULL,
+        JournalEntryId bigint NOT NULL,
+        Score int NOT NULL,
+        IsSelected bit NOT NULL,
+        CONSTRAINT FK_BankReconciliationCandidates_BankTransactions FOREIGN KEY (BankTransactionId) REFERENCES dbo.BankTransactions(BankTransactionId) ON DELETE CASCADE,
+        CONSTRAINT FK_BankReconciliationCandidates_JournalEntries FOREIGN KEY (JournalEntryId) REFERENCES dbo.JournalEntries(JournalEntryId)
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.BankReconciliationCandidates') AND name = N'UX_BankReconciliationCandidates_TransactionEntry')
+BEGIN
+    CREATE UNIQUE INDEX UX_BankReconciliationCandidates_TransactionEntry
+        ON dbo.BankReconciliationCandidates(BankTransactionId, JournalEntryId);
 END;
 GO
 

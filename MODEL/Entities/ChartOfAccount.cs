@@ -16,5 +16,7 @@ namespace MODEL.Entities
         public ICollection<JournalEntryLine> JournalEntryLines { get; set; } = new List<JournalEntryLine>();
         public ICollection<FinancialReportItem> ReportItems { get; set; } = new List<FinancialReportItem>();
         public ICollection<LedgerBalance> LedgerBalances { get; set; } = new List<LedgerBalance>();
+        public ICollection<JournalImportRow> JournalImportRows { get; set; } = new List<JournalImportRow>();
+        public ICollection<BankReconciliation> BankReconciliations { get; set; } = new List<BankReconciliation>();
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using BAL.Shared;
 
 namespace API.Middleware
 {
@@ -26,6 +27,10 @@ namespace API.Middleware
             catch (KeyNotFoundException ex)
             {
                 await WriteProblemAsync(context, StatusCodes.Status404NotFound, "Resource not found", ex.Message, ex);
+            }
+            catch (ResourceConflictException ex)
+            {
+                await WriteProblemAsync(context, StatusCodes.Status409Conflict, "Resource conflict", ex.Message, ex);
             }
             catch (UnauthorizedAccessException ex)
             {

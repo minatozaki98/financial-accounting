@@ -16,12 +16,18 @@ namespace BAL.Services
         private readonly DataContext _context;
         private readonly IAuditLogService _auditLogService;
         private readonly IAccountLedgerCache _accountLedgerCache;
+        private readonly ILedgerBalanceService _ledgerBalanceService;
 
-        public JournalEntryService(DataContext context, IAuditLogService auditLogService, IAccountLedgerCache accountLedgerCache)
+        public JournalEntryService(
+            DataContext context,
+            IAuditLogService auditLogService,
+            IAccountLedgerCache accountLedgerCache,
+            ILedgerBalanceService ledgerBalanceService)
         {
             _context = context;
             _auditLogService = auditLogService;
             _accountLedgerCache = accountLedgerCache;
+            _ledgerBalanceService = ledgerBalanceService;
         }
 
         public async Task<JournalEntryResponseDto> CreateDraftAsync(CreateJournalEntryRequestDto request, Guid actorUserId, string? ipAddress)
@@ -228,7 +234,7 @@ namespace BAL.Services
 
             if (period != null)
             {
-                await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
+                await _ledgerBalanceService.RefreshForPeriodAsync(period.PeriodId);
                 _accountLedgerCache.Invalidate(entry.Lines.Select(x => x.AccountId), period.PeriodId);
             }
 
@@ -300,7 +306,7 @@ namespace BAL.Services
 
             if (period != null)
             {
-                await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
+                await _ledgerBalanceService.RefreshForPeriodAsync(period.PeriodId);
                 _accountLedgerCache.Invalidate(original.Lines.Select(x => x.AccountId), period.PeriodId);
             }
 
@@ -374,65 +380,6 @@ namespace BAL.Services
             var date = entryDate.Date;
             return await _context.AccountingPeriods
                 .FirstOrDefaultAsync(x => x.StartDate <= date && x.EndDate >= date);
-        }
-
-        private async Task RefreshLedgerBalancesForPeriodAsync(int periodId)
-        {
-            var period = await _context.AccountingPeriods.AsNoTracking().FirstOrDefaultAsync(x => x.PeriodId == periodId);
-            if (period == null)
-            {
-                return;
-            }
-
-            var aggregates = await (
-                    from entry in _context.JournalEntries
-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
-                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
-                    where entry.Status == PostedStatus &&
-                          entry.EntryDate >= period.StartDate &&
-                          entry.EntryDate <= period.EndDate
-                    group new { line, account } by new { line.AccountId, account.AccountType }
-                into grouped
-                    select new
-                    {
-                        grouped.Key.AccountId,
-                        grouped.Key.AccountType,
-                        DebitTotal = grouped.Sum(x => (double)x.line.Debit),
-                        CreditTotal = grouped.Sum(x => (double)x.line.Credit)
-                    })
-                .ToListAsync();
-
-            var existing = await _context.LedgerBalances
-                .Where(x => x.PeriodId == periodId)
-                .ToListAsync();
-
-            var existingMap = existing.ToDictionary(x => x.AccountId, x => x);
-            var aggregateIds = aggregates.Select(x => x.AccountId).ToHashSet();
-
-            foreach (var aggregate in aggregates)
-            {
-                if (!existingMap.TryGetValue(aggregate.AccountId, out var row))
-                {
-                    row = new LedgerBalance
-                    {
-                        PeriodId = periodId,
-                        AccountId = aggregate.AccountId
-                    };
-                    _context.LedgerBalances.Add(row);
-                }
-
-                row.DebitTotal = decimal.Round(Convert.ToDecimal(aggregate.DebitTotal), 2);
-                row.CreditTotal = decimal.Round(Convert.ToDecimal(aggregate.CreditTotal), 2);
-                row.Balance = NormalizeBalance(aggregate.AccountType, row.DebitTotal, row.CreditTotal);
-                row.UpdatedAt = DateTime.UtcNow;
-            }
-
-            foreach (var stale in existing.Where(x => !aggregateIds.Contains(x.AccountId)))
-            {
-                _context.LedgerBalances.Remove(stale);
-            }
-
-            await _context.SaveChangesAsync();
         }
 
         private static decimal NormalizeBalance(string accountType, decimal debitTotal, decimal creditTotal)

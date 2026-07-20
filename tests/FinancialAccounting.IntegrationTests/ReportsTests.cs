@@ -1,3 +1,4 @@
+using BAL.IServices;
 using FinancialAccounting.IntegrationTests.Fixtures;
 using FinancialAccounting.IntegrationTests.Support;
 using FluentAssertions;
@@ -136,6 +137,92 @@ public class ReportsTests : IClassFixture<TestApiFactory>
         liabilityBalance.DebitTotal.Should().Be(0m);
         liabilityBalance.CreditTotal.Should().Be(40m);
         liabilityBalance.Balance.Should().Be(40m);
+    }
+
+    [Fact]
+    public async Task LedgerBalanceRefresh_UpdatesAggregatesAndRemovesStaleRows()
+    {
+        const int periodId = 202604;
+        int staleAccountId;
+
+        using (var setupScope = _factory.Services.CreateScope())
+        {
+            var dbContext = setupScope.ServiceProvider.GetRequiredService<DataContext>();
+            var adminUserId = dbContext.Users.Single(x => x.Username == TestDataFixture.AdminUsername).UserId;
+            staleAccountId = dbContext.ChartOfAccounts
+                .Single(x => x.AccountType == "Expense")
+                .AccountId;
+
+            dbContext.AccountingPeriods.Add(new MODEL.Entities.AccountingPeriod
+            {
+                PeriodId = periodId,
+                StartDate = new DateTime(2026, 4, 1),
+                EndDate = new DateTime(2026, 4, 30),
+                IsClosed = false
+            });
+            dbContext.JournalEntries.Add(new MODEL.Entities.JournalEntry
+            {
+                EntryDate = new DateTime(2026, 4, 10),
+                Description = "Ledger refresh verification",
+                ReferenceNo = "LEDGER-REFRESH-APRIL",
+                Status = "Posted",
+                CreatedByUserId = adminUserId,
+                CreatedAt = DateTime.UtcNow,
+                PostedAt = DateTime.UtcNow,
+                Lines =
+                {
+                    new MODEL.Entities.JournalEntryLine
+                    {
+                        AccountId = TestDataFixture.AssetAccountId,
+                        Debit = 40m,
+                        Credit = 0m
+                    },
+                    new MODEL.Entities.JournalEntryLine
+                    {
+                        AccountId = TestDataFixture.LiabilityAccountId,
+                        Debit = 0m,
+                        Credit = 40m
+                    }
+                }
+            });
+            dbContext.LedgerBalances.AddRange(
+                new MODEL.Entities.LedgerBalance
+                {
+                    PeriodId = periodId,
+                    AccountId = TestDataFixture.AssetAccountId,
+                    DebitTotal = 999m,
+                    CreditTotal = 0m,
+                    Balance = 999m
+                },
+                new MODEL.Entities.LedgerBalance
+                {
+                    PeriodId = periodId,
+                    AccountId = staleAccountId,
+                    DebitTotal = 50m,
+                    CreditTotal = 0m,
+                    Balance = 50m
+                });
+            dbContext.SaveChanges();
+
+            var ledgerBalanceService = setupScope.ServiceProvider.GetRequiredService<ILedgerBalanceService>();
+            await ledgerBalanceService.RefreshForPeriodAsync(periodId);
+        }
+
+        using var verificationScope = _factory.Services.CreateScope();
+        var verificationContext = verificationScope.ServiceProvider.GetRequiredService<DataContext>();
+        var balances = verificationContext.LedgerBalances
+            .Where(x => x.PeriodId == periodId)
+            .OrderBy(x => x.AccountId)
+            .ToList();
+
+        balances.Should().HaveCount(2);
+        balances.Should().NotContain(x => x.AccountId == staleAccountId);
+        balances.Single(x => x.AccountId == TestDataFixture.AssetAccountId)
+            .Should().Match<MODEL.Entities.LedgerBalance>(x =>
+                x.DebitTotal == 40m && x.CreditTotal == 0m && x.Balance == 40m);
+        balances.Single(x => x.AccountId == TestDataFixture.LiabilityAccountId)
+            .Should().Match<MODEL.Entities.LedgerBalance>(x =>
+                x.DebitTotal == 0m && x.CreditTotal == 40m && x.Balance == 40m);
     }
 
     [Fact]

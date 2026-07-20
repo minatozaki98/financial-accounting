@@ -2,7 +2,9 @@ using FinancialAccounting.IntegrationTests.Fixtures;
 using FinancialAccounting.IntegrationTests.Support;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using Xunit;
 
 namespace FinancialAccounting.IntegrationTests;
@@ -103,6 +105,7 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
                 startDate = "2100-01-01",
                 endDate = "2100-12-31"
             }),
+            "GET /periods/{id}/close-preview" => _client.GetAsync($"/periods/{TestDataFixture.OpenPeriodId}/close-preview"),
             "POST /periods/{id}/close" => _client.PostAsync($"/periods/{TestDataFixture.ClosedPeriodId}/close", null),
             "POST /journal-entries" => _client.PostAsJsonAsync("/journal-entries", new
             {
@@ -128,13 +131,47 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
                     }
                 }
             }),
+            "POST /journal-imports/validate" => PostJournalImportValidationAsync(),
             "POST /journal-entries/{id}/post" => _client.PostAsync($"/journal-entries/{ResolvePostTargetId(role)}/post", null),
             "POST /journal-entries/{id}/reverse" => _client.PostAsync($"/journal-entries/{ResolveReverseTargetId(role)}/reverse", null),
             "DELETE /journal-entries/{id}" => _client.DeleteAsync($"/journal-entries/{TestDataFixture.PostedEntryId}"),
             "GET /reports/trial-balance" => _client.GetAsync($"/reports/trial-balance?periodId={TestDataFixture.OpenPeriodId}"),
+            "POST /reconciliations" => _client.PostAsJsonAsync("/reconciliations", new
+            {
+                periodId = TestDataFixture.OpenPeriodId,
+                bankAccountId = TestDataFixture.AssetAccountId,
+                dateFrom = "2026-08-01",
+                dateTo = "2026-08-31",
+                transactions = new[]
+                {
+                    new
+                    {
+                        transactionDate = "2026-08-15",
+                        amount = 10m,
+                        referenceNo = $"RBAC-{Guid.NewGuid():N}"
+                    }
+                }
+            }),
             "GET /audit-logs" => _client.GetAsync("/audit-logs?page=1&pageSize=10"),
             _ => throw new InvalidOperationException($"Unknown endpoint key: {endpointKey}")
         };
+    }
+
+    private async Task<HttpResponseMessage> PostJournalImportValidationAsync()
+    {
+        var reference = $"RBAC-{Guid.NewGuid():N}";
+        var csv = string.Join(
+            "\n",
+            "EntryDate,ReferenceNo,Description,AccountCode,Debit,Credit",
+            $"2026-08-01,{reference},Debit,A1000,10.00,0",
+            $"2026-08-01,{reference},Credit,L1000,0,10.00");
+        using var content = new MultipartFormDataContent();
+        var file = new ByteArrayContent(Encoding.UTF8.GetBytes(csv));
+        file.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
+        content.Add(file, "file", "rbac.csv");
+        content.Add(new StringContent($"rbac-{Guid.NewGuid():N}"), "idempotencyKey");
+        content.Add(new StringContent("true"), "atomic");
+        return await _client.PostAsync("/journal-imports/validate", content);
     }
 
     private static long ResolvePostTargetId(string role)
