@@ -28,13 +28,6 @@ function Assert-OutputPath([string]$Path) {
     }
 }
 
-function Remove-ExistingOutput([string]$Path) {
-    Assert-OutputPath $Path
-    if (Test-Path -LiteralPath $Path) {
-        Remove-Item -LiteralPath $Path -Force
-    }
-}
-
 foreach ($required in @($pptxPath, $guidePath)) {
     if (-not (Test-Path -LiteralPath $required)) {
         throw "Missing source Office document: $required"
@@ -45,21 +38,27 @@ $powerPoint = $null
 $presentation = $null
 $word = $null
 $document = $null
+$temporaryPresentationPdf = $null
+$temporaryGuidePdf = $null
 
 try {
     if ($Mode -eq 'PowerPoint') {
-        Remove-ExistingOutput $pptPdfPath
+        $temporaryRoot = 'C:\Temp'
+        if (-not (Test-Path -LiteralPath $temporaryRoot)) {
+            New-Item -ItemType Directory -Path $temporaryRoot | Out-Null
+        }
+        $temporaryPresentationPdf = Join-Path $temporaryRoot ("defense-slides-" + [guid]::NewGuid().ToString('N') + '.pdf')
         $powerPoint = New-Object -ComObject PowerPoint.Application
         if ($powerPoint.Presentations.Count -ne 0) {
             throw 'The new PowerPoint instance already contains presentations; refusing to continue.'
         }
         $presentation = $powerPoint.Presentations.Open($pptxPath, $true, $false, $false)
-        $presentation.SaveAs($pptPdfPath, 32)
+        $presentation.SaveAs($temporaryPresentationPdf, 32)
+        Copy-Item -LiteralPath $temporaryPresentationPdf -Destination $pptPdfPath -Force
         Write-Output "Exported PowerPoint PDF: $pptPdfPath"
     }
 
     if ($Mode -eq 'Word') {
-        Remove-ExistingOutput $guidePdfPath
         $temporaryRoot = 'C:\Temp'
         if (-not (Test-Path -LiteralPath $temporaryRoot)) {
             New-Item -ItemType Directory -Path $temporaryRoot | Out-Null
@@ -80,7 +79,6 @@ try {
         $document.ExportAsFixedFormat($temporaryGuidePdf, 17)
         Write-Output "Temporary guide PDF exported: $temporaryGuidePdf"
         Copy-Item -LiteralPath $temporaryGuidePdf -Destination $guidePdfPath -Force
-        Remove-Item -LiteralPath $temporaryGuidePdf -Force
         $guidePages = $document.ComputeStatistics(2)
         Write-Output "Exported Word PDF: $guidePdfPath"
         [pscustomobject]@{ GuidePdf = $guidePdfPath; GuidePages = $guidePages } | Format-List
@@ -102,6 +100,11 @@ finally {
     if ($null -ne $powerPoint) {
         if ($powerPoint.Presentations.Count -eq 0) { $powerPoint.Quit() }
         [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($powerPoint)
+    }
+    foreach ($temporaryOutput in @($temporaryPresentationPdf, $temporaryGuidePdf)) {
+        if ($temporaryOutput -and (Test-Path -LiteralPath $temporaryOutput)) {
+            Remove-Item -LiteralPath $temporaryOutput -Force
+        }
     }
     [GC]::Collect()
     [GC]::WaitForPendingFinalizers()

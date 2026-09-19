@@ -63,6 +63,23 @@ class DefenseContentTests(unittest.TestCase):
         traceability = next(item for item in self.data["appendix"] if item["id"] == "A09")
         self.assertEqual("Tool rerun", traceability["visibleContent"]["flow"][-1])
 
+    def test_timing_target_matches_main_slide_total(self):
+        self.assertEqual(
+            sum(slide["durationSeconds"] for slide in self.data["slides"]),
+            self.data["rehearsal"]["timingTargetSeconds"],
+        )
+
+    def test_provenance_and_role_appendices_are_evidence_specific(self):
+        provenance = next(item for item in self.data["appendix"] if item["id"] == "A01")
+        self.assertGreaterEqual(len(provenance["visibleContent"]["rows"]), 8)
+        for row in provenance["visibleContent"]["rows"]:
+            self.assertRegex(row[2], r"^[0-9a-f]{7,40}$")
+        roles = next(item for item in self.data["appendix"] if item["id"] == "A02")
+        report_row = next(row for row in roles["visibleContent"]["rows"] if row[0] == "/reports")
+        audit_row = next(row for row in roles["visibleContent"]["rows"] if row[0] == "/audit-logs")
+        self.assertEqual("-", report_row[3])
+        self.assertEqual("-", audit_row[2])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -320,10 +320,10 @@ async function renderMainVisual(pptx, slide, model) {
       }
       break;
     case "modelComparison":
-      addTable(slide, ["Area", "GPT-5.4", "GPT-5.5", "Reading"], c.rows.map((r) => [r.area, r.gpt54, r.gpt55, r.reading]), { x: 0.78, y: 1.55, w: 11.8, h: 4.9, colW: [1.55, 3.45, 3.45, 3.35], fontSize: 15, rowH: 0.86, section: "Comparison" });
+      addTable(slide, ["Area", "GPT-5.4", "GPT-5.5", "Reading"], c.rows.map((r) => [r.area, r.gpt54, r.gpt55, r.reading]), { x: 0.78, y: 1.55, w: 11.8, h: 4.9, colW: [1.9, 3.35, 3.35, 3.2], fontSize: 20, rowH: 0.9, section: "Comparison" });
       break;
     case "v2Scorecard":
-      addTable(slide, ["Measure", "GPT-5.4", "GPT-5.5"], c.scorecard.map((r) => [r.measure, r.gpt54, r.gpt55]), { x: 1.2, y: 1.45, w: 10.9, h: 5.25, colW: [3.6, 3.65, 3.65], fontSize: 16, rowH: 0.72, section: "Comparison" });
+      addTable(slide, ["Measure", "GPT-5.4", "GPT-5.5"], c.scorecard.map((r) => [r.measure, r.gpt54, r.gpt55]), { x: 1.2, y: 1.45, w: 10.9, h: 5.25, colW: [3.6, 3.65, 3.65], fontSize: 20, rowH: 0.78, section: "Comparison" });
       break;
     case "contributions":
       c.contributions.forEach((item, index) => addCard(slide, { x: 0.8 + index * 4.13, y: 1.75, w: 3.75, h: 4.85, title: item.label, body: item.detail, accent: [COLORS.methodology, COLORS.verified, COLORS.performance][index], titleSize: 23, bodySize: 18 }));
@@ -333,9 +333,9 @@ async function renderMainVisual(pptx, slide, model) {
         const y = 1.4 + index * 1.05;
         addRect(slide, 0.8, y, 5.65, 0.82, COLORS.paleRed, COLORS.line, true);
         addRect(slide, 6.9, y, 5.65, 0.82, COLORS.paleGreen, COLORS.line, true);
-        addText(slide, pair.limitation, { x: 0.98, y: y + 0.12, w: 5.25, h: 0.55, fontSize: 15.5, color: COLORS.security, bold: true });
+        addText(slide, pair.limitation, { x: 0.98, y: y + 0.12, w: 5.25, h: 0.55, fontSize: 20, color: COLORS.security, bold: true });
         addArrow(slide, 6.48, y + 0.41, 6.86, y + 0.41, COLORS.muted, 1.2);
-        addText(slide, pair.future, { x: 7.08, y: y + 0.12, w: 5.25, h: 0.55, fontSize: 15.5, color: COLORS.verified, bold: true });
+        addText(slide, pair.future, { x: 7.08, y: y + 0.12, w: 5.25, h: 0.55, fontSize: 20, color: COLORS.verified, bold: true });
       });
       addText(slide, "LIMITATION", { x: 0.8, y: 6.7, w: 5.65, h: 0.2, fontSize: 9, bold: true, color: COLORS.security, align: "center" });
       addText(slide, "NEXT EVIDENCE", { x: 6.9, y: 6.7, w: 5.65, h: 0.2, fontSize: 9, bold: true, color: COLORS.verified, align: "center" });
@@ -355,11 +355,11 @@ async function renderAppendixVisual(slide, model) {
   if (model.visual.type === "dataTable") {
     addTable(slide, c.headers, c.rows, { x: 0.8, y: 1.4, w: 11.75, h: 5.4, fontSize: 15, rowH: 0.62, section: "Appendix" });
   } else if (model.visual.type === "roleMatrix") {
-    addTable(slide, ["Endpoint group", ...c.roles], c.groups.map((group, index) => [group, index < 6 ? "Full" : "Admin", index === 6 ? "Read" : "Role-based", "Own scope", index >= 2 ? "Read" : "Limited"]), { x: 0.72, y: 1.4, w: 8.35, h: 5.2, colW: [2.3, 1.45, 1.65, 1.4, 1.55], fontSize: 12.5, rowH: 0.55 });
+    addTable(slide, c.headers, c.rows, { x: 0.72, y: 1.4, w: 8.35, h: 5.2, colW: [2.05, 1.55, 1.65, 1.45, 1.65], fontSize: 12.5, rowH: 0.55 });
     await addImageContain(slide, resolveAsset("Document/outputs/web-app-evidence/01-login.png"), 9.35, 1.55, 3.0, 2.0);
     await addImageContain(slide, resolveAsset("Document/outputs/web-app-evidence/04-audit-logs.png"), 9.35, 4.0, 3.0, 2.0);
   } else if (model.visual.type === "provenanceTable") {
-    addTable(slide, ["Track", "Branch", "Evidence"], [["Original baseline", "baseline-v0.1", "Shared starting point"], ["Original Sonar", "baseline-sonarqube-v1", "Static-quality rerun"], ["Original ZAP", "baseline-zap-v1", "Baseline and authenticated scans"], ["Original JMeter", "baseline-jmeter-v1", "Five workload profiles"], ["GPT-5.5 comparison", "codex/gpt-5.5-comparison", "Paired model evidence"]], { x: 0.9, y: 1.6, w: 11.5, h: 4.5, colW: [2.5, 4.2, 4.8], fontSize: 15, rowH: 0.7 });
+    addTable(slide, c.headers, c.rows, { x: 0.9, y: 1.4, w: 11.5, h: 5.25, colW: [2.7, 5.4, 3.4], fontSize: 13.5, rowH: 0.55 });
   } else if (model.visual.type === "threatsGrid") {
     c.groups.forEach((group, index) => addCard(slide, { x: 0.8 + (index % 2) * 6.05, y: 1.4 + Math.floor(index / 2) * 2.65, w: 5.65, h: 2.25, title: group.label, body: group.items.join("\n\n"), accent: [COLORS.methodology, COLORS.performance, COLORS.security, COLORS.verified][index], titleSize: 21, bodySize: 15.5 }));
   } else if (model.visual.type === "traceabilityFlow") {

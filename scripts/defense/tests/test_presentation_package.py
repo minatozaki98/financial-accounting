@@ -2,6 +2,7 @@ import unittest
 import zipfile
 from pathlib import Path
 import re
+from xml.etree import ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -79,6 +80,26 @@ class PresentationPackageTests(unittest.TestCase):
                 if name.startswith("ppt/charts/chart") and name.endswith(".xml")
             )
         self.assertNotIn('formatCode="0%"', charts)
+
+    def test_main_comparison_tables_use_projector_readable_text(self):
+        namespace = {"a": "http://schemas.openxmlformats.org/drawingml/2006/main"}
+        with zipfile.ZipFile(PPTX) as archive:
+            for slide_number in (18, 19):
+                root = ET.fromstring(archive.read(f"ppt/slides/slide{slide_number}.xml"))
+                table = root.find(".//a:tbl", namespace)
+                self.assertIsNotNone(table)
+                sizes = [
+                    int(node.get("sz"))
+                    for node in table.findall(".//a:rPr", namespace)
+                    if node.get("sz")
+                ]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes), 2000)
+        with zipfile.ZipFile(PPTX) as archive:
+            root = ET.fromstring(archive.read("ppt/slides/slide18.xml"))
+        first_column = root.find(".//a:tblGrid/a:gridCol", namespace)
+        self.assertIsNotNone(first_column)
+        self.assertGreaterEqual(int(first_column.get("w")), 1645920)
 
 
 if __name__ == "__main__":
