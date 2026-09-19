@@ -1,6 +1,7 @@
 import unittest
 import zipfile
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -44,6 +45,25 @@ class PresentationPackageTests(unittest.TestCase):
         with zipfile.ZipFile(PPTX) as archive:
             media = [name for name in archive.namelist() if name.startswith("ppt/media/")]
         self.assertGreaterEqual(len(media), 8)
+
+    def test_shape_extents_are_never_negative(self):
+        with zipfile.ZipFile(PPTX) as archive:
+            for name in archive.namelist():
+                if not (name.startswith("ppt/slides/slide") and name.endswith(".xml")):
+                    continue
+                xml_text = archive.read(name).decode("utf-8", "ignore")
+                extents = re.findall(r'<a:ext cx="(-?\d+)" cy="(-?\d+)"', xml_text)
+                negative = [value for value in extents if value[0].startswith("-") or value[1].startswith("-")]
+                self.assertFalse(negative, f"{name} has negative extents: {negative}")
+
+    def test_table_vertical_alignment_uses_valid_powerpoint_value(self):
+        with zipfile.ZipFile(PPTX) as archive:
+            slide_xml = "".join(
+                archive.read(name).decode("utf-8", "ignore")
+                for name in archive.namelist()
+                if name.startswith("ppt/slides/slide") and name.endswith(".xml")
+            )
+        self.assertNotIn('anchor="mid"', slide_xml)
 
 
 if __name__ == "__main__":

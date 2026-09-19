@@ -27,7 +27,7 @@ function textOptions(options = {}) {
     margin: 0,
     breakLine: false,
     fit: "shrink",
-    valign: "mid",
+    valign: "middle",
     ...options
   };
 }
@@ -125,7 +125,15 @@ function addBullets(slide, items, x, y, w, h, fontSize = FONTS.body, color = COL
 }
 
 function addArrow(slide, x1, y1, x2, y2, color = COLORS.methodology, width = 2) {
-  slide.addShape("line", { x: x1, y: y1, w: x2 - x1, h: y2 - y1, line: { color, width, beginArrowType: "none", endArrowType: "triangle" } });
+  slide.addShape("line", {
+    x: Math.min(x1, x2),
+    y: Math.min(y1, y2),
+    w: Math.abs(x2 - x1),
+    h: Math.abs(y2 - y1),
+    flipH: x2 < x1,
+    flipV: y2 < y1,
+    line: { color, width, beginArrowType: "none", endArrowType: "triangle" }
+  });
 }
 
 async function addImageContain(slide, imagePath, x, y, w, h, options = {}) {
@@ -167,7 +175,7 @@ function addTable(slide, headers, rows, options = {}) {
     fontFace: FONTS.face,
     fontSize: options.fontSize || 14,
     margin: 0.09,
-    valign: "mid",
+    valign: "middle",
     autoFit: false,
     rowH: options.rowH || 0.45,
     breakLine: false,
