@@ -249,8 +249,18 @@ async function renderMainVisual(pptx, slide, model) {
       addEvidenceTag(slide, c.control, 4.1, 6.25, COLORS.verified, 5.7);
       break;
     case "workflow":
-      await addImageContain(slide, resolveAsset(model.visual.asset), 0.8, 1.45, 11.75, 4.9);
-      addEvidenceTag(slide, "Finding -> patch -> tests -> remeasurement", 4.0, 6.35, COLORS.methodology, 5.3);
+      [
+        ["01", "Capture baseline", "Preserve raw tool findings and environment state", COLORS.text],
+        ["02", "Propose bounded fix", "Give the model the finding, source context, and constraints", COLORS.performance],
+        ["03", "Human review and tests", "Protect authorization, accounting invariants, and contracts", COLORS.security],
+        ["04", "Rerun and compare", "Accept only changes supported by the original measurement tool", COLORS.verified]
+      ].forEach((phase, index) => {
+        const x = 0.85 + (index % 2) * 6.0;
+        const y = 1.45 + Math.floor(index / 2) * 2.5;
+        addCard(slide, { x, y, w: 5.55, h: 2.05, title: `${phase[0]}  ${phase[1]}`, body: phase[2], accent: phase[3], titleSize: 21, bodySize: 16.5 });
+      });
+      addEvidenceTag(slide, "Finding -> patch -> tests -> remeasurement", 3.65, 6.42, COLORS.methodology, 5.9);
+      await addImageContain(slide, resolveAsset(model.visual.asset), 10.85, 6.13, 1.35, 0.7, { frame: false });
       break;
     case "datasetFacts":
       c.metrics.forEach((metric, index) => addMetric(slide, metric.value, metric.label, 0.9 + index * 4.05, 1.75, COLORS.methodology, 3.55));
@@ -288,7 +298,7 @@ async function renderMainVisual(pptx, slide, model) {
       break;
     case "performanceChart": {
       const reductions = c.chart.before.map((value, index) => Number(((value - c.chart.after[index]) / value * 100).toFixed(1)));
-      slide.addChart(pptx.ChartType.bar, [{ name: "p95 reduction", labels: c.chart.categories, values: reductions }], { x: 0.85, y: 1.55, w: 7.2, h: 4.8, catAxisLabelFontFace: FONTS.face, catAxisLabelFontSize: 14, valAxisLabelFontFace: FONTS.face, valAxisLabelFontSize: 11, valAxisMinVal: 0, valAxisMaxVal: 100, valAxisLabelFormatCode: "0%", showLegend: false, chartColors: [COLORS.performance], showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.0\"%\"", valGridLine: { color: COLORS.line, width: 1 }, showBorder: false });
+      slide.addChart(pptx.ChartType.bar, [{ name: "p95 reduction", labels: c.chart.categories, values: reductions }], { x: 0.85, y: 1.55, w: 7.2, h: 4.8, catAxisLabelFontFace: FONTS.face, catAxisLabelFontSize: 14, valAxisLabelFontFace: FONTS.face, valAxisLabelFontSize: 11, valAxisMinVal: 0, valAxisMaxVal: 100, valAxisLabelFormatCode: "0.0\"%\"", showLegend: false, chartColors: [COLORS.performance], showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.0\"%\"", valGridLine: { color: COLORS.line, width: 1 }, showBorder: false });
       addCard(slide, { x: 8.35, y: 1.65, w: 4.0, h: 1.55, title: "Core reliability", body: c.callout, accent: COLORS.verified, fill: COLORS.paleGreen, titleSize: 20, bodySize: 17 });
       addCard(slide, { x: 8.35, y: 3.55, w: 4.0, h: 2.15, title: "Caveat retained", body: c.caveat, accent: COLORS.security, fill: COLORS.paleRed, titleSize: 20, bodySize: 17 });
       break;

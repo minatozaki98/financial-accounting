@@ -65,6 +65,21 @@ class PresentationPackageTests(unittest.TestCase):
             )
         self.assertNotIn('anchor="mid"', slide_xml)
 
+    def test_workflow_slide_uses_large_native_phase_labels(self):
+        with zipfile.ZipFile(PPTX) as archive:
+            slide = archive.read("ppt/slides/slide8.xml").decode("utf-8", "ignore")
+        for label in ("Capture baseline", "Propose bounded fix", "Human review and tests", "Rerun and compare"):
+            self.assertIn(label, slide)
+
+    def test_chart_axis_does_not_scale_percentage_values_twice(self):
+        with zipfile.ZipFile(PPTX) as archive:
+            charts = "".join(
+                archive.read(name).decode("utf-8", "ignore")
+                for name in archive.namelist()
+                if name.startswith("ppt/charts/chart") and name.endswith(".xml")
+            )
+        self.assertNotIn('formatCode="0%"', charts)
+
 
 if __name__ == "__main__":
     unittest.main()

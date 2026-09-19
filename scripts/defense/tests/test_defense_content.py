@@ -59,6 +59,10 @@ class DefenseContentTests(unittest.TestCase):
         for token in forbidden:
             self.assertNotIn(token, serialized)
 
+    def test_traceability_flow_uses_projector_safe_label(self):
+        traceability = next(item for item in self.data["appendix"] if item["id"] == "A09")
+        self.assertEqual("Tool rerun", traceability["visibleContent"]["flow"][-1])
+
 
 if __name__ == "__main__":
     unittest.main()

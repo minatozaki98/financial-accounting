@@ -76,6 +76,21 @@ class PreparationGuideTests(unittest.TestCase):
         self.assertIsNotNone(zoom)
         self.assertEqual("100", zoom.get(f"{namespace}percent"))
 
+    def test_question_headings_stay_with_their_answers(self):
+        namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+        with zipfile.ZipFile(GUIDE) as archive:
+            document = ET.fromstring(archive.read("word/document.xml"))
+        question_count = 0
+        for paragraph in document.iter(f"{namespace}p"):
+            text = "".join(node.text or "" for node in paragraph.iter(f"{namespace}t"))
+            if not text.startswith("Question "):
+                continue
+            question_count += 1
+            properties = paragraph.find(f"{namespace}pPr")
+            self.assertIsNotNone(properties)
+            self.assertIsNotNone(properties.find(f"{namespace}keepNext"), text)
+        self.assertGreaterEqual(question_count, 30)
+
 
 if __name__ == "__main__":
     unittest.main()

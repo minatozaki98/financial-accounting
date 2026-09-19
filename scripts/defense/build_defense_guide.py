@@ -184,13 +184,14 @@ def add_rule(paragraph, color: str = COLORS["methodology"]) -> None:
     p_pr.insert(insertion_index, borders)
 
 
-def add_label_paragraph(doc: Document, label: str, text: str, color: str) -> None:
+def add_label_paragraph(doc: Document, label: str, text: str, color: str):
     paragraph = doc.add_paragraph()
     paragraph.paragraph_format.space_after = Pt(4)
     label_run = paragraph.add_run(label)
     label_run.bold = True
     label_run.font.color.rgb = RGBColor.from_string(color)
     paragraph.add_run(text)
+    return paragraph
 
 
 def add_callout(doc: Document, title: str, text: str, color: str) -> None:
@@ -333,15 +334,23 @@ def add_question_bank(doc: Document, content: dict) -> None:
     number = 0
     for question in content["questions"]:
         if question["perspective"] != current:
+            first_perspective = current is None
             current = question["perspective"]
-            doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
-            doc.add_heading(names[current], level=2)
+            if not first_perspective:
+                doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
+            perspective_heading = doc.add_heading(names[current], level=2)
+            perspective_heading.paragraph_format.keep_with_next = True
         number += 1
-        doc.add_heading(f"Question {number}: {question['question']}", level=3)
-        add_label_paragraph(doc, "Short answer: ", question["shortAnswer"], COLORS["verified"])
-        add_label_paragraph(doc, "Follow-up answer: ", question["followUpAnswer"], COLORS["methodology"])
-        add_label_paragraph(doc, "Supporting slide: ", question["slideRef"], COLORS["performance"])
-        add_label_paragraph(doc, "Caution: ", question["caution"], COLORS["security"])
+        question_heading = doc.add_heading(f"Question {number}: {question['question']}", level=3)
+        question_heading.paragraph_format.keep_with_next = True
+        short_answer = add_label_paragraph(doc, "Short answer: ", question["shortAnswer"], COLORS["verified"])
+        follow_up = add_label_paragraph(doc, "Follow-up answer: ", question["followUpAnswer"], COLORS["methodology"])
+        supporting_slide = add_label_paragraph(doc, "Supporting slide: ", question["slideRef"], COLORS["performance"])
+        caution = add_label_paragraph(doc, "Caution: ", question["caution"], COLORS["security"])
+        for paragraph in (short_answer, follow_up, supporting_slide):
+            paragraph.paragraph_format.keep_with_next = True
+            paragraph.paragraph_format.keep_together = True
+        caution.paragraph_format.keep_together = True
 
 
 def add_rehearsal_plan(doc: Document, content: dict) -> None:
