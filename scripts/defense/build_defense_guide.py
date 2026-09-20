@@ -251,6 +251,12 @@ def add_how_to_use(doc: Document) -> None:
         "Deliver the 22 main slides in 27-28 minutes, then use appendix slides only when a professor asks for detailed evidence.",
         COLORS["methodology"],
     )
+    add_callout(
+        doc,
+        "Scope rule",
+        "Primary evaluated model: ChatGPT/Codex 5.4. Slides 20-21 are post-thesis future-work follow-ups and must remain separate from the core thesis conclusion.",
+        COLORS["performance"],
+    )
     items = [
         "Do not memorize every sentence. Memorize each slide's key message and first sentence.",
         "Use Presenter View so the current notes and the next slide remain visible to you.",
@@ -264,13 +270,14 @@ def add_how_to_use(doc: Document) -> None:
     doc.add_heading("Opening Script", level=2)
     doc.add_paragraph(
         "Good morning, respected chair and committee members. My name is Zaw Ye Htut Ko, student ID G6519692. "
-        "Today I will present my thesis on improving a financial ASP.NET Core RESTful API using ChatGPT as a code-improvement advisor. "
+        "Today I will present my thesis on improving a financial ASP.NET Core RESTful API using ChatGPT/Codex 5.4 as a code-improvement advisor. "
         "The central idea is that the model proposes changes, but human review and repeatable tool evidence decide whether those changes are accepted."
     )
     doc.add_heading("Closing Script", level=2)
     doc.add_paragraph(
-        "In conclusion, the study found measurable gains across static quality, security gates, and tail latency, while also identifying limitations in drift measurement and model comparison. "
-        "The strongest contribution is the controlled audit-to-fix workflow. Thank you for your attention. I welcome your questions."
+        "In conclusion, the Codex 5.4 study found measurable gains across static quality, security gates, and tail latency, while also identifying limitations in drift measurement and external validity. "
+        "The strongest contribution is the controlled Codex 5.4 audit-to-fix workflow. The later newer-model measurements are future-work follow-ups and do not change this conclusion. "
+        "Thank you for your attention. I welcome your questions."
     )
 
 

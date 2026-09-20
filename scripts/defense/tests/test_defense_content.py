@@ -80,6 +80,31 @@ class DefenseContentTests(unittest.TestCase):
         self.assertEqual("-", report_row[3])
         self.assertEqual("-", audit_row[2])
 
+    def test_gpt55_results_are_framed_only_as_future_work(self):
+        slides = self.data["slides"]
+        self.assertEqual(
+            ["S18", "S19", "S20", "S21", "S22"],
+            [slide["id"] for slide in slides[17:22]],
+        )
+        self.assertEqual("Contributions", slides[17]["title"])
+        self.assertEqual("Limitations and Future Work", slides[18]["title"])
+        for slide in slides[19:21]:
+            self.assertEqual("Future Work", slide["section"])
+            self.assertTrue(slide["title"].startswith("Future Work Follow-Up:"))
+            self.assertIn("post-thesis", slide["scopeLabel"].lower())
+        core_slides = slides[:19] + [slides[21]]
+        core_text = json.dumps(core_slides)
+        self.assertNotIn("GPT-5.5", core_text)
+        self.assertNotIn("New-API v2", core_text)
+        future_text = json.dumps(slides[19:21])
+        self.assertIn("GPT-5.5", future_text)
+        self.assertIn("New-API v2", future_text)
+
+    def test_future_work_appendices_are_explicitly_labeled(self):
+        for appendix_id in ("A01", "A06", "A07"):
+            appendix = next(item for item in self.data["appendix"] if item["id"] == appendix_id)
+            self.assertTrue(appendix["title"].startswith("Future Work:"), appendix_id)
+
 
 if __name__ == "__main__":
     unittest.main()

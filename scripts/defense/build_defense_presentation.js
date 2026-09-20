@@ -213,7 +213,7 @@ async function renderMainVisual(pptx, slide, model) {
   switch (model.visual.type) {
     case "roadmap":
       addSimpleFlow(slide, c.stages, COLORS.text, 2.85);
-      addText(slide, "Problem -> controlled method -> measured results -> model trade-offs -> defensible conclusion", { x: 1.2, y: 4.65, w: 10.9, h: 0.55, fontSize: 18, color: COLORS.muted, align: "center" });
+      addText(slide, "Problem -> controlled method -> Codex 5.4 results -> future-work follow-up -> conclusion", { x: 1.2, y: 4.65, w: 10.9, h: 0.55, fontSize: 18, color: COLORS.muted, align: "center" });
       break;
     case "threePillars":
       c.pillars.forEach((item, index) => addCard(slide, { x: 0.8 + index * 4.12, y: 2.0, w: 3.72, h: 3.6, title: item.label, body: item.detail, accent: [COLORS.security, COLORS.performance, COLORS.methodology][index], titleSize: 24, bodySize: 18 }));
@@ -379,6 +379,7 @@ function renderTitleSlide(slide, content) {
   slide.addShape("line", { x: 0.85, y: 4.15, w: 4.1, h: 0, line: { color: COLORS.performance, width: 4 } });
   addText(slide, `${content.metadata.student} | ${content.metadata.studentId}`, { x: 0.85, y: 4.55, w: 6.8, h: 0.42, fontSize: 22, bold: true, color: COLORS.surface });
   addText(slide, `${content.metadata.degree}\nAdvisor: ${content.metadata.advisor}`, { x: 0.85, y: 5.15, w: 7.2, h: 0.92, fontSize: 17, color: "C9D2D9", breakLine: true, valign: "top" });
+  addText(slide, content.slides[0].visibleContent.scope, { x: 0.85, y: 6.08, w: 6.8, h: 0.3, fontSize: 14, bold: true, color: "7FD0D4" });
   addText(slide, content.metadata.dateLabel, { x: 9.8, y: 6.55, w: 2.55, h: 0.35, fontSize: 14, color: "C9D2D9", align: "right" });
   addRect(slide, 9.25, 4.55, 3.15, 1.35, "22323B", "344750", true);
   addText(slide, "Evidence first", { x: 9.5, y: 4.82, w: 2.65, h: 0.35, fontSize: 21, bold: true, color: "7FD0D4", align: "center" });
@@ -411,6 +412,7 @@ async function buildDeck(content, outputPath) {
     if (index === 0) renderTitleSlide(slide, content);
     else {
       addFrame(slide, model, index + 1);
+      if (model.scopeLabel) addEvidenceTag(slide, model.scopeLabel, 8.75, 1.2, COLORS.performance, 3.65);
       await renderMainVisual(pptx, slide, model);
     }
     slide.addNotes(notesFor(model));

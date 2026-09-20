@@ -91,6 +91,17 @@ class PreparationGuideTests(unittest.TestCase):
             self.assertIsNotNone(properties.find(f"{namespace}keepNext"), text)
         self.assertGreaterEqual(question_count, 30)
 
+    def test_guide_explains_core_and_future_work_scope(self):
+        doc = Document(GUIDE)
+        text_parts = [paragraph.text for paragraph in doc.paragraphs]
+        for table in doc.tables:
+            for row in table.rows:
+                text_parts.extend(cell.text for cell in row.cells)
+        text = "\n".join(text_parts)
+        self.assertIn("Primary evaluated model: ChatGPT/Codex 5.4", text)
+        self.assertIn("Slides 20-21 are post-thesis future-work follow-ups", text)
+        self.assertIn("Future Work Follow-Up: GPT-5.4 vs GPT-5.5", text)
+
 
 if __name__ == "__main__":
     unittest.main()

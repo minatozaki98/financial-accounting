@@ -36,6 +36,7 @@ function sectionColor(section) {
   if (section === "Method") return COLORS.methodology;
   if (section === "Results") return COLORS.performance;
   if (section === "Comparison") return COLORS.security;
+  if (section === "Future Work") return COLORS.performance;
   if (section === "Synthesis" || section === "Closing") return COLORS.verified;
   return COLORS.text;
 }
