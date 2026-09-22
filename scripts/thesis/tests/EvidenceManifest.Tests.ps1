@@ -31,10 +31,13 @@ Describe "Thesis evidence manifests" {
         @($manifest.claims | Where-Object { @($_.historicalArtifacts).Count -eq 0 }).Count | Should Be 0
     }
 
-    It "initializes an empty versioned dashboard capture manifest" {
+    It "keeps dashboard captures within the versioned required set" {
         $manifest = Get-Content $dashboardPath -Raw | ConvertFrom-Json
 
         $manifest.schemaVersion | Should Be 1
-        @($manifest.captures).Count | Should Be 0
+        @($manifest.captures).Count | Should Not BeGreaterThan @($manifest.requiredCaptures).Count
+        foreach ($capture in $manifest.captures) {
+            (@($manifest.requiredCaptures) -contains $capture.imagePath) | Should Be $true
+        }
     }
 }

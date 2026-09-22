@@ -29,7 +29,12 @@ Describe "New-ThesisAppendix" {
         $manifest = Get-Content $dashboards -Raw | ConvertFrom-Json
 
         foreach ($capture in $manifest.captures) { $text | Should Match ([regex]::Escape($capture.imagePath)) }
-        $text | Should Match 'Not yet reproduced'
+        if (@($manifest.captures).Count -lt @($manifest.requiredCaptures).Count) {
+            $text | Should Match 'Not yet reproduced'
+        }
+        else {
+            $text | Should Not Match 'required before the final DOCX appendix update'
+        }
     }
 
     It "is deterministic and contains no local user-profile path" {
@@ -40,5 +45,15 @@ Describe "New-ThesisAppendix" {
 
         (Get-FileHash $first).Hash | Should Be (Get-FileHash $second).Hash
         (Get-Content $first -Raw) | Should Not Match '[A-Za-z]:[\\/]Users[\\/][^\\/]+'
+    }
+
+    It "renders completed fresh SonarQube, ZAP, and JMeter summaries" {
+        $output = Join-Path $TestDrive 'appendix.md'
+        & $scriptPath -EvidenceManifest $evidence -DashboardManifest $dashboards -OutputPath $output
+        $text = Get-Content $output -Raw
+
+        $text | Should Match 'sonarqube-primary[^\r\n]*baseline 17 issues[^\r\n]*remediation 0 issues'
+        $text | Should Match 'zap-primary[^\r\n]*baseline raw alerts[^\r\n]*remediation raw alerts'
+        $text | Should Match 'jmeter-primary[^\r\n]*p50 p95'
     }
 }

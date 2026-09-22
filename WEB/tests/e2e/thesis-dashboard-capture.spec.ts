@@ -102,11 +102,31 @@ for (const captureCase of cases) {
       await page.goto(captureCase.loginUrl);
       await page.locator('input[name="login"]').fill(username);
       await page.locator('input[name="password"]').fill(password);
-      await page.getByRole("button", { name: /log in/i }).click();
+      await Promise.all([
+        page.waitForURL((url) => !url.pathname.includes("/sessions/new")),
+        page.getByRole("button", { name: /log in/i }).click(),
+      ]);
     }
 
     await page.goto(captureCase.sourceUrl, { waitUntil: "networkidle" });
     await page.locator(captureCase.readySelector ?? "body").waitFor({ state: "visible" });
+    const dismissButton = page.getByRole("button", { name: /^dismiss$/i });
+    try {
+      await dismissButton.waitFor({ state: "visible", timeout: 3_000 });
+      await dismissButton.click();
+    } catch {
+      // Most dashboards do not show an optional promotional panel.
+    }
+    const promotionalPanel = page.getByText("Get the most out of SonarQube Community Build!", { exact: false }).first();
+    if (await promotionalPanel.isVisible().catch(() => false)) {
+      await promotionalPanel.evaluate((element) => {
+        let current: HTMLElement | null = element as HTMLElement;
+        while (current.parentElement && window.getComputedStyle(current).position !== "fixed") {
+          current = current.parentElement;
+        }
+        current.remove();
+      });
+    }
     const bodyText = await page.locator("body").innerText();
     for (const pattern of forbidden) expect(bodyText).not.toMatch(pattern);
 

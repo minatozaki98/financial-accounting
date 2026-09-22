@@ -43,6 +43,18 @@ $researchRuns = @{}
 foreach ($role in @('baseline','sonarqube-remediation','zap-remediation','jmeter-remediation')) {
     $researchRuns[$role] = Get-LatestRun "research-$role-*.json"
 }
+$sonarBaselinePath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/sonar/baseline/summary.json'
+$sonarRemediationPath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/sonar/remediation/summary.json'
+$zapBaselinePath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/zap/baseline/summary.json'
+$zapRemediationPath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/zap/remediation/summary.json'
+$jmeterBaselinePath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/jmeter/baseline/summary.json'
+$jmeterRemediationPath = Join-Path $repositoryRoot 'docs/appendix/verification-runs/research/jmeter/remediation/summary.json'
+$sonarBaseline = if (Test-Path $sonarBaselinePath) { Get-Content $sonarBaselinePath -Raw | ConvertFrom-Json } else { $null }
+$sonarRemediation = if (Test-Path $sonarRemediationPath) { Get-Content $sonarRemediationPath -Raw | ConvertFrom-Json } else { $null }
+$zapBaseline = if (Test-Path $zapBaselinePath) { Get-Content $zapBaselinePath -Raw | ConvertFrom-Json } else { $null }
+$zapRemediation = if (Test-Path $zapRemediationPath) { Get-Content $zapRemediationPath -Raw | ConvertFrom-Json } else { $null }
+$jmeterBaseline = if (Test-Path $jmeterBaselinePath) { Get-Content $jmeterBaselinePath -Raw | ConvertFrom-Json } else { $null }
+$jmeterRemediation = if (Test-Path $jmeterRemediationPath) { Get-Content $jmeterRemediationPath -Raw | ConvertFrom-Json } else { $null }
 
 function Get-FreshClaimStatus {
     param($Claim)
@@ -51,20 +63,26 @@ function Get-FreshClaimStatus {
         'automated-regression' { if ($fastRun) { return $fastRun.Status }; return 'Not yet reproduced' }
         'working-application' { if ($demoRun) { return $demoRun.Status }; return 'Not yet reproduced' }
         'sonarqube-primary' {
-            if ($researchRuns['baseline'] -and $researchRuns['sonarqube-remediation']) {
-                return "$($researchRuns['baseline'].Status) / $($researchRuns['sonarqube-remediation'].Status)"
+            if ($sonarBaseline -and $sonarRemediation) {
+                return "PASS: baseline $($sonarBaseline.totalIssues) issues, remediation $($sonarRemediation.totalIssues) issues; gates $($sonarBaseline.qualityGate)/$($sonarRemediation.qualityGate)"
             }
             return 'Not yet reproduced'
         }
         'zap-primary' {
-            if ($researchRuns['baseline'] -and $researchRuns['zap-remediation']) {
-                return "$($researchRuns['baseline'].Status) / $($researchRuns['zap-remediation'].Status)"
+            if ($zapBaseline -and $zapRemediation) {
+                $beforePassive = $zapBaseline.scans | Where-Object { $_.scan -eq 'baseline' }
+                $beforeApi = $zapBaseline.scans | Where-Object { $_.scan -eq 'api' }
+                $afterPassive = $zapRemediation.scans | Where-Object { $_.scan -eq 'baseline' }
+                $afterApi = $zapRemediation.scans | Where-Object { $_.scan -eq 'api' }
+                return "PASS: baseline raw alerts passive M$($beforePassive.medium)/L$($beforePassive.low), API M$($beforeApi.medium)/L$($beforeApi.low); remediation raw alerts passive M$($afterPassive.medium)/L$($afterPassive.low), API M$($afterApi.medium)/L$($afterApi.low)"
             }
             return 'Not yet reproduced'
         }
         'jmeter-primary' {
-            if ($researchRuns['baseline'] -and $researchRuns['jmeter-remediation']) {
-                return "$($researchRuns['baseline'].Status) / $($researchRuns['jmeter-remediation'].Status)"
+            if ($jmeterBaseline -and $jmeterRemediation) {
+                $before = @{}; foreach ($profile in $jmeterBaseline.profiles) { $before[$profile.profile] = $profile }
+                $after = @{}; foreach ($profile in $jmeterRemediation.profiles) { $after[$profile.profile] = $profile }
+                return "PASS: p50 p95 $($before.p50.p95Ms)->$($after.p50.p95Ms) ms; p100 $($before.p100.p95Ms)->$($after.p100.p95Ms); p500 $($before.p500.p95Ms)->$($after.p500.p95Ms); soak $($before.soak.p95Ms)->$($after.soak.p95Ms); spike $($before.spike.p95Ms)->$($after.spike.p95Ms)"
             }
             return 'Not yet reproduced'
         }
