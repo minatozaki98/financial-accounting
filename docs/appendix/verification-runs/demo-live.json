@@ -1,0 +1,21 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "20260922-173615",
+  "Status": "PASS",
+  "ApiPid": 34884,
+  "WebPid": 15248,
+  "ApiUrl": "http://localhost:5296",
+  "WebUrl": "http://localhost:5175",
+  "Health": {
+    "Live": true,
+    "Ready": true
+  },
+  "Smoke": {
+    "WebRoot": true
+  },
+  "OwnedPids": [
+    34884,
+    15248
+  ],
+  "Failure": null
+}
