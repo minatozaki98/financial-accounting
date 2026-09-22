@@ -1,0 +1,30 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "20260922-214924",
+  "Status": "PASS",
+  "ApiPid": 60828,
+  "WebPid": 33596,
+  "ApiUrl": "http://localhost:5297",
+  "WebUrl": "http://localhost:5175",
+  "FrontendApiUrl": "http://localhost:5297",
+  "AllowedOrigins": [
+    "http://localhost:5175",
+    "http://127.0.0.1:5175"
+  ],
+  "Commit": "d14435544047b45c94e7de00e82d89ff64549a86",
+  "WorkingDirectory": ".",
+  "WorkingDirectoryFingerprint": "c70b00304fa106d24903fdf0df41851b823c26c770bdf3dd0e426d6001b3dac7",
+  "Health": {
+    "Live": true,
+    "Ready": true
+  },
+  "Smoke": {
+    "WebRoot": true
+  },
+  "BrowserSmoke": "PASS",
+  "OwnedPids": [
+    60828,
+    33596
+  ],
+  "Failure": null
+}
