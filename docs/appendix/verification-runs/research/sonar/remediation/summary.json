@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "evidenceClassification": "fresh-reproduction",
+  "role": "remediation",
+  "branch": "origin/baseline-sonarqube-v1",
+  "commit": "a2279bcbdc20751529335cf72f8baac1bc6f994b",
+  "runId": "20260922-183352",
+  "toolVersion": "26.7.0.124771",
+  "projectKey": "financial-accounting-thesis-sonarqube-v1",
+  "ceTaskId": "4ae85cd1-e57f-4a37-b816-e6d79d78bb03",
+  "ceStatus": "SUCCESS",
+  "analysisId": "e7585cd3-d211-4731-89fc-751065c8a122",
+  "qualityGate": "OK",
+  "totalIssues": 0,
+  "metrics": {
+    "sqale_rating": "1.0",
+    "code_smells": "0",
+    "coverage": "74.3",
+    "security_hotspots": "0",
+    "vulnerabilities": "0",
+    "ncloc": "3198",
+    "bugs": "0",
+    "reliability_rating": "1.0",
+    "security_rating": "1.0",
+    "cognitive_complexity": "165",
+    "duplicated_lines_density": "0.0",
+    "complexity": "889"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "evidenceClassification": "fresh-reproduction",
+  "role": "baseline",
+  "branch": "origin/baseline-v0.1",
+  "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "runId": "20260922-183352",
+  "toolVersion": "26.7.0.124771",
+  "projectKey": "financial-accounting-thesis-baseline-v01",
+  "ceTaskId": "35cc9cb8-b191-491d-b964-18e063e2ae4b",
+  "ceStatus": "SUCCESS",
+  "analysisId": "a45264f7-0365-4d81-b8ef-f764a98dccd4",
+  "qualityGate": "OK",
+  "totalIssues": 17,
+  "metrics": {
+    "sqale_rating": "1.0",
+    "code_smells": "17",
+    "coverage": "74.4",
+    "security_hotspots": "0",
+    "vulnerabilities": "0",
+    "ncloc": "3211",
+    "bugs": "0",
+    "reliability_rating": "1.0",
+    "security_rating": "1.0",
+    "cognitive_complexity": "165",
+    "duplicated_lines_density": "0.0",
+    "complexity": "886"
+  }
+}

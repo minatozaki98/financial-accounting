@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "20260922-184238",
+  "Status": "PASS",
+  "Server": "(localdb)\\MSSQLLocalDB",
+  "Database": "Financial",
+  "SchemaApplied": true,
+  "SeedSummary": {
+    "PeriodId": 202601,
+    "AccountCount": 120,
+    "TotalJournalEntries": 30000,
+    "PostedJournalEntries": 5000,
+    "DefaultAccountId": 1
+  },
+  "Verification": {
+    "RoleCount": 4,
+    "DemoUserCount": 4,
+    "AccountCount": 120,
+    "JournalEntryCount": 30000,
+    "PostedEntryCount": 5000
+  }
+}

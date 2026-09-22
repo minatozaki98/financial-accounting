@@ -1,0 +1,67 @@
+{
+  "component": {
+    "key": "financial-accounting-thesis-baseline-v01",
+    "name": "Financial Accounting Thesis baseline",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "74.4",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "complexity",
+        "value": "886"
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "17",
+        "bestValue": false
+      },
+      {
+        "metric": "duplicated_lines_density",
+        "value": "0.0",
+        "bestValue": true
+      },
+      {
+        "metric": "cognitive_complexity",
+        "value": "165",
+        "bestValue": false
+      },
+      {
+        "metric": "security_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "ncloc",
+        "value": "3211"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "sqale_rating",
+        "value": "1.0",
+        "bestValue": true
+      }
+    ]
+  }
+}

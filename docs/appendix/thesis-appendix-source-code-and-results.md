@@ -144,9 +144,9 @@ Historical artifacts:
 
 | Claim | Paper location | Historical result | Fresh reproduction result |
 |---|---|---|---|
-| sonarqube-primary | 4.2 / Table 4.2 | 28 retained findings to 0; Quality Gate OK; coverage 74.3%; duplication 0.0% | Not yet reproduced |
-| zap-primary | 4.3 | gated High, Medium, and Low business-endpoint alerts cleared | Not yet reproduced |
-| jmeter-primary | 4.4 / Table 4.4 | p50, p100, and p500 p95 improved; soak/spike improved with drift caveat | Not yet reproduced |
+| sonarqube-primary | 4.2 / Table 4.2 | 28 retained findings to 0; Quality Gate OK; coverage 74.3%; duplication 0.0% | PASS: baseline 17 issues, remediation 0 issues; gates OK/OK |
+| zap-primary | 4.3 | gated High, Medium, and Low business-endpoint alerts cleared | PASS: baseline raw alerts passive M3/L6, API M1/L3; remediation raw alerts passive M0/L0, API M1/L0 |
+| jmeter-primary | 4.4 / Table 4.4 | p50, p100, and p500 p95 improved; soak/spike improved with drift caveat | PASS: p50 p95 33->199.9 ms; p100 255.9->1146.9; p500 106->1547.95; soak 443.95->171; spike 33401.75->4730.85 |
 | deterministic-data | 3.2 / Tables 3.7-3.8 | 120 accounts, 30000 journal entries, at least 5000 posted entries | PASS |
 | automated-regression | 3.1.1 and 3.5 | unit, integration, RBAC, and coverage checks support non-regression | PASS |
 | working-application | 4.6 / Figures 4.1-4.7 | React/Vite client demonstrates current role-aware API workflows | PASS |
@@ -155,13 +155,29 @@ Historical artifacts:
 
 ### SonarQube Dashboards
 
-- `sonarqube/sonarqube-baseline-overview.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-overview
 
-- `sonarqube/sonarqube-baseline-issues.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+![Dashboard: baseline-overview](dashboards/sonarqube/sonarqube-baseline-overview.png)
 
-- `sonarqube/sonarqube-remediation-overview.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `20260922-183352`; tool version: `26.7.0.124771`; source: [`docs/appendix/verification-runs/research/sonar/baseline/summary.json`](../../docs/appendix/verification-runs/research/sonar/baseline/summary.json).
 
-- `sonarqube/sonarqube-remediation-issues.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-issues
+
+![Dashboard: baseline-issues](dashboards/sonarqube/sonarqube-baseline-issues.png)
+
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `20260922-183352`; tool version: `26.7.0.124771`; source: [`docs/appendix/verification-runs/research/sonar/baseline/summary.json`](../../docs/appendix/verification-runs/research/sonar/baseline/summary.json).
+
+#### remediation-overview
+
+![Dashboard: remediation-overview](dashboards/sonarqube/sonarqube-remediation-overview.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-sonarqube-v1`; commit: `a2279bcb`; run: `20260922-183352`; tool version: `26.7.0.124771`; source: [`docs/appendix/verification-runs/research/sonar/remediation/summary.json`](../../docs/appendix/verification-runs/research/sonar/remediation/summary.json).
+
+#### remediation-issues
+
+![Dashboard: remediation-issues](dashboards/sonarqube/sonarqube-remediation-issues.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-sonarqube-v1`; commit: `a2279bcb`; run: `20260922-183352`; tool version: `26.7.0.124771`; source: [`docs/appendix/verification-runs/research/sonar/remediation/summary.json`](../../docs/appendix/verification-runs/research/sonar/remediation/summary.json).
 
 ### OWASP ZAP Dashboards
 
@@ -191,25 +207,65 @@ Classification: `rendered-historical`; role: `remediation`; branch: `origin/base
 
 ### Apache JMeter Dashboards
 
-- `jmeter/jmeter-baseline-p50-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-p50-dashboard
 
-- `jmeter/jmeter-baseline-p100-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+![Dashboard: baseline-p50-dashboard](dashboards/jmeter/jmeter-baseline-p50-dashboard.png)
 
-- `jmeter/jmeter-baseline-p500-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `baseline-20260922-192730`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/statistics.json).
 
-- `jmeter/jmeter-baseline-soak-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-p100-dashboard
 
-- `jmeter/jmeter-baseline-spike-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+![Dashboard: baseline-p100-dashboard](dashboards/jmeter/jmeter-baseline-p100-dashboard.png)
 
-- `jmeter/jmeter-remediation-p50-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `baseline-20260922-192730`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/statistics.json).
 
-- `jmeter/jmeter-remediation-p100-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-p500-dashboard
 
-- `jmeter/jmeter-remediation-p500-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+![Dashboard: baseline-p500-dashboard](dashboards/jmeter/jmeter-baseline-p500-dashboard.png)
 
-- `jmeter/jmeter-remediation-soak-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `baseline-20260922-192730`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/statistics.json).
 
-- `jmeter/jmeter-remediation-spike-dashboard.png`: **Not yet reproduced**; required before the final DOCX appendix update.
+#### baseline-soak-dashboard
+
+![Dashboard: baseline-soak-dashboard](dashboards/jmeter/jmeter-baseline-soak-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `baseline-20260922-192730`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/statistics.json).
+
+#### baseline-spike-dashboard
+
+![Dashboard: baseline-spike-dashboard](dashboards/jmeter/jmeter-baseline-spike-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `baseline`; branch: `origin/baseline-v0.1`; commit: `7a0469d9`; run: `baseline-20260922-192730`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/statistics.json).
+
+#### remediation-p50-dashboard
+
+![Dashboard: remediation-p50-dashboard](dashboards/jmeter/jmeter-remediation-p50-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-jmeter-v1`; commit: `78b08b62`; run: `remediation-20260922-200712`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/statistics.json).
+
+#### remediation-p100-dashboard
+
+![Dashboard: remediation-p100-dashboard](dashboards/jmeter/jmeter-remediation-p100-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-jmeter-v1`; commit: `78b08b62`; run: `remediation-20260922-200712`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/statistics.json).
+
+#### remediation-p500-dashboard
+
+![Dashboard: remediation-p500-dashboard](dashboards/jmeter/jmeter-remediation-p500-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-jmeter-v1`; commit: `78b08b62`; run: `remediation-20260922-200712`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/statistics.json).
+
+#### remediation-soak-dashboard
+
+![Dashboard: remediation-soak-dashboard](dashboards/jmeter/jmeter-remediation-soak-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-jmeter-v1`; commit: `78b08b62`; run: `remediation-20260922-200712`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/statistics.json).
+
+#### remediation-spike-dashboard
+
+![Dashboard: remediation-spike-dashboard](dashboards/jmeter/jmeter-remediation-spike-dashboard.png)
+
+Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/baseline-jmeter-v1`; commit: `78b08b62`; run: `remediation-20260922-200712`; tool version: `5.5`; source: [`docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/statistics.json`](../../docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/statistics.json).
 
 ## Appendix G - Working Application Demonstration
 
