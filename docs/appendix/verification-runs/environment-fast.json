@@ -1,0 +1,146 @@
+{
+  "SchemaVersion": 1,
+  "CapturedAtUtc": "2026-09-22T10:23:56.9647282Z",
+  "Mode": "Fast",
+  "Status": "PASS",
+  "BlockingReasons": [],
+  "Git": {
+    "Root": ".",
+    "Branch": "codex/thesis-reproducibility-v1",
+    "Commit": "1c462c77af1673de4a1648c3e5478e7b3513e818",
+    "Dirty": true,
+    "DirtyEntryCount": 5,
+    "Upstream": null,
+    "Ahead": 0,
+    "Behind": 0
+  },
+  "GitCommand": {
+    "Present": true,
+    "Version": "git version 2.50.1.windows.1",
+    "Path": "C:\\Program Files\\Git\\cmd\\git.exe"
+  },
+  "DotNet": {
+    "Present": true,
+    "Version": "9.0.308",
+    "Path": "C:\\Program Files\\dotnet\\dotnet.exe"
+  },
+  "Node": {
+    "Present": true,
+    "Version": "v22.17.1",
+    "Path": "C:\\nvm4w\\nodejs\\node.exe"
+  },
+  "Npm": {
+    "Present": true,
+    "Version": "10.9.2",
+    "Path": "C:\\nvm4w\\nodejs\\npm.ps1"
+  },
+  "Docker": {
+    "ClientPresent": true,
+    "ClientVersion": "29.7.2",
+    "ServerAvailable": true,
+    "ServerVersion": "29.7.2"
+  },
+  "SqlServer": {
+    "Running": true,
+    "Services": [
+      {
+        "Name": "MSSQL$SQLEXPRESS",
+        "Status": "Running"
+      },
+      {
+        "Name": "MSSQLSERVER",
+        "Status": "Running"
+      }
+    ]
+  },
+  "SqlCmd": {
+    "Present": true,
+    "Path": "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE"
+  },
+  "Ports": [
+    {
+      "Port": 5296,
+      "IsListening": false,
+      "Pid": null,
+      "Owned": false
+    },
+    {
+      "Port": 5173,
+      "IsListening": true,
+      "Pid": 24192,
+      "Owned": false
+    },
+    {
+      "Port": 9000,
+      "IsListening": false,
+      "Pid": null,
+      "Owned": false
+    },
+    {
+      "Port": 8080,
+      "IsListening": false,
+      "Pid": null,
+      "Owned": false
+    },
+    {
+      "Port": 8088,
+      "IsListening": false,
+      "Pid": null,
+      "Owned": false
+    },
+    {
+      "Port": 8090,
+      "IsListening": false,
+      "Pid": null,
+      "Owned": false
+    }
+  ],
+  "Files": [
+    {
+      "Path": "API/API.csproj",
+      "Exists": true
+    },
+    {
+      "Path": "API/API.sln",
+      "Exists": true
+    },
+    {
+      "Path": "WEB/package.json",
+      "Exists": true
+    },
+    {
+      "Path": "Document/sql/financial_accounting_schema.sql",
+      "Exists": true
+    },
+    {
+      "Path": "Document/performance/jmeter/financial-api-load-test.jmx",
+      "Exists": true
+    },
+    {
+      "Path": "Document/performance/jmeter/financial-api-soak-test.jmx",
+      "Exists": true
+    },
+    {
+      "Path": "Document/performance/jmeter/financial-api-spike-test.jmx",
+      "Exists": true
+    },
+    {
+      "Path": "scripts/phase4/run-sonarqube-scan.ps1",
+      "Exists": true
+    },
+    {
+      "Path": "scripts/phase4/run-zap-baseline.ps1",
+      "Exists": true
+    },
+    {
+      "Path": "scripts/phase4/run-zap-api.ps1",
+      "Exists": true
+    },
+    {
+      "Path": "scripts/phase4/run-jmeter-thesis-matrix.ps1",
+      "Exists": true
+    }
+  ],
+  "SonarTokenPresent": false,
+  "SonarStatus": "SKIPPED"
+}
