@@ -2,6 +2,44 @@
 
 Financial Accounting backend built with ASP.NET Core 8.0, JWT auth, role-based authorization, and EF Core.
 
+## GPT-5.4 Thesis Reproducibility
+
+This repository preserves the branch-isolated evidence for the GPT-5.4 thesis study. Historical measurements remain tied to the exact baseline, SonarQube, OWASP ZAP, and JMeter commits recorded in [`docs/appendix/thesis-evidence-manifest.json`](docs/appendix/thesis-evidence-manifest.json). Fresh runs are reproduction evidence and do not overwrite or silently replace the historical thesis numbers.
+
+Run the read-only prerequisite audit:
+
+```powershell
+./scripts/thesis/Test-ThesisEnvironment.ps1 -Mode Fast
+```
+
+Initialize the local `Financial` SQL Server database and deterministic minimum dataset:
+
+```powershell
+./scripts/thesis/Initialize-ThesisDatabase.ps1
+```
+
+The initializer refuses non-local SQL targets by default and does not drop existing data. Use `-WhatIf` to inspect the target without changing it.
+
+Start and verify the integrated API and web demonstration:
+
+```powershell
+./scripts/thesis/Invoke-ThesisDemo.ps1 -KeepRunning
+```
+
+The default URLs are `http://localhost:5296` and `http://localhost:5173`. If a port belongs to another process, the runner reports its PID and stops without killing it; choose an alternate port such as `-WebPort 5175`.
+
+Run the reproducible fast gate:
+
+```powershell
+./scripts/thesis/Invoke-ThesisVerification.ps1 -Mode Fast
+```
+
+The fast gate runs the Release build, unit tests, integration tests, frontend clean install, frontend tests, and frontend production build. Docker-based SonarQube, ZAP, and JMeter verification is a separate full gate because it requires live tool containers, a running API, and longer branch-specific executions.
+
+Appendix source and evidence are under [`docs/appendix/`](docs/appendix/). The thesis DOCX is intentionally not modified by these runners.
+
+Never place Sonar tokens, passwords, authorization headers, full connection strings, or browser profiles in Git. Supply secrets through process-local parameters or environment variables; generated records redact credential-shaped values and Windows user-profile paths.
+
 ## Solution Layout
 
 - `API/` - ASP.NET Core Web API host and controllers

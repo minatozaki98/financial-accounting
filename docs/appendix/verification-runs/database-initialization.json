@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "20260922-172959",
+  "Status": "PASS",
+  "Server": "localhost",
+  "Database": "Financial",
+  "SchemaApplied": true,
+  "SeedSummary": {
+    "PeriodId": 202601,
+    "AccountCount": 257,
+    "TotalJournalEntries": 48902,
+    "PostedJournalEntries": 5370,
+    "DefaultAccountId": 1
+  },
+  "Verification": {
+    "RoleCount": 4,
+    "DemoUserCount": 4,
+    "AccountCount": 257,
+    "JournalEntryCount": 48902,
+    "PostedEntryCount": 5370
+  }
+}

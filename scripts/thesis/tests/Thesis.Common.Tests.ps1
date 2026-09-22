@@ -19,6 +19,18 @@ Describe "Thesis.Common" {
         $value | Should Be "Password=[REDACTED]; sonar.token=[REDACTED] Authorization: Bearer [REDACTED]"
     }
 
+    It "redacts a Windows user-profile segment" {
+        $value = Protect-LogText 'Build failed at C:\Users\Researcher\repo\API\Program.cs'
+
+        $value | Should Be 'Build failed at C:\Users\[USER]\repo\API\Program.cs'
+    }
+
+    It "redacts a slash-normalized Windows user-profile segment" {
+        $value = Protect-LogText 'Test root C:/Users/Researcher/repo/WEB'
+
+        $value | Should Be 'Test root C:/Users/[USER]/repo/WEB'
+    }
+
     It "writes parseable JSON and creates its parent directory" {
         $path = Join-Path $TestDrive "nested/result.json"
 

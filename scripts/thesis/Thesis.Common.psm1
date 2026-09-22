@@ -81,6 +81,8 @@ function Protect-LogText {
     $protected = [regex]::Replace($Text, '(?i)((?:Password|Pwd)\s*=\s*)[^;\s]+', '$1[REDACTED]')
     $protected = [regex]::Replace($protected, '(?i)(sonar\.token\s*=\s*)[^;\s]+', '$1[REDACTED]')
     $protected = [regex]::Replace($protected, '(?i)(Authorization\s*:\s*Bearer\s+)[^;\s]+', '$1[REDACTED]')
+    $protected = [regex]::Replace($protected, '(?i)([A-Z]:\\Users\\)[^\\]+', '$1[USER]')
+    $protected = [regex]::Replace($protected, '(?i)([A-Z]:/Users/)[^/]+', '$1[USER]')
     return $protected
 }
 
