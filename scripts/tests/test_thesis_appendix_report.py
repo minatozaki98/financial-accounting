@@ -30,9 +30,51 @@ report_formatter = load_module(
 fresh_result_updater = load_module(
     "fresh_result_updater", ROOT / "scripts" / "update_full_report_fresh_results.py"
 )
+code_appendix_builder = load_module(
+    "code_appendix_builder", ROOT / "scripts" / "rebuild_full_report_code_appendices.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_direct_code_appendices_are_self_contained_and_cover_a_through_n(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(appendix_builder.DEFAULT_REPORT.read_bytes())
+
+            count = code_appendix_builder.rebuild_code_appendices(path, ROOT)
+
+            doc = Document(path)
+            headings = [
+                p.text
+                for p in doc.paragraphs
+                if p.style.name == "Heading 1" and p.text.startswith("Appendix ")
+            ]
+            self.assertEqual(14, len(headings))
+            self.assertTrue(headings[0].startswith("Appendix A -"))
+            self.assertTrue(headings[-1].startswith("Appendix N -"))
+            self.assertGreaterEqual(count, 20)
+            self.assertEqual(
+                18,
+                len(
+                    [
+                        p
+                        for p in doc.paragraphs
+                        if p.style.name == "Caption" and p.text.startswith("Figure L.")
+                    ]
+                ),
+            )
+            full_text = "\n".join(p.text for p in doc.paragraphs)
+            self.assertNotIn("This Markdown file", full_text)
+            self.assertNotIn("Admin@123", full_text)
+            self.assertIn("B.1 JWT Authentication Configuration", full_text)
+            self.assertIn("K.2 Environment and Tool Readiness Checks", full_text)
+            self.assertIn("Appendix N - Limitations and Complete Source Index", full_text)
+            first_sonar_listing = next(
+                p for p in doc.paragraphs if p.text.startswith("E.1 S107")
+            )
+            self.assertFalse(bool(first_sonar_listing.paragraph_format.page_break_before))
+            self.assertNotIn("`API/Program.cs`", full_text)
+
     def test_fresh_result_inputs_match_versioned_machine_readable_evidence(self):
         evidence = fresh_result_updater.load_fresh_evidence(ROOT)
 
@@ -56,11 +98,18 @@ class ThesisAppendixReportTests(unittest.TestCase):
             appendix_index = paragraphs.index("APPENDICES")
             primary_text = "\n".join(paragraphs[:appendix_index])
             appendix_text = "\n".join(paragraphs[appendix_index:])
+            table_text = "\n".join(
+                cell.text
+                for table in doc.tables
+                for row in table.rows
+                for cell in row.cells
+            )
             self.assertIn("17 to 0", primary_text)
             self.assertIn("74.4% to 74.3%", primary_text)
             self.assertIn("remediation core gate failed", primary_text)
             self.assertNotIn("retained C# findings from 28 to 0", primary_text)
-            self.assertIn("Historical result: 28 retained findings to 0", appendix_text)
+            self.assertIn("Historical measurements are retained", appendix_text)
+            self.assertIn("28 retained findings to 0", table_text)
 
             table = fresh_result_updater.find_table_by_header(
                 doc, ("Metric", "Baseline", "After fixes", "Interpretation")

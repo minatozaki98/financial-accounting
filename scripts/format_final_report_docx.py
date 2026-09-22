@@ -1162,10 +1162,11 @@ def word_rendered_page_numbers(docx_path: Path, doc: Document) -> tuple[dict[str
     import pythoncom
     import win32com.client
 
-    entries = {str(entry["text"]): list_key(str(entry["text"])) for entry in all_generated_list_entries(doc)}
+    entries = [str(entry["text"]) for entry in all_generated_list_entries(doc)]
     occurrences: dict[str, list[int]] = {text: [] for text in entries}
     word = None
     word_doc = None
+    page_count = 0
     pythoncom.CoInitialize()
     try:
         word = win32com.client.DispatchEx("Word.Application")
@@ -1179,21 +1180,37 @@ def word_rendered_page_numbers(docx_path: Path, doc: Document) -> tuple[dict[str
             Visible=False,
         )
         word_doc.Repaginate()
-        for index in range(1, word_doc.Paragraphs.Count + 1):
-            paragraph = word_doc.Paragraphs.Item(index)
-            paragraph_key = list_key(str(paragraph.Range.Text))
-            if not paragraph_key:
-                continue
-            page = int(paragraph.Range.Information(3))
-            for text, entry_key in entries.items():
-                if entry_key and paragraph_key.startswith(entry_key):
-                    occurrences[text].append(page)
+        content_end = int(word_doc.Content.End)
+        for text in entries:
+            search_range = word_doc.Content.Duplicate
+            previous_end = -1
+            while search_range.Find.Execute(
+                FindText=text,
+                MatchCase=False,
+                MatchWholeWord=False,
+                MatchWildcards=False,
+                Forward=True,
+                Wrap=0,
+                Format=False,
+            ):
+                occurrences[text].append(int(search_range.Information(3)))
+                next_start = int(search_range.End)
+                if next_start <= previous_end or next_start >= content_end:
+                    break
+                previous_end = next_start
+                search_range.SetRange(next_start, content_end)
         page_count = int(word_doc.ComputeStatistics(2))
     finally:
         if word_doc is not None:
-            word_doc.Close(False)
+            try:
+                word_doc.Close(False)
+            except Exception:
+                pass
         if word is not None:
-            word.Quit()
+            try:
+                word.Quit()
+            except Exception:
+                pass
         word_doc = None
         word = None
         pythoncom.CoUninitialize()
