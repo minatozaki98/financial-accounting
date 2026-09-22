@@ -38,6 +38,17 @@ The fast gate runs the Release build, unit tests, integration tests, frontend cl
 
 Appendix source and evidence are under [`docs/appendix/`](docs/appendix/). The thesis DOCX is intentionally not modified by these runners.
 
+Verified consolidation status (22 September 2026):
+
+- 46 thesis-tooling Pester tests passed.
+- Canonical Release build, 6 unit tests, and 107 integration tests passed.
+- 10 frontend tests and the frontend production build passed.
+- All four exact evidence refs built and passed their available unit/integration suites.
+- Fresh SonarQube, ZAP, and ten-profile JMeter evidence is recorded without replacing historical results.
+- All 18 required SonarQube/ZAP/JMeter dashboard images are present and hash-validated.
+
+See [`docs/appendix/thesis-appendix-source-code-and-results.md`](docs/appendix/thesis-appendix-source-code-and-results.md) for the Appendix A-H source and [`docs/appendix/thesis-branch-register.md`](docs/appendix/thesis-branch-register.md) for retained branches, tags, and cleanup status.
+
 Never place Sonar tokens, passwords, authorization headers, full connection strings, or browser profiles in Git. Supply secrets through process-local parameters or environment variables; generated records redact credential-shaped values and Windows user-profile paths.
 
 ## Solution Layout
