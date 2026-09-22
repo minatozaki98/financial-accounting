@@ -14,6 +14,9 @@ param(
     [string]$SecurityDir = "Document/security",
     [string]$BaselineAnchorPath = "Document/performance/thesis-baseline-anchor.json",
     [string]$SonarToken = "",
+    [string]$SonarProjectKey = "financial-accounting",
+    [ValidateSet("historical", "rendered-historical", "fresh-reproduction")]
+    [string]$EvidenceClassification = "fresh-reproduction",
     [switch]$IgnoreZapWarnings,
     [switch]$SkipSeed
 )
@@ -476,7 +479,7 @@ $sonarStatus = "SKIPPED"
 $sonarSummary = $null
 if (-not [string]::IsNullOrWhiteSpace($SonarToken)) {
     $sonarScript = Join-Path $PSScriptRoot "get-sonar-summary.ps1"
-    $sonarSummary = & $sonarScript -SonarToken $SonarToken -ProjectKey "financial-accounting"
+    $sonarSummary = & $sonarScript -SonarToken $SonarToken -ProjectKey $SonarProjectKey
     $sonarStatus = [string]$sonarSummary.QualityGate
 
     if ($sonarStatus -ne "OK") {
@@ -495,6 +498,8 @@ $null = $summary.AppendLine("# Thesis Test Summary ($runId)")
 $null = $summary.AppendLine()
 $null = $summary.AppendLine("## Overall")
 $null = $summary.AppendLine("- OverallStatus: $overallStatus")
+$null = $summary.AppendLine("- EvidenceClassification: $EvidenceClassification")
+$null = $summary.AppendLine("- SonarProjectKey: $SonarProjectKey")
 $null = $summary.AppendLine("- Unit Tests Total/Passed/Failed: $($unitTestResult.Total)/$($unitTestResult.Passed)/$($unitTestResult.Failed)")
 $null = $summary.AppendLine("- Integration Tests Total/Passed/Failed: $($integrationTestResult.Total)/$($integrationTestResult.Passed)/$($integrationTestResult.Failed)")
 $null = $summary.AppendLine("- RBAC Tests Total/Passed/Failed: $($rbacResult.Total)/$($rbacResult.Passed)/$($rbacResult.Failed)")
@@ -574,6 +579,8 @@ if (-not (Test-Path $fullBaselineAnchorPath)) {
 
 $result = [pscustomobject]@{
     RunId = $runId
+    EvidenceClassification = $EvidenceClassification
+    SonarProjectKey = $SonarProjectKey
     SummaryPath = $summaryPath
     BaselineAnchorPath = $fullBaselineAnchorPath
     HardFailureCount = $hardFailures.Count
