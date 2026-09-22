@@ -26,8 +26,9 @@ The DOCX and PDF will not be edited during this implementation. The immediate ap
 3. Provide explicit setup for prerequisites, SQL schema, deterministic data, API, frontend, tests, and optional research tools.
 4. Verify each historical evidence branch independently with the smallest relevant checks.
 5. Rerun SonarQube, ZAP, and JMeter where the required local services are available, while distinguishing fresh reproduction results from historical thesis measurements.
-6. Create an appendix-ready evidence matrix linking paper claims to exact branches, commits, source files, commands, archived artifacts, fresh verification results, and limitations.
-7. Commit and push all intended work before removing obsolete local worktrees or branches.
+6. Capture examiner-readable dashboards and result views for SonarQube, OWASP ZAP, and every JMeter thesis profile, backed by machine-readable artifacts from the same run.
+7. Create an appendix-ready evidence matrix linking paper claims to exact branches, commits, source files, commands, archived artifacts, dashboard captures, fresh verification results, and limitations.
+8. Commit and push all intended work before removing obsolete local worktrees or branches.
 
 ## Non-Goals
 
@@ -94,6 +95,11 @@ docs/
     thesis-appendix-source-code-and-results.md
     thesis-evidence-manifest.json
     thesis-branch-register.md
+    dashboard-capture-manifest.json
+    dashboards/
+      sonarqube/
+      zap/
+      jmeter/
     verification-runs/
 scripts/
   thesis/
@@ -165,8 +171,9 @@ The output will be a timestamped Markdown and JSON run record containing the Git
 6. Run SonarQube when a token is supplied through a secure parameter or environment variable.
 7. Run ZAP baseline and authenticated API scans.
 8. Run JMeter p50, p100, p500, soak, and spike profiles.
-9. Generate a timestamped evidence package.
-10. Record failures, skipped gates, and environmental differences without overwriting historical artifacts.
+9. Capture the required SonarQube, ZAP, and JMeter dashboard/result views from those completed runs.
+10. Generate a timestamped evidence package and dashboard-capture manifest.
+11. Record failures, skipped gates, and environmental differences without overwriting historical artifacts.
 
 Full verification is branch-specific. A wrapper may guide the operator through separate worktrees, but it must never switch a dirty checkout in place.
 
@@ -265,12 +272,56 @@ Each result row will contain:
 | After ref | Branch/tag and commit |
 | Source files | Files responsible for the change |
 | Historical artifacts | Existing reports that support the published number |
+| Dashboard evidence | Screenshot or rendered dashboard view plus its capture manifest entry |
 | Reproduction command | Command used for a fresh run |
 | Fresh status | Pass, fail, partial, skipped, or environment-blocked |
 | Difference note | Why a fresh value may differ from the historical value |
 | Limitation | Scope boundary or unresolved condition |
 
-### Appendix F: Working Application Demonstration
+### Appendix F: Research-Tool Dashboards and Results
+
+The appendix will show both the dashboard and the interpreted result for each research tool. Screenshots alone are insufficient: every image must be linked to the exact branch, commit, run identifier, tool version, machine-readable result, and result table used to validate it.
+
+#### SonarQube
+
+Required captures:
+
+- baseline project overview showing Quality Gate and principal measures
+- baseline Issues view showing the retained finding count and rule distribution
+- remediation project overview showing Quality Gate and principal measures
+- remediation Issues view showing the final retained finding count
+
+Baseline and remediation scans will use distinct SonarQube project keys so that one scan cannot overwrite the other before capture. The appendix will place the baseline and remediation overview images side by side, followed by a compact result table for bugs, vulnerabilities, code smells, security hotspots, coverage, duplicated lines, and Quality Gate.
+
+The repository currently has SonarQube scripts and narrative evidence but no tracked historical SonarQube dashboard export. Therefore, any newly captured SonarQube dashboard must be labeled `Fresh reproduction` unless a hash-matched historical export is recovered.
+
+#### OWASP ZAP
+
+Required captures:
+
+- baseline-scan summary before remediation
+- baseline-scan summary after remediation
+- authenticated API-scan summary before remediation
+- authenticated API-scan summary after remediation
+- Alerts view or report section showing the High, Medium, Low, and Informational breakdown
+
+The tracked ZAP HTML and JSON reports are the historical artifact source. Dashboard images may be rendered directly from those versioned HTML reports when they correspond to the paper's run; fresh GUI captures must be labeled as reproduction evidence. Each image will be accompanied by the exact report filename and a severity/result table.
+
+#### Apache JMeter
+
+Required dashboard sets for both baseline and remediation evidence:
+
+- p50 profile overview
+- p100 profile overview
+- p500 profile overview
+- soak profile overview
+- spike profile overview
+
+Each profile set will show the HTML dashboard summary plus the most relevant response-time percentile, throughput, and error views. The appendix will provide a compact contact sheet or summary page followed by full-resolution figures, with captions identifying the profile, branch, commit, dataset, run identifier, and whether the evidence is historical or freshly reproduced.
+
+The repository currently tracks JMX plans and summary evidence but does not track the generated JMeter HTML dashboard directories. Fresh full-profile runs must therefore preserve the generated dashboards needed by the appendix, or produce a deterministic static export whose source JTL/statistics files are retained and hashed.
+
+### Appendix G: Working Application Demonstration
 
 - API and frontend startup
 - health/readiness results
@@ -278,7 +329,7 @@ Each result row will contain:
 - screen-to-endpoint mapping
 - browser smoke-test result
 
-### Appendix G: Known Limitations
+### Appendix H: Known Limitations
 
 - one codebase and one primary model configuration
 - local machine and SQL Server dependence
@@ -286,6 +337,49 @@ Each result row will contain:
 - performance sensitivity to machine state and dataset state
 - unresolved mixed-workload soak/spike drift heuristic
 - supplemental GPT-5.5/v2 work excluded from the current-paper results
+
+## Dashboard Capture Contract
+
+Dashboard evidence will use stable filenames and a JSON manifest. The minimum filename set is:
+
+```text
+sonarqube/sonarqube-baseline-overview.png
+sonarqube/sonarqube-baseline-issues.png
+sonarqube/sonarqube-remediation-overview.png
+sonarqube/sonarqube-remediation-issues.png
+zap/zap-baseline-before-summary.png
+zap/zap-baseline-after-summary.png
+zap/zap-api-before-summary.png
+zap/zap-api-after-summary.png
+jmeter/jmeter-baseline-p50-dashboard.png
+jmeter/jmeter-baseline-p100-dashboard.png
+jmeter/jmeter-baseline-p500-dashboard.png
+jmeter/jmeter-baseline-soak-dashboard.png
+jmeter/jmeter-baseline-spike-dashboard.png
+jmeter/jmeter-remediation-p50-dashboard.png
+jmeter/jmeter-remediation-p100-dashboard.png
+jmeter/jmeter-remediation-p500-dashboard.png
+jmeter/jmeter-remediation-soak-dashboard.png
+jmeter/jmeter-remediation-spike-dashboard.png
+```
+
+Additional focused chart images may be included when the overview does not make the reported metric legible.
+
+Every entry in `dashboard-capture-manifest.json` will record:
+
+- tool and view name
+- evidence classification: historical, rendered-historical, or fresh-reproduction
+- baseline or remediation role
+- branch, tag, and full commit identifier
+- run identifier and capture timestamp
+- tool and container version
+- source URL or versioned HTML report path
+- source JSON, JTL, statistics, or API-response path
+- displayed metric values
+- image path, pixel dimensions, and SHA-256 hash
+- redaction status
+
+Dashboard captures must exclude tokens, passwords, authorization headers, connection strings, browser profiles, unrelated projects, and local user-identifying paths. Captions will state whether the screen is a historical dashboard, a rendering of a historical report, or a fresh reproduction.
 
 ## Historical Versus Fresh Results
 
@@ -322,6 +416,7 @@ Verification is proportional and layered.
 - Every primary thesis claim has at least one evidence row.
 - Every evidence row has an exact commit identifier.
 - JSON manifests parse successfully.
+- Every required dashboard capture has a manifest entry, readable caption, source artifact, and matching branch/commit.
 - No unresolved placeholder markers remain.
 - `git diff --check` passes.
 
@@ -343,9 +438,10 @@ Verification is proportional and layered.
 
 ### Research-Tool Checks
 
-- SonarQube is measured only after analyzer completion and quality-gate retrieval.
-- ZAP uses the versioned baseline/API rule files and records High, Medium, Low, and Informational results separately.
-- JMeter records the exact profile, dataset, branch, commit, JTL/statistics paths, p95/p99, throughput, error rate, and drift calculation.
+- SonarQube is measured only after analyzer completion and quality-gate retrieval; dashboard values must match the captured Web API responses.
+- ZAP uses the versioned baseline/API rule files and records High, Medium, Low, and Informational results separately; dashboard values must match the corresponding JSON report.
+- JMeter records the exact profile, dataset, branch, commit, JTL/statistics paths, p95/p99, throughput, error rate, and drift calculation; dashboard values must match the statistics derived from the same JTL run.
+- Images are checked for readable labels, complete metric panels, absent secret material, and correct historical/fresh classification.
 - Historical acceptance rules remain visible even if a fresh runner later gains stricter gates.
 
 ## Implementation Boundaries
@@ -363,8 +459,10 @@ The consolidation is complete only when:
 3. Every current-paper result maps to exact refs, source files, commands, artifacts, and a fresh verification status.
 4. A clean local setup can initialize the database, build the backend and frontend, run automated tests, start the application, and complete the browser smoke path.
 5. SonarQube, ZAP, and JMeter are either freshly rerun with recorded results or explicitly marked environment-blocked with no false completion claim.
-6. Historical result numbers remain unchanged and clearly separated from fresh reruns.
-7. Primary evidence branches remain available remotely and have immutable evidence tags.
-8. Only clean, recoverable local worktrees and branches are removed.
-9. The appendix Markdown and JSON manifest are ready for later DOCX insertion without another repository audit.
-10. The primary checkout, report artifacts, camera-ready manuscript, databases, and unrelated user work are preserved.
+6. The appendix contains the required SonarQube baseline/remediation dashboards, ZAP baseline/API before-and-after result views, and JMeter baseline/remediation dashboards for p50, p100, p500, soak, and spike.
+7. Every dashboard figure is traceable to a machine-readable artifact from the same branch, commit, and run.
+8. Historical result numbers remain unchanged and clearly separated from fresh reruns.
+9. Primary evidence branches remain available remotely and have immutable evidence tags.
+10. Only clean, recoverable local worktrees and branches are removed.
+11. The appendix Markdown and JSON manifests are ready for later DOCX insertion without another repository audit.
+12. The primary checkout, report artifacts, camera-ready manuscript, databases, and unrelated user work are preserved.
