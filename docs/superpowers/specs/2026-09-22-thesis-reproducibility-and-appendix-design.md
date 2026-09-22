@@ -17,6 +17,8 @@ Despite the filename, the inspected DOCX currently presents the original Codex 5
 
 Later GPT-5.4/GPT-5.5 and new-API v2 experiments are supplemental evidence. They must remain outside the main thesis appendix until the paper itself is deliberately updated to discuss them. Defense materials may refer to supplemental work only when clearly labeled as later evidence or future work.
 
+The thesis model identity is fixed as GPT-5.4. Repository consolidation, test execution, scanner reruns, dashboard capture, and appendix generation do not require an LLM call. If a new model-assisted remediation becomes necessary, it must pause unless GPT-5.4 is available and the exact model/run provenance can be recorded; work produced by another model must not be relabeled as GPT-5.4 thesis evidence.
+
 The DOCX and PDF will not be edited during this implementation. The immediate appendix deliverable is Markdown plus machine-readable manifests designed for later insertion.
 
 ## Goals
