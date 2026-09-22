@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run --config vitest.config.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "capture:appendix": "playwright test tests/e2e/thesis-dashboard-capture.spec.ts --config playwright.appendix.config.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

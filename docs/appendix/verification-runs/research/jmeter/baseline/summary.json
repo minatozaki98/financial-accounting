@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "evidenceClassification": "fresh-reproduction",
+  "role": "baseline",
+  "branch": "origin/baseline-v0.1",
+  "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "runId": "baseline-20260922-192730",
+  "toolVersion": "5.5",
+  "dataset": {
+    "accounts": 120,
+    "journalEntries": 30000,
+    "postedEntries": 5000
+  },
+  "status": "PASS",
+  "profiles": [
+    {
+      "profile": "p50",
+      "sampleCount": 2050,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 16.57,
+      "p95Ms": 33.0,
+      "p99Ms": 103.45,
+      "throughput": 54.8,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/index.html",
+      "jtlSha256": "d440520b3c3a3977bfba8ded3410120cfb183a059eabdaef9383252c6043d44d"
+    },
+    {
+      "profile": "p100",
+      "sampleCount": 4700,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 60.92,
+      "p95Ms": 255.9,
+      "p99Ms": 505.99,
+      "throughput": 58.23,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/index.html",
+      "jtlSha256": "03700deffb925e58a7fa0d1ab3e8b9234125f9caefece566c301ee199314ffb7"
+    },
+    {
+      "profile": "p500",
+      "sampleCount": 12000,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 28.72,
+      "p95Ms": 106.0,
+      "p99Ms": 197.0,
+      "throughput": 63.2,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/index.html",
+      "jtlSha256": "36bcc3f8a1382d1ceb7039dab4b58a2b8205af2f5124906772a5dad69baa4c0e"
+    },
+    {
+      "profile": "soak",
+      "sampleCount": 104530,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 63.94,
+      "p95Ms": 443.95,
+      "p99Ms": 875.96,
+      "throughput": 185.51,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/index.html",
+      "jtlSha256": "b151db89177feedb4bc7157e9bd8187ddd894902fa93d12d5fce0beeded8cf55"
+    },
+    {
+      "profile": "spike",
+      "sampleCount": 46500,
+      "errorCount": 218,
+      "errorPct": 0.4688,
+      "meanMs": 5419.41,
+      "p95Ms": 33401.75,
+      "p99Ms": 46460.28,
+      "throughput": 38.28,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/index.html",
+      "jtlSha256": "f80c315944887c3795894b82b64c6e240e7dddcfc43a28f6d8c001abc4bc39c7"
+    }
+  ],
+  "executionStatus": "PASS",
+  "gateStatus": "PASS",
+  "gateFailures": []
+}

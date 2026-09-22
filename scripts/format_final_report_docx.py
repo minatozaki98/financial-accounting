@@ -711,7 +711,7 @@ def apply_heading_styles(doc: Document) -> None:
         elif (
             text == "Abstract"
             or re.match(r"^Chapter\s+\d+(\s|-|:)", text)
-            or text in {"References", "List of Acronyms"}
+            or text in {"References", "REFERENCES", "APPENDICES", "List of Acronyms"}
         ):
             paragraph.style = "Heading 1"
         elif text in {
@@ -904,14 +904,23 @@ def add_hyperlink(paragraph: Paragraph, url: str) -> None:
 
 
 def rebuild_references(doc: Document) -> None:
-    heading = find_paragraph(doc, "References")
+    heading = find_paragraph(doc, "References", "REFERENCES")
     paragraphs = doc.paragraphs
     start = paragraph_index(paragraphs, heading)
-    for paragraph in paragraphs[start + 1 :]:
+    appendix = next(
+        (
+            paragraph
+            for paragraph in paragraphs[start + 1 :]
+            if normalized_text(paragraph) == "APPENDICES"
+        ),
+        None,
+    )
+    end = paragraph_index(paragraphs, appendix) if appendix is not None else len(paragraphs)
+    for paragraph in paragraphs[start + 1 : end]:
         remove_paragraph(paragraph)
 
     for leading, italicized, trailing, url in REFERENCE_ENTRIES:
-        paragraph = doc.add_paragraph()
+        paragraph = insert_paragraph_before(appendix) if appendix is not None else doc.add_paragraph()
         paragraph.style = "Normal"
         paragraph.paragraph_format.left_indent = Inches(0.5)
         paragraph.paragraph_format.first_line_indent = Inches(-0.5)
@@ -1141,6 +1150,95 @@ def rendered_page_numbers(pdf_path: Path, doc: Document) -> dict[str, int]:
     return page_numbers
 
 
+def select_word_page(text: str, pages: list[int]) -> int | None:
+    if not pages:
+        return None
+    if text == "Abstract":
+        return min(pages)
+    return max(pages)
+
+
+def word_rendered_page_numbers(docx_path: Path, doc: Document) -> tuple[dict[str, int], int]:
+    import pythoncom
+    import win32com.client
+
+    entries = {str(entry["text"]): list_key(str(entry["text"])) for entry in all_generated_list_entries(doc)}
+    occurrences: dict[str, list[int]] = {text: [] for text in entries}
+    word = None
+    word_doc = None
+    pythoncom.CoInitialize()
+    try:
+        word = win32com.client.DispatchEx("Word.Application")
+        word.Visible = False
+        word.DisplayAlerts = 0
+        word_doc = word.Documents.Open(
+            str(docx_path.resolve()),
+            ConfirmConversions=False,
+            ReadOnly=True,
+            AddToRecentFiles=False,
+            Visible=False,
+        )
+        word_doc.Repaginate()
+        for index in range(1, word_doc.Paragraphs.Count + 1):
+            paragraph = word_doc.Paragraphs.Item(index)
+            paragraph_key = list_key(str(paragraph.Range.Text))
+            if not paragraph_key:
+                continue
+            page = int(paragraph.Range.Information(3))
+            for text, entry_key in entries.items():
+                if entry_key and paragraph_key.startswith(entry_key):
+                    occurrences[text].append(page)
+        page_count = int(word_doc.ComputeStatistics(2))
+    finally:
+        if word_doc is not None:
+            word_doc.Close(False)
+        if word is not None:
+            word.Quit()
+        word_doc = None
+        word = None
+        pythoncom.CoUninitialize()
+
+    page_numbers: dict[str, int] = {}
+    for text, pages in occurrences.items():
+        page = select_word_page(text, pages)
+        if page is not None:
+            page_numbers[text] = page
+    return page_numbers, page_count
+
+
+def export_pdf_word(docx_path: Path) -> Path:
+    import pythoncom
+    import win32com.client
+
+    pdf_path = docx_path.with_suffix(".pdf")
+    word = None
+    word_doc = None
+    pythoncom.CoInitialize()
+    try:
+        word = win32com.client.DispatchEx("Word.Application")
+        word.Visible = False
+        word.DisplayAlerts = 0
+        word_doc = word.Documents.Open(
+            str(docx_path.resolve()),
+            ConfirmConversions=False,
+            ReadOnly=True,
+            AddToRecentFiles=False,
+            Visible=False,
+        )
+        word_doc.Fields.Update()
+        word_doc.Repaginate()
+        word_doc.ExportAsFixedFormat(str(pdf_path.resolve()), 17)
+    finally:
+        if word_doc is not None:
+            word_doc.Close(False)
+        if word is not None:
+            word.Quit()
+        word_doc = None
+        word = None
+        pythoncom.CoUninitialize()
+    return pdf_path
+
+
 def format_report(docx_path: Path) -> None:
     if not docx_path.exists():
         return
@@ -1176,6 +1274,70 @@ def format_report(docx_path: Path) -> None:
     print(docx_path.with_suffix(".pdf"))
 
 
+def refresh_generated_lists(docx_path: Path) -> None:
+    """Refresh TOC/figure/table lists and PDF without rewriting report sections."""
+    if not docx_path.exists():
+        return
+
+    doc = Document(docx_path)
+    configure_caption_style(doc)
+    configure_heading_styles(doc)
+    normalize_heading_runs(doc)
+    rebuild_front_matter_lists(doc)
+    enable_field_update_on_open(doc)
+    doc.save(docx_path)
+
+    pdf_path = export_pdf(docx_path)
+    page_numbers = rendered_page_numbers(pdf_path, Document(docx_path))
+    for _ in range(3):
+        doc = Document(docx_path)
+        rebuild_front_matter_lists(doc, page_numbers)
+        doc.save(docx_path)
+        pdf_path = export_pdf(docx_path)
+        updated_page_numbers = rendered_page_numbers(pdf_path, Document(docx_path))
+        if updated_page_numbers == page_numbers:
+            break
+        page_numbers = updated_page_numbers
+
+    print(docx_path)
+    print(docx_path.with_suffix(".pdf"))
+
+
+def refresh_generated_lists_word(docx_path: Path) -> None:
+    """Refresh generated lists from Microsoft Word pagination and export a matching PDF."""
+    if not docx_path.exists():
+        return
+
+    doc = Document(docx_path)
+    configure_caption_style(doc)
+    configure_heading_styles(doc)
+    normalize_heading_runs(doc)
+    enable_field_update_on_open(doc)
+    doc.save(docx_path)
+
+    page_numbers, page_count = word_rendered_page_numbers(docx_path, Document(docx_path))
+    for _ in range(4):
+        doc = Document(docx_path)
+        rebuild_front_matter_lists(doc, page_numbers)
+        doc.save(docx_path)
+        updated_page_numbers, updated_page_count = word_rendered_page_numbers(
+            docx_path, Document(docx_path)
+        )
+        page_count = updated_page_count
+        if updated_page_numbers == page_numbers:
+            break
+        page_numbers = updated_page_numbers
+    else:
+        doc = Document(docx_path)
+        rebuild_front_matter_lists(doc, page_numbers)
+        doc.save(docx_path)
+
+    export_pdf_word(docx_path)
+    print(docx_path)
+    print(docx_path.with_suffix(".pdf"))
+    print(f"Microsoft Word pages: {page_count}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Format final-report DOCX files and rebuild their generated lists.")
     parser.add_argument(
@@ -1184,10 +1346,25 @@ def main() -> None:
         type=Path,
         help="DOCX paths to update. Defaults to both final-report deliverables.",
     )
+    parser.add_argument(
+        "--lists-only",
+        action="store_true",
+        help="Refresh generated front-matter lists and PDF without structural normalization.",
+    )
+    parser.add_argument(
+        "--word-native",
+        action="store_true",
+        help="Refresh lists from Microsoft Word pagination and export the matching PDF.",
+    )
     args = parser.parse_args()
     targets = [path.resolve() for path in args.targets] if args.targets else TARGETS
     for target in targets:
-        format_report(target)
+        if args.word_native:
+            refresh_generated_lists_word(target)
+        elif args.lists_only:
+            refresh_generated_lists(target)
+        else:
+            format_report(target)
 
 
 if __name__ == "__main__":

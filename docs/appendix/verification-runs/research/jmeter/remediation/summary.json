@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "evidenceClassification": "fresh-reproduction",
+  "role": "remediation",
+  "branch": "origin/baseline-jmeter-v1",
+  "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+  "runId": "remediation-20260922-200712",
+  "toolVersion": "5.5",
+  "dataset": {
+    "accounts": 120,
+    "journalEntries": 30000,
+    "postedEntries": 5000
+  },
+  "status": "PASS",
+  "profiles": [
+    {
+      "profile": "p50",
+      "sampleCount": 2050,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 77.49,
+      "p95Ms": 199.9,
+      "p99Ms": 322.47,
+      "throughput": 52.64,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/index.html",
+      "jtlSha256": "43eee6d85c89d57f46abad98e8d33bcfeda32a273b1d2a22f62952635c704cc3"
+    },
+    {
+      "profile": "p100",
+      "sampleCount": 4700,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 241.56,
+      "p95Ms": 1146.9,
+      "p99Ms": 2482.88,
+      "throughput": 54.11,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/index.html",
+      "jtlSha256": "6d37de4a1c1d4cbe7c9d307bb7eb942b269a207440054ce106a987cd6fafb431"
+    },
+    {
+      "profile": "p500",
+      "sampleCount": 12000,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 336.23,
+      "p95Ms": 1547.95,
+      "p99Ms": 3862.8,
+      "throughput": 62.44,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/index.html",
+      "jtlSha256": "2cc7f644b309d4f4b9547516baa72e5ffdd87121844f1983a8368e732e04927f"
+    },
+    {
+      "profile": "soak",
+      "sampleCount": 104530,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 236.41,
+      "p95Ms": 171.0,
+      "p99Ms": 462.0,
+      "throughput": 170.98,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/index.html",
+      "jtlSha256": "28f010a15cb2ec739084053f3eb3a73f9d25c55a6df556d819a6fb686909478d"
+    },
+    {
+      "profile": "spike",
+      "sampleCount": 46500,
+      "errorCount": 0,
+      "errorPct": 0.0,
+      "meanMs": 1105.66,
+      "p95Ms": 4730.85,
+      "p99Ms": 11193.92,
+      "throughput": 149.9,
+      "statisticsPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/statistics.json",
+      "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/index.html",
+      "jtlSha256": "b4173c0f0a2355b6617b8e728353fad978182a46903abdac750f1eacbce27c8d"
+    }
+  ],
+  "executionStatus": "PASS",
+  "gateStatus": "FAIL",
+  "gateFailures": [
+    "p100 p95 1146.9 exceeds 500 ms.",
+    "p500 p95 1547.95 exceeds 1200 ms."
+  ]
+}
