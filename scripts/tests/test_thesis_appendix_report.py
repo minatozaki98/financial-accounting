@@ -33,9 +33,60 @@ fresh_result_updater = load_module(
 code_appendix_builder = load_module(
     "code_appendix_builder", ROOT / "scripts" / "rebuild_full_report_code_appendices.py"
 )
+committee_reviser = load_module(
+    "committee_reviser", ROOT / "scripts" / "revise_full_report_committee_accessibility.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_committee_revision_merges_tool_explanations_cites_appendices_and_styles_endpoints(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(appendix_builder.DEFAULT_REPORT.read_bytes())
+
+            committee_reviser.revise_report(path)
+
+            doc = Document(path)
+            paragraphs = doc.paragraphs
+            start = next(i for i, p in enumerate(paragraphs) if p.text == "3.3 Model and Tool Selection")
+            end = next(i for i, p in enumerate(paragraphs[start + 1 :], start + 1) if p.text.startswith("3.4 Implementation"))
+            section = "\n".join(p.text for p in paragraphs[start:end])
+            self.assertNotIn("What is SonarQube", section)
+            self.assertNotIn("SonarQube (Community Edition):", section)
+            self.assertEqual(1, section.count("SonarQube works like an automated code reviewer"))
+            self.assertEqual(1, section.count("OWASP ZAP works like an automated security tester"))
+            self.assertEqual(1, section.count("Apache JMeter works like a controlled crowd"))
+            intro = next(p for p in paragraphs[start:end] if p.text.startswith("This section explains"))
+            self.assertTrue(bool(intro.paragraph_format.keep_together))
+            self.assertIn("baseline-v0.1 is the frozen pre-remediation baseline", section)
+            self.assertIn("baseline-sonarqube-v1", section)
+            self.assertIn("Appendix A", section)
+
+            appendix_index = next(i for i, p in enumerate(paragraphs) if p.text == "APPENDICES")
+            body_text = "\n".join(p.text for p in paragraphs[:appendix_index])
+            for reference in (
+                "Appendix H",
+                "Appendices B-D, I, and J",
+                "Appendix E",
+                "Appendix F",
+                "Appendix G",
+                "Appendix K",
+                "Appendix L",
+                "Appendix M",
+                "Appendix N",
+            ):
+                self.assertIn(reference, body_text)
+
+            endpoint_runs = [
+                run
+                for p in paragraphs[:appendix_index]
+                for run in p.runs
+                if "/auth" in run.text
+            ]
+            self.assertTrue(endpoint_runs)
+            self.assertTrue(any(run.font.name == "Courier New" for run in endpoint_runs))
+            self.assertEqual("Consolas", doc.styles["Appendix Code"].font.name)
+
     def test_direct_code_appendices_are_self_contained_and_cover_a_through_n(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "report.docx"
