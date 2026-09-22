@@ -248,13 +248,13 @@ def add_how_to_use(doc: Document) -> None:
     add_callout(
         doc,
         "Your target",
-        "Deliver the 22 main slides in 27-28 minutes, then use appendix slides only when a professor asks for detailed evidence.",
+        "Deliver the 25 main slides in 28-29 minutes, then use appendix slides only when a professor asks for detailed evidence.",
         COLORS["methodology"],
     )
     add_callout(
         doc,
         "Scope rule",
-        "Primary evaluated model: ChatGPT/Codex 5.4. Slides 20-21 are post-thesis future-work follow-ups and must remain separate from the core thesis conclusion.",
+        "Primary evaluated model: ChatGPT/Codex 5.4. Slides 23-24 are post-thesis future-work follow-ups and must remain separate from the core thesis conclusion.",
         COLORS["performance"],
     )
     items = [

@@ -34,10 +34,10 @@ class PreparationGuideTests(unittest.TestCase):
     def test_every_main_slide_has_script_and_transition(self):
         doc = Document(GUIDE)
         text = "\n".join(paragraph.text for paragraph in doc.paragraphs)
-        for slide_number in range(1, 23):
+        for slide_number in range(1, 26):
             self.assertIn(f"Slide {slide_number}:", text)
-        self.assertGreaterEqual(text.count("Transition:"), 22)
-        self.assertGreaterEqual(text.count("Key message:"), 22)
+        self.assertGreaterEqual(text.count("Transition:"), 25)
+        self.assertGreaterEqual(text.count("Key message:"), 25)
 
     def test_guide_has_substantial_rehearsal_support(self):
         doc = Document(GUIDE)
@@ -99,7 +99,7 @@ class PreparationGuideTests(unittest.TestCase):
                 text_parts.extend(cell.text for cell in row.cells)
         text = "\n".join(text_parts)
         self.assertIn("Primary evaluated model: ChatGPT/Codex 5.4", text)
-        self.assertIn("Slides 20-21 are post-thesis future-work follow-ups", text)
+        self.assertIn("Slides 23-24 are post-thesis future-work follow-ups", text)
         self.assertIn("Future Work Follow-Up: GPT-5.4 vs GPT-5.5", text)
 
 

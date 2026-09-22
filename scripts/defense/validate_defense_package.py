@@ -53,17 +53,17 @@ def validate() -> dict:
     content = json.loads(CONTENT.read_text(encoding="utf-8"))
     main_seconds = sum(slide["durationSeconds"] for slide in content["slides"])
     question_count = len(content["questions"])
-    require(1500 <= main_seconds <= 1680, f"Main script timing out of range: {main_seconds} seconds")
+    require(1500 <= main_seconds <= 1800, f"Main script timing out of range: {main_seconds} seconds")
     require(question_count >= 30, f"Question bank too small: {question_count}")
 
     slide_count, notes_count, media_count = count_pptx_parts()
-    require(slide_count == 32, f"Expected 32 slides, found {slide_count}")
-    require(notes_count >= 22, f"Expected notes for at least 22 slides, found {notes_count}")
+    require(slide_count == 35, f"Expected 35 slides, found {slide_count}")
+    require(notes_count >= 25, f"Expected notes for at least 25 slides, found {notes_count}")
     require(media_count >= 8, f"Expected at least 8 embedded evidence images, found {media_count}")
 
     presentation_pages = len(PdfReader(PRESENTATION_PDF).pages)
     guide_pages = len(PdfReader(GUIDE_PDF).pages)
-    require(presentation_pages == 32, f"Expected 32 presentation PDF pages, found {presentation_pages}")
+    require(presentation_pages == 35, f"Expected 35 presentation PDF pages, found {presentation_pages}")
     require(guide_pages >= 20, f"Expected at least 20 guide PDF pages, found {guide_pages}")
 
     guide = Document(GUIDE_DOCX)

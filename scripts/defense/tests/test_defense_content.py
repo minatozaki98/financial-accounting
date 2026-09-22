@@ -13,10 +13,10 @@ class DefenseContentTests(unittest.TestCase):
 
     def test_main_slide_contract_and_timing(self):
         slides = self.data["slides"]
-        self.assertEqual(22, len(slides))
+        self.assertEqual(25, len(slides))
         total_seconds = sum(slide["durationSeconds"] for slide in slides)
         self.assertGreaterEqual(total_seconds, 1500)
-        self.assertLessEqual(total_seconds, 1680)
+        self.assertLessEqual(total_seconds, 1800)
         for slide in slides:
             for key in (
                 "speakerNotes",
@@ -83,22 +83,40 @@ class DefenseContentTests(unittest.TestCase):
     def test_gpt55_results_are_framed_only_as_future_work(self):
         slides = self.data["slides"]
         self.assertEqual(
-            ["S18", "S19", "S20", "S21", "S22"],
-            [slide["id"] for slide in slides[17:22]],
+            ["S21", "S22", "S23", "S24", "S25"],
+            [slide["id"] for slide in slides[20:25]],
         )
-        self.assertEqual("Contributions", slides[17]["title"])
-        self.assertEqual("Limitations and Future Work", slides[18]["title"])
-        for slide in slides[19:21]:
+        self.assertEqual("Contributions", slides[20]["title"])
+        self.assertEqual("Limitations and Future Work", slides[21]["title"])
+        for slide in slides[22:24]:
             self.assertEqual("Future Work", slide["section"])
             self.assertTrue(slide["title"].startswith("Future Work Follow-Up:"))
             self.assertIn("post-thesis", slide["scopeLabel"].lower())
-        core_slides = slides[:19] + [slides[21]]
+        core_slides = slides[:22] + [slides[24]]
         core_text = json.dumps(core_slides)
         self.assertNotIn("GPT-5.5", core_text)
         self.assertNotIn("New-API v2", core_text)
-        future_text = json.dumps(slides[19:21])
+        future_text = json.dumps(slides[22:24])
         self.assertIn("GPT-5.5", future_text)
         self.assertIn("New-API v2", future_text)
+
+    def test_application_evidence_uses_one_readable_image_per_slide(self):
+        slides = self.data["slides"][16:20]
+        self.assertEqual(["S17", "S18", "S19", "S20"], [slide["id"] for slide in slides])
+        self.assertEqual(
+            [
+                "Document/outputs/web-app-evidence/02-dashboard-admin.png",
+                "Document/outputs/web-app-evidence/03-reports-trial-balance.png",
+                "Document/outputs/web-app-evidence/05-auditor-role-view.png",
+                "Document/outputs/web-app-evidence/07-journal-entry-details.png",
+            ],
+            [slide["visibleContent"]["asset"] for slide in slides],
+        )
+        for slide in slides:
+            self.assertEqual("singleScreenshot", slide["visual"]["type"])
+            self.assertNotIn("screens", slide["visibleContent"])
+            crop = slide["visual"]["crop"]
+            self.assertGreaterEqual(crop["width"] / crop["height"], 1.8)
 
     def test_future_work_appendices_are_explicitly_labeled(self):
         for appendix_id in ("A01", "A06", "A07"):

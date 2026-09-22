@@ -155,6 +155,33 @@ async function addImageContain(slide, imagePath, x, y, w, h, options = {}) {
   slide.addImage({ path: imagePath, x: drawX, y: drawY, w: drawW, h: drawH, transparency: options.transparency || 0 });
 }
 
+async function addCroppedImageContain(slide, imagePath, crop, x, y, w, h) {
+  const buffer = await sharp(imagePath)
+    .extract({
+      left: crop.left,
+      top: crop.top,
+      width: crop.width,
+      height: crop.height
+    })
+    .png()
+    .toBuffer();
+  const imageRatio = crop.width / crop.height;
+  const boxRatio = w / h;
+  const drawW = imageRatio > boxRatio ? w : h * imageRatio;
+  const drawH = imageRatio > boxRatio ? w / imageRatio : h;
+  const drawX = x + (w - drawW) / 2;
+  const drawY = y + (h - drawH) / 2;
+
+  addRect(slide, x, y, w, h, COLORS.surface, COLORS.line, true);
+  slide.addImage({
+    data: `data:image/png;base64,${buffer.toString("base64")}`,
+    x: drawX,
+    y: drawY,
+    w: drawW,
+    h: drawH
+  });
+}
+
 function addTable(slide, headers, rows, options = {}) {
   const x = options.x ?? 0.75;
   const y = options.y ?? 1.55;
@@ -318,6 +345,27 @@ async function renderMainVisual(pptx, slide, model) {
         await addImageContain(slide, resolveAsset(screen.asset), x, y, 5.85, 2.25);
         addText(slide, screen.caption, { x, y: y + 2.3, w: 5.85, h: 0.27, fontSize: 11.5, bold: true, align: "center", color: COLORS.muted });
       }
+      break;
+    case "singleScreenshot":
+      await addCroppedImageContain(
+        slide,
+        resolveAsset(c.asset),
+        model.visual.crop,
+        0.75,
+        1.28,
+        11.82,
+        5.35
+      );
+      addText(slide, c.caption, {
+        x: 0.95,
+        y: 6.69,
+        w: 11.42,
+        h: 0.23,
+        fontSize: 11.5,
+        bold: true,
+        align: "center",
+        color: COLORS.muted
+      });
       break;
     case "modelComparison":
       addTable(slide, ["Area", "GPT-5.4", "GPT-5.5", "Reading"], c.rows.map((r) => [r.area, r.gpt54, r.gpt55, r.reading]), { x: 0.78, y: 1.55, w: 11.8, h: 4.9, colW: [1.9, 3.35, 3.35, 3.2], fontSize: 20, rowH: 0.9, section: "Comparison" });
