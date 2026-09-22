@@ -355,7 +355,7 @@ def add_full_report_addendum() -> None:
     set_table_widths(table, [1.0, 1.45, 1.45, 2.1])
 
     anchor = append_paragraph_after_table(table, "4.7.6 Interpretation and Limitations", "Heading 3")
-    append_paragraph_after(
+    anchor = append_paragraph_after(
         anchor,
         "The model comparison does not make GPT-5.5 a universal winner. SonarQube is a tie; "
         "ZAP residual cleanliness favors GPT-5.4; JMeter favors GPT-5.5 when stable behavior "
@@ -363,6 +363,106 @@ def add_full_report_addendum() -> None:
         "selected p100/p500/soak p99 wins. The most defensible conclusion is that GPT-5.5 "
         "matched or improved the maintainability/performance workflow with smaller patches, "
         "but the security outcome still requires tighter Swagger/static-asset hardening.",
+    )
+
+    anchor = append_paragraph_after(
+        anchor,
+        "4.7.7 New-API v2 Controlled Retest",
+        "Heading 3",
+    )
+    anchor = append_paragraph_after(
+        anchor,
+        "A later controlled retest evaluated the new complex API challenge with paired fresh "
+        "SonarQube and OWASP ZAP measurements on 29 July 2026. Each Sonar candidate received the "
+        "same scan-correction-rescan opportunity before the final comparison. The final SonarQube "
+        "run used the same newly created isolated SonarQube 26.7 server, default profile, and "
+        "SonarScanner for .NET 11.1 for both candidates. ZAP used the same stable container image, "
+        "rule file, 38-URL OpenAPI import, ten-minute active-scan ceiling, API version, and "
+        "hash-verified database backup. The measurement tools scan model-produced source code; "
+        "they do not invoke an LLM during measurement. Model identity therefore follows the "
+        "controller-assigned task provenance.",
+    )
+
+    sonar_v2_rows = [
+        ["Measure", "GPT-5.4 v2", "GPT-5.5 v2", "Interpretation"],
+        [
+            "Measured candidate",
+            "Sonar commit 33ec429; ZAP source bb3fd3c plus patch 860425CE...",
+            "Sonar source 59e2e3d plus correction patch C36914B1...; ZAP commit 1692787",
+            "The GPT-5.5 final Sonar result is a measured working-tree candidate; no correction commit was made.",
+        ],
+        [
+            "SonarQube issues",
+            "0 (100% reduction from 60)",
+            "0 (100% reduction from 60)",
+            "Tie: both candidates cleared all measured findings.",
+        ],
+        [
+            "Sonar remediation path",
+            "Initial remediation scan: 2 issues; correction: 0",
+            "Initial remediation scan: 6 issues; correction: 0",
+            "Both were compared only after the same scan-correction-rescan opportunity.",
+        ],
+        [
+            "Sonar gate and coverage",
+            "OK; 76.2% coverage",
+            "OK; 74.8% coverage",
+            "Both pass the gate; GPT-5.4 has 1.4 percentage points more coverage.",
+        ],
+        [
+            "Sonar reliability",
+            "Rating 1.0; 0 bugs",
+            "Rating 1.0; 0 bugs",
+            "Tie on the final reliability outcome.",
+        ],
+        [
+            "Sonar structure",
+            "Complexity 1,467; cognitive 340; NCLOC 5,395",
+            "Complexity 1,543; cognitive 329; NCLOC 5,466",
+            "Mixed: GPT-5.4 is smaller/lower in total complexity; GPT-5.5 is lower in cognitive complexity.",
+        ],
+        [
+            "ZAP verified alerts",
+            "12 (66.7% reduction from 36)",
+            "12 (66.7% reduction from 36)",
+            "Tie on normalized business-alert instances.",
+        ],
+        [
+            "ZAP severity and coverage",
+            "1 Medium; 11 Informational; endpoint coverage valid",
+            "1 Medium; 11 Informational; endpoint coverage valid",
+            "Tie; the evidence-backed CORS and disclosure-header alert families were cleared.",
+        ],
+        [
+            "Fresh ZAP public tests",
+            "9 unit + 143 integration; all passed",
+            "9 unit + 142 integration; all passed",
+            "Both candidates passed their complete public suites.",
+        ],
+        [
+            "JMeter comparison status",
+            "No remediation candidate: worktree equals challenge baseline",
+            "Frozen candidate 12d8d6e",
+            "Not scored; labeling the baseline as GPT-5.4 would invalidate the model comparison.",
+        ],
+    ]
+    table = append_table_after(anchor, sonar_v2_rows)
+    make_header_row_bold(table)
+    set_table_font(table, 7)
+    set_table_widths(table, [1.2, 1.75, 1.75, 1.6])
+
+    anchor = append_paragraph_after_table(table)
+    anchor = add_labeled_paragraph(
+        anchor,
+        "V2 result. ",
+        "After equalizing the Sonar correction opportunity, the fresh new-API measurements show "
+        "a tie on the final SonarQube issue and quality-gate outcome and a tie on OWASP ZAP. Both "
+        "Sonar candidates reached zero issues, zero bugs, zero code smells, and reliability rating "
+        "1.0; GPT-5.4 retained a 1.4-point coverage advantage. Both ZAP candidates reduced the "
+        "normalized business-alert count from 36 to 12 with identical severity and endpoint "
+        "coverage. No overall three-tool winner is recorded because a GPT-5.4 JMeter remediation "
+        "candidate does not yet exist; a fresh model-specific JMeter run is required before that "
+        "track can be compared.",
     )
 
     doc.save(FINAL_REPORT_DOCX)

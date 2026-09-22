@@ -33,7 +33,7 @@ PHASES = [
         "file": "workflow-phase1.png",
         "badge": "P1",
         "title": "Baseline Analysis",
-        "subtitle": "Branch: baseline-v0.1",
+        "subtitle": "Source: common pre-fix baseline",
         "bullets": [
             "Run SonarQube quality scan.",
             "Run ZAP security scans.",
@@ -48,7 +48,7 @@ PHASES = [
         "file": "workflow-phase2.png",
         "badge": "P2",
         "title": "LLM-Guided Improvements",
-        "subtitle": "Branches: sonarqube-v1, zap-v1, jmeter-v1",
+        "subtitle": "Tracks: SonarQube, OWASP ZAP, and JMeter",
         "bullets": [
             "Prompt ChatGPT with tool output.",
             "Apply targeted fixes.",
