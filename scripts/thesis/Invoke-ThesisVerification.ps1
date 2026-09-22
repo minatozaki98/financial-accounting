@@ -4,12 +4,16 @@ param(
     [string]$Mode = 'Fast',
     [string]$OutputDirectory = 'docs/appendix/verification-runs',
     [object[]]$CommandPlan,
-    [switch]$SkipEnvironmentAudit
+    [switch]$SkipEnvironmentAudit,
+    [switch]$ReturnFailureRecord
 )
 
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Thesis.Common.psm1') -Force
 $repositoryRoot = Get-ThesisRepositoryRoot -StartPath $PSScriptRoot
+if ($Mode -eq 'Full') {
+    throw 'Full verification is branch-specific. Use Invoke-ResearchVerification.ps1 with exact role, commit, runtime evidence, and tool inputs.'
+}
 $runId = Get-Date -Format 'yyyyMMdd-HHmmssfff'
 $outputDirectoryFull = if ([System.IO.Path]::IsPathRooted($OutputDirectory)) {
     [System.IO.Path]::GetFullPath($OutputDirectory)
@@ -106,4 +110,7 @@ foreach ($command in $commandResults) {
 
 $record | Add-Member -NotePropertyName JsonPath -NotePropertyValue $jsonPath
 $record | Add-Member -NotePropertyName MarkdownPath -NotePropertyValue $markdownPath
+if ($status -in @('FAIL','ENVIRONMENT_BLOCKED') -and -not $ReturnFailureRecord) {
+    throw "Thesis verification ended with status $status. Record: $jsonPath"
+}
 return $record

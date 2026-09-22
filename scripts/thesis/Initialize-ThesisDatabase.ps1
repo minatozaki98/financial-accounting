@@ -36,6 +36,9 @@ catch {
 $server = [string]$builder.DataSource
 $database = [string]$builder.InitialCatalog
 if ([string]::IsNullOrWhiteSpace($database)) { $database = 'Financial' }
+if ($database -ne 'Financial') {
+    throw "Only the Financial database catalog is supported by the checked-in schema. Requested: $database"
+}
 $runId = Get-Date -Format 'yyyyMMdd-HHmmss'
 $schemaPath = Join-Path $repositoryRoot 'Document/sql/financial_accounting_schema.sql'
 $seedScript = Join-Path $repositoryRoot 'scripts/phase4/seed-test-data.ps1'

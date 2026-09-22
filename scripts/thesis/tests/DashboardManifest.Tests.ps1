@@ -58,4 +58,12 @@ Describe "Dashboard capture manifest" {
             (Get-FileHash -Algorithm SHA256 -LiteralPath $image).Hash.ToLowerInvariant() | Should Be $capture.sha256
         }
     }
+
+    It "requires declared metrics to be visible in the captured region" {
+        $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+        foreach ($capture in $manifest.captures) {
+            @($capture.displayedMetrics.PSObject.Properties).Count | Should BeGreaterThan 0
+            if ($capture.tool -eq 'jmeter') { $capture.capturedRegion | Should Be 'statistics' }
+        }
+    }
 }

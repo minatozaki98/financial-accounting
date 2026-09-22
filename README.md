@@ -40,9 +40,9 @@ Appendix source and evidence are under [`docs/appendix/`](docs/appendix/). The t
 
 Verified consolidation status (22 September 2026):
 
-- 46 thesis-tooling Pester tests passed.
+- 62 thesis-tooling Pester tests passed.
 - Canonical Release build, 6 unit tests, and 107 integration tests passed.
-- 10 frontend tests and the frontend production build passed.
+- 13 frontend tests, the alternate-port live browser workflow, and the frontend production build passed.
 - All four exact evidence refs built and passed their available unit/integration suites.
 - Fresh SonarQube, ZAP, and ten-profile JMeter evidence is recorded without replacing historical results.
 - All 18 required SonarQube/ZAP/JMeter dashboard images are present and hash-validated.

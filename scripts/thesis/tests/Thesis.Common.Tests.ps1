@@ -1,4 +1,5 @@
 $modulePath = Join-Path $PSScriptRoot "../Thesis.Common.psm1"
+$repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "../../.."))
 Import-Module $modulePath -Force
 
 Describe "Thesis.Common" {
@@ -17,6 +18,12 @@ Describe "Thesis.Common" {
         $value = Protect-LogText "Password=secret; sonar.token=abc123 Authorization: Bearer token-value"
 
         $value | Should Be "Password=[REDACTED]; sonar.token=[REDACTED] Authorization: Bearer [REDACTED]"
+    }
+
+    It "redacts quoted password values and Basic authorization" {
+        $value = Protect-LogText 'Password="two word sentinel"; Authorization: Basic abc123=='
+
+        $value | Should Be 'Password=[REDACTED]; Authorization: Basic [REDACTED]'
     }
 
     It "redacts a Windows user-profile segment" {
@@ -45,7 +52,7 @@ Describe "Thesis.Common" {
         $root = Get-ThesisRepositoryRoot -StartPath $PSScriptRoot
 
         (Test-Path (Join-Path $root ".git")) | Should Be $true
-        (Split-Path $root -Leaf) | Should Be "thesis-reproducibility-design"
+        $root | Should Be $repositoryRoot
     }
 
     It "reports the current Git branch, commit, and Boolean dirty state" {

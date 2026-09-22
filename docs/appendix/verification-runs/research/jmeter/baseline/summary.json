@@ -78,5 +78,8 @@
       "dashboardPath": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/index.html",
       "jtlSha256": "f80c315944887c3795894b82b64c6e240e7dddcfc43a28f6d8c001abc4bc39c7"
     }
-  ]
+  ],
+  "executionStatus": "PASS",
+  "gateStatus": "PASS",
+  "gateFailures": []
 }

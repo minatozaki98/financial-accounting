@@ -3,15 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-
-type MetricSpec = {
-  name: string;
-  expectedValue: string | number;
-  sourcePath?: string;
-  sourceKind?: "path" | "zap-risk-count";
-  riskCode?: number;
-  pagePattern?: string;
-};
+import { assertNoForbiddenText, type MetricSpec, validateMetric } from "../../src/lib/dashboard-capture-validation";
 
 type CaptureCase = {
   name: string;
@@ -37,38 +29,17 @@ type CaptureCase = {
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(currentDirectory, "../../..");
 const casesPath = process.env.THESIS_DASHBOARD_CASES;
-if (!casesPath) {
-  throw new Error("THESIS_DASHBOARD_CASES must point to a dashboard capture case file.");
-}
-const resolvedCasesPath = path.isAbsolute(casesPath)
+test.skip(!casesPath, "Set THESIS_DASHBOARD_CASES to run appendix dashboard capture cases.");
+const resolvedCasesPath = casesPath ? (path.isAbsolute(casesPath)
   ? casesPath
-  : path.resolve(repositoryRoot, casesPath);
-const cases = JSON.parse(fs.readFileSync(resolvedCasesPath, "utf8")) as CaptureCase[];
-if (!Array.isArray(cases) || cases.length === 0) {
+  : path.resolve(repositoryRoot, casesPath)) : null;
+const cases = resolvedCasesPath ? JSON.parse(fs.readFileSync(resolvedCasesPath, "utf8")) as CaptureCase[] : [];
+if (casesPath && (!Array.isArray(cases) || cases.length === 0)) {
   throw new Error("Dashboard capture case file must contain at least one case.");
 }
 
 const manifestPath = path.join(repositoryRoot, "docs/appendix/dashboard-capture-manifest.json");
 const dashboardRoot = path.join(repositoryRoot, "docs/appendix/dashboards");
-const forbidden = [
-  /Password\s*=/i,
-  /sonar\.token\s*=/i,
-  /Authorization:\s*Bearer/i,
-  /[A-Za-z]:[\\/]Users[\\/](?!\[USER\])[^\\/]+/i,
-];
-
-function getByPath(value: unknown, dottedPath: string): unknown {
-  return dottedPath.split(".").reduce<unknown>((current, segment) => {
-    if (current === null || typeof current !== "object") return undefined;
-    return (current as Record<string, unknown>)[segment];
-  }, value);
-}
-
-function getZapRiskCount(value: unknown, riskCode: number): number {
-  const root = value as { site?: Array<{ alerts?: Array<{ riskcode?: string | number }> }> | { alerts?: Array<{ riskcode?: string | number }> } };
-  const sites = Array.isArray(root.site) ? root.site : root.site ? [root.site] : [];
-  return sites.flatMap((site) => site.alerts ?? []).filter((alert) => Number(alert.riskcode) === riskCode).length;
-}
 
 function readPngDimensions(buffer: Buffer): { width: number; height: number } {
   if (buffer.length < 24 || buffer.toString("ascii", 1, 4) !== "PNG") {
@@ -127,18 +98,14 @@ for (const captureCase of cases) {
         current.remove();
       });
     }
-    const bodyText = await page.locator("body").innerText();
-    for (const pattern of forbidden) expect(bodyText).not.toMatch(pattern);
+    const captureLocator = captureCase.captureSelector ? page.locator(captureCase.captureSelector) : page.locator("body");
+    const capturedText = await captureLocator.innerText();
+    assertNoForbiddenText(capturedText);
 
     const sourceData = JSON.parse(fs.readFileSync(sourcePath, "utf8")) as unknown;
     const displayedMetrics: Record<string, string | number> = {};
     for (const metric of captureCase.metrics ?? []) {
-      const sourceValue = metric.sourceKind === "zap-risk-count"
-        ? getZapRiskCount(sourceData, metric.riskCode ?? -1)
-        : getByPath(sourceData, metric.sourcePath ?? "");
-      expect(String(sourceValue), `${captureCase.name}: ${metric.name} source mismatch`).toBe(String(metric.expectedValue));
-      if (metric.pagePattern) expect(bodyText).toMatch(new RegExp(metric.pagePattern, "i"));
-      displayedMetrics[metric.name] = metric.expectedValue;
+      displayedMetrics[metric.name] = validateMetric(sourceData, metric, capturedText);
     }
 
     const outputPath = path.join(dashboardRoot, captureCase.imagePath);
@@ -162,6 +129,7 @@ for (const captureCase of cases) {
       sourceUrl: captureCase.sourceUrlLabel ?? captureCase.sourceArtifact,
       sourceArtifact: captureCase.sourceArtifact,
       displayedMetrics,
+      capturedRegion: captureCase.captureSelector === '#statisticsTable' ? 'statistics' : 'dashboard',
       imagePath: captureCase.imagePath,
       width: dimensions.width,
       height: dimensions.height,

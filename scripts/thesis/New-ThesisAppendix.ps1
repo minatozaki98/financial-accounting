@@ -38,7 +38,7 @@ $dashboards = Get-Content -LiteralPath $dashboardPath -Raw | ConvertFrom-Json
 
 $fastRun = Get-LatestRun 'verification-fast-*.json'
 $databaseRun = Get-LatestRun 'database-initialization.json'
-$demoRun = Get-LatestRun 'demo-live.json'
+$demoRun = Get-LatestRun 'demo*-live.json'
 $researchRuns = @{}
 foreach ($role in @('baseline','sonarqube-remediation','zap-remediation','jmeter-remediation')) {
     $researchRuns[$role] = Get-LatestRun "research-$role-*.json"
@@ -64,7 +64,7 @@ function Get-FreshClaimStatus {
         'working-application' { if ($demoRun) { return $demoRun.Status }; return 'Not yet reproduced' }
         'sonarqube-primary' {
             if ($sonarBaseline -and $sonarRemediation) {
-                return "PASS: baseline $($sonarBaseline.totalIssues) issues, remediation $($sonarRemediation.totalIssues) issues; gates $($sonarBaseline.qualityGate)/$($sonarRemediation.qualityGate)"
+                return "Execution PASS; gates $($sonarBaseline.qualityGate)/$($sonarRemediation.qualityGate): baseline $($sonarBaseline.totalIssues) issues, remediation $($sonarRemediation.totalIssues) issues"
             }
             return 'Not yet reproduced'
         }
@@ -74,7 +74,7 @@ function Get-FreshClaimStatus {
                 $beforeApi = $zapBaseline.scans | Where-Object { $_.scan -eq 'api' }
                 $afterPassive = $zapRemediation.scans | Where-Object { $_.scan -eq 'baseline' }
                 $afterApi = $zapRemediation.scans | Where-Object { $_.scan -eq 'api' }
-                return "PASS: baseline raw alerts passive M$($beforePassive.medium)/L$($beforePassive.low), API M$($beforeApi.medium)/L$($beforeApi.low); remediation raw alerts passive M$($afterPassive.medium)/L$($afterPassive.low), API M$($afterApi.medium)/L$($afterApi.low)"
+                return "Execution $($zapBaseline.executionStatus)/$($zapRemediation.executionStatus); configured gates $($zapBaseline.gateStatus)/$($zapRemediation.gateStatus): baseline raw alerts passive M$($beforePassive.medium)/L$($beforePassive.low), API M$($beforeApi.medium)/L$($beforeApi.low); remediation raw alerts passive M$($afterPassive.medium)/L$($afterPassive.low), API M$($afterApi.medium)/L$($afterApi.low)"
             }
             return 'Not yet reproduced'
         }
@@ -82,7 +82,7 @@ function Get-FreshClaimStatus {
             if ($jmeterBaseline -and $jmeterRemediation) {
                 $before = @{}; foreach ($profile in $jmeterBaseline.profiles) { $before[$profile.profile] = $profile }
                 $after = @{}; foreach ($profile in $jmeterRemediation.profiles) { $after[$profile.profile] = $profile }
-                return "PASS: p50 p95 $($before.p50.p95Ms)->$($after.p50.p95Ms) ms; p100 $($before.p100.p95Ms)->$($after.p100.p95Ms); p500 $($before.p500.p95Ms)->$($after.p500.p95Ms); soak $($before.soak.p95Ms)->$($after.soak.p95Ms); spike $($before.spike.p95Ms)->$($after.spike.p95Ms)"
+                return "Execution $($jmeterBaseline.executionStatus)/$($jmeterRemediation.executionStatus); core gates $($jmeterBaseline.gateStatus)/$($jmeterRemediation.gateStatus): p50 p95 $($before.p50.p95Ms)->$($after.p50.p95Ms) ms; p100 $($before.p100.p95Ms)->$($after.p100.p95Ms); p500 $($before.p500.p95Ms)->$($after.p500.p95Ms); soak $($before.soak.p95Ms)->$($after.soak.p95Ms); spike $($before.spike.p95Ms)->$($after.spike.p95Ms)"
             }
             return 'Not yet reproduced'
         }
@@ -141,13 +141,26 @@ foreach ($claim in $evidence.claims) {
 $lines.Add('## Appendix D - Reproduction Commands and Profiles')
 $lines.Add('')
 $lines.Add('```powershell')
+$lines.Add('$RunId = Get-Date -Format ''yyyyMMdd-HHmmss''')
+$lines.Add('$DemoPassword = $env:THESIS_DEMO_PASSWORD')
+$lines.Add('if ([string]::IsNullOrWhiteSpace($DemoPassword)) { throw ''Set THESIS_DEMO_PASSWORD for this process.'' }')
+$lines.Add('# Create clean exact-ref worktrees; never switch a dirty checkout in place.')
+$lines.Add('git worktree add .worktrees/appendix-baseline --detach 7a0469d9401a3061941b44fcd46b3beca1c9c729')
+$lines.Add('git worktree add .worktrees/appendix-sonar --detach a2279bcbdc20751529335cf72f8baac1bc6f994b')
+$lines.Add('git worktree add .worktrees/appendix-zap --detach 5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d')
+$lines.Add('git worktree add .worktrees/appendix-jmeter --detach 78b08b62570dcf6fe436354e8e6b770ab2074445')
 $lines.Add('# SonarQube (use a secure process-local SONAR_TOKEN)')
-$lines.Add('./scripts/phase4/run-sonarqube-scan.ps1 -SonarToken $env:SONAR_TOKEN -ProjectKey <role-specific-key> -SolutionPath API/API.csproj')
+$lines.Add('$SonarProjectKey = ''financial-accounting-thesis-baseline-v01''')
+$lines.Add('./scripts/phase4/run-sonarqube-scan.ps1 -SonarToken $env:SONAR_TOKEN -ProjectKey $SonarProjectKey -SolutionPath API/API.csproj')
 $lines.Add('# OWASP ZAP baseline and authenticated API scans')
-$lines.Add('./scripts/phase4/run-zap-baseline.ps1 -TargetUrl http://localhost:5296/health/live -OutputPrefix <run-id>')
-$lines.Add('./scripts/phase4/run-zap-api.ps1 -OpenApiUrl http://localhost:5296/swagger/v1/swagger.json -BaseUrl http://localhost:5296 -Username admin -Password <process-local-demo-password> -OutputPrefix <run-id>')
+$lines.Add('./scripts/phase4/run-zap-baseline.ps1 -TargetUrl ''http://localhost:5296/health/live'' -OutputPrefix "zap-baseline-$RunId"')
+$lines.Add('./scripts/phase4/run-zap-api.ps1 -OpenApiUrl ''http://localhost:5296/swagger/v1/swagger.json'' -BaseUrl ''http://localhost:5296'' -Username ''admin'' -Password $DemoPassword -OutputPrefix "zap-api-$RunId"')
 $lines.Add('# JMeter p50, p100, p500, soak, and spike')
-$lines.Add('./scripts/phase4/run-jmeter-thesis-matrix.ps1 -BaseUrl http://localhost:5296 -Username admin -Password <process-local-demo-password> -PeriodId 202601 -AccountId 1')
+$lines.Add('./scripts/phase4/run-jmeter-thesis-matrix.ps1 -BaseUrl ''http://localhost:5296'' -Username ''admin'' -Password $DemoPassword -PeriodId 202601 -AccountId 1 -RunTag $RunId')
+$lines.Add('# Generate browser-capture cases from the versioned manifests.')
+$lines.Add('./scripts/thesis/New-DashboardCaptureCases.ps1 -OutputPath ''.tmp/dashboard-cases.json''')
+$lines.Add('$env:THESIS_DASHBOARD_CASES = ''.tmp/dashboard-cases.json''')
+$lines.Add('npm run capture:appendix --prefix WEB')
 $lines.Add('```')
 $lines.Add('')
 
@@ -192,6 +205,7 @@ $lines.Add('## Appendix G - Working Application Demonstration')
 $lines.Add('')
 $lines.Add("- API live and ready endpoints: $(if ($demoRun) { "$($demoRun.Health.Live) / $($demoRun.Health.Ready)" } else { 'Not yet reproduced' })")
 $lines.Add("- Frontend smoke result: $(if ($demoRun) { $demoRun.Smoke.WebRoot } else { 'Not yet reproduced' })")
+$lines.Add("- Browser login/report/role workflow: $(if ($demoRun -and $demoRun.BrowserSmoke) { $demoRun.BrowserSmoke } else { 'Not yet reproduced' })")
 $lines.Add('- Demonstrated areas: login, role-aware navigation, accounts, journal lines, periods, reports, audit logs, user administration, and research evidence.')
 $lines.Add('- Demo credentials are local-only and intentionally omitted from this appendix source.')
 $lines.Add('')

@@ -41,4 +41,8 @@ Describe "Initialize-ThesisDatabase" {
         $text | Should Not Match "secret"
         ($text | ConvertFrom-Json).Status | Should Be "WHATIF"
     }
+
+    It "rejects an alternate local database catalog" {
+        { & $scriptPath -ConnectionString "Server=localhost;Database=AnotherDatabase;Trusted_Connection=True" -WhatIf } | Should Throw
+    }
 }

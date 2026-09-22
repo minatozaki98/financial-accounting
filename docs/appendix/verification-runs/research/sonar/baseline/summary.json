@@ -25,5 +25,7 @@
     "cognitive_complexity": "165",
     "duplicated_lines_density": "0.0",
     "complexity": "886"
-  }
+  },
+  "executionStatus": "PASS",
+  "gateStatus": "OK"
 }

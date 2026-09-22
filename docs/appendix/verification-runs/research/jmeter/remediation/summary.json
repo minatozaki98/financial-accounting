@@ -78,5 +78,11 @@
       "dashboardPath": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/index.html",
       "jtlSha256": "b4173c0f0a2355b6617b8e728353fad978182a46903abdac750f1eacbce27c8d"
     }
+  ],
+  "executionStatus": "PASS",
+  "gateStatus": "FAIL",
+  "gateFailures": [
+    "p100 p95 1146.9 exceeds 500 ms.",
+    "p500 p95 1547.95 exceeds 1200 ms."
   ]
 }

@@ -29,9 +29,9 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "baseline-20260922-192730",
-      "capturedAtUtc": "2026-09-22T13:34:05.962Z",
+      "capturedAtUtc": "2026-09-22T14:36:10.574Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p100/statistics.json",
       "displayedMetrics": {
         "sampleCount": 4700,
@@ -39,10 +39,11 @@
         "p95Ms": 255.89999999999964,
         "throughput": 58.23390204314265
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-baseline-p100-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "a713c56f542eb8354fa5b15b47e2454c11c079822ff230c211454325c13cb90e",
+      "width": 1097,
+      "height": 559,
+      "sha256": "f2095d619eb9136ed32fdf5b6ec5db6803f1ada5ba499d572cc3d25435c20373",
       "redactionStatus": "pass"
     },
     {
@@ -53,9 +54,9 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "baseline-20260922-192730",
-      "capturedAtUtc": "2026-09-22T13:34:01.673Z",
+      "capturedAtUtc": "2026-09-22T14:36:14.570Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p50/statistics.json",
       "displayedMetrics": {
         "sampleCount": 2050,
@@ -63,10 +64,11 @@
         "p95Ms": 33,
         "throughput": 54.801112061591105
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-baseline-p50-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "b89073ee443fb95643e1401853c4e77a555dca84654d578155e42a01656aaa7e",
+      "width": 1097,
+      "height": 384,
+      "sha256": "cc90ae485a6de2c70ce1a37cc00a5c0654a0a82b165c4d19f401dbc7aec1a5a2",
       "redactionStatus": "pass"
     },
     {
@@ -77,9 +79,9 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "baseline-20260922-192730",
-      "capturedAtUtc": "2026-09-22T13:34:10.091Z",
+      "capturedAtUtc": "2026-09-22T14:36:18.595Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-p500/statistics.json",
       "displayedMetrics": {
         "sampleCount": 12000,
@@ -87,10 +89,11 @@
         "p95Ms": 106,
         "throughput": 63.195146612740146
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-baseline-p500-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "8f7b3b16298dcb3d25da4d57704e6b43bb4c5af0323168d3a6be7afb75f265ed",
+      "width": 1097,
+      "height": 559,
+      "sha256": "dd9a6dd0a2727392efd6e62e10a1badafa3d3217d2e101b8b65ebe4dfd4c3e57",
       "redactionStatus": "pass"
     },
     {
@@ -101,9 +104,9 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "baseline-20260922-192730",
-      "capturedAtUtc": "2026-09-22T13:34:14.227Z",
+      "capturedAtUtc": "2026-09-22T14:36:22.715Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-soak/statistics.json",
       "displayedMetrics": {
         "sampleCount": 104530,
@@ -111,10 +114,11 @@
         "p95Ms": 443.9500000000007,
         "throughput": 185.51384121733142
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-baseline-soak-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "aca4eb83fa673406dc83f6b7606a8e24dc7d20854852c4b24690eef37c7896b9",
+      "width": 1097,
+      "height": 559,
+      "sha256": "f79c4ec9e2f6a7e60fe1db65b2b77327ba00beb3f9c1bd11c82d7ab62a26f957",
       "redactionStatus": "pass"
     },
     {
@@ -125,9 +129,9 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "baseline-20260922-192730",
-      "capturedAtUtc": "2026-09-22T13:34:18.408Z",
+      "capturedAtUtc": "2026-09-22T14:36:26.824Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/baseline/report-baseline-20260922-192730-spike/statistics.json",
       "displayedMetrics": {
         "sampleCount": 46500,
@@ -135,10 +139,11 @@
         "p95Ms": 33401.75,
         "throughput": 38.28282196264914
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-baseline-spike-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "2d4283250e014e527c3bf8f6ae9b07419481a8533f4e2d198d115f646b8beaa5",
+      "width": 1097,
+      "height": 579,
+      "sha256": "d0778b9db6db2996f02d8f0a460b3dd0fd90e57a78a7db41cb57fda8dbc3f5e7",
       "redactionStatus": "pass"
     },
     {
@@ -149,9 +154,9 @@
       "branch": "origin/baseline-jmeter-v1",
       "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
       "runId": "remediation-20260922-200712",
-      "capturedAtUtc": "2026-09-22T13:34:26.606Z",
+      "capturedAtUtc": "2026-09-22T14:36:30.775Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p100/statistics.json",
       "displayedMetrics": {
         "sampleCount": 4700,
@@ -159,10 +164,11 @@
         "p95Ms": 1146.8999999999996,
         "throughput": 54.11068513337709
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-remediation-p100-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "685f2dea655a03e5ec4d46d28114391f138285b2a3cdd64a14bf68950709c701",
+      "width": 1097,
+      "height": 579,
+      "sha256": "4683271986b19561c45ff3acd561f0a2edfcea7f0b5b0f1cc1fec67d3590bf43",
       "redactionStatus": "pass"
     },
     {
@@ -173,9 +179,9 @@
       "branch": "origin/baseline-jmeter-v1",
       "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
       "runId": "remediation-20260922-200712",
-      "capturedAtUtc": "2026-09-22T13:34:22.558Z",
+      "capturedAtUtc": "2026-09-22T14:36:34.698Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p50/statistics.json",
       "displayedMetrics": {
         "sampleCount": 2050,
@@ -183,10 +189,11 @@
         "p95Ms": 199.89999999999964,
         "throughput": 52.641039467940324
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-remediation-p50-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "9dda0921781422d245a68d17b85aa6f862f83d1321515ee003ad75d66bde5e85",
+      "width": 1097,
+      "height": 384,
+      "sha256": "50238fd12f2a29465fc83272200070b91af17c5decb049cb34d5cc1406802b6b",
       "redactionStatus": "pass"
     },
     {
@@ -197,9 +204,9 @@
       "branch": "origin/baseline-jmeter-v1",
       "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
       "runId": "remediation-20260922-200712",
-      "capturedAtUtc": "2026-09-22T13:34:30.615Z",
+      "capturedAtUtc": "2026-09-22T14:36:38.640Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-p500/statistics.json",
       "displayedMetrics": {
         "sampleCount": 12000,
@@ -207,10 +214,11 @@
         "p95Ms": 1547.949999999999,
         "throughput": 62.44211095963117
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-remediation-p500-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "5f0ab9aa49f136ac0d4732872e097771c024327ae991d4f5a2f6663bc3a1c7b0",
+      "width": 1097,
+      "height": 579,
+      "sha256": "878132db23ab6cad75014f3daa00cf990c065cb64f4a17be84148881729b65e1",
       "redactionStatus": "pass"
     },
     {
@@ -221,9 +229,9 @@
       "branch": "origin/baseline-jmeter-v1",
       "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
       "runId": "remediation-20260922-200712",
-      "capturedAtUtc": "2026-09-22T13:34:34.617Z",
+      "capturedAtUtc": "2026-09-22T14:36:42.666Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-soak/statistics.json",
       "displayedMetrics": {
         "sampleCount": 104530,
@@ -231,10 +239,11 @@
         "p95Ms": 171,
         "throughput": 170.97637931795913
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-remediation-soak-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "c362a6b583e444f46ac449bac393a249aea1a31d273f95fa1ef05969b4d03f0f",
+      "width": 1097,
+      "height": 579,
+      "sha256": "32f3e6436cc20f0ec814661fd8a35de9fee0a8b80d92c44eb2a08f6e1f6fb437",
       "redactionStatus": "pass"
     },
     {
@@ -245,9 +254,9 @@
       "branch": "origin/baseline-jmeter-v1",
       "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
       "runId": "remediation-20260922-200712",
-      "capturedAtUtc": "2026-09-22T13:34:38.659Z",
+      "capturedAtUtc": "2026-09-22T14:36:46.827Z",
       "toolVersion": "5.5",
-      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/statistics.json",
+      "sourceUrl": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/index.html",
       "sourceArtifact": "docs/appendix/verification-runs/research/jmeter/remediation/report-remediation-20260922-200712-spike/statistics.json",
       "displayedMetrics": {
         "sampleCount": 46500,
@@ -255,10 +264,11 @@
         "p95Ms": 4730.850000000002,
         "throughput": 149.90135523719874
       },
+      "capturedRegion": "statistics",
       "imagePath": "jmeter/jmeter-remediation-spike-dashboard.png",
-      "width": 1440,
-      "height": 1000,
-      "sha256": "61942444eed787afd6af0c9f24f570c597acd5fc522a93bc066b4fc47c15f7bc",
+      "width": 1097,
+      "height": 579,
+      "sha256": "dd103ef5d4dacbbc896ad3c60e432b43d11963abd647327029fa36a443db3cb1",
       "redactionStatus": "pass"
     },
     {
@@ -269,13 +279,14 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "20260922-183352",
-      "capturedAtUtc": "2026-09-22T13:47:11.164Z",
+      "capturedAtUtc": "2026-09-22T14:38:16.842Z",
       "toolVersion": "26.7.0.124771",
-      "sourceUrl": "docs/appendix/verification-runs/research/sonar/baseline/summary.json",
+      "sourceUrl": "http://localhost:9000/project/issues?id=financial-accounting-thesis-baseline-v01&resolved=false",
       "sourceArtifact": "docs/appendix/verification-runs/research/sonar/baseline/summary.json",
       "displayedMetrics": {
         "totalIssues": 17
       },
+      "capturedRegion": "dashboard",
       "imagePath": "sonarqube/sonarqube-baseline-issues.png",
       "width": 1440,
       "height": 1000,
@@ -290,19 +301,20 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "20260922-183352",
-      "capturedAtUtc": "2026-09-22T13:47:04.142Z",
+      "capturedAtUtc": "2026-09-22T14:38:21.122Z",
       "toolVersion": "26.7.0.124771",
-      "sourceUrl": "docs/appendix/verification-runs/research/sonar/baseline/summary.json",
+      "sourceUrl": "http://localhost:9000/dashboard?id=financial-accounting-thesis-baseline-v01",
       "sourceArtifact": "docs/appendix/verification-runs/research/sonar/baseline/summary.json",
       "displayedMetrics": {
         "qualityGate": "OK",
         "coverage": "74.4",
         "codeSmells": "17"
       },
+      "capturedRegion": "dashboard",
       "imagePath": "sonarqube/sonarqube-baseline-overview.png",
       "width": 1440,
       "height": 1000,
-      "sha256": "d5b7a01dde5a65c6c1e41ed193ac0473f7b894ef69ac0db6bbde7e374cd04f24",
+      "sha256": "7faf4364052a2f8f43ddcabd7e42b971eeea912260a3c371c01d3ca9dbf0708d",
       "redactionStatus": "pass"
     },
     {
@@ -313,13 +325,14 @@
       "branch": "origin/baseline-sonarqube-v1",
       "commit": "a2279bcbdc20751529335cf72f8baac1bc6f994b",
       "runId": "20260922-183352",
-      "capturedAtUtc": "2026-09-22T13:47:23.965Z",
+      "capturedAtUtc": "2026-09-22T14:38:25.895Z",
       "toolVersion": "26.7.0.124771",
-      "sourceUrl": "docs/appendix/verification-runs/research/sonar/remediation/summary.json",
+      "sourceUrl": "http://localhost:9000/project/issues?id=financial-accounting-thesis-sonarqube-v1&resolved=false",
       "sourceArtifact": "docs/appendix/verification-runs/research/sonar/remediation/summary.json",
       "displayedMetrics": {
         "totalIssues": 0
       },
+      "capturedRegion": "dashboard",
       "imagePath": "sonarqube/sonarqube-remediation-issues.png",
       "width": 1440,
       "height": 1000,
@@ -334,19 +347,20 @@
       "branch": "origin/baseline-sonarqube-v1",
       "commit": "a2279bcbdc20751529335cf72f8baac1bc6f994b",
       "runId": "20260922-183352",
-      "capturedAtUtc": "2026-09-22T13:47:17.626Z",
+      "capturedAtUtc": "2026-09-22T14:38:31.851Z",
       "toolVersion": "26.7.0.124771",
-      "sourceUrl": "docs/appendix/verification-runs/research/sonar/remediation/summary.json",
+      "sourceUrl": "http://localhost:9000/dashboard?id=financial-accounting-thesis-sonarqube-v1",
       "sourceArtifact": "docs/appendix/verification-runs/research/sonar/remediation/summary.json",
       "displayedMetrics": {
         "qualityGate": "OK",
         "coverage": "74.3",
         "codeSmells": "0"
       },
+      "capturedRegion": "dashboard",
       "imagePath": "sonarqube/sonarqube-remediation-overview.png",
       "width": 1440,
       "height": 1000,
-      "sha256": "051e715d1a4c6ca1549fb7b3f11ff2503e0ec8ab965e2812cbb1cd5975f46630",
+      "sha256": "0cb75ee985afa6d62d2d26b5954e4fb6c9f015379af90e6808204fb99db61739",
       "redactionStatus": "pass"
     },
     {
@@ -357,7 +371,7 @@
       "branch": "origin/baseline-zap-v1",
       "commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d",
       "runId": "20260324-000856",
-      "capturedAtUtc": "2026-09-22T11:09:21.885Z",
+      "capturedAtUtc": "2026-09-22T14:37:09.037Z",
       "toolVersion": "2.17.0",
       "sourceUrl": "Document/security/zap-api-20260324-000856.html",
       "sourceArtifact": "Document/security/zap-api-20260324-000856.json",
@@ -367,6 +381,7 @@
         "low": 0,
         "informational": 5
       },
+      "capturedRegion": "dashboard",
       "imagePath": "zap/zap-api-after-summary.png",
       "width": 1440,
       "height": 1000,
@@ -381,7 +396,7 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "20260222-230133",
-      "capturedAtUtc": "2026-09-22T11:09:20.846Z",
+      "capturedAtUtc": "2026-09-22T14:37:13.353Z",
       "toolVersion": "2.17.0",
       "sourceUrl": "Document/security/zap-api-20260222-230133.html",
       "sourceArtifact": "Document/security/zap-api-20260222-230133.json",
@@ -391,6 +406,7 @@
         "low": 1,
         "informational": 5
       },
+      "capturedRegion": "dashboard",
       "imagePath": "zap/zap-api-before-summary.png",
       "width": 1440,
       "height": 1000,
@@ -405,7 +421,7 @@
       "branch": "origin/baseline-zap-v1",
       "commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d",
       "runId": "20260324-000724",
-      "capturedAtUtc": "2026-09-22T11:09:19.641Z",
+      "capturedAtUtc": "2026-09-22T14:37:17.156Z",
       "toolVersion": "2.17.0",
       "sourceUrl": "Document/security/zap-baseline-20260324-000724.html",
       "sourceArtifact": "Document/security/zap-baseline-20260324-000724.json",
@@ -415,6 +431,7 @@
         "low": 0,
         "informational": 4
       },
+      "capturedRegion": "dashboard",
       "imagePath": "zap/zap-baseline-after-summary.png",
       "width": 1440,
       "height": 1000,
@@ -429,7 +446,7 @@
       "branch": "origin/baseline-v0.1",
       "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
       "runId": "20260222-230133",
-      "capturedAtUtc": "2026-09-22T11:09:18.685Z",
+      "capturedAtUtc": "2026-09-22T14:37:21.011Z",
       "toolVersion": "2.17.0",
       "sourceUrl": "Document/security/zap-baseline-20260222-230133.html",
       "sourceArtifact": "Document/security/zap-baseline-20260222-230133.json",
@@ -439,6 +456,7 @@
         "low": 1,
         "informational": 3
       },
+      "capturedRegion": "dashboard",
       "imagePath": "zap/zap-baseline-before-summary.png",
       "width": 1440,
       "height": 1000,

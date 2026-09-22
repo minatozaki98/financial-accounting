@@ -56,4 +56,13 @@ Describe "New-ThesisAppendix" {
         $text | Should Match 'zap-primary[^\r\n]*baseline raw alerts[^\r\n]*remediation raw alerts'
         $text | Should Match 'jmeter-primary[^\r\n]*p50 p95'
     }
+
+    It "emits parseable PowerShell examples without angle-bracket placeholders" {
+        $output = Join-Path $TestDrive 'appendix.md'
+        & $scriptPath -EvidenceManifest $evidence -DashboardManifest $dashboards -OutputPath $output
+        $text = Get-Content $output -Raw
+
+        $text | Should Not Match '<[^>]+>'
+        $text | Should Match 'New-DashboardCaptureCases.ps1'
+    }
 }

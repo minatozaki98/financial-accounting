@@ -45,7 +45,7 @@ Describe "Invoke-ThesisDemo" {
         $webPort = Get-FreeTcpPort
         $sleepArgs = @('-NoProfile', '-Command', 'Start-Sleep -Seconds 30')
 
-        $result = & $scriptPath -ApiPort $apiPort -WebPort $webPort -SkipDatabase `
+        $result = & $scriptPath -ApiPort $apiPort -WebPort $webPort -SkipDatabase -SkipBrowserSmoke -ReturnFailureRecord `
             -ApiExecutable 'powershell.exe' -ApiArgumentList $sleepArgs `
             -WebExecutable 'powershell.exe' -WebArgumentList $sleepArgs `
             -StartupTimeoutSeconds 1
@@ -65,7 +65,7 @@ Describe "Invoke-ThesisDemo" {
         $webArgs = @('-m', 'http.server', "$webPort", '--bind', '127.0.0.1')
         $result = $null
         try {
-            $result = & $scriptPath -ApiPort $apiPort -WebPort $webPort -SkipDatabase -KeepRunning `
+            $result = & $scriptPath -ApiPort $apiPort -WebPort $webPort -SkipDatabase -SkipBrowserSmoke -KeepRunning `
                 -ApiExecutable $python -ApiArgumentList $apiArgs -ApiProbePaths @('/') `
                 -WebExecutable $python -WebArgumentList $webArgs -StartupTimeoutSeconds 10
 
@@ -89,5 +89,27 @@ Describe "Invoke-ThesisDemo" {
 
         (Get-Content $outputPath -Raw) | Should Not Match '[A-Za-z]:\\\\Users\\\\[^\\]+'
         (Get-Content $outputPath -Raw | ConvertFrom-Json).Status | Should Be 'WHATIF'
+    }
+
+    It "rejects an inherited remote database override before startup" {
+        $oldValue = $env:AppSettings__ConnectionStrings
+        try {
+            $env:AppSettings__ConnectionStrings = 'Server=remote.example.com;Database=Financial;User Id=x;Password=sentinel'
+            { & $scriptPath -ApiPort (Get-FreeTcpPort) -WebPort (Get-FreeTcpPort) -WhatIf } | Should Throw
+        }
+        finally {
+            if ($null -eq $oldValue) { Remove-Item Env:AppSettings__ConnectionStrings -ErrorAction SilentlyContinue }
+            else { $env:AppSettings__ConnectionStrings = $oldValue }
+        }
+    }
+
+    It "reports matching alternate-port CORS and frontend API settings" {
+        $apiPort = Get-FreeTcpPort
+        $webPort = Get-FreeTcpPort
+        $result = & $scriptPath -ApiPort $apiPort -WebPort $webPort -SkipDatabase -WhatIf
+
+        $result.FrontendApiUrl | Should Be "http://localhost:$apiPort"
+        (@($result.AllowedOrigins) -contains "http://localhost:$webPort") | Should Be $true
+        (@($result.AllowedOrigins) -contains "http://127.0.0.1:$webPort") | Should Be $true
     }
 }

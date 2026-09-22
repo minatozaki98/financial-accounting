@@ -32,5 +32,7 @@
       "alertFamilies": 6,
       "instances": 320
     }
-  ]
+  ],
+  "executionStatus": "PASS",
+  "gateStatus": "PASS_CONFIGURED_RULES"
 }

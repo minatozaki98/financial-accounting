@@ -6,11 +6,19 @@ Describe "Invoke-ThesisVerification" {
             Name = 'required-failure'; Required = $true; File = 'cmd.exe'; Args = @('/c', 'exit 7')
         })
 
-        $result = & $scriptPath -Mode Fast -OutputDirectory $TestDrive -CommandPlan $plan -SkipEnvironmentAudit
+        $result = & $scriptPath -Mode Fast -OutputDirectory $TestDrive -CommandPlan $plan -SkipEnvironmentAudit -ReturnFailureRecord
 
         $result.Status | Should Be 'FAIL'
         $result.Commands[0].Status | Should Be 'FAIL'
         $result.Commands[0].ExitCode | Should Be 7
+    }
+
+    It "throws for a failed required command by default" {
+        $plan = @([pscustomobject]@{
+            Name = 'required-failure'; Required = $true; File = 'cmd.exe'; Args = @('/c', 'exit 7')
+        })
+
+        { & $scriptPath -Mode Fast -OutputDirectory $TestDrive -CommandPlan $plan -SkipEnvironmentAudit } | Should Throw
     }
 
     It "records but does not fail an optional command" {
@@ -39,5 +47,13 @@ Describe "Invoke-ThesisVerification" {
         $json | Should Not Match 'Researcher'
         $markdown | Should Not Match 'Researcher'
         $markdown | Should Match 'portable-pass'
+    }
+
+    It "rejects Full mode instead of reporting the Fast plan as Full" {
+        $plan = @([pscustomobject]@{
+            Name = 'required-pass'; Required = $true; File = 'cmd.exe'; Args = @('/c', 'exit 0')
+        })
+
+        { & $scriptPath -Mode Full -OutputDirectory $TestDrive -CommandPlan $plan -SkipEnvironmentAudit } | Should Throw
     }
 }

@@ -131,22 +131,35 @@ Historical artifacts:
 ## Appendix D - Reproduction Commands and Profiles
 
 ```powershell
+$RunId = Get-Date -Format 'yyyyMMdd-HHmmss'
+$DemoPassword = $env:THESIS_DEMO_PASSWORD
+if ([string]::IsNullOrWhiteSpace($DemoPassword)) { throw 'Set THESIS_DEMO_PASSWORD for this process.' }
+# Create clean exact-ref worktrees; never switch a dirty checkout in place.
+git worktree add .worktrees/appendix-baseline --detach 7a0469d9401a3061941b44fcd46b3beca1c9c729
+git worktree add .worktrees/appendix-sonar --detach a2279bcbdc20751529335cf72f8baac1bc6f994b
+git worktree add .worktrees/appendix-zap --detach 5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d
+git worktree add .worktrees/appendix-jmeter --detach 78b08b62570dcf6fe436354e8e6b770ab2074445
 # SonarQube (use a secure process-local SONAR_TOKEN)
-./scripts/phase4/run-sonarqube-scan.ps1 -SonarToken $env:SONAR_TOKEN -ProjectKey <role-specific-key> -SolutionPath API/API.csproj
+$SonarProjectKey = 'financial-accounting-thesis-baseline-v01'
+./scripts/phase4/run-sonarqube-scan.ps1 -SonarToken $env:SONAR_TOKEN -ProjectKey $SonarProjectKey -SolutionPath API/API.csproj
 # OWASP ZAP baseline and authenticated API scans
-./scripts/phase4/run-zap-baseline.ps1 -TargetUrl http://localhost:5296/health/live -OutputPrefix <run-id>
-./scripts/phase4/run-zap-api.ps1 -OpenApiUrl http://localhost:5296/swagger/v1/swagger.json -BaseUrl http://localhost:5296 -Username admin -Password <process-local-demo-password> -OutputPrefix <run-id>
+./scripts/phase4/run-zap-baseline.ps1 -TargetUrl 'http://localhost:5296/health/live' -OutputPrefix "zap-baseline-$RunId"
+./scripts/phase4/run-zap-api.ps1 -OpenApiUrl 'http://localhost:5296/swagger/v1/swagger.json' -BaseUrl 'http://localhost:5296' -Username 'admin' -Password $DemoPassword -OutputPrefix "zap-api-$RunId"
 # JMeter p50, p100, p500, soak, and spike
-./scripts/phase4/run-jmeter-thesis-matrix.ps1 -BaseUrl http://localhost:5296 -Username admin -Password <process-local-demo-password> -PeriodId 202601 -AccountId 1
+./scripts/phase4/run-jmeter-thesis-matrix.ps1 -BaseUrl 'http://localhost:5296' -Username 'admin' -Password $DemoPassword -PeriodId 202601 -AccountId 1 -RunTag $RunId
+# Generate browser-capture cases from the versioned manifests.
+./scripts/thesis/New-DashboardCaptureCases.ps1 -OutputPath '.tmp/dashboard-cases.json'
+$env:THESIS_DASHBOARD_CASES = '.tmp/dashboard-cases.json'
+npm run capture:appendix --prefix WEB
 ```
 
 ## Appendix E - Result Traceability
 
 | Claim | Paper location | Historical result | Fresh reproduction result |
 |---|---|---|---|
-| sonarqube-primary | 4.2 / Table 4.2 | 28 retained findings to 0; Quality Gate OK; coverage 74.3%; duplication 0.0% | PASS: baseline 17 issues, remediation 0 issues; gates OK/OK |
-| zap-primary | 4.3 | gated High, Medium, and Low business-endpoint alerts cleared | PASS: baseline raw alerts passive M3/L6, API M1/L3; remediation raw alerts passive M0/L0, API M1/L0 |
-| jmeter-primary | 4.4 / Table 4.4 | p50, p100, and p500 p95 improved; soak/spike improved with drift caveat | PASS: p50 p95 33->199.9 ms; p100 255.9->1146.9; p500 106->1547.95; soak 443.95->171; spike 33401.75->4730.85 |
+| sonarqube-primary | 4.2 / Table 4.2 | 28 retained findings to 0; Quality Gate OK; coverage 74.3%; duplication 0.0% | Execution PASS; gates OK/OK: baseline 17 issues, remediation 0 issues |
+| zap-primary | 4.3 | gated High, Medium, and Low business-endpoint alerts cleared | Execution PASS/PASS; configured gates PASS_CONFIGURED_RULES/PASS_CONFIGURED_RULES: baseline raw alerts passive M3/L6, API M1/L3; remediation raw alerts passive M0/L0, API M1/L0 |
+| jmeter-primary | 4.4 / Table 4.4 | p50, p100, and p500 p95 improved; soak/spike improved with drift caveat | Execution PASS/PASS; core gates PASS/FAIL: p50 p95 33->199.9 ms; p100 255.9->1146.9; p500 106->1547.95; soak 443.95->171; spike 33401.75->4730.85 |
 | deterministic-data | 3.2 / Tables 3.7-3.8 | 120 accounts, 30000 journal entries, at least 5000 posted entries | PASS |
 | automated-regression | 3.1.1 and 3.5 | unit, integration, RBAC, and coverage checks support non-regression | PASS |
 | working-application | 4.6 / Figures 4.1-4.7 | React/Vite client demonstrates current role-aware API workflows | PASS |
@@ -271,6 +284,7 @@ Classification: `fresh-reproduction`; role: `remediation`; branch: `origin/basel
 
 - API live and ready endpoints: True / True
 - Frontend smoke result: True
+- Browser login/report/role workflow: PASS
 - Demonstrated areas: login, role-aware navigation, accounts, journal lines, periods, reports, audit logs, user administration, and research evidence.
 - Demo credentials are local-only and intentionally omitted from this appendix source.
 

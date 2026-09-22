@@ -28,9 +28,10 @@
 | JMeter remediation tested-code ref | PASS: 0 build warnings/errors, 6 unit tests, 100 integration tests |
 | SonarQube 26.7 | PASS execution: baseline 17 issues, remediation 0 issues, both Quality Gates OK |
 | OWASP ZAP 2.17 | PASS execution: all four fresh scans completed; raw severity differences are retained in the appendix |
-| Apache JMeter 5.5 | PASS execution: baseline/remediation p50, p100, p500, soak, and spike completed on an isolated 120-account/30,000-entry dataset |
+| Apache JMeter 5.5 | PASS execution: both five-profile matrices completed; baseline core gate PASS, remediation fresh core gate FAIL (p100/p500 exceeded thresholds) |
 | Dashboard evidence | PASS: 18 of 18 required images hash-match their manifests and source artifacts |
-| Thesis tooling tests | PASS: 46 Pester tests |
+| Browser workflow | PASS: alternate-port admin login/report/audit and auditor restriction flows against isolated LocalDB |
+| Thesis tooling tests | PASS: 62 Pester tests and 13 frontend tests |
 
 Historical and fresh results remain separate. Fresh results do not overwrite the current paper's measurements.
 
