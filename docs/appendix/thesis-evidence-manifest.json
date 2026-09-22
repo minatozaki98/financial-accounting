@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "thesisModel": "gpt-5.4",
+  "currentPaper": "Document/outputs/final-report-gpt55-comparison.docx",
+  "evidenceRefs": [
+    {
+      "role": "baseline",
+      "ref": "origin/baseline-v0.1",
+      "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729"
+    },
+    {
+      "role": "sonarqube-remediation",
+      "ref": "origin/baseline-sonarqube-v1",
+      "commit": "a2279bcbdc20751529335cf72f8baac1bc6f994b"
+    },
+    {
+      "role": "zap-remediation",
+      "ref": "origin/baseline-zap-v1",
+      "commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d"
+    },
+    {
+      "role": "jmeter-remediation",
+      "ref": "origin/baseline-jmeter-v1",
+      "commit": "3c9392d8dcecf986da5438962e20c5d862e8be08",
+      "testedCodeCommit": "78b08b62570dcf6fe436354e8e6b770ab2074445"
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "sonarqube-primary",
+      "paperLocation": "4.2 / Table 4.2",
+      "scope": "current-paper",
+      "baselineRole": "baseline",
+      "afterRole": "sonarqube-remediation",
+      "historicalResult": "28 retained findings to 0; Quality Gate OK; coverage 74.3%; duplication 0.0%",
+      "sourceFiles": [
+        "API/Controllers/JournalEntriesController.cs",
+        "API/Program.cs",
+        "BAL/Services/JournalEntryService.cs",
+        "Document/sonarqube-fixes.md"
+      ],
+      "historicalArtifacts": [
+        "Document/sonarqube-fixes.md",
+        "Document/outputs/final-report-gpt55-comparison.docx"
+      ]
+    },
+    {
+      "claimId": "zap-primary",
+      "paperLocation": "4.3",
+      "scope": "current-paper",
+      "baselineRole": "baseline",
+      "afterRole": "zap-remediation",
+      "historicalResult": "gated High, Medium, and Low business-endpoint alerts cleared",
+      "sourceFiles": [
+        "API/Middleware/SecurityHeadersMiddleware.cs",
+        "API/Program.cs",
+        "scripts/phase4/zap-baseline-rules.tsv",
+        "scripts/phase4/zap-api-rules.tsv",
+        "Document/zap-fixes.md"
+      ],
+      "historicalArtifacts": [
+        "Document/security/zap-baseline-20260222-230133.html",
+        "Document/security/zap-baseline-20260222-230133.json",
+        "Document/security/zap-baseline-20260324-000724.html",
+        "Document/security/zap-baseline-20260324-000724.json",
+        "Document/security/zap-api-20260222-230133.html",
+        "Document/security/zap-api-20260222-230133.json",
+        "Document/security/zap-api-20260324-000856.html",
+        "Document/security/zap-api-20260324-000856.json"
+      ]
+    },
+    {
+      "claimId": "jmeter-primary",
+      "paperLocation": "4.4 / Table 4.4",
+      "scope": "current-paper",
+      "baselineRole": "baseline",
+      "afterRole": "jmeter-remediation",
+      "historicalResult": "p50, p100, and p500 p95 improved; soak/spike improved with drift caveat",
+      "sourceFiles": [
+        "BAL/Services/FinancialReportService.cs",
+        "BAL/Shared/AccountLedgerCache.cs",
+        "BAL/Shared/SqlServerPerformanceIndexStartup.cs",
+        "Document/performance/jmeter/financial-api-load-test.jmx",
+        "Document/performance/jmeter/financial-api-soak-test.jmx",
+        "Document/performance/jmeter/financial-api-spike-test.jmx"
+      ],
+      "historicalArtifacts": [
+        "Document/baseline-comparison-report.md",
+        "Document/jmeter-fixes.md",
+        "Document/performance/thesis-evidence-20260222-231435.md",
+        "Document/performance/thesis-evidence-20260222-231435.csv",
+        "Document/performance/thesis-baseline-anchor.json"
+      ]
+    },
+    {
+      "claimId": "deterministic-data",
+      "paperLocation": "3.2 / Tables 3.7-3.8",
+      "scope": "current-paper",
+      "baselineRole": "baseline",
+      "afterRole": "integrated-demo",
+      "historicalResult": "120 accounts, 30000 journal entries, at least 5000 posted entries",
+      "sourceFiles": [
+        "Document/sql/financial_accounting_schema.sql",
+        "scripts/phase4/seed-test-data.ps1"
+      ],
+      "historicalArtifacts": [
+        "Document/performance/thesis-evidence-20260222-231435.md",
+        "Document/performance/test-summary-20260222-231435.md"
+      ]
+    },
+    {
+      "claimId": "automated-regression",
+      "paperLocation": "3.1.1 and 3.5",
+      "scope": "current-paper",
+      "baselineRole": "baseline",
+      "afterRole": "integrated-demo",
+      "historicalResult": "unit, integration, RBAC, and coverage checks support non-regression",
+      "sourceFiles": [
+        "tests/FinancialAccounting.UnitTests/FinancialAccounting.UnitTests.csproj",
+        "tests/FinancialAccounting.IntegrationTests/FinancialAccounting.IntegrationTests.csproj"
+      ],
+      "historicalArtifacts": [
+        "Document/performance/test-results-unit-20260222-231435/unit-20260222-231435.trx",
+        "Document/performance/test-results-integration-20260222-231435/integration-20260222-231435.trx",
+        "Document/performance/test-summary-20260222-231435.md"
+      ]
+    },
+    {
+      "claimId": "working-application",
+      "paperLocation": "4.6 / Figures 4.1-4.7",
+      "scope": "current-paper",
+      "baselineRole": null,
+      "afterRole": "integrated-demo",
+      "historicalResult": "React/Vite client demonstrates current role-aware API workflows",
+      "sourceFiles": [
+        "WEB/package.json",
+        "WEB/src/App.tsx",
+        "WEB/src/lib/api.ts",
+        "WEB/tests/e2e/research-demo.spec.ts"
+      ],
+      "historicalArtifacts": [
+        "Document/outputs/web-app-evidence/01-login.png",
+        "Document/outputs/web-app-evidence/02-dashboard-admin.png",
+        "Document/outputs/web-app-evidence/03-reports-trial-balance.png",
+        "Document/outputs/web-app-evidence/04-audit-logs.png",
+        "Document/outputs/web-app-evidence/05-auditor-role-view.png",
+        "Document/outputs/web-app-evidence/06-research-evidence.png",
+        "Document/outputs/web-app-evidence/07-journal-entry-details.png"
+      ]
+    }
+  ]
+}
