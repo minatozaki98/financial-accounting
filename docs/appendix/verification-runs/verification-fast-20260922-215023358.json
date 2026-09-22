@@ -1,0 +1,193 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "20260922-215023358",
+  "CapturedAtUtc": "2026-09-22T14:52:05.7763258Z",
+  "Mode": "Fast",
+  "Status": "PASS",
+  "Git": {
+    "Branch": "codex/thesis-reproducibility-v1",
+    "Commit": "6ba4d526fac8747fc0f4f6dffcc34b09b85ef6e3",
+    "Dirty": false,
+    "DirtyEntryCount": 0
+  },
+  "EnvironmentStatus": "PASS",
+  "BlockingReasons": [],
+  "Commands": [
+    {
+      "Name": "dotnet-build",
+      "Required": true,
+      "File": "dotnet",
+      "Arguments": [
+        "build",
+        "API/API.sln",
+        "-c",
+        "Release",
+        "--nologo"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 4379,
+      "Status": "PASS",
+      "Output": [
+        "  Determining projects to restore...",
+        "  All projects are up-to-date for restore.",
+        "  MODEL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\MODEL\\bin\\Release\\net8.0\\MODEL.dll",
+        "  BAL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\BAL\\bin\\Release\\net8.0\\BAL.dll",
+        "  FinancialAccounting.UnitTests -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.UnitTests\\bin\\Release\\net8.0\\FinancialAccounting.UnitTests.dll",
+        "  API -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\API\\bin\\Release\\net8.0\\API.dll",
+        "  FinancialAccounting.IntegrationTests -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.IntegrationTests\\bin\\Release\\net8.0\\FinancialAccounting.IntegrationTests.dll",
+        "",
+        "Build succeeded.",
+        "    0 Warning(s)",
+        "    0 Error(s)",
+        "",
+        "Time Elapsed 00:00:04.07"
+      ]
+    },
+    {
+      "Name": "dotnet-unit",
+      "Required": true,
+      "File": "dotnet",
+      "Arguments": [
+        "test",
+        "tests/FinancialAccounting.UnitTests/FinancialAccounting.UnitTests.csproj",
+        "-c",
+        "Release",
+        "--nologo"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 6048,
+      "Status": "PASS",
+      "Output": [
+        "  Determining projects to restore...",
+        "  All projects are up-to-date for restore.",
+        "  MODEL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\MODEL\\bin\\Release\\net8.0\\MODEL.dll",
+        "  BAL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\BAL\\bin\\Release\\net8.0\\BAL.dll",
+        "  FinancialAccounting.UnitTests -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.UnitTests\\bin\\Release\\net8.0\\FinancialAccounting.UnitTests.dll",
+        "Test run for C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.UnitTests\\bin\\Release\\net8.0\\FinancialAccounting.UnitTests.dll (.NETCoreApp,Version=v8.0)",
+        "A total of 1 test files matched the specified pattern.",
+        "",
+        "Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 846 ms - FinancialAccounting.UnitTests.dll (net8.0)"
+      ]
+    },
+    {
+      "Name": "dotnet-integration",
+      "Required": true,
+      "File": "dotnet",
+      "Arguments": [
+        "test",
+        "tests/FinancialAccounting.IntegrationTests/FinancialAccounting.IntegrationTests.csproj",
+        "-c",
+        "Release",
+        "--nologo"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 8865,
+      "Status": "PASS",
+      "Output": [
+        "  Determining projects to restore...",
+        "  All projects are up-to-date for restore.",
+        "  MODEL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\MODEL\\bin\\Release\\net8.0\\MODEL.dll",
+        "  BAL -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\BAL\\bin\\Release\\net8.0\\BAL.dll",
+        "  API -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\API\\bin\\Release\\net8.0\\API.dll",
+        "  FinancialAccounting.IntegrationTests -> C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.IntegrationTests\\bin\\Release\\net8.0\\FinancialAccounting.IntegrationTests.dll",
+        "Test run for C:\\Users\\[USER]\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\tests\\FinancialAccounting.IntegrationTests\\bin\\Release\\net8.0\\FinancialAccounting.IntegrationTests.dll (.NETCoreApp,Version=v8.0)",
+        "A total of 1 test files matched the specified pattern.",
+        "",
+        "Passed!  - Failed:     0, Passed:   107, Skipped:     0, Total:   107, Duration: 4 s - FinancialAccounting.IntegrationTests.dll (net8.0)"
+      ]
+    },
+    {
+      "Name": "web-install",
+      "Required": true,
+      "File": "npm.cmd",
+      "Arguments": [
+        "ci",
+        "--prefix",
+        "WEB"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 24367,
+      "Status": "PASS",
+      "Output": [
+        "npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation",
+        "",
+        "added 193 packages, and audited 194 packages in 24s",
+        "",
+        "33 packages are looking for funding",
+        "  run `npm fund` for details",
+        "",
+        "11 vulnerabilities (4 moderate, 6 high, 1 critical)",
+        "",
+        "To address issues that do not require attention, run:",
+        "  npm audit fix",
+        "",
+        "To address all issues (including breaking changes), run:",
+        "  npm audit fix --force",
+        "",
+        "Run `npm audit` for details."
+      ]
+    },
+    {
+      "Name": "web-test",
+      "Required": true,
+      "File": "npm.cmd",
+      "Arguments": [
+        "test",
+        "--prefix",
+        "WEB"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 32019,
+      "Status": "PASS",
+      "Output": [
+        "",
+        "> financial-accounting-web@0.1.0 test",
+        "> vitest run --config vitest.config.ts",
+        "",
+        "",
+        " RUN  v2.1.9 C:/Users/[USER]/Documents/GitHub/school/financial-accounting/.worktrees/thesis-reproducibility-design/WEB",
+        "",
+        " ✓ src/lib/dashboard-capture-validation.test.ts (3 tests) 12ms",
+        " ✓ src/lib/api.test.ts (3 tests) 32ms",
+        " ✓ src/lib/permissions.test.ts (3 tests) 12ms",
+        " ✓ src/components/journal-entry-table.test.tsx (1 test) 238ms",
+        " ✓ src/components/workspace.test.tsx (3 tests) 262ms",
+        "",
+        " Test Files  5 passed (5)",
+        "      Tests  13 passed (13)",
+        "   Start at  21:51:16",
+        "   Duration  27.55s (transform 761ms, setup 19.37s, collect 6.10s, tests 556ms, environment 93.12s, prepare 5.16s)",
+        ""
+      ]
+    },
+    {
+      "Name": "web-build",
+      "Required": true,
+      "File": "npm.cmd",
+      "Arguments": [
+        "run",
+        "build",
+        "--prefix",
+        "WEB"
+      ],
+      "ExitCode": 0,
+      "DurationMs": 20752,
+      "Status": "PASS",
+      "Output": [
+        "",
+        "> financial-accounting-web@0.1.0 build",
+        "> tsc -b && vite build",
+        "",
+        "vite v6.4.3 building for production...",
+        "transforming...",
+        "✓ 1596 modules transformed.",
+        "rendering chunks...",
+        "computing gzip size...",
+        "dist/index.html                   0.43 kB │ gzip:  0.28 kB",
+        "dist/assets/index-Dro9Uajn.css    9.27 kB │ gzip:  2.71 kB",
+        "dist/assets/index-CwpjlVem.js   270.02 kB │ gzip: 84.14 kB",
+        "✓ built in 8.69s"
+      ]
+    }
+  ]
+}
