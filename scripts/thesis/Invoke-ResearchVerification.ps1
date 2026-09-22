@@ -10,7 +10,7 @@ param(
     [string]$BaseUrl = 'http://localhost:5296',
     [string]$OpenApiUrl = 'http://localhost:5296/swagger/v1/swagger.json',
     [string]$Username = 'admin',
-    [string]$Password = 'Admin@123',
+    [string]$Password = '',
     [int]$PeriodId = 202601,
     [int]$AccountId = 1,
     [switch]$DryRun
@@ -109,13 +109,31 @@ try {
         $baselinePrefix = "zap-baseline-$Role-$commitPrefix-$runId"
         $apiPrefix = "zap-api-$Role-$commitPrefix-$runId"
         $baselineResult = & (Join-Path $phase4RootFull 'run-zap-baseline.ps1') -TargetUrl "$BaseUrl/health/live" -ReportDir $securityDirectory -OutputPrefix $baselinePrefix -IgnoreWarnings
-        $apiResult = & (Join-Path $phase4RootFull 'run-zap-api.ps1') -OpenApiUrl $OpenApiUrl -BaseUrl $BaseUrl -Username $Username -Password $Password -ReportDir $securityDirectory -OutputPrefix $apiPrefix -IgnoreWarnings
+        $zapApiParameters = @{
+            OpenApiUrl = $OpenApiUrl
+            BaseUrl = $BaseUrl
+            Username = $Username
+            ReportDir = $securityDirectory
+            OutputPrefix = $apiPrefix
+            IgnoreWarnings = $true
+        }
+        if (-not [string]::IsNullOrWhiteSpace($Password)) { $zapApiParameters['Password'] = $Password }
+        $apiResult = & (Join-Path $phase4RootFull 'run-zap-api.ps1') @zapApiParameters
         $result.ZapBaseline = [pscustomobject]@{ Status='PASS'; Html=$baselineResult.HtmlReportPath; Json=$baselineResult.JsonReportPath; Markdown=$baselineResult.MarkdownReportPath }
         $result.ZapApi = [pscustomobject]@{ Status='PASS'; Html=$apiResult.HtmlReportPath; Json=$apiResult.JsonReportPath; Markdown=$apiResult.MarkdownReportPath }
     }
     if ($usesJMeter) {
         $performanceDirectory = Join-Path $outputDirectoryFull 'performance'
-        $matrixResult = & (Join-Path $phase4RootFull 'run-jmeter-thesis-matrix.ps1') -BaseUrl $BaseUrl -Username $Username -Password $Password -PeriodId $PeriodId -AccountId $AccountId -ResultsDir $performanceDirectory -RunTag $result.JMeter.RunTag
+        $jmeterParameters = @{
+            BaseUrl = $BaseUrl
+            Username = $Username
+            PeriodId = $PeriodId
+            AccountId = $AccountId
+            ResultsDir = $performanceDirectory
+            RunTag = $result.JMeter.RunTag
+        }
+        if (-not [string]::IsNullOrWhiteSpace($Password)) { $jmeterParameters['Password'] = $Password }
+        $matrixResult = & (Join-Path $phase4RootFull 'run-jmeter-thesis-matrix.ps1') @jmeterParameters
         $result.JMeter = [pscustomobject]@{ Status='PASS'; RunTag=$result.JMeter.RunTag; Summary=$matrixResult }
     }
 

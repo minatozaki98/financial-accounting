@@ -83,4 +83,13 @@ Describe "Invoke-ResearchVerification" {
         ($command.Parameters.Keys -contains 'SonarProjectKey') | Should Be $true
         ($command.Parameters.Keys -contains 'EvidenceClassification') | Should Be $true
     }
+
+    It "does not commit a default demo password in the research wrapper" {
+        $tokens = $null
+        $errors = $null
+        $ast = [System.Management.Automation.Language.Parser]::ParseFile($scriptPath, [ref]$tokens, [ref]$errors)
+        $parameter = $ast.ParamBlock.Parameters | Where-Object { $_.Name.VariablePath.UserPath -eq 'Password' } | Select-Object -First 1
+
+        [string]$parameter.DefaultValue.SafeGetValue() | Should Be ''
+    }
 }
