@@ -989,17 +989,23 @@ def format_data_table(table: Table) -> None:
         if tr_pr.find(qn("w:tblHeader")) is None:
             tr_pr.append(OxmlElement("w:tblHeader"))
         for cell in first_row.cells:
+            tc_pr = cell._tc.get_or_add_tcPr()
+            shading = tc_pr.find(qn("w:shd"))
+            if shading is None:
+                shading = OxmlElement("w:shd")
+                tc_pr.append(shading)
+            shading.set(qn("w:fill"), "D9EAF7")
             for paragraph in cell.paragraphs:
                 for run in paragraph.runs:
                     run.bold = True
-    font_size = 7 if len(table.columns) >= 5 else 8
-    for row in table.rows:
+    for row_index, row in enumerate(table.rows):
         for cell in row.cells:
             for paragraph in cell.paragraphs:
                 paragraph.paragraph_format.space_before = Pt(0)
                 paragraph.paragraph_format.space_after = Pt(0)
                 for run in paragraph.runs:
-                    run.font.size = Pt(font_size)
+                    run.font.size = Pt(10)
+                    run.bold = row_index == 0
 
 
 def number_table_captions(doc: Document) -> None:

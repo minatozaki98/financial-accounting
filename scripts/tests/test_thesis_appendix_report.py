@@ -36,9 +36,80 @@ code_appendix_builder = load_module(
 committee_reviser = load_module(
     "committee_reviser", ROOT / "scripts" / "revise_full_report_committee_accessibility.py"
 )
+layout_normalizer = load_module(
+    "layout_normalizer", ROOT / "scripts" / "normalize_full_report_layout.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_layout_normalizer_standardizes_tables_bold_text_and_image_pagination(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(appendix_builder.DEFAULT_REPORT.read_bytes())
+
+            layout_normalizer.normalize_report(path)
+
+            doc = Document(path)
+            data_tables = [
+                table
+                for table in doc.tables
+                if not layout_normalizer.is_signature_table(table)
+                and not layout_normalizer.is_code_table(table)
+            ]
+            self.assertTrue(data_tables)
+            for table in data_tables:
+                for row_index, row in enumerate(table.rows):
+                    for cell in row.cells:
+                        for paragraph in cell.paragraphs:
+                            for run in paragraph.runs:
+                                if not run.text.strip():
+                                    continue
+                                self.assertEqual(10.0, run.font.size.pt)
+                                self.assertEqual(row_index == 0, bool(run.bold))
+
+            source_index = next(
+                table
+                for table in doc.tables
+                if layout_normalizer.table_header(table)
+                == ("Listing and purpose", "File", "Branch/ref", "Commit")
+            )
+            self.assertEqual(4, len(source_index.columns))
+            self.assertRegex(source_index.cell(1, 0).text, r"^[A-Z]\.\d+ - ")
+
+            code_tables = [table for table in doc.tables if layout_normalizer.is_code_table(table)]
+            self.assertTrue(code_tables)
+            for table in code_tables:
+                for run in table.cell(0, 0).paragraphs[0].runs:
+                    if run.text.strip():
+                        self.assertEqual("Courier New", run.font.name)
+                        self.assertEqual(9.5, run.font.size.pt)
+
+            target = next(
+                p
+                for p in doc.paragraphs
+                if p.text.startswith("The API features role-based access control")
+            )
+            self.assertFalse(any(run.bold for run in target.runs if run.text.strip()))
+
+            paragraphs = doc.paragraphs
+            for index, paragraph in enumerate(paragraphs[1:], start=1):
+                if paragraph.paragraph_format.page_break_before:
+                    self.assertFalse(layout_normalizer.is_empty_paragraph(paragraphs[index - 1]))
+
+            caption_index = next(
+                i
+                for i, paragraph in enumerate(doc.paragraphs)
+                if paragraph.text.startswith("Figure 3.2.")
+                and paragraph.style.name == "Caption"
+            )
+            phase_image = next(
+                paragraph
+                for paragraph in reversed(doc.paragraphs[max(0, caption_index - 3) : caption_index])
+                if layout_normalizer.has_drawing(paragraph)
+            )
+            self.assertTrue(layout_normalizer.has_drawing(phase_image))
+            self.assertFalse(bool(phase_image.paragraph_format.page_break_before))
+
     def test_committee_revision_merges_tool_explanations_cites_appendices_and_styles_endpoints(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "report.docx"

@@ -318,7 +318,7 @@ def add_table(doc: DocumentObject, rows: list[list[str]]) -> None:
                 paragraph.paragraph_format.space_after = Pt(0)
                 for run in paragraph.runs:
                     run.font.name = "Times New Roman"
-                    run.font.size = Pt(7 if len(rows[0]) >= 5 else 8)
+                    run.font.size = Pt(10)
                     run.bold = row_index == 0
     doc.add_paragraph()
 
@@ -544,7 +544,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
         paragraph = doc.add_paragraph(style=bullet_style)
         paragraph.add_run(text)
 
-    index_rows = [["Listing", "Purpose", "File", "Branch/ref", "Commit"]]
+    index_rows = [["Listing and purpose", "File", "Branch/ref", "Commit"]]
     for listing in LISTINGS:
         seen: set[tuple[str, str, str]] = set()
         for fragment in listing["fragments"]:
@@ -553,7 +553,12 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
                 continue
             seen.add(key)
             index_rows.append(
-                [listing["id"], listing["title"], fragment["path"], fragment["branch"], fragment["ref"][:8]]
+                [
+                    f"{listing['id']} - {listing['title']}",
+                    fragment["path"],
+                    fragment["branch"],
+                    fragment["ref"][:8],
+                ]
             )
     add_table(doc, index_rows)
 
