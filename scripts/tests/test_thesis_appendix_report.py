@@ -27,9 +27,48 @@ appendix_builder = load_module(
 report_formatter = load_module(
     "report_formatter", ROOT / "scripts" / "format_final_report_docx.py"
 )
+fresh_result_updater = load_module(
+    "fresh_result_updater", ROOT / "scripts" / "update_full_report_fresh_results.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_fresh_result_inputs_match_versioned_machine_readable_evidence(self):
+        evidence = fresh_result_updater.load_fresh_evidence(ROOT)
+
+        self.assertEqual(17, evidence["sonar"]["baseline_issues"])
+        self.assertEqual(0, evidence["sonar"]["remediation_issues"])
+        self.assertEqual("74.4", evidence["sonar"]["baseline_coverage"])
+        self.assertEqual("74.3", evidence["sonar"]["remediation_coverage"])
+        self.assertEqual(1, evidence["zap"]["remediation_api_medium"])
+        self.assertEqual("FAIL", evidence["jmeter"]["remediation_gate"])
+        self.assertEqual(1146.9, evidence["jmeter"]["remediation_profiles"]["p100"]["p95Ms"])
+
+    def test_report_update_replaces_primary_historical_claims_but_preserves_appendix_history(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(appendix_builder.DEFAULT_REPORT.read_bytes())
+
+            fresh_result_updater.update_report(path, ROOT)
+
+            doc = Document(path)
+            paragraphs = [p.text for p in doc.paragraphs]
+            appendix_index = paragraphs.index("APPENDICES")
+            primary_text = "\n".join(paragraphs[:appendix_index])
+            appendix_text = "\n".join(paragraphs[appendix_index:])
+            self.assertIn("17 to 0", primary_text)
+            self.assertIn("74.4% to 74.3%", primary_text)
+            self.assertIn("remediation core gate failed", primary_text)
+            self.assertNotIn("retained C# findings from 28 to 0", primary_text)
+            self.assertIn("Historical result: 28 retained findings to 0", appendix_text)
+
+            table = fresh_result_updater.find_table_by_header(
+                doc, ("Metric", "Baseline", "After fixes", "Interpretation")
+            )
+            rows = [[cell.text for cell in row.cells] for row in table.rows]
+            self.assertIn(["Total unique issues", "17", "0", "All fresh baseline issues closed"], rows)
+            self.assertIn(["Coverage", "74.4%", "74.3%", "Decreased by 0.1 percentage points"], rows)
+
     def test_dashboard_page_breaks_keep_tool_heading_with_first_dashboard(self):
         self.assertFalse(
             appendix_builder.dashboard_heading_page_break(3, "SonarQube Dashboards", False)
