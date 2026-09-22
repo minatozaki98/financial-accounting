@@ -1,4 +1,121 @@
 {
   "schemaVersion": 1,
-  "captures": []
+  "requiredCaptures": [
+    "sonarqube/sonarqube-baseline-overview.png",
+    "sonarqube/sonarqube-baseline-issues.png",
+    "sonarqube/sonarqube-remediation-overview.png",
+    "sonarqube/sonarqube-remediation-issues.png",
+    "zap/zap-baseline-before-summary.png",
+    "zap/zap-baseline-after-summary.png",
+    "zap/zap-api-before-summary.png",
+    "zap/zap-api-after-summary.png",
+    "jmeter/jmeter-baseline-p50-dashboard.png",
+    "jmeter/jmeter-baseline-p100-dashboard.png",
+    "jmeter/jmeter-baseline-p500-dashboard.png",
+    "jmeter/jmeter-baseline-soak-dashboard.png",
+    "jmeter/jmeter-baseline-spike-dashboard.png",
+    "jmeter/jmeter-remediation-p50-dashboard.png",
+    "jmeter/jmeter-remediation-p100-dashboard.png",
+    "jmeter/jmeter-remediation-p500-dashboard.png",
+    "jmeter/jmeter-remediation-soak-dashboard.png",
+    "jmeter/jmeter-remediation-spike-dashboard.png"
+  ],
+  "captures": [
+    {
+      "tool": "zap",
+      "view": "api-after-summary",
+      "evidenceClassification": "rendered-historical",
+      "evidenceRole": "remediation",
+      "branch": "origin/baseline-zap-v1",
+      "commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d",
+      "runId": "20260324-000856",
+      "capturedAtUtc": "2026-09-22T11:09:21.885Z",
+      "toolVersion": "2.17.0",
+      "sourceUrl": "Document/security/zap-api-20260324-000856.html",
+      "sourceArtifact": "Document/security/zap-api-20260324-000856.json",
+      "displayedMetrics": {
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "informational": 5
+      },
+      "imagePath": "zap/zap-api-after-summary.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "5690920062f01d8102aadd534d1ffed6436bc5e3068440c5a52d80de0d9210c7",
+      "redactionStatus": "pass"
+    },
+    {
+      "tool": "zap",
+      "view": "api-before-summary",
+      "evidenceClassification": "rendered-historical",
+      "evidenceRole": "baseline",
+      "branch": "origin/baseline-v0.1",
+      "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+      "runId": "20260222-230133",
+      "capturedAtUtc": "2026-09-22T11:09:20.846Z",
+      "toolVersion": "2.17.0",
+      "sourceUrl": "Document/security/zap-api-20260222-230133.html",
+      "sourceArtifact": "Document/security/zap-api-20260222-230133.json",
+      "displayedMetrics": {
+        "high": 0,
+        "medium": 0,
+        "low": 1,
+        "informational": 5
+      },
+      "imagePath": "zap/zap-api-before-summary.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "07561186919c61809e340126cb9ca8fc91237df247b518c92cea37ca054d7fd0",
+      "redactionStatus": "pass"
+    },
+    {
+      "tool": "zap",
+      "view": "baseline-after-summary",
+      "evidenceClassification": "rendered-historical",
+      "evidenceRole": "remediation",
+      "branch": "origin/baseline-zap-v1",
+      "commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d",
+      "runId": "20260324-000724",
+      "capturedAtUtc": "2026-09-22T11:09:19.641Z",
+      "toolVersion": "2.17.0",
+      "sourceUrl": "Document/security/zap-baseline-20260324-000724.html",
+      "sourceArtifact": "Document/security/zap-baseline-20260324-000724.json",
+      "displayedMetrics": {
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "informational": 4
+      },
+      "imagePath": "zap/zap-baseline-after-summary.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "2bf87ce7cee0129b6847e46df431dbd79a2da01ae44098985fd40a3dbe2a6f14",
+      "redactionStatus": "pass"
+    },
+    {
+      "tool": "zap",
+      "view": "baseline-before-summary",
+      "evidenceClassification": "rendered-historical",
+      "evidenceRole": "baseline",
+      "branch": "origin/baseline-v0.1",
+      "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+      "runId": "20260222-230133",
+      "capturedAtUtc": "2026-09-22T11:09:18.685Z",
+      "toolVersion": "2.17.0",
+      "sourceUrl": "Document/security/zap-baseline-20260222-230133.html",
+      "sourceArtifact": "Document/security/zap-baseline-20260222-230133.json",
+      "displayedMetrics": {
+        "high": 0,
+        "medium": 2,
+        "low": 1,
+        "informational": 3
+      },
+      "imagePath": "zap/zap-baseline-before-summary.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "7e5f2cbf5450df0842615d392bb07d57d67a5a913cca934be7feadf320b82dc9",
+      "redactionStatus": "pass"
+    }
+  ]
 }
