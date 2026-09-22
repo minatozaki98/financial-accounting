@@ -9,6 +9,7 @@ from docx import Document
 from docx.document import Document as DocumentObject
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.shared import Inches, Pt
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,9 @@ ENDPOINT_FONT = "Courier New"
 ENDPOINT_PATTERN = re.compile(
     r"(?:\b(?:GET|POST|PUT|DELETE|PATCH)\s+/(?:api/)?[A-Za-z0-9_{}?&=./:\-]+)"
     r"|(?:https?://[^\s,;)]+)"
-    r"|(?:(?<![\w])/(?:api/)?(?:auth|accounts|journal-entries|journalentries|periods|reports|audit-logs|auditlogs|users)(?:/[A-Za-z0-9_{}?&=.\-]+)*)",
+    r"|(?:(?<![\w])/(?:api/)?(?:auth|accounts|journal-entries|journalentries|periods|reports|audit-logs|auditlogs|users)(?:/[A-Za-z0-9_{}?&=.\-]+)*)"
+    r"|(?:(?:origin/)?(?:baseline-v0\.1|baseline-(?:sonarqube|zap|jmeter)-v1|codex/thesis-reproducibility-v1))"
+    r"|(?:(?:[A-Za-z0-9_.-]+/)+[A-Za-z0-9_.{}-]+\.(?:cs|ps1|ts|tsx|json|sql|jmx|md|yml|yaml))",
     re.IGNORECASE,
 )
 
@@ -168,6 +171,69 @@ def cite_appendices(doc: DocumentObject) -> None:
     )
 
 
+def table_header(table) -> tuple[str, ...]:
+    if not table.rows:
+        return ()
+    return tuple(normalized(cell.text) for cell in table.rows[0].cells)
+
+
+def shade_cell(cell, fill: str) -> None:
+    properties = cell._tc.get_or_add_tcPr()
+    shading = properties.find(qn("w:shd"))
+    if shading is None:
+        shading = OxmlElement("w:shd")
+        properties.append(shading)
+    shading.set(qn("w:fill"), fill)
+    shading.set(qn("w:val"), "clear")
+
+
+def add_supporting_evidence_column(doc: DocumentObject) -> None:
+    header_prefix = ("Evaluation area", "Measure", "Acceptance target", "Result")
+    matches = [table for table in doc.tables if table_header(table)[:4] == header_prefix]
+    if len(matches) != 1:
+        raise RuntimeError(f"Expected one evaluation-criteria table; found {len(matches)}")
+    table = matches[0]
+    if len(table.columns) == 4:
+        table.add_column(Inches(1.35))
+    if len(table.columns) != 5:
+        raise RuntimeError(f"Evaluation-criteria table has {len(table.columns)} columns; expected 5")
+
+    rows = [
+        ["Evaluation area", "Measure", "Acceptance target", "Result", "Supporting evidence"],
+        ["Static analysis", "SonarQube fresh issues and Quality Gate", "No retained blocker/critical issues after fixes; preserve Quality Gate OK", "17 unique issues reduced to 0; Quality Gate OK; coverage 74.4% -> 74.3%", "Appendix E; Figures L.1-L.4; Appendix M"],
+        ["Security", "OWASP ZAP raw alerts and configured gate", "Clear actionable configured-rule alerts and disclose residual observations", "Configured gate passed; passive M3/L6 -> M0/L0; API M1/L3 -> M1/L0", "Appendix F; Figures L.5-L.8; Appendix M"],
+        ["Performance", "JMeter p95, throughput, error rate, and gate", "p50/p100/p500 pass with no material latency regression", "Remediation core gate FAIL; p100 and p500 exceeded thresholds", "Appendix G; Figures L.9-L.18; Appendices K and M"],
+        ["Maintainability", "Representative before/after code evidence", "Selected code smells resolved with traceable branch evidence", "DTO, middleware-order, and report-persistence examples documented", "Listings E.1-E.2; Appendices E-G"],
+    ]
+    if len(table.rows) != len(rows):
+        raise RuntimeError(f"Evaluation-criteria table has {len(table.rows)} rows; expected {len(rows)}")
+    for row_index, (row, values) in enumerate(zip(table.rows, rows, strict=True)):
+        for cell, value in zip(row.cells, values, strict=True):
+            cell.text = value
+            if row_index == 0:
+                shade_cell(cell, "D9EAF7")
+            for paragraph in cell.paragraphs:
+                paragraph.paragraph_format.space_before = Pt(0)
+                paragraph.paragraph_format.space_after = Pt(0)
+                for run in paragraph.runs:
+                    run.font.name = "Times New Roman"
+                    run.font.size = Pt(7.5)
+                    run.bold = row_index == 0
+    table.autofit = True
+
+    note_text = "Supporting evidence is identified in the final column of Table 4.1. Appendix A records the exact branch and commit provenance, while Appendix N presents the cross-cutting limitations that apply to all four evaluation areas."
+    old_matches = [p for p in doc.paragraphs if normalized(p.text).startswith("The evaluation compares the frozen baseline")]
+    new_matches = [p for p in doc.paragraphs if normalized(p.text).startswith("Supporting evidence is identified in the final column")]
+    if len(old_matches) == 1 and not new_matches:
+        set_paragraph_text(old_matches[0], note_text)
+    elif len(new_matches) == 1 and not old_matches:
+        set_paragraph_text(new_matches[0], note_text)
+    else:
+        raise RuntimeError(
+            f"Could not resolve Table 4.1 evidence note uniquely (old={len(old_matches)}, new={len(new_matches)})."
+        )
+
+
 def set_rfonts(run_element, font_name: str) -> None:
     r_pr = run_element.find(qn("w:rPr"))
     if r_pr is None:
@@ -227,10 +293,8 @@ def split_endpoint_run(run) -> int:
 
 
 def apply_identifier_typography(doc: DocumentObject) -> int:
-    paragraphs = doc.paragraphs
-    appendix_index = next(i for i, paragraph in enumerate(paragraphs) if paragraph.text == "APPENDICES")
     count = 0
-    for paragraph in paragraphs[:appendix_index]:
+    for paragraph in doc.paragraphs:
         if paragraph.style.name == "Appendix Code":
             continue
         for run in list(paragraph.runs):
@@ -242,6 +306,20 @@ def apply_identifier_typography(doc: DocumentObject) -> int:
                     for run in list(paragraph.runs):
                         count += split_endpoint_run(run)
     return count
+
+
+def standardize_code_typography(doc: DocumentObject) -> None:
+    if "Appendix Code" not in [style.name for style in doc.styles]:
+        return
+    style = doc.styles["Appendix Code"]
+    style.font.name = "Courier New"
+    style.font.size = Pt(9)
+    for paragraph in doc.paragraphs:
+        if paragraph.style.name != "Appendix Code":
+            continue
+        for run in paragraph.runs:
+            run.font.name = "Courier New"
+            run.font.size = Pt(9)
 
 
 def revise_report(report_path: Path) -> int:
@@ -256,9 +334,9 @@ def revise_report(report_path: Path) -> int:
         cite_appendices(doc)
     else:
         marker.paragraph_format.keep_together = True
+    add_supporting_evidence_column(doc)
     endpoint_count = apply_identifier_typography(doc)
-    if "Appendix Code" in [style.name for style in doc.styles]:
-        doc.styles["Appendix Code"].font.name = "Consolas"
+    standardize_code_typography(doc)
     doc.save(report_path)
     return endpoint_count
 

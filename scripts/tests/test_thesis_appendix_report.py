@@ -85,7 +85,47 @@ class ThesisAppendixReportTests(unittest.TestCase):
             ]
             self.assertTrue(endpoint_runs)
             self.assertTrue(any(run.font.name == "Courier New" for run in endpoint_runs))
-            self.assertEqual("Consolas", doc.styles["Appendix Code"].font.name)
+            self.assertEqual("Courier New", doc.styles["Appendix Code"].font.name)
+
+            criteria = fresh_result_updater.find_table_by_header(
+                doc,
+                (
+                    "Evaluation area",
+                    "Measure",
+                    "Acceptance target",
+                    "Result",
+                    "Supporting evidence",
+                ),
+            )
+            criteria_rows = [[cell.text for cell in row.cells] for row in criteria.rows]
+            self.assertEqual(
+                [
+                    "Static analysis",
+                    "SonarQube fresh issues and Quality Gate",
+                    "No retained blocker/critical issues after fixes; preserve Quality Gate OK",
+                    "17 unique issues reduced to 0; Quality Gate OK; coverage 74.4% -> 74.3%",
+                    "Appendix E; Figures L.1-L.4; Appendix M",
+                ],
+                criteria_rows[1],
+            )
+            self.assertNotIn("(Appendix A)", criteria_rows[1][3])
+
+            branch_runs = [
+                run
+                for p in paragraphs[start:end]
+                for run in p.runs
+                if "baseline-v0.1" in run.text
+            ]
+            self.assertTrue(branch_runs)
+            self.assertTrue(all(run.font.name == "Courier New" for run in branch_runs))
+            path_runs = [
+                run
+                for p in paragraphs[appendix_index:]
+                for run in p.runs
+                if "API/Program.cs" in run.text
+            ]
+            self.assertTrue(path_runs)
+            self.assertTrue(all(run.font.name == "Courier New" for run in path_runs))
 
     def test_direct_code_appendices_are_self_contained_and_cover_a_through_n(self):
         with tempfile.TemporaryDirectory() as temp_dir:

@@ -358,7 +358,7 @@ def add_code_block(doc: DocumentObject, lines: list[tuple[int | None, str]], sty
         leading_spaces = len(text) - len(text.lstrip(" "))
         wrapped = textwrap.wrap(
             text,
-            width=100,
+            width=84,
             subsequent_indent=" " * min(leading_spaces + 4, 24),
             replace_whitespace=False,
             drop_whitespace=True,
@@ -373,8 +373,8 @@ def add_code_block(doc: DocumentObject, lines: list[tuple[int | None, str]], sty
             paragraph._p.get_or_add_pPr().append(shading)
             prefix = "     " if line_number is None or segment_index else f"{line_number:4} "
             run = paragraph.add_run(prefix + segment)
-            run.font.name = "Consolas"
-            run.font.size = Pt(7.5)
+            run.font.name = "Courier New"
+            run.font.size = Pt(9)
 
 
 def add_listing(doc: DocumentObject, root: Path, listing: dict, style_name: str, index: int) -> None:
@@ -446,6 +446,8 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
     remove_existing_appendices(doc)
     replace_cross_references(doc)
     code_style = ensure_code_style(doc)
+    doc.styles[code_style].font.name = "Courier New"
+    doc.styles[code_style].font.size = Pt(9)
     bullet_style = ensure_bullet_style(doc)
     evidence = load_fresh_evidence(root)
 
