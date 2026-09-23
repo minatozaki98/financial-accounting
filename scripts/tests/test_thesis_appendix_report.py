@@ -42,6 +42,34 @@ layout_normalizer = load_module(
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_example_labels_and_source_evidence_use_stable_alignment(self):
+        doc = Document()
+        example = doc.add_paragraph(" Example:")
+        example.paragraph_format.left_indent = report_formatter.Inches(0.75)
+        detail = doc.add_paragraph("Baseline Issue: A write endpoint needs validation.", style="List Paragraph")
+        num_pr = report_formatter.OxmlElement("w:numPr")
+        detail._p.get_or_add_pPr().append(num_pr)
+        security_example = doc.add_paragraph("Example:")
+        doc.add_paragraph("Security Enhancement:")
+        performance_example = doc.add_paragraph("Performance Optimization:")
+        evidence = doc.add_paragraph(
+            "Source-code evidence A: SonarQube maintainability fix in API/Program.cs."
+        )
+
+        layout_normalizer.tidy_examples_and_evidence(doc)
+
+        self.assertEqual("Example:", example.text)
+        self.assertEqual("LEFT (0)", str(example.alignment))
+        self.assertEqual(0.5, example.paragraph_format.left_indent.inches)
+        self.assertTrue(bool(example.paragraph_format.keep_with_next))
+        self.assertFalse(detail._p.xpath("./w:pPr/w:numPr"))
+        self.assertEqual("JUSTIFY (3)", str(detail.alignment))
+        self.assertEqual("LEFT (0)", str(evidence.alignment))
+        self.assertEqual(0.0, evidence.paragraph_format.first_line_indent.inches)
+        self.assertEqual("Example: Security Enhancement", security_example.text)
+        self.assertEqual("Example: Performance Optimization", performance_example.text)
+        self.assertNotIn("Security Enhancement:", [p.text for p in doc.paragraphs])
+
     def test_appendix_compaction_keeps_prose_justified_and_metadata_readable(self):
         doc = Document()
         doc.add_paragraph("APPENDICES", style="Heading 1")

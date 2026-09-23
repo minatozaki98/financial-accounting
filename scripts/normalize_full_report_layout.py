@@ -423,6 +423,77 @@ def compact_appendices_file(path: Path) -> None:
     doc.save(path)
 
 
+def tidy_examples_and_evidence(doc: DocumentObject) -> None:
+    paragraphs = list(doc.paragraphs)
+    for index, paragraph in enumerate(paragraphs[:-1]):
+        if (
+            normalized(paragraph.text) == "Example:"
+            and normalized(paragraphs[index + 1].text) == "Security Enhancement:"
+        ):
+            paragraph.clear()
+            paragraph.add_run("Example: Security Enhancement")
+            remove_paragraph(paragraphs[index + 1])
+
+    for paragraph in list(doc.paragraphs):
+        text = normalized(paragraph.text)
+        if text == "3.1.2 Selected Source-Code Evidence" and paragraph.text != text:
+            paragraph.clear()
+            paragraph.add_run(text)
+            continue
+        if text == "Performance Optimization:":
+            text = "Example: Performance Optimization"
+        if text in report_formatter.EXAMPLE_LABELS:
+            paragraph.clear()
+            run = paragraph.add_run(text)
+            run.bold = True
+            run.font.name = "Times New Roman"
+            run.font.size = Pt(12)
+            paragraph.style = "Normal"
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            paragraph.paragraph_format.left_indent = Inches(0.5)
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.space_before = Pt(0)
+            paragraph.paragraph_format.space_after = Pt(0)
+            paragraph.paragraph_format.keep_with_next = True
+        elif text.startswith(report_formatter.EXAMPLE_DETAIL_PREFIXES):
+            for element in paragraph._p.xpath("./w:pPr/w:numPr"):
+                element.getparent().remove(element)
+            paragraph.style = "Normal"
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            paragraph.paragraph_format.left_indent = Inches(0.5)
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.paragraph_format.line_spacing = 2.0
+        elif text.startswith("Source-code evidence "):
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            paragraph.paragraph_format.left_indent = Inches(0)
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.keep_with_next = True
+
+    paragraphs = list(doc.paragraphs)
+    for index, paragraph in enumerate(paragraphs[1:-1], start=1):
+        if not is_empty_paragraph(paragraph):
+            continue
+        previous = normalized(paragraphs[index - 1].text)
+        following = normalized(paragraphs[index + 1].text)
+        if (
+            previous.startswith("Financial Accounting API:")
+            and following.startswith("The API features role-based access control")
+        ) or (
+            previous.startswith("Performance: Run JMeter")
+            and has_drawing(paragraphs[index + 1])
+        ):
+            remove_paragraph(paragraph)
+
+
+def tidy_examples_and_evidence_file(path: Path) -> None:
+    doc = Document(path)
+    tidy_examples_and_evidence(doc)
+    report_formatter.enable_field_update_on_open(doc)
+    doc.save(path)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize tables, paragraph emphasis, and pagination in the full thesis report.")
     parser.add_argument("target", nargs="?", type=Path, default=DEFAULT_REPORT)
@@ -431,10 +502,19 @@ def main() -> None:
         action="store_true",
         help="Improve appendix flow and metadata alignment without rewriting the report body.",
     )
+    parser.add_argument(
+        "--examples-only",
+        action="store_true",
+        help="Tidy example labels and source-code evidence captions without rewriting other sections.",
+    )
     args = parser.parse_args()
     target = args.target.resolve()
+    if args.appendices_only and args.examples_only:
+        parser.error("Select only one targeted formatting mode.")
     if args.appendices_only:
         compact_appendices_file(target)
+    elif args.examples_only:
+        tidy_examples_and_evidence_file(target)
     else:
         normalize_report(target)
     print(target)

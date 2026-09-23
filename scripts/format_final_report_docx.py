@@ -32,6 +32,23 @@ HEADING_STYLE_SIZES = {
     "Heading 3": 12,
 }
 
+EXAMPLE_LABELS = {
+    "Example:",
+    "Example: Security Enhancement",
+    "Example: Performance Optimization",
+    "Security Enhancement:",
+    "Performance Optimization:",
+}
+EXAMPLE_DETAIL_PREFIXES = (
+    "Financial Accounting API:",
+    "The API features role-based access control",
+    "Baseline Issue:",
+    "ChatGPT Recommendation:",
+    "Example Adjustment:",
+    "Security: Run ZAP",
+    "Performance: Run JMeter",
+)
+
 TABLE_CAPTION_TITLES = {
     ("Phase", "Purpose", "Evidence branch"): "Four-phase workflow for baseline capture and branch-isolated remediation evidence.",
     ("Environment item", "Value", "Why it matters"): "Testing environment and reproducibility configuration.",
@@ -573,6 +590,24 @@ def enforce_document_typography(doc: Document) -> None:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 paragraph.paragraph_format.left_indent = Inches(0.5)
                 paragraph.paragraph_format.first_line_indent = Inches(-0.5)
+
+        if body_index <= index < references_index:
+            if text in EXAMPLE_LABELS:
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                paragraph.paragraph_format.left_indent = Inches(0.5)
+                paragraph.paragraph_format.first_line_indent = Inches(0)
+                paragraph.paragraph_format.space_before = Pt(0)
+                paragraph.paragraph_format.space_after = Pt(0)
+                paragraph.paragraph_format.keep_with_next = True
+            elif text.startswith("Source-code evidence "):
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                paragraph.paragraph_format.left_indent = Inches(0)
+                paragraph.paragraph_format.first_line_indent = Inches(0)
+                paragraph.paragraph_format.keep_with_next = True
+            elif text.startswith(EXAMPLE_DETAIL_PREFIXES):
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                paragraph.paragraph_format.left_indent = Inches(0.5)
+                paragraph.paragraph_format.first_line_indent = Inches(0)
 
         if paragraph._p.xpath("./w:pPr/w:numPr"):
             # The numbering definition supplies its own hanging indent.
