@@ -481,7 +481,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
     for text in (
         "Platform: Windows 11; PowerShell; .NET 8; Node.js/npm; SQL Server LocalDB; Docker for SonarQube, OWASP ZAP, and JMeter. The fresh records do not pin CPU/RAM capacity or container resource limits.",
         "Dataset: 120 accounts; 30,000 journal entries; at least 5,000 posted entries; accounting period 202601.",
-        "Fresh reproduction date: September 22, 2026. Historical values are retained only for comparison and provenance.",
+        "The current findings use the fresh reproduction; historical values are retained only for comparison and provenance.",
     ):
         paragraph = doc.add_paragraph(style=bullet_style)
         paragraph.add_run(text)
@@ -523,7 +523,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
     jmeter = evidence["jmeter"]
     add_paragraph(
         doc,
-        "Current conclusions use the fresh September 22 reproduction. Historical measurements are retained in the comparison column so the evolution of the study remains auditable.",
+        "Current conclusions use the fresh reproduction. Historical measurements are retained in the comparison column so the evolution of the study remains auditable.",
     )
     add_table(
         doc,

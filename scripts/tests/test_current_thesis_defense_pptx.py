@@ -59,11 +59,15 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         all_visible = "\n".join(slide_text(slide) for slide in deck.slides)
         self.assertNotIn("GPT-5.5", all_visible)
         self.assertNotIn("28 to 0", all_visible)
+        self.assertNotIn("September", all_visible)
+        self.assertNotIn("March", all_visible)
 
         times = []
         for index in range(22):
             slide = deck.slides[index]
             notes = slide.notes_slide.notes_text_frame.text
+            self.assertNotIn("September", notes)
+            self.assertNotIn("March", notes)
             self.assertIn("KEY MESSAGE:", notes)
             self.assertIn("SCRIPT:", notes)
             self.assertIn("SOURCE:", notes)

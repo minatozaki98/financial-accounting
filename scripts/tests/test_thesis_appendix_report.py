@@ -54,6 +54,15 @@ vu_label_updater = load_module(
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_current_report_omits_finding_calendar_dates_but_preserves_provenance(self):
+        doc = Document(vu_label_updater.DEFAULT_REPORT)
+        paragraphs = [paragraph.text for paragraph in doc.paragraphs]
+        self.assertEqual(2, sum(text == "September 2026" for text in paragraphs))
+        self.assertFalse(any("September" in text for text in paragraphs[21:]))
+        self.assertFalse(any("Fresh reproduction date:" in text for text in paragraphs))
+        self.assertTrue(any("run: 20260922-183352" in text for text in paragraphs))
+        self.assertTrue(any("2026-01-01" in text for text in paragraphs))
+
     def test_fresh_report_discloses_device_and_service_tier_limits(self):
         doc = Document(vu_label_updater.DEFAULT_REPORT)
         paragraphs = [paragraph.text for paragraph in doc.paragraphs]

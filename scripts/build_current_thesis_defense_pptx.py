@@ -247,7 +247,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "ChatGPT-guided remediation closed the fresh static issues and passed the configured ZAP gate. It did not meet the primary JMeter core performance gate, despite better soak and spike aggregates.",
          1.05, 4.10, 10.90, 1.30, 23, INK)
     add_notes(slide, 60, "Static quality succeeded; security has a disclosed residual; core performance failed.",
-              "I want to give the result before the details. The fresh September reproduction reduced SonarQube issues from seventeen to zero. ZAP passed the configured rule gate, but one raw Medium HTTP-only observation remained in the authenticated scan. JMeter's primary core gate failed at the 100 and 500 VU workloads. Improvements in soak and spike do not cancel that failure.",
+              "I want to give the result before the details. The fresh reproduction reduced SonarQube issues from seventeen to zero. ZAP passed the configured rule gate, but one raw Medium HTTP-only observation remained in the authenticated scan. JMeter's primary core gate failed at the 100 and 500 VU workloads. Improvements in soak and spike do not cancel that failure.",
               "Current report Table 4.5 and Appendix M.",
               "Do not repeat the historical claim that all core JMeter profiles improved.")
 
@@ -343,7 +343,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     metric(slide, 4.78, 1.58, 3.77, "Journal entries", "30,000", "At least 5,000 posted", NAVY_LIGHT, NAVY)
     metric(slide, 8.78, 1.58, 3.77, "Test host", "Windows 11", ".NET 8 · local SQL Server", NAVY_LIGHT, NAVY)
     box(slide, 0.78, 3.27, 11.77, 2.45, WHITE, BORDER, radius=True)
-    text(slide, "Tool versions in the fresh September reproduction", 1.06, 3.57, 11.05, 0.42, 21, TEAL, bold=True)
+    text(slide, "Tool versions in the fresh reproduction", 1.06, 3.57, 11.05, 0.42, 21, TEAL, bold=True)
     text(slide, "SonarQube 26.7     |     OWASP ZAP 2.17     |     Apache JMeter 5.5", 1.06, 4.22, 11.04, 0.60, 24, INK, bold=True)
     text(slide, "A single host and one fresh run per branch limit generalization.", 1.06, 5.03, 11.04, 0.35, 17, MUTED)
     add_notes(slide, 60, "The comparison uses a reproducible local setup but only one host.",
@@ -395,7 +395,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
 
     # 12. SonarQube result
     slide = header(prs, "Results", "SonarQube closed all 17 fresh issues", "Current report §4.2; Table 4.2; Figures L.1-L.4", GREEN)
-    metric(slide, 0.80, 1.50, 3.76, "Unique issues", "17 → 0", "Fresh September run", GREEN_LIGHT, GREEN)
+    metric(slide, 0.80, 1.50, 3.76, "Unique issues", "17 → 0", "Current run", GREEN_LIGHT, GREEN)
     metric(slide, 4.78, 1.50, 3.76, "Quality Gate", "OK → OK", "Both branches pass", GREEN_LIGHT, GREEN)
     metric(slide, 8.76, 1.50, 3.76, "Coverage", "74.4 → 74.3%", "Down 0.1 percentage point", ORANGE_LIGHT, ORANGE)
     box(slide, 0.80, 3.14, 11.72, 2.30, WHITE, BORDER, radius=True)
@@ -416,7 +416,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     box(slide, 0.84, 5.99, 11.64, 0.59, GREEN_LIGHT, radius=True)
     text(slide, "Fresh source screenshots; use Appendix L for the larger overview and issue views.", 1.07, 6.07, 11.19, 0.41, 16, GREEN, bold=True)
     add_notes(slide, 60, "The tool views correspond to the pinned baseline and remediation commits.",
-              "These are native SonarQube captures from the fresh September reproduction, not a chart invented for the presentation. The baseline overview shows Security, Reliability, and Maintainability impacts plus 74.4 percent coverage. The remediation overview shows zero open issues and 74.3 percent coverage. Appendix L also includes the issue-list views if the committee asks for rule-level detail.",
+              "These are native SonarQube captures from the fresh reproduction, not a chart invented for the presentation. The baseline overview shows Security, Reliability, and Maintainability impacts plus 74.4 percent coverage. The remediation overview shows zero open issues and 74.3 percent coverage. Appendix L also includes the issue-list views if the committee asks for rule-level detail.",
               "Appendix L Figures L.1-L.4 and dashboard-capture manifest.")
 
     # 14. Fresh ZAP results
@@ -435,7 +435,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     add_notes(slide, 80, "The configured ZAP rule gate passed, but one raw Medium alert remains.",
               "In the fresh passive scan, Medium went from three to zero and Low from six to zero. In the authenticated API scan, Low went from three to zero, but Medium remained one. That observation is HTTP Only Site on the local HTTP transport. The configured business-endpoint rule set passed on both branches, but I do not say every raw Medium alert was eliminated.",
               "Current report §4.3, fresh ZAP baseline/remediation summary.json, Appendix F.",
-              "Do not use the older March dashboard screenshot as proof of zero fresh API Medium alerts.")
+              "Do not use the historical dashboard screenshot as proof of zero fresh API Medium alerts.")
 
     # 15. ZAP capture provenance
     slide = header(prs, "Results", "ZAP dashboard captures are historical visuals", "Appendix L, Figures L.5-L.8; fresh counts on prior slide", RED)
@@ -444,9 +444,9 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Historical API before", 0.91, 5.61, 5.50, 0.32, 17, MUTED, bold=True)
     text(slide, "Historical API after", 6.90, 5.61, 5.50, 0.32, 17, MUTED, bold=True)
     box(slide, 0.84, 6.10, 11.65, 0.53, ORANGE_LIGHT, radius=True)
-    text(slide, "Fresh September JSON is authoritative: the API still has 1 raw Medium after remediation.", 1.05, 6.15, 11.20, 0.39, 16, ORANGE, bold=True)
+    text(slide, "Current scan JSON is authoritative: the API still has 1 raw Medium after remediation.", 1.05, 6.15, 11.20, 0.39, 16, ORANGE, bold=True)
     add_notes(slide, 70, "A dashboard screenshot and a fresh measurement can have different provenance.",
-              "The side-by-side ZAP screenshots were rendered from earlier March scan reports, and I label them historical on purpose. They show the tool's native alert summary and evidence layout. The current numerical claim comes from September's machine-readable scan JSON: one raw authenticated API Medium remains. This is why the thesis separates visual captures from fresh gate judgments.",
+              "The side-by-side ZAP screenshots were rendered from earlier scan reports, and I label them historical on purpose. They show the tool's native alert summary and evidence layout. The current numerical claim comes from the fresh machine-readable scan JSON: one raw authenticated API Medium remains. This is why the thesis separates visual captures from current gate judgments.",
               "Dashboard-capture manifest, Appendix L Figures L.7-L.8, fresh ZAP summary.json.")
 
     # 16. JMeter workload definitions
@@ -479,7 +479,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     add_notes(slide, 90, "The primary performance criterion was not achieved.",
               "All three fresh core total-p95 values increased. At 50 VU, p95 rose from thirty-three to about two hundred milliseconds; at 100 VU, from about two hundred fifty-six to one thousand one hundred forty-seven; at 500 VU, from one hundred six to one thousand five hundred forty-eight. Errors stayed at zero, but the 100 VU and 500 VU limits were exceeded, so the remediation core gate failed.",
               "Fresh JMeter baseline/remediation summary.json; current report §4.4 and Table 4.5.",
-              "Do not carry the older March core-gate PASS into this fresh result.")
+              "Do not carry the historical core-gate PASS into this fresh result.")
 
     # 18. Stress-profile improvements
     soak_before, soak_after = baseline_profiles["soak"], after_profiles["soak"]
@@ -671,7 +671,7 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     text(slide, "Raw API Medium after remediation = 1 (HTTP Only Site); configured rule gate = PASS.",
          1.03, 5.99, 11.20, 0.42, 17, ORANGE, bold=True)
     backup_notes(slide, "full fresh ZAP outcomes", "Current report §4.3 and fresh ZAP summary.json.",
-                 "Do not infer fresh zero-Medium API outcome from historical March dashboards.")
+                 "Do not infer fresh zero-Medium API outcome from historical dashboards.")
 
     # 27. Full JMeter profiles
     slide = header(prs, "Backup evidence", "Fresh JMeter profile matrix", "Current report §4.4; fresh JMeter summaries", ORANGE)
