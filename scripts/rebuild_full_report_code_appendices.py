@@ -433,7 +433,7 @@ def add_dashboard(
     caption.paragraph_format.keep_with_next = True
     for run in caption.runs:
         run.font.name = "Times New Roman"
-        run.font.size = Pt(10)
+        run.font.size = Pt(12)
     if metadata:
         add_paragraph(
             doc,

@@ -8,9 +8,11 @@ from pathlib import Path
 from docx import Document
 from docx.document import Document as DocumentObject
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt
+from docx.shared import Inches, Pt, Twips
+from docx.text.paragraph import Paragraph
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REPORT = ROOT / "Document" / "outputs" / "final-report-gpt55-comparison.docx"
@@ -174,6 +176,10 @@ def format_code_table(table) -> None:
 
 
 def format_data_tables(doc: DocumentObject) -> None:
+    section = doc.sections[0]
+    usable_twips = round(
+        (section.page_width - section.left_margin - section.right_margin) / 635
+    )
     for table in doc.tables:
         normalize_source_index_table(table)
         if is_signature_table(table):
@@ -189,23 +195,70 @@ def format_data_tables(doc: DocumentObject) -> None:
                 set_cell_margins(cell)
                 for paragraph in cell.paragraphs:
                     paragraph.paragraph_format.line_spacing = 1.0
+                    paragraph.paragraph_format.first_line_indent = Inches(0)
+                    paragraph.alignment = (
+                        WD_ALIGN_PARAGRAPH.CENTER
+                        if row_index == 0
+                        else WD_ALIGN_PARAGRAPH.LEFT
+                    )
                     for run in paragraph.runs:
                         technical = run.font.name == "Courier New"
                         run.font.name = "Courier New" if technical else "Times New Roman"
                         run.font.size = Pt(10)
                         run.bold = row_index == 0
-        normalize_source_index_table(table)
+        if table_header(table) == ("Listing and purpose", "File", "Branch/ref", "Commit"):
+            normalize_source_index_table(table)
+        else:
+            grid = list(table._tbl.tblGrid.gridCol_lst)
+            widths = [int(column.get(qn("w:w"))) for column in grid]
+            if sum(widths) > usable_twips:
+                scale = usable_twips / sum(widths)
+                widths = [round(width * scale) for width in widths]
+                widths[-1] += usable_twips - sum(widths)
+            set_fixed_table_widths(table, tuple(Twips(width) for width in widths))
 
 
 def body_bounds(doc: DocumentObject) -> tuple[int, int]:
     paragraphs = doc.paragraphs
-    chapter_one = next(i for i, p in enumerate(paragraphs) if normalized(p.text).startswith("Chapter 1"))
-    appendices = next(i for i, p in enumerate(paragraphs) if normalized(p.text) == "APPENDICES")
+    chapter_one = next(
+        i for i, p in enumerate(paragraphs)
+        if normalized(p.text) == "Chapter 1 - Introduction"
+        and p.style.name == "Heading 1"
+    )
+    appendices = next(
+        i for i, p in enumerate(paragraphs)
+        if normalized(p.text) == "APPENDICES"
+        and p.style.name == "Heading 1"
+    )
     return chapter_one, appendices
 
 
+def ensure_section_3_1(doc: DocumentObject) -> None:
+    if any(normalized(p.text) == "3.1 Research Design and Workflow" for p in doc.paragraphs):
+        return
+    chapter_three = next(
+        p for p in doc.paragraphs
+        if normalized(p.text) == "Chapter 3: Proposed Methodology"
+        and p.style.name == "Heading 1"
+    )
+    caption = next(
+        p for p in doc.paragraphs
+        if normalized(p.text).startswith("Table 3.1.")
+        and p.style.name == "Caption"
+    )
+    if chapter_three._p.getparent() is not caption._p.getparent():
+        raise RuntimeError("Chapter 3 and Table 3.1 are not in the same document body")
+    new_p = OxmlElement("w:p")
+    caption._p.addprevious(new_p)
+    heading = Paragraph(new_p, caption._parent)
+    heading.style = "Heading 2"
+    heading.add_run("3.1 Research Design and Workflow")
+    heading.paragraph_format.keep_with_next = True
+
+
 def normalize_heading_pagination(doc: DocumentObject) -> None:
-    for paragraph in list(doc.paragraphs):
+    start, _ = body_bounds(doc)
+    for paragraph in list(doc.paragraphs[start:]):
         text = normalized(paragraph.text)
         if CHAPTER_PATTERN.match(text):
             paragraph.text = text
@@ -279,12 +332,14 @@ def normalize_report(path: Path) -> None:
     report_formatter.configure_caption_style(doc)
     report_formatter.configure_heading_styles(doc)
     report_formatter.apply_heading_styles(doc)
+    ensure_section_3_1(doc)
     normalize_heading_pagination(doc)
     report_formatter.normalize_heading_runs(doc)
     normalize_body_paragraphs(doc)
     release_unnecessary_image_page_breaks(doc)
     collapse_repeated_blank_paragraphs(doc)
     format_data_tables(doc)
+    report_formatter.enforce_document_typography(doc)
     report_formatter.enable_field_update_on_open(doc)
     doc.save(path)
 

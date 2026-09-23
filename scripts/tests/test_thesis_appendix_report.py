@@ -61,6 +61,10 @@ class ThesisAppendixReportTests(unittest.TestCase):
                 for row_index, row in enumerate(table.rows):
                     for cell in row.cells:
                         for paragraph in cell.paragraphs:
+                            self.assertEqual(
+                                "CENTER (1)" if row_index == 0 else "LEFT (0)",
+                                str(paragraph.alignment),
+                            )
                             for run in paragraph.runs:
                                 if not run.text.strip():
                                     continue
@@ -109,6 +113,59 @@ class ThesisAppendixReportTests(unittest.TestCase):
             )
             self.assertTrue(layout_normalizer.has_drawing(phase_image))
             self.assertFalse(bool(phase_image.paragraph_format.page_break_before))
+
+            section_3_1 = next(
+                i for i, paragraph in enumerate(doc.paragraphs)
+                if paragraph.text == "3.1 Research Design and Workflow"
+            )
+            section_3_1_1 = next(
+                i for i, paragraph in enumerate(doc.paragraphs)
+                if paragraph.text.startswith("3.1.1 Testing Environment")
+                and paragraph.style.name == "Heading 3"
+            )
+            self.assertLess(section_3_1, section_3_1_1)
+            self.assertEqual("Heading 2", doc.paragraphs[section_3_1].style.name)
+
+            prose = next(
+                paragraph for paragraph in doc.paragraphs
+                if paragraph.text.startswith("The fresh ZAP evidence shows")
+            )
+            self.assertEqual(2.0, prose.paragraph_format.line_spacing)
+            self.assertEqual("JUSTIFY (3)", str(prose.alignment))
+            self.assertEqual(0.5, prose.paragraph_format.first_line_indent.inches)
+            self.assertTrue(all(run.font.size.pt == 12 for run in prose.runs if run.text.strip()))
+
+            numbered = next(
+                paragraph for paragraph in doc.paragraphs
+                if paragraph.text.startswith("Phase 3: Post-Improvement Testing")
+            )
+            self.assertIsNone(numbered.paragraph_format.first_line_indent)
+            self.assertEqual("LEFT (0)", str(numbered.alignment))
+            self.assertTrue(bool(numbered.paragraph_format.keep_with_next))
+
+            report_formatter.rebuild_front_matter_lists(doc)
+            report_formatter.enforce_document_typography(doc)
+            for abstract in doc.part.numbering_part.element:
+                if abstract.tag != report_formatter.qn("w:abstractNum"):
+                    continue
+                for level in abstract:
+                    if level.tag != report_formatter.qn("w:lvl"):
+                        continue
+                    rpr = level.find(report_formatter.qn("w:rPr"))
+                    fonts = rpr.find(report_formatter.qn("w:rFonts"))
+                    self.assertEqual("Times New Roman", fonts.get(report_formatter.qn("w:ascii")))
+            toc_entry = next(
+                paragraph for paragraph in doc.paragraphs
+                if paragraph.text.startswith("3.1 Research Design and Workflow\t")
+            )
+            self.assertEqual(2.0, toc_entry.paragraph_format.line_spacing)
+            self.assertEqual(12.0, toc_entry.runs[0].font.size.pt)
+            acronym = next(
+                paragraph for paragraph in doc.paragraphs
+                if paragraph.text.startswith("AI - Artificial Intelligence")
+            )
+            self.assertEqual(2.0, acronym.paragraph_format.line_spacing)
+            self.assertEqual(12.0, acronym.runs[0].font.size.pt)
 
     def test_committee_revision_merges_tool_explanations_cites_appendices_and_styles_endpoints(self):
         with tempfile.TemporaryDirectory() as temp_dir:

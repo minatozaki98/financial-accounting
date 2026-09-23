@@ -14,6 +14,7 @@ from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from docx.shared import Inches, Pt, RGBColor
 from docx.table import Table
 from docx.text.paragraph import Paragraph
+from docx.text.run import Run
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -424,9 +425,12 @@ def set_paragraph_text(paragraph: Paragraph, text: str) -> None:
 def configure_caption_style(doc: Document) -> None:
     style = doc.styles["Caption"]
     style.font.name = "Times New Roman"
-    style.font.size = Pt(10)
+    style.font.size = Pt(12)
     style.font.bold = False
     style.font.italic = False
+    style.paragraph_format.line_spacing = 2.0
+    style.paragraph_format.first_line_indent = Inches(0)
+    style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
     fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
     fonts.set(qn("w:eastAsia"), "Times New Roman")
     fonts.set(qn("w:cs"), "Times New Roman")
@@ -440,9 +444,163 @@ def configure_heading_styles(doc: Document) -> None:
         style.font.bold = True
         style.font.italic = False
         style.font.color.rgb = RGBColor(0, 0, 0)
+        style.paragraph_format.line_spacing = 2.0
+        style.paragraph_format.first_line_indent = Inches(0)
         fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
         fonts.set(qn("w:eastAsia"), "Times New Roman")
         fonts.set(qn("w:cs"), "Times New Roman")
+
+
+def normalize_numbering_fonts(doc: Document) -> None:
+    numbering = doc.part.numbering_part.element
+    for abstract in numbering:
+        if abstract.tag != qn("w:abstractNum"):
+            continue
+        for level in abstract:
+            if level.tag != qn("w:lvl"):
+                continue
+            number_format = level.find(qn("w:numFmt"))
+            label = level.find(qn("w:lvlText"))
+            if number_format is not None and number_format.get(qn("w:val")) == "bullet" and label is not None:
+                glyph = label.get(qn("w:val"))
+                label.set(qn("w:val"), {"\uf0b7": "•", "\uf0a7": "▪", "o": "○"}.get(glyph, glyph))
+            run_properties = level.find(qn("w:rPr"))
+            if run_properties is None:
+                run_properties = OxmlElement("w:rPr")
+                level.append(run_properties)
+            fonts = run_properties.find(qn("w:rFonts"))
+            if fonts is None:
+                fonts = OxmlElement("w:rFonts")
+                run_properties.insert(0, fonts)
+            for attribute in ("ascii", "hAnsi", "cs", "eastAsia"):
+                fonts.set(qn(f"w:{attribute}"), "Times New Roman")
+
+
+def enforce_document_typography(doc: Document) -> None:
+    """Keep prose and generated lists stable across every document refresh."""
+    paragraphs = list(doc.paragraphs)
+    toc_index = next(
+        i for i, paragraph in enumerate(paragraphs)
+        if normalized_text(paragraph) == "Table of Contents"
+    )
+    body_index = next(
+        i for i, paragraph in enumerate(paragraphs)
+        if normalized_text(paragraph) == "Chapter 1 - Introduction"
+        and paragraph.style.name == "Heading 1"
+    )
+    appendix_index = next(
+        i for i, paragraph in enumerate(paragraphs)
+        if normalized_text(paragraph) == "APPENDICES"
+        and paragraph.style.name == "Heading 1"
+    )
+    references_index = next(
+        (
+            i for i, paragraph in enumerate(paragraphs)
+            if normalized_text(paragraph) in {"REFERENCES", "References"}
+            and paragraph.style.name == "Heading 1"
+        ),
+        appendix_index,
+    )
+
+    normal = doc.styles["Normal"]
+    normal.font.name = "Times New Roman"
+    normal.font.size = Pt(12)
+    normal.paragraph_format.line_spacing = 2.0
+    normal.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    normal.paragraph_format.first_line_indent = Inches(0.5)
+    for style_name in ("List Paragraph", "Appendix Bullet"):
+        if style_name not in doc.styles:
+            continue
+        style = doc.styles[style_name]
+        style.font.name = "Times New Roman"
+        style.font.size = Pt(12)
+        style.paragraph_format.line_spacing = 2.0
+        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    if "Appendix Code" in doc.styles:
+        code_style = doc.styles["Appendix Code"]
+        code_style.font.name = "Courier New"
+        code_style.font.size = Pt(9.5)
+        code_style.paragraph_format.line_spacing = 1.0
+        code_style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+    normalize_numbering_fonts(doc)
+    configure_caption_style(doc)
+    configure_heading_styles(doc)
+    for index, paragraph in enumerate(paragraphs):
+        text = normalized_text(paragraph)
+        style_name = paragraph.style.name
+        if style_name == "Appendix Code":
+            font_name, font_size = "Courier New", 9.5
+            paragraph.paragraph_format.line_spacing = 1.0
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        elif style_name in HEADING_STYLE_SIZES:
+            font_name, font_size = "Times New Roman", HEADING_STYLE_SIZES[style_name]
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+        elif style_name == "Caption":
+            font_name, font_size = "Times New Roman", 12
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        elif index < toc_index:
+            # Preserve the cover's deliberate title sizes and positioning.
+            font_name, font_size = "Times New Roman", None
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+        elif index < body_index:
+            title = text in {"Table of Contents", "Table of Figures", "List of Tables"}
+            font_name, font_size = "Times New Roman", 14 if title else 12
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.alignment = (
+                WD_ALIGN_PARAGRAPH.CENTER if title else WD_ALIGN_PARAGRAPH.LEFT
+            )
+        elif index < references_index or index >= appendix_index:
+            font_name, font_size = "Times New Roman", 12
+            if text and style_name in {"Normal", "List Paragraph", "Appendix Bullet"}:
+                paragraph.paragraph_format.line_spacing = 2.0
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                if style_name == "Normal":
+                    paragraph.paragraph_format.first_line_indent = Inches(0.5)
+                if text.startswith(("Classification:", "Source:", "Verification:")):
+                    paragraph.paragraph_format.first_line_indent = Inches(0)
+                    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        else:
+            font_name, font_size = "Times New Roman", 12
+            if text:
+                paragraph.paragraph_format.line_spacing = 2.0
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                paragraph.paragraph_format.left_indent = Inches(0.5)
+                paragraph.paragraph_format.first_line_indent = Inches(-0.5)
+
+        if paragraph._p.xpath("./w:pPr/w:numPr"):
+            # The numbering definition supplies its own hanging indent.
+            paragraph.paragraph_format.first_line_indent = None
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            if text.startswith("Phase ") and len(text) < 80:
+                paragraph.paragraph_format.keep_with_next = True
+
+        for element in paragraph._p.xpath(".//w:r"):
+            run = Run(element, paragraph)
+            if not run.text:
+                continue
+            chosen_font = (
+                "Courier New"
+                if font_name == "Courier New" or run.font.name == "Courier New"
+                else "Times New Roman"
+            )
+            run.font.name = chosen_font
+            if font_size is not None:
+                run.font.size = Pt(font_size)
+            fonts = element.get_or_add_rPr().get_or_add_rFonts()
+            fonts.set(qn("w:eastAsia"), chosen_font)
+            fonts.set(qn("w:cs"), chosen_font)
+
+    for section in doc.sections:
+        for part in (section.header, section.footer):
+            for paragraph in part.paragraphs:
+                for run in paragraph.runs:
+                    run.font.name = "Times New Roman"
+                    run.font.size = Pt(12)
 
 
 def normalize_heading_runs(doc: Document) -> None:
@@ -544,8 +702,11 @@ def style_front_matter_title(paragraph: Paragraph, text: str) -> None:
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     paragraph.paragraph_format.space_before = Pt(18)
     paragraph.paragraph_format.space_after = Pt(12)
+    paragraph.paragraph_format.line_spacing = 2.0
+    paragraph.paragraph_format.first_line_indent = Inches(0)
     for run in paragraph.runs:
         run.bold = True
+        run.font.name = "Times New Roman"
         run.font.size = Pt(14)
 
 
@@ -592,16 +753,21 @@ def add_static_list_entry(
     paragraph.paragraph_format.left_indent = Inches(0.25 * max(level - 1, 0))
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
+    paragraph.paragraph_format.line_spacing = 2.0
+    paragraph.paragraph_format.first_line_indent = Inches(0)
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
     paragraph.paragraph_format.tab_stops.add_tab_stop(
         Inches(6.5),
         WD_TAB_ALIGNMENT.RIGHT,
         WD_TAB_LEADER.DOTS,
     )
     run = paragraph.add_run(text)
-    run.font.size = Pt(9)
+    run.font.name = "Times New Roman"
+    run.font.size = Pt(12)
     paragraph.add_run("\t")
     page_run = paragraph.add_run(str(page_number) if page_number is not None else "")
-    page_run.font.size = Pt(9)
+    page_run.font.name = "Times New Roman"
+    page_run.font.size = Pt(12)
     return paragraph
 
 
@@ -700,8 +866,13 @@ def split_combined_headings(doc: Document) -> None:
 
 
 def apply_heading_styles(doc: Document) -> None:
+    chapter_one_seen = False
     for paragraph in doc.paragraphs:
         text = normalized_text(paragraph)
+        if text == "Chapter 1 - Introduction":
+            chapter_one_seen = True
+        if not chapter_one_seen:
+            continue
         if not text:
             continue
         if text in {"Table of Contents", "Table of Figures", "List of Tables"}:
@@ -876,8 +1047,12 @@ def rebuild_acronym_list(doc: Document) -> None:
         current.style = "Normal"
         current.paragraph_format.space_before = Pt(0)
         current.paragraph_format.space_after = Pt(0)
+        current.paragraph_format.line_spacing = 2.0
+        current.paragraph_format.first_line_indent = Inches(0)
+        current.alignment = WD_ALIGN_PARAGRAPH.LEFT
         for run in current.runs:
-            run.font.size = Pt(9)
+            run.font.name = "Times New Roman"
+            run.font.size = Pt(12)
 
 
 def add_hyperlink(paragraph: Paragraph, url: str) -> None:
@@ -890,10 +1065,10 @@ def add_hyperlink(paragraph: Paragraph, url: str) -> None:
     run_style.set(qn("w:val"), "Hyperlink")
     run_properties.append(run_style)
     size = OxmlElement("w:sz")
-    size.set(qn("w:val"), "20")
+    size.set(qn("w:val"), "24")
     run_properties.append(size)
     complex_size = OxmlElement("w:szCs")
-    complex_size.set(qn("w:val"), "20")
+    complex_size.set(qn("w:val"), "24")
     run_properties.append(complex_size)
     run.append(run_properties)
     text = OxmlElement("w:t")
@@ -926,13 +1101,18 @@ def rebuild_references(doc: Document) -> None:
         paragraph.paragraph_format.first_line_indent = Inches(-0.5)
         paragraph.paragraph_format.space_before = Pt(0)
         paragraph.paragraph_format.space_after = Pt(3)
+        paragraph.paragraph_format.line_spacing = 2.0
+        paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
         leading_run = paragraph.add_run(leading)
-        leading_run.font.size = Pt(10)
+        leading_run.font.name = "Times New Roman"
+        leading_run.font.size = Pt(12)
         italic_run = paragraph.add_run(italicized)
         italic_run.italic = True
-        italic_run.font.size = Pt(10)
+        italic_run.font.name = "Times New Roman"
+        italic_run.font.size = Pt(12)
         trailing_run = paragraph.add_run(trailing)
-        trailing_run.font.size = Pt(10)
+        trailing_run.font.name = "Times New Roman"
+        trailing_run.font.size = Pt(12)
         if url:
             add_hyperlink(paragraph, url)
 
@@ -968,10 +1148,12 @@ def set_caption(paragraph: Paragraph, text: str, flag: str) -> None:
     paragraph.paragraph_format.keep_with_next = True
     paragraph.paragraph_format.space_before = Pt(6)
     paragraph.paragraph_format.space_after = Pt(4)
+    paragraph.paragraph_format.line_spacing = 2.0
+    paragraph.paragraph_format.first_line_indent = Inches(0)
     set_paragraph_text(paragraph, text)
     for run in paragraph.runs:
         run.font.name = "Times New Roman"
-        run.font.size = Pt(10)
+        run.font.size = Pt(12)
         run.bold = False
         run.italic = False
     add_tc_field(paragraph, text, flag)
@@ -1192,14 +1374,20 @@ def word_rendered_page_numbers(docx_path: Path, doc: Document) -> tuple[dict[str
             previous_end = -1
             while search_range.Find.Execute(
                 FindText=text,
-                MatchCase=False,
+                MatchCase=True,
                 MatchWholeWord=False,
                 MatchWildcards=False,
                 Forward=True,
                 Wrap=0,
                 Format=False,
             ):
-                occurrences[text].append(int(search_range.Information(3)))
+                paragraph_text = " ".join(
+                    str(search_range.Paragraphs(1).Range.Text)
+                    .replace("\x07", " ")
+                    .split()
+                )
+                if paragraph_text == " ".join(text.split()):
+                    occurrences[text].append(int(search_range.Information(3)))
                 next_start = int(search_range.End)
                 if next_start <= previous_end or next_start >= content_end:
                     break
@@ -1278,6 +1466,7 @@ def format_report(docx_path: Path) -> None:
     rebuild_acronym_list(doc)
     rebuild_references(doc)
     rebuild_front_matter_lists(doc)
+    enforce_document_typography(doc)
     enable_field_update_on_open(doc)
     doc.save(docx_path)
 
@@ -1286,6 +1475,7 @@ def format_report(docx_path: Path) -> None:
     for _ in range(3):
         doc = Document(docx_path)
         rebuild_front_matter_lists(doc, page_numbers)
+        enforce_document_typography(doc)
         doc.save(docx_path)
         pdf_path = export_pdf(docx_path)
         updated_page_numbers = rendered_page_numbers(pdf_path, Document(docx_path))
@@ -1307,6 +1497,7 @@ def refresh_generated_lists(docx_path: Path) -> None:
     configure_heading_styles(doc)
     normalize_heading_runs(doc)
     rebuild_front_matter_lists(doc)
+    enforce_document_typography(doc)
     enable_field_update_on_open(doc)
     doc.save(docx_path)
 
@@ -1315,6 +1506,7 @@ def refresh_generated_lists(docx_path: Path) -> None:
     for _ in range(3):
         doc = Document(docx_path)
         rebuild_front_matter_lists(doc, page_numbers)
+        enforce_document_typography(doc)
         doc.save(docx_path)
         pdf_path = export_pdf(docx_path)
         updated_page_numbers = rendered_page_numbers(pdf_path, Document(docx_path))
@@ -1326,8 +1518,8 @@ def refresh_generated_lists(docx_path: Path) -> None:
     print(docx_path.with_suffix(".pdf"))
 
 
-def refresh_generated_lists_word(docx_path: Path) -> None:
-    """Refresh generated lists from Microsoft Word pagination and export a matching PDF."""
+def refresh_generated_lists_word(docx_path: Path, *, export_pdf: bool = True) -> None:
+    """Refresh generated lists from Microsoft Word pagination."""
     if not docx_path.exists():
         return
 
@@ -1335,6 +1527,7 @@ def refresh_generated_lists_word(docx_path: Path) -> None:
     configure_caption_style(doc)
     configure_heading_styles(doc)
     normalize_heading_runs(doc)
+    enforce_document_typography(doc)
     enable_field_update_on_open(doc)
     doc.save(docx_path)
 
@@ -1342,6 +1535,7 @@ def refresh_generated_lists_word(docx_path: Path) -> None:
     for _ in range(4):
         doc = Document(docx_path)
         rebuild_front_matter_lists(doc, page_numbers)
+        enforce_document_typography(doc)
         doc.save(docx_path)
         updated_page_numbers, updated_page_count = word_rendered_page_numbers(
             docx_path, Document(docx_path)
@@ -1353,11 +1547,14 @@ def refresh_generated_lists_word(docx_path: Path) -> None:
     else:
         doc = Document(docx_path)
         rebuild_front_matter_lists(doc, page_numbers)
+        enforce_document_typography(doc)
         doc.save(docx_path)
 
-    export_pdf_word(docx_path)
+    if export_pdf:
+        export_pdf_word(docx_path)
     print(docx_path)
-    print(docx_path.with_suffix(".pdf"))
+    if export_pdf:
+        print(docx_path.with_suffix(".pdf"))
     print(f"Microsoft Word pages: {page_count}")
 
 
@@ -1379,11 +1576,16 @@ def main() -> None:
         action="store_true",
         help="Refresh lists from Microsoft Word pagination and export the matching PDF.",
     )
+    parser.add_argument(
+        "--no-pdf",
+        action="store_true",
+        help="Refresh Word-native lists without exporting a PDF.",
+    )
     args = parser.parse_args()
     targets = [path.resolve() for path in args.targets] if args.targets else TARGETS
     for target in targets:
         if args.word_native:
-            refresh_generated_lists_word(target)
+            refresh_generated_lists_word(target, export_pdf=not args.no_pdf)
         elif args.lists_only:
             refresh_generated_lists(target)
         else:
