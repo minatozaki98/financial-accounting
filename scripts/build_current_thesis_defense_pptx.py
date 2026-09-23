@@ -30,6 +30,7 @@ W = 13.333
 H = 7.5
 FONT = "Arial"
 CODE_FONT = "Courier New"
+PROFILE_DISPLAY = {"p50": "50 VU", "p100": "100 VU", "p500": "500 VU"}
 INK = RGBColor(37, 43, 51)
 MUTED = RGBColor(91, 104, 116)
 LIGHT = RGBColor(247, 249, 252)
@@ -240,13 +241,13 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     slide = header(prs, "Opening", "The fresh evidence is mixed", "Current report §4.5; Table 4.5; Appendix M", TEAL)
     metric(slide, 0.78, 1.56, 3.78, "Static quality", "17 to 0", "Unique SonarQube issues", GREEN_LIGHT, GREEN)
     metric(slide, 4.78, 1.56, 3.78, "Security", "Gate PASS", "One raw API Medium remains", ORANGE_LIGHT, ORANGE)
-    metric(slide, 8.78, 1.56, 3.78, "Performance", "Core FAIL", "p100 and p500 exceed limits", RED_LIGHT, RED)
+    metric(slide, 8.78, 1.56, 3.78, "Performance", "Core FAIL", "100 and 500 VU exceed limits", RED_LIGHT, RED)
     box(slide, 0.78, 3.28, 11.78, 2.64, WHITE, BORDER, radius=True)
     text(slide, "Defensible conclusion", 1.05, 3.62, 10.9, 0.36, 20, TEAL, bold=True)
     text(slide, "ChatGPT-guided remediation closed the fresh static issues and passed the configured ZAP gate. It did not meet the primary JMeter core performance gate, despite better soak and spike aggregates.",
          1.05, 4.10, 10.90, 1.30, 23, INK)
     add_notes(slide, 60, "Static quality succeeded; security has a disclosed residual; core performance failed.",
-              "I want to give the result before the details. The fresh September reproduction reduced SonarQube issues from seventeen to zero. ZAP passed the configured rule gate, but one raw Medium HTTP-only observation remained in the authenticated scan. JMeter's primary core gate failed on p100 and p500. Improvements in soak and spike do not cancel that failure.",
+              "I want to give the result before the details. The fresh September reproduction reduced SonarQube issues from seventeen to zero. ZAP passed the configured rule gate, but one raw Medium HTTP-only observation remained in the authenticated scan. JMeter's primary core gate failed at the 100 and 500 VU workloads. Improvements in soak and spike do not cancel that failure.",
               "Current report Table 4.5 and Appendix M.",
               "Do not repeat the historical claim that all core JMeter profiles improved.")
 
@@ -355,13 +356,13 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Area", "Primary decision", "Control metric"],
         ["SonarQube", "Close fresh issues; Quality Gate OK", "Coverage and complexity disclosed"],
         ["OWASP ZAP", "Configured-rule gate; report raw alerts", "Residual HTTP-only observation disclosed"],
-        ["JMeter", "p50/p100/p500 core gate", "p100 ≤500 ms; p500 ≤1200 ms"],
+        ["JMeter", "50/100/500 VU core gate", "100 VU ≤500 ms; 500 VU ≤1200 ms"],
         ["Regression", "Focused tests and role checks", "Accounting and authorization preserved"],
     ], 0.80, 1.58, 11.72, 3.80, widths=[0.21,0.45,0.34], font_size=17)
     box(slide, 0.80, 5.72, 11.72, 0.66, ORANGE_LIGHT, radius=True)
     text(slide, "A better stress-profile number cannot override a failed core performance gate.", 1.05, 5.80, 11.15, 0.49, 19, ORANGE, bold=True)
     add_notes(slide, 70, "A result is not called successful because one chart looks better.",
-              "Static analysis has an issue count and a Quality Gate, but coverage and complexity also matter. ZAP has a configured gate, while raw observations still have to be disclosed. JMeter has primary p50, p100, and p500 core checks; p100 must stay at or below five hundred milliseconds and p500 at or below twelve hundred. We also require tests and role behavior to stay intact.",
+              "Static analysis has an issue count and a Quality Gate, but coverage and complexity also matter. ZAP has a configured gate, while raw observations still have to be disclosed. JMeter has primary 50, 100, and 500 VU core checks; 100 VU must stay at or below five hundred milliseconds and 500 VU at or below twelve hundred. We also require tests and role behavior to stay intact.",
               "Current report Table 4.1 and §4.1.")
 
     # 10. Human-in-the-loop boundary
@@ -451,8 +452,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     # 16. JMeter workload definitions
     slide = header(prs, "Results", "JMeter measured three core profiles and two stress profiles", "Current report §§3.8 and 4.4; Appendix K", ORANGE)
     for i, (label, value, detail) in enumerate([
-        ("p50", "50 users", "Normal load"), ("p100", "100 users", "Higher concurrency"),
-        ("p500", "500 users", "Heavy concurrency"), ("soak", "sustained", "Long-running behavior"),
+        ("50 VU", "50 users", "Normal load"), ("100 VU", "100 users", "Higher concurrency"),
+        ("500 VU", "500 users", "Heavy concurrency"), ("soak", "sustained", "Long-running behavior"),
         ("spike", "burst", "Surge and recovery"),
     ]):
         x = 0.78 + i*2.49
@@ -460,9 +461,9 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, label.upper(), x+0.18, 2.27, 1.94, 0.45, 25, ORANGE, bold=True, align=PP_ALIGN.CENTER)
         text(slide, value, x+0.18, 3.04, 1.94, 0.45, 20, INK, bold=True, align=PP_ALIGN.CENTER)
         text(slide, detail, x+0.16, 3.79, 1.98, 0.48, 14, MUTED, align=PP_ALIGN.CENTER)
-    text(slide, "The core p50/p100/p500 gate is the primary performance decision.", 0.82, 5.35, 11.78, 0.65, 24, ORANGE, bold=True)
+    text(slide, "50/100/500 VU are workload sizes; p95 is a latency percentile.", 0.82, 5.35, 11.78, 0.65, 24, ORANGE, bold=True)
     add_notes(slide, 60, "Stress improvements cannot stand in for the core gate.",
-              "The p50, p100, and p500 profiles exercise increasingly heavy core load. Soak and spike add sustained and sudden-load evidence. We report p95 latency, throughput, and errors for each. The research decision rule treats p50, p100, and p500 as primary; soak and spike are additional interpretation, not a substitute.",
+              "The 50, 100, and 500 virtual-user profiles exercise increasingly heavy core load. These are workload sizes, whereas p50, p90, p95, and p99 are response-time percentiles measured in milliseconds. Archived JMeter folder IDs retain p50, p100, and p500 for traceability. Soak and spike add sustained and sudden-load evidence; they are additional interpretation, not a substitute for the primary core gate.",
               "Current report §§3.8 and 4.4, Appendix K.")
 
     # 17. JMeter core failure
@@ -471,12 +472,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     for profile in ("p50", "p100", "p500"):
         before = baseline_profiles[profile]["p95Ms"]
         after = after_profiles[profile]["p95Ms"]
-        rows.append([profile, f"{before:g} ms", f"{after:g} ms", "Slower after fixes"])
+        rows.append([PROFILE_DISPLAY[profile], f"{before:g} ms", f"{after:g} ms", "Slower after fixes"])
     table(slide, rows, 0.80, 1.55, 11.72, 3.40, widths=[0.19,0.24,0.24,0.33], font_size=20)
     box(slide, 0.80, 5.26, 11.72, 1.07, RED_LIGHT, radius=True)
-    text(slide, "FAIL: p100 1,146.9 > 500 ms; p500 1,547.95 > 1,200 ms", 1.04, 5.43, 11.21, 0.67, 24, RED, bold=True)
+    text(slide, "FAIL: 100 VU 1,146.9 > 500 ms; 500 VU 1,547.95 > 1,200 ms", 1.04, 5.43, 11.21, 0.67, 24, RED, bold=True)
     add_notes(slide, 90, "The primary performance criterion was not achieved.",
-              "All three fresh core total-p95 values increased. p50 rose from thirty-three to about two hundred milliseconds, p100 from about two hundred fifty-six to one thousand one hundred forty-seven, and p500 from one hundred six to one thousand five hundred forty-eight. Errors stayed at zero, but p100 exceeded the five-hundred-millisecond limit and p500 exceeded twelve hundred, so the remediation core gate failed.",
+              "All three fresh core total-p95 values increased. At 50 VU, p95 rose from thirty-three to about two hundred milliseconds; at 100 VU, from about two hundred fifty-six to one thousand one hundred forty-seven; at 500 VU, from one hundred six to one thousand five hundred forty-eight. Errors stayed at zero, but the 100 VU and 500 VU limits were exceeded, so the remediation core gate failed.",
               "Fresh JMeter baseline/remediation summary.json; current report §4.4 and Table 4.5.",
               "Do not carry the older March core-gate PASS into this fresh result.")
 
@@ -492,9 +493,9 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "SPIKE TOTAL p95", 7.14, 2.04, 5.05, 0.32, 16, GREEN, bold=True)
     text(slide, f"{spike_before['p95Ms']:,.0f} → {spike_after['p95Ms']:,.0f} ms", 7.14, 2.68, 5.05, 0.62, 29, GREEN, bold=True)
     text(slide, f"{percent_lower(spike_before['p95Ms'],spike_after['p95Ms'])}% lower; errors {spike_before['errorPct']}% → {spike_after['errorPct']}%", 7.14, 3.65, 5.05, 0.52, 19, INK)
-    text(slide, "The core p100 and p500 failures still determine the overall performance judgment.", 0.84, 5.79, 11.70, 0.63, 20, RED, bold=True)
+    text(slide, "The core 100 VU and 500 VU failures still determine the overall performance judgment.", 0.84, 5.79, 11.70, 0.63, 20, RED, bold=True)
     add_notes(slide, 75, "Stress gains are real but do not reverse the failed primary gate.",
-              "The soak aggregate p95 fell from 443.95 to 171 milliseconds. Spike aggregate p95 fell from about 33.4 seconds to 4.73 seconds, and spike errors fell to zero. These are meaningful fresh stress-profile gains, but the core p100 and p500 gate remains failed. I therefore call performance mixed, not generally improved.",
+              "The soak aggregate p95 fell from 443.95 to 171 milliseconds. Spike aggregate p95 fell from about 33.4 seconds to 4.73 seconds, and spike errors fell to zero. These are meaningful fresh stress-profile gains, but the core 100 VU and 500 VU gate remains failed. I therefore call performance mixed, not generally improved.",
               "Fresh JMeter baseline/remediation summary.json; current report §4.4.")
 
     # 19. Endpoint-level tradeoff
@@ -530,7 +531,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Area", "Decision", "Why"],
         ["Code quality", "Achieved", "17 issues → 0; gate OK; small coverage/complexity regressions"],
         ["Security", "Configured gate passed", "Passive cleared; raw API Medium transport alert remains"],
-        ["Core performance", "Not achieved", "p100 and p500 p95 exceeded thresholds"],
+        ["Core performance", "Not achieved", "100 VU and 500 VU p95 exceeded thresholds"],
         ["Stress behavior", "Partially achieved", "Soak and spike aggregates improved"],
     ], 0.80, 1.49, 11.72, 4.12, widths=[0.20,0.28,0.52], font_size=17)
     text(slide, "Limits: one API · one host · one fresh run per branch · tool-specific coverage", 0.83, 5.92, 11.68, 0.45, 19, MUTED)
@@ -677,10 +678,10 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     rows = [["Profile", "Baseline p95", "After p95", "Before err", "After err", "After tx/s"]]
     for profile in ("p50", "p100", "p500", "soak", "spike"):
         before, after = sb[profile], sa[profile]
-        rows.append([profile, f"{before['p95Ms']:,.2f}", f"{after['p95Ms']:,.2f}",
+        rows.append([PROFILE_DISPLAY.get(profile, profile), f"{before['p95Ms']:,.2f}", f"{after['p95Ms']:,.2f}",
                      f"{before['errorPct']:.4f}%", f"{after['errorPct']:.4f}%", f"{after['throughput']:.2f}"])
     table(slide, rows, 0.79, 1.53, 11.75, 4.53, widths=[0.14,0.19,0.19,0.17,0.17,0.14], font_size=16)
-    text(slide, "Baseline core gate PASS; remediation core gate FAIL (p100 and p500 thresholds).", 0.83, 6.29, 11.67, 0.41, 17, RED, bold=True)
+    text(slide, "Baseline core gate PASS; remediation core gate FAIL (100 VU and 500 VU thresholds).", 0.83, 6.29, 11.67, 0.41, 17, RED, bold=True)
     backup_notes(slide, "full fresh JMeter matrix", "Fresh JMeter baseline/remediation summary.json and current report §4.4.")
 
     # 28. Source-code example: S107
@@ -740,7 +741,7 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     for profile, number in [("p50",9),("p100",10),("p500",11),("soak",12),("spike",13)]:
         before, after = sb[profile], sa[profile]
         judgment = "CORE FAIL" if profile in ("p100", "p500") else ("STRESS GAIN" if profile in ("soak", "spike") else "CORE SLOWER")
-        dashboard_pair(prs, f"JMeter {profile} · baseline vs remediation",
+        dashboard_pair(prs, f"JMeter {PROFILE_DISPLAY.get(profile, profile)} · baseline vs remediation",
                        f"jmeter/jmeter-baseline-{profile}-dashboard.png",
                        f"jmeter/jmeter-remediation-{profile}-dashboard.png",
                        f"Fresh total p95 {before['p95Ms']:g} → {after['p95Ms']:g} ms · {judgment}.",

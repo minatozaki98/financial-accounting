@@ -185,7 +185,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
     replace_paragraph(
         doc,
         "This full report evaluates how ChatGPT",
-        "This full report evaluates how ChatGPT (Codex 5.4), used as an AI-assisted code improvement advisor, can improve the security, performance, and code quality of a financial accounting RESTful API implemented in ASP.NET Core. The study uses one existing API codebase and compares a common baseline branch with isolated SonarQube, OWASP ZAP, and JMeter remediation branches. Fresh reproduction runs executed on September 22, 2026 provide the primary results. SonarQube 26.7 reduced 17 unique baseline issues to 0 while the Quality Gate remained OK; legacy Code Smells fell from 17 to 0, and coverage changed slightly from 74.4% to 74.3%. OWASP ZAP 2.17 passed the configured rules: the passive scan changed from 3 Medium and 6 Low alerts to 0 Medium and 0 Low, while the authenticated API scan retained one Medium HTTP Only Site observation and reduced Low alerts from 3 to 0. Apache JMeter 5.5 produced mixed results. Soak and spike aggregate p95 improved, but the remediation core gate failed because p100 p95 reached 1146.9 ms and p500 p95 reached 1547.95 ms. The evidence therefore supports a strong code-quality result, a configured-scope security improvement with a disclosed transport observation, and an unsuccessful core-performance outcome under the fresh host run. Historical measurements are retained separately in the appendices for provenance rather than used as the current result.",
+        "This full report evaluates how ChatGPT (Codex 5.4), used as an AI-assisted code improvement advisor, can improve the security, performance, and code quality of a financial accounting RESTful API implemented in ASP.NET Core. The study uses one existing API codebase and compares a common baseline branch with isolated SonarQube, OWASP ZAP, and JMeter remediation branches. Fresh reproduction runs executed on September 22, 2026 provide the primary results. SonarQube 26.7 reduced 17 unique baseline issues to 0 while the Quality Gate remained OK; legacy Code Smells fell from 17 to 0, and coverage changed slightly from 74.4% to 74.3%. OWASP ZAP 2.17 passed the configured rules: the passive scan changed from 3 Medium and 6 Low alerts to 0 Medium and 0 Low, while the authenticated API scan retained one Medium HTTP Only Site observation and reduced Low alerts from 3 to 0. Apache JMeter 5.5 produced mixed results. Soak and spike aggregate p95 improved, but the remediation core gate failed because 100 VU p95 reached 1146.9 ms and 500 VU p95 reached 1547.95 ms. The evidence therefore supports a strong code-quality result, a configured-scope security improvement with a disclosed transport observation, and an unsuccessful core-performance outcome under the fresh host run. Historical measurements are retained separately in the appendices for provenance rather than used as the current result.",
     )
 
     replace_table_rows(
@@ -224,7 +224,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
         status = "FAIL" if profile in {"p100", "p500"} else ("Regression" if change > 0 else "Improved")
         profile_rows.append(
             [
-                profile,
+                {"p50": "50 VU", "p100": "100 VU", "p500": "500 VU"}.get(profile, profile),
                 "Total p95 response time",
                 fmt_ms(baseline_value),
                 fmt_ms(remediation_value),
@@ -238,7 +238,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
             "Threshold result",
             jmeter["baseline_gate"],
             jmeter["remediation_gate"],
-            "p100 and p500 exceeded thresholds",
+            "100 VU and 500 VU exceeded thresholds",
             "NOT ACHIEVED",
         ]
     )
@@ -254,7 +254,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
             ["SonarQube controller DTO refactor", "SonarQube remediation branch", "1", "Reviewed route compatibility and service-layer signature.", "Fresh issues reduced from 17 to 0; Quality Gate remained OK."],
             ["Security headers and Swagger hardening", "OWASP ZAP remediation branch", "1-2", "Moved middleware order, split Swagger document/UI switches, reviewed package upgrade.", "Configured gate passed; raw API HTTP Only Site Medium remained."],
             ["ARM/camelCase analyzer cleanup", "SonarQube remediation branch", "2-3", "Manually corrected provider-specific conventions after initial model output was insufficient.", "Fresh remediation scan reported 0 issues."],
-            ["Report-performance remediation", "JMeter remediation branch", "1-2", "Reviewed cache/audit tradeoff and removed read-path report snapshot writes.", "Fresh p100 and p500 p95 exceeded thresholds; core gate failed."],
+            ["Report-performance remediation", "JMeter remediation branch", "1-2", "Reviewed cache/audit tradeoff and removed read-path report snapshot writes.", "Fresh 100 VU and 500 VU p95 exceeded thresholds; core gate failed."],
             ["Stress-profile interpretation", "JMeter remediation branch", "Human review", "Separated aggregate totals from endpoint-level and core-threshold behavior.", "Soak and spike aggregate p95 improved, but this did not offset the failed core gate."],
         ],
     )
@@ -265,7 +265,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
             ["Evaluation area", "Measure", "Acceptance target", "Result"],
             ["Static analysis", "SonarQube fresh issues and Quality Gate", "No retained blocker/critical issues after fixes; preserve Quality Gate OK", "17 unique issues reduced to 0; Quality Gate OK; coverage 74.4% -> 74.3%"],
             ["Security", "OWASP ZAP raw alerts and configured gate", "Clear actionable configured-rule alerts and disclose residual observations", "Configured gate passed; passive M3/L6 -> M0/L0; API M1/L3 -> M1/L0"],
-            ["Performance", "JMeter p95, throughput, error rate, and gate", "p50/p100/p500 pass with no material latency regression", "Remediation core gate FAIL; p100 and p500 exceeded thresholds"],
+            ["Performance", "JMeter p95, throughput, error rate, and gate", "50, 100, and 500 VU profiles pass with no material latency regression", "Remediation core gate FAIL; 100 VU and 500 VU exceeded thresholds"],
             ["Maintainability", "Representative before/after code evidence", "Selected code smells resolved with traceable branch evidence", "DTO, middleware-order, and report-persistence examples documented"],
         ],
     )
@@ -346,7 +346,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
     replace_paragraph(
         doc,
         "Observed JMeter result:",
-        f"Observed fresh JMeter core result: p50 total p95 increased from {before['p50']['p95Ms']} ms to {after['p50']['p95Ms']} ms, p100 increased from {before['p100']['p95Ms']} ms to {after['p100']['p95Ms']} ms, and p500 increased from {before['p500']['p95Ms']} ms to {after['p500']['p95Ms']} ms. Error rate remained 0.00% for the three core profiles, but the remediation gate failed because p100 exceeded 500 ms and p500 exceeded 1200 ms.",
+        f"Observed fresh JMeter core result: 50 VU total p95 increased from {before['p50']['p95Ms']} ms to {after['p50']['p95Ms']} ms, 100 VU increased from {before['p100']['p95Ms']} ms to {after['p100']['p95Ms']} ms, and 500 VU increased from {before['p500']['p95Ms']} ms to {after['p500']['p95Ms']} ms. Error rate remained 0.00% for the three core profiles, but the remediation gate failed because 100 VU exceeded 500 ms and 500 VU exceeded 1200 ms.",
     )
 
     def endpoint(role: str, profile: str, label: str) -> float:
@@ -367,17 +367,17 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
     replace_paragraph(
         doc,
         "The endpoint evidence in Table 4.4",
-        "The fresh endpoint evidence in Table 4.4 shows that spike-profile report endpoints improved substantially, but account-ledger soak p95 regressed. Endpoint improvements under one workload therefore cannot be generalized to the failed p100 and p500 core profiles.",
+        "The fresh endpoint evidence in Table 4.4 shows that spike-profile report endpoints improved substantially, but account-ledger soak p95 regressed. Endpoint improvements under one workload therefore cannot be generalized to the failed 100 VU and 500 VU core profiles.",
     )
     replace_paragraph(
         doc,
         "The JMeter results show major p95 reductions",
-        "The fresh JMeter results are mixed. Soak and spike aggregate p95 improved, and spike errors fell to 0%, but p50, p100, and p500 aggregate p95 all worsened. Because the pre-registered core gate failed, the report treats the current performance remediation as unsuccessful for the core criterion rather than carrying forward the earlier historical success claim.",
+        "The fresh JMeter results are mixed. Soak and spike aggregate p95 improved, and spike errors fell to 0%, but 50 VU, 100 VU, and 500 VU aggregate p95 all worsened. Because the pre-registered core gate failed, the report treats the current performance remediation as unsuccessful for the core criterion rather than carrying forward the earlier historical success claim.",
     )
     replace_paragraph(
         doc,
         "Outcome judgment: Achieved for core profiles",
-        "Outcome judgment: Not Achieved for the core performance criterion and Partially Achieved for stress-profile behavior. The remediation core gate failed because p100 p95 was 1146.9 ms against a 500 ms threshold and p500 p95 was 1547.95 ms against a 1200 ms threshold. Soak total p95 improved from 443.95 ms to 171.0 ms, spike total p95 improved from 33401.75 ms to 4730.85 ms, and spike error rate fell from 0.4688% to 0.00%. Those stress improvements are meaningful but do not compensate for the failed core gate. Appendices D-F preserve the profiles, machine-readable statistics, and dashboards.",
+        "Outcome judgment: Not Achieved for the core performance criterion and Partially Achieved for stress-profile behavior. The remediation core gate failed because 100 VU p95 was 1146.9 ms against a 500 ms threshold and 500 VU p95 was 1547.95 ms against a 1200 ms threshold. Soak total p95 improved from 443.95 ms to 171.0 ms, spike total p95 improved from 33401.75 ms to 4730.85 ms, and spike error rate fell from 0.4688% to 0.00%. Those stress improvements are meaningful but do not compensate for the failed core gate. Appendices D-F preserve the profiles, machine-readable statistics, and dashboards.",
     )
 
     replace_table_rows(
@@ -400,7 +400,7 @@ def update_report(report_path: Path, root: Path = ROOT) -> None:
     replace_paragraph(
         doc,
         "The SonarQube branch reduced retained C# findings",
-        "Fresh reproduction showed that the SonarQube branch reduced 17 unique issues to 0 while the Quality Gate remained OK; coverage changed from 74.4% to 74.3%. The OWASP ZAP configured gate passed: the passive scan cleared 3 Medium and 6 Low alerts, while the authenticated API scan retained one Medium HTTP Only Site observation and cleared all 3 Low alerts. The JMeter remediation branch did not reproduce the earlier core-profile improvements: p50 p95 increased from 33.0 ms to 199.9 ms, p100 from 255.9 ms to 1146.9 ms, and p500 from 106.0 ms to 1547.95 ms, causing the core gate to fail. Soak and spike aggregate p95 improved, but the performance conclusion remains Not Achieved for the core criterion.",
+        "Fresh reproduction showed that the SonarQube branch reduced 17 unique issues to 0 while the Quality Gate remained OK; coverage changed from 74.4% to 74.3%. The OWASP ZAP configured gate passed: the passive scan cleared 3 Medium and 6 Low alerts, while the authenticated API scan retained one Medium HTTP Only Site observation and cleared all 3 Low alerts. The JMeter remediation branch did not reproduce the earlier core-profile improvements: 50 VU p95 increased from 33.0 ms to 199.9 ms, 100 VU from 255.9 ms to 1146.9 ms, and 500 VU from 106.0 ms to 1547.95 ms, causing the core gate to fail. Soak and spike aggregate p95 improved, but the performance conclusion remains Not Achieved for the core criterion.",
     )
     replace_paragraph(
         doc,

@@ -50,12 +50,12 @@ def pair_chapter4_figures(doc: DocumentObject) -> None:
         if page_breaks and (preceding.text.strip() or preceding._p.xpath(".//w:drawing")):
             raise RuntimeError(f"Figure 4.{figure_number} has a mixed-content page break")
         if figure_number in PAIR_STARTS:
-            if len(page_breaks) != 1:
-                raise RuntimeError(f"Figure 4.{figure_number} must start a new paired page")
-            preceding.paragraph_format.space_before = Pt(0)
-            preceding.paragraph_format.space_after = Pt(0)
+            if page_breaks:
+                remove_paragraph(preceding)
+            picture.paragraph_format.page_break_before = True
         elif page_breaks:
             remove_paragraph(preceding)
+            picture.paragraph_format.page_break_before = False
 
         shape = InlineShape(inline_elements[0])
         original_width = int(shape.width)

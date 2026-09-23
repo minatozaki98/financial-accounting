@@ -97,7 +97,7 @@ def merge_section_3_3(doc: DocumentObject) -> None:
 
     set_paragraph_text(
         zap,
-        "Apache JMeter works like a controlled crowd of users sending requests to the API at the same time. It records response time, throughput, and errors for p50, p100, p500, soak, and spike profiles. The p95 value means that 95 out of every 100 measured requests completed at or below that time; a lower p95 is normally better. Soak testing checks sustained activity, while spike testing checks a sudden burst. The fresh remediation run improved the soak and spike aggregate p95 values but failed the core p100 and p500 thresholds, so the performance outcome is reported as Not Achieved for the core criterion. The performance implementation is reproduced in Appendix G, the dashboards are Figures L.9-L.18, and the result mapping is in Appendix M.",
+        "Apache JMeter works like a controlled crowd of users sending requests to the API at the same time. It records response time, throughput, and errors for 50 VU, 100 VU, 500 VU, soak, and spike profiles. The p95 value means that 95 out of every 100 measured requests completed at or below that time; a lower p95 is normally better. Soak testing checks sustained activity, while spike testing checks a sudden burst. The fresh remediation run improved the soak and spike aggregate p95 values but failed the core 100 VU and 500 VU thresholds, so the performance outcome is reported as Not Achieved for the core criterion. The performance implementation is reproduced in Appendix G, the dashboards are Figures L.9-L.18, and the result mapping is in Appendix M.",
     )
     remove_paragraph(zap_duplicate)
 
@@ -124,7 +124,7 @@ def revise_accessible_explanations(doc: DocumentObject) -> None:
     )
     set_paragraph_text(
         find_one(doc, "Performance comparison units:"),
-        "How to read the performance evidence. JMeter sends controlled workloads to the API and measures latency, throughput, and errors. The p95 latency is the time below which 95% of measured requests completed, so lower is normally better. Throughput is the number of completed transactions per second, and error rate is the proportion of failed requests. The core p50, p100, and p500 profiles determine the primary gate; soak and spike profiles provide additional evidence about sustained and sudden load but cannot override a failed core gate.",
+        "How to read the performance evidence. JMeter sends controlled workloads to the API and measures latency, throughput, and errors. The p95 latency is the time below which 95% of measured requests completed, so lower is normally better. Throughput is the number of completed transactions per second, and error rate is the proportion of failed requests. The core 50 VU, 100 VU, and 500 VU profiles determine the primary gate; soak and spike profiles provide additional evidence about sustained and sudden load but cannot override a failed core gate.",
     )
 
 
@@ -159,7 +159,7 @@ def cite_appendices(doc: DocumentObject) -> None:
     performance = find_one(doc, "Outcome judgment: Not Achieved for the core performance criterion")
     set_paragraph_text(
         performance,
-        "Outcome judgment: Not Achieved for the core performance criterion and Partially Achieved for stress-profile behavior. The remediation core gate failed because p100 p95 was 1146.9 ms against a 500 ms threshold and p500 p95 was 1547.95 ms against a 1200 ms threshold. Soak total p95 improved from 443.95 ms to 171.0 ms, spike total p95 improved from 33401.75 ms to 4730.85 ms, and spike error rate fell from 0.4688% to 0.00%; these stress improvements do not compensate for the failed core gate. The implementation is shown in Listings G.1-G.3 of Appendix G, the execution controls are in Appendix K, the dashboards are Figures L.9-L.18, the traceability table is in Appendix M, and the limitations are in Appendix N.",
+        "Outcome judgment: Not Achieved for the core performance criterion and Partially Achieved for stress-profile behavior. The remediation core gate failed because 100 VU p95 was 1146.9 ms against a 500 ms threshold and 500 VU p95 was 1547.95 ms against a 1200 ms threshold. Soak total p95 improved from 443.95 ms to 171.0 ms, spike total p95 improved from 33401.75 ms to 4730.85 ms, and spike error rate fell from 0.4688% to 0.00%; these stress improvements do not compensate for the failed core gate. The implementation is shown in Listings G.1-G.3 of Appendix G, the execution controls are in Appendix K, the dashboards are Figures L.9-L.18, the traceability table is in Appendix M, and the limitations are in Appendix N.",
     )
     append_sentence(
         find_one(doc, "Overall, the fresh evidence is mixed."),
@@ -202,7 +202,7 @@ def add_supporting_evidence_column(doc: DocumentObject) -> None:
         ["Evaluation area", "Measure", "Acceptance target", "Result", "Supporting evidence"],
         ["Static analysis", "SonarQube fresh issues and Quality Gate", "No retained blocker/critical issues after fixes; preserve Quality Gate OK", "17 unique issues reduced to 0; Quality Gate OK; coverage 74.4% -> 74.3%", "Appendix E; Figures L.1-L.4; Appendix M"],
         ["Security", "OWASP ZAP raw alerts and configured gate", "Clear actionable configured-rule alerts and disclose residual observations", "Configured gate passed; passive M3/L6 -> M0/L0; API M1/L3 -> M1/L0", "Appendix F; Figures L.5-L.8; Appendix M"],
-        ["Performance", "JMeter p95, throughput, error rate, and gate", "p50/p100/p500 pass with no material latency regression", "Remediation core gate FAIL; p100 and p500 exceeded thresholds", "Appendix G; Figures L.9-L.18; Appendices K and M"],
+        ["Performance", "JMeter p95, throughput, error rate, and gate", "50, 100, and 500 VU profiles pass with no material latency regression", "Remediation core gate FAIL; 100 VU and 500 VU exceeded thresholds", "Appendix G; Figures L.9-L.18; Appendices K and M"],
         ["Maintainability", "Representative before/after code evidence", "Selected code smells resolved with traceable branch evidence", "DTO, middleware-order, and report-persistence examples documented", "Listings E.1-E.2; Appendices E-G"],
     ]
     if len(table.rows) != len(rows):

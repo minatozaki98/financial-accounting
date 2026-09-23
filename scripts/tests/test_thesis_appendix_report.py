@@ -48,9 +48,30 @@ appendix_label_updater = load_module(
 figure_pairer = load_module(
     "figure_pairer", ROOT / "scripts" / "pair_chapter4_figures.py"
 )
+vu_label_updater = load_module(
+    "vu_label_updater", ROOT / "scripts" / "clarify_jmeter_vu_labels.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_jmeter_profile_labels_distinguish_virtual_users_from_percentiles(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(vu_label_updater.DEFAULT_REPORT.read_bytes())
+            vu_label_updater.clarify_file(path)
+            vu_label_updater.clarify_file(path)
+            doc = Document(path)
+            paragraphs = doc.paragraphs
+            self.assertTrue(any(p.text == "p90 - 90th-percentile response latency" for p in paragraphs))
+            self.assertTrue(any(p.text.startswith("VU - Virtual user") for p in paragraphs))
+            self.assertTrue(any(p.text.startswith("Figure L.9. Apache JMeter baseline 50 VU") for p in paragraphs))
+            self.assertTrue(any("report-baseline-20260922-192730-p50" in p.text for p in paragraphs))
+            self.assertTrue(any("p50, p90, p95, and p99 denote response-time percentiles" in p.text for p in paragraphs))
+            self.assertEqual(1, sum("Archived JMeter folder names retain" in p.text for p in paragraphs))
+            self.assertEqual(1, sum("By contrast, p50, p90, p95, and p99" in p.text for p in paragraphs))
+            profile_table = next(t for t in doc.tables if t.cell(0, 0).text == "Profile" and t.cell(0, 1).text == "Metric")
+            self.assertEqual(["50 VU", "100 VU", "500 VU"], [profile_table.cell(i, 0).text for i in (1, 2, 3)])
+
     def test_chapter4_screenshots_are_paired_without_splitting_captions(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "report.docx"
@@ -68,10 +89,8 @@ class ThesisAppendixReportTests(unittest.TestCase):
                 preceding = paragraphs[index - 2]
                 self.assertAlmostEqual(5.2, shape.width.inches, places=2)
                 self.assertFalse(bool(caption.paragraph_format.keep_with_next))
-                self.assertEqual(
-                    1 if number in (2, 4, 6) else 0,
-                    len(preceding._p.xpath('.//w:br[@w:type="page"]')),
-                )
+                self.assertFalse(preceding._p.xpath('.//w:br[@w:type="page"]'))
+                self.assertEqual(number in (2, 4, 6), bool(picture.paragraph_format.page_break_before))
 
     def test_appendix_field_labels_use_colons_without_losing_code_font(self):
         doc = Document()
