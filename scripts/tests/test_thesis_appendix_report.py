@@ -45,9 +45,34 @@ signature_fixer = load_module(
 appendix_label_updater = load_module(
     "appendix_label_updater", ROOT / "scripts" / "standardize_appendix_labels.py"
 )
+figure_pairer = load_module(
+    "figure_pairer", ROOT / "scripts" / "pair_chapter4_figures.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_chapter4_screenshots_are_paired_without_splitting_captions(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "report.docx"
+            path.write_bytes(figure_pairer.DEFAULT_REPORT.read_bytes())
+            figure_pairer.pair_report_figures(path)
+            figure_pairer.pair_report_figures(path)
+            doc = Document(path)
+            self.assertEqual(36, len(doc.inline_shapes))
+            for number in range(2, 8):
+                caption = figure_pairer.caption_for(doc, number)
+                paragraphs = doc.paragraphs
+                index = next(i for i, p in enumerate(paragraphs) if p._p is caption._p)
+                picture = paragraphs[index - 1]
+                shape = figure_pairer.InlineShape(picture._p.xpath(".//wp:inline")[0])
+                preceding = paragraphs[index - 2]
+                self.assertAlmostEqual(5.2, shape.width.inches, places=2)
+                self.assertFalse(bool(caption.paragraph_format.keep_with_next))
+                self.assertEqual(
+                    1 if number in (2, 4, 6) else 0,
+                    len(preceding._p.xpath('.//w:br[@w:type="page"]')),
+                )
+
     def test_appendix_field_labels_use_colons_without_losing_code_font(self):
         doc = Document()
         doc.add_paragraph("APPENDICES", style="Heading 1")
