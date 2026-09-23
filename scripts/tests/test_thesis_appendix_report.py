@@ -39,9 +39,40 @@ committee_reviser = load_module(
 layout_normalizer = load_module(
     "layout_normalizer", ROOT / "scripts" / "normalize_full_report_layout.py"
 )
+signature_fixer = load_module(
+    "signature_fixer", ROOT / "scripts" / "fix_thesis_signature_lines.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_signature_rules_do_not_use_wrapping_underscore_text(self):
+        doc = Document()
+        table = doc.add_table(rows=7, cols=3)
+        for row_index in (0, 4):
+            for column_index in (0, 2):
+                table.cell(row_index, column_index).text = "_" * 29
+        table.cell(1, 0).text = "            (Dr. Darun Kesrarat)"
+        table.cell(1, 2).text = "     (                          )"
+        table.cell(2, 0).text = "Advisor"
+        table.cell(2, 2).text = "Committee"
+        table.cell(5, 0).text = "     (                          )"
+        table.cell(5, 2).text = "     (                          )"
+        table.cell(6, 0).text = "Committee"
+        table.cell(6, 2).text = "Committee"
+
+        signature_fixer.fix_signature_table(doc)
+        signature_fixer.fix_signature_table(doc)
+
+        for row_index in (0, 4):
+            for column_index in (0, 2):
+                paragraph = table.cell(row_index, column_index).paragraphs[0]
+                self.assertNotIn("_", paragraph.text)
+                border = paragraph._p.xpath("./w:pPr/w:pBdr/w:bottom")
+                self.assertEqual(1, len(border))
+                self.assertEqual("single", border[0].get(signature_fixer.qn("w:val")))
+        self.assertEqual("(Dr. Darun Kesrarat)", table.cell(1, 0).text)
+        self.assertEqual("Advisor", table.cell(2, 0).text)
+
     def test_phase_methodology_becomes_idempotent_prose(self):
         doc = Document()
         doc.add_paragraph("3.1.1 Testing Environment and Reproducibility", style="Heading 3")
