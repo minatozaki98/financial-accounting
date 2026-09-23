@@ -52,6 +52,8 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("100 VU", slide_text(deck.slides[16]))
         self.assertIn("500 VU", slide_text(deck.slides[16]))
         self.assertNotIn("p100", slide_text(deck.slides[16]))
+        self.assertIn("CPU/RAM and service tiers not controlled", slide_text(deck.slides[20]))
+        self.assertIn("does not preserve CPU and RAM specifications", deck.slides[20].notes_slide.notes_text_frame.text)
         self.assertIn("historical dashboard capture", slide_text(deck.slides[32]))
         self.assertIn("historical dashboard capture", slide_text(deck.slides[33]))
         all_visible = "\n".join(slide_text(slide) for slide in deck.slides)

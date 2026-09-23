@@ -479,7 +479,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
         ],
     )
     for text in (
-        "Platform: Windows 11; PowerShell; .NET 8; Node.js/npm; local SQL Server; Docker for SonarQube, OWASP ZAP, and JMeter.",
+        "Platform: Windows 11; PowerShell; .NET 8; Node.js/npm; SQL Server LocalDB; Docker for SonarQube, OWASP ZAP, and JMeter. The fresh records do not pin CPU/RAM capacity or container resource limits.",
         "Dataset: 120 accounts; 30,000 journal entries; at least 5,000 posted entries; accounting period 202601.",
         "Fresh reproduction date: September 22, 2026. Historical values are retained only for comparison and provenance.",
     ):
@@ -542,7 +542,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
         "SonarQube MQR Reliability, Security, and Maintainability impacts overlap and must not be added together as unique issues.",
         "The fresh authenticated ZAP scan retains one raw Medium HTTP Only Site observation because the local reproduction uses HTTP instead of a production TLS endpoint.",
         "The fresh JMeter remediation core gate fails even though soak and spike aggregate p95 improve; this prevents a general performance-improvement claim.",
-        "Tool versions, host load, database state, and workload composition can change results. Repeated controlled runs and confidence intervals are future work.",
+        "The fresh run records do not preserve CPU model or core count, installed RAM, per-run CPU and memory utilization, or application, database, and Docker resource limits. The local setup did not evaluate a managed-cloud service tier; results cannot be generalized to differently sized devices or hosted tiers. Future work should record these capacities and repeat matched runs with variability or confidence intervals.",
         "The listings below are deliberately curated. The complete repository at the pinned commits remains authoritative for files not reproduced in full.",
     ):
         paragraph = doc.add_paragraph(style=bullet_style)

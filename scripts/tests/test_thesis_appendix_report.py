@@ -54,6 +54,23 @@ vu_label_updater = load_module(
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_fresh_report_discloses_device_and_service_tier_limits(self):
+        doc = Document(vu_label_updater.DEFAULT_REPORT)
+        paragraphs = [paragraph.text for paragraph in doc.paragraphs]
+        limitation = next(text for text in paragraphs if text.startswith("The findings are limited to one ASP.NET Core API"))
+        appendix_limit = next(text for text in paragraphs if text.startswith("The fresh run records do not preserve"))
+        resource_statement = next(text for text in paragraphs if text.startswith("Resource Utilization:"))
+        self.assertIn("CPU model or core count", limitation)
+        self.assertIn("installed RAM", limitation)
+        self.assertIn("No managed-cloud service tier", limitation)
+        self.assertIn("Docker resource limits", appendix_limit)
+        self.assertIn("do not preserve per-run resource telemetry", resource_statement)
+        self.assertNotIn("CPU and memory usage are tracked", resource_statement)
+        environment = next(table for table in doc.tables if table.cell(0, 0).text == "Environment item")
+        rows = {row.cells[0].text: [cell.text for cell in row.cells] for row in environment.rows[1:]}
+        self.assertIn("CPU and RAM capacity not archived", rows["Host"][1])
+        self.assertIn("no managed tier", rows["Database"][1])
+
     def test_jmeter_profile_labels_distinguish_virtual_users_from_percentiles(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "report.docx"

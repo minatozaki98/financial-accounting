@@ -534,9 +534,9 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Core performance", "Not achieved", "100 VU and 500 VU p95 exceeded thresholds"],
         ["Stress behavior", "Partially achieved", "Soak and spike aggregates improved"],
     ], 0.80, 1.49, 11.72, 4.12, widths=[0.20,0.28,0.52], font_size=17)
-    text(slide, "Limits: one API · one host · one fresh run per branch · tool-specific coverage", 0.83, 5.92, 11.68, 0.45, 19, MUTED)
+    text(slide, "Limits: one API · one host · one run per branch · CPU/RAM and service tiers not controlled", 0.83, 5.92, 11.68, 0.45, 19, MUTED)
     add_notes(slide, 80, "The thesis supports some improvements, not a blanket success claim.",
-              "Code quality met its primary criterion while coverage and cyclomatic complexity had small regressions. ZAP's configured rule gate passed, but the raw HTTP-only Medium remained. JMeter core performance did not meet its gate, though stress aggregates improved. This is one API on one host with one fresh run per branch, so the results are bounded and should be replicated before broader generalization.",
+              "Code quality met its primary criterion while coverage and cyclomatic complexity had small regressions. ZAP's configured rule gate passed, but the raw HTTP-only Medium remained. JMeter core performance did not meet its gate, though stress aggregates improved. This is one API on one host with one fresh run per branch. The dated evidence does not preserve CPU and RAM specifications or utilization, application and database resource limits, or a managed service tier. These results should be replicated under recorded and matched capacity before broader generalization.",
               "Current report Table 4.5 and Appendix N.")
 
     # 22. Conclusion
