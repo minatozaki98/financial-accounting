@@ -42,6 +42,36 @@ layout_normalizer = load_module(
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_appendix_compaction_keeps_prose_justified_and_metadata_readable(self):
+        doc = Document()
+        doc.add_paragraph("APPENDICES", style="Heading 1")
+        appendix_a = doc.add_paragraph("Appendix A - Environment", style="Normal")
+        appendix_a.paragraph_format.page_break_before = True
+        doc.add_paragraph("The study evaluates the API using branch-isolated evidence.")
+        dataset = doc.add_paragraph(
+            "Dataset: 120 accounts.\nFresh reproduction date: September 22, 2026.",
+            style="List Paragraph",
+        )
+        dataset.paragraph_format.page_break_before = True
+        appendix_b = doc.add_paragraph("Appendix B - Authentication", style="List Paragraph")
+        appendix_b.paragraph_format.page_break_before = True
+        source = doc.add_paragraph("Source. Controller and draft-creation authorization; file API/Program.cs")
+        source.paragraph_format.page_break_before = True
+
+        layout_normalizer.compact_appendices(doc)
+
+        headings = [p for p in doc.paragraphs if p.text.startswith("Appendix ")]
+        self.assertEqual(["Heading 1", "Heading 1"], [p.style.name for p in headings])
+        self.assertTrue(all(not p.paragraph_format.page_break_before for p in doc.paragraphs[1:]))
+        self.assertEqual("JUSTIFY (3)", str(doc.paragraphs[2].alignment))
+        self.assertEqual("LEFT (0)", str(source.alignment))
+        self.assertEqual(2.0, source.paragraph_format.line_spacing)
+        self.assertEqual("Dataset: 120 accounts.", dataset.text)
+        self.assertIn(
+            "Fresh reproduction date: September 22, 2026.",
+            [p.text for p in doc.paragraphs],
+        )
+
     def test_layout_normalizer_standardizes_tables_bold_text_and_image_pagination(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "report.docx"
@@ -272,6 +302,10 @@ class ThesisAppendixReportTests(unittest.TestCase):
             self.assertTrue(headings[0].startswith("Appendix A -"))
             self.assertTrue(headings[-1].startswith("Appendix N -"))
             self.assertGreaterEqual(count, 20)
+            self.assertTrue(
+                all(not p.paragraph_format.page_break_before for p in doc.paragraphs
+                    if p.text.startswith("Appendix ") and p.style.name == "Heading 1")
+            )
             self.assertEqual(
                 18,
                 len(

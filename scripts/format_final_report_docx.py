@@ -561,7 +561,9 @@ def enforce_document_typography(doc: Document) -> None:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 if style_name == "Normal":
                     paragraph.paragraph_format.first_line_indent = Inches(0.5)
-                if text.startswith(("Classification:", "Source:", "Verification:")):
+                if style_name == "Appendix Bullet" or text.startswith(
+                    ("Classification:", "Source:", "Source.", "Verification:")
+                ):
                     paragraph.paragraph_format.first_line_indent = Inches(0)
                     paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
         else:

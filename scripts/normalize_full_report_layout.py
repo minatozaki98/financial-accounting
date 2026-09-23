@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import re
+from copy import deepcopy
 from pathlib import Path
 
 from docx import Document
@@ -344,12 +345,98 @@ def normalize_report(path: Path) -> None:
     doc.save(path)
 
 
+def compact_appendices(doc: DocumentObject) -> None:
+    marker = next(
+        paragraph for paragraph in doc.paragraphs
+        if normalized(paragraph.text) == "APPENDICES"
+        and paragraph.style.name == "Heading 1"
+    )
+    appendix_paragraphs = doc.paragraphs[
+        next(i for i, paragraph in enumerate(doc.paragraphs) if paragraph._p is marker._p) + 1 :
+    ]
+
+    for paragraph in appendix_paragraphs:
+        if "\nFresh reproduction date:" not in paragraph.text or not paragraph.text.startswith("Dataset:"):
+            continue
+        dataset, fresh = paragraph.text.split("\n", 1)
+        next_p = OxmlElement("w:p")
+        paragraph._p.addnext(next_p)
+        if paragraph._p.pPr is not None:
+            next_p.append(deepcopy(paragraph._p.pPr))
+        fresh_paragraph = Paragraph(next_p, paragraph._parent)
+        paragraph.clear()
+        paragraph.add_run(dataset)
+        fresh_paragraph.add_run(fresh)
+
+    marker_index = next(i for i, paragraph in enumerate(doc.paragraphs) if paragraph._p is marker._p)
+    for paragraph in doc.paragraphs[marker_index + 1 :]:
+        text = normalized(paragraph.text)
+        if re.match(r"^Appendix [A-N] - ", text):
+            paragraph.style = "Heading 1"
+            num_pr = paragraph._p.xpath("./w:pPr/w:numPr")
+            for element in num_pr:
+                element.getparent().remove(element)
+        style_name = paragraph.style.name
+        paragraph.paragraph_format.page_break_before = False
+        if style_name in {"Heading 1", "Heading 2", "Heading 3"}:
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            paragraph.paragraph_format.left_indent = Inches(0)
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.paragraph_format.line_spacing = 2.0
+            paragraph.paragraph_format.keep_with_next = True
+            size = {"Heading 1": 16, "Heading 2": 14, "Heading 3": 12}[style_name]
+        elif style_name == "Appendix Code":
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            paragraph.paragraph_format.line_spacing = 1.0
+            size = 9.5
+        elif style_name == "Caption":
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            paragraph.paragraph_format.first_line_indent = Inches(0)
+            paragraph.paragraph_format.line_spacing = 2.0
+            size = 12
+        elif text:
+            paragraph.paragraph_format.line_spacing = 2.0
+            size = 12
+            if text.startswith(("Source.", "Classification:")) or style_name == "Appendix Bullet":
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                if style_name == "Normal":
+                    paragraph.paragraph_format.first_line_indent = Inches(0)
+            else:
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                if style_name == "Normal":
+                    paragraph.paragraph_format.first_line_indent = Inches(0.5)
+        else:
+            continue
+
+        for run in paragraph.runs:
+            font_name = "Courier New" if style_name == "Appendix Code" or run.font.name == "Courier New" else "Times New Roman"
+            run.font.name = font_name
+            run.font.size = Pt(size)
+
+    report_formatter.normalize_numbering_fonts(doc)
+
+
+def compact_appendices_file(path: Path) -> None:
+    doc = Document(path)
+    compact_appendices(doc)
+    report_formatter.enable_field_update_on_open(doc)
+    doc.save(path)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize tables, paragraph emphasis, and pagination in the full thesis report.")
     parser.add_argument("target", nargs="?", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument(
+        "--appendices-only",
+        action="store_true",
+        help="Improve appendix flow and metadata alignment without rewriting the report body.",
+    )
     args = parser.parse_args()
     target = args.target.resolve()
-    normalize_report(target)
+    if args.appendices_only:
+        compact_appendices_file(target)
+    else:
+        normalize_report(target)
     print(target)
 
 

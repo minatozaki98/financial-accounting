@@ -378,7 +378,7 @@ def add_code_block(doc: DocumentObject, lines: list[tuple[int | None, str]], sty
 
 
 def add_listing(doc: DocumentObject, root: Path, listing: dict, style_name: str, index: int) -> None:
-    add_heading(doc, f"{listing['id']} {listing['title']}", 2, page_break=index > 0)
+    add_heading(doc, f"{listing['id']} {listing['title']}", 2)
     add_paragraph(doc, listing["purpose"], bold_label="Purpose. ")
     for fragment in listing["fragments"]:
         ranges = ", ".join(f"{start}-{end}" for start, end in fragment["ranges"])
@@ -396,7 +396,7 @@ def add_listing(doc: DocumentObject, root: Path, listing: dict, style_name: str,
 
 
 def add_appendix_heading(doc: DocumentObject, letter: str) -> None:
-    add_heading(doc, f"Appendix {letter} - {APPENDIX_TITLES[letter]}", 1, page_break=True)
+    add_heading(doc, f"Appendix {letter} - {APPENDIX_TITLES[letter]}", 1)
 
 
 def replace_cross_references(doc: DocumentObject) -> None:
@@ -423,7 +423,7 @@ def add_dashboard(
     number: int,
     metadata: dict | None,
 ) -> None:
-    add_heading(doc, f"L.{number} {title}", 2, page_break=number > 1)
+    add_heading(doc, f"L.{number} {title}", 2)
     picture = doc.add_paragraph()
     picture.alignment = WD_ALIGN_PARAGRAPH.CENTER
     picture.paragraph_format.keep_with_next = True
@@ -490,7 +490,7 @@ def rebuild_code_appendices(report_path: Path, root: Path = ROOT) -> int:
             add_listing(doc, root, listing, code_style, local_index)
             listing_index += 1
         if letter == "K":
-            add_heading(doc, "K.3 Reproduction Command Sequence", 2, page_break=True)
+            add_heading(doc, "K.3 Reproduction Command Sequence", 2)
             add_paragraph(doc, "The following commands execute the self-contained fast verification and local demonstration workflow. Secrets are supplied through process-local environment variables and are not printed in this report.")
             commands = [
                 (None, ".\\scripts\\thesis\\Test-ThesisEnvironment.ps1 -Mode Fast"),
