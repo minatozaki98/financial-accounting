@@ -397,7 +397,7 @@ def compact_appendices(doc: DocumentObject) -> None:
         elif text:
             paragraph.paragraph_format.line_spacing = 2.0
             size = 12
-            if text.startswith(("Source.", "Classification:")) or style_name == "Appendix Bullet":
+            if text.startswith(("Source.", "Source:", "Classification:")) or style_name == "Appendix Bullet":
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 if style_name == "Normal":
                     paragraph.paragraph_format.first_line_indent = Inches(0)

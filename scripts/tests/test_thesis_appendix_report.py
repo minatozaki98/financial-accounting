@@ -42,9 +42,37 @@ layout_normalizer = load_module(
 signature_fixer = load_module(
     "signature_fixer", ROOT / "scripts" / "fix_thesis_signature_lines.py"
 )
+appendix_label_updater = load_module(
+    "appendix_label_updater", ROOT / "scripts" / "standardize_appendix_labels.py"
+)
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_appendix_field_labels_use_colons_without_losing_code_font(self):
+        doc = Document()
+        doc.add_paragraph("APPENDICES", style="Heading 1")
+        purpose = doc.add_paragraph()
+        purpose.add_run("Purpose. ").bold = True
+        purpose.add_run("Explains the selected fix.")
+        source = doc.add_paragraph()
+        source.add_run("Source. ").bold = True
+        path_run = source.add_run("API/Program.cs")
+        path_run.font.name = "Courier New"
+        verification = doc.add_paragraph()
+        verification.add_run("Verification. ").bold = True
+        verification.add_run("Related evidence: authenticated API scans.")
+
+        changed = appendix_label_updater.standardize_appendix_labels(doc)
+        repeated = appendix_label_updater.standardize_appendix_labels(doc)
+
+        self.assertEqual({"Purpose:": 1, "Source:": 1, "Verification:": 1}, dict(changed))
+        self.assertFalse(repeated)
+        self.assertEqual("Purpose: Explains the selected fix.", purpose.text)
+        self.assertEqual("Source: API/Program.cs", source.text)
+        self.assertEqual("Courier New", path_run.font.name)
+        self.assertEqual("LEFT (0)", str(source.alignment))
+        self.assertEqual("Verification: Authenticated API scans.", verification.text)
+
     def test_signature_rules_do_not_use_wrapping_underscore_text(self):
         doc = Document()
         table = doc.add_table(rows=7, cols=3)
@@ -425,6 +453,10 @@ class ThesisAppendixReportTests(unittest.TestCase):
             self.assertIn("B.1 JWT Authentication Configuration", full_text)
             self.assertIn("K.2 Environment and Tool Readiness Checks", full_text)
             self.assertIn("Appendix N - Limitations and Complete Source Index", full_text)
+            self.assertIn("Purpose: Configures JWT bearer validation", full_text)
+            self.assertIn("Source: Remediated authentication registration", full_text)
+            self.assertIn("Verification: Authenticated API scans", full_text)
+            self.assertNotIn("Purpose. ", full_text)
             first_sonar_listing = next(
                 p for p in doc.paragraphs if p.text.startswith("E.1 S107")
             )

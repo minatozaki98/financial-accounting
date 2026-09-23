@@ -379,20 +379,24 @@ def add_code_block(doc: DocumentObject, lines: list[tuple[int | None, str]], sty
 
 def add_listing(doc: DocumentObject, root: Path, listing: dict, style_name: str, index: int) -> None:
     add_heading(doc, f"{listing['id']} {listing['title']}", 2)
-    add_paragraph(doc, listing["purpose"], bold_label="Purpose. ")
+    add_paragraph(doc, listing["purpose"], bold_label="Purpose: ")
     for fragment in listing["fragments"]:
         ranges = ", ".join(f"{start}-{end}" for start, end in fragment["ranges"])
         add_paragraph(
             doc,
             f"{fragment['label']}; file {fragment['path']}; branch {fragment['branch']}; commit {fragment['ref'][:8]}; lines {ranges}.",
-            bold_label="Source. ",
+            bold_label="Source: ",
         )
         add_code_block(
             doc,
             excerpt(root, fragment["ref"], fragment["path"], fragment["ranges"]),
             style_name,
         )
-    add_paragraph(doc, listing["verification"], bold_label="Verification. ")
+    verification = listing["verification"]
+    if verification.startswith("Related evidence: "):
+        verification = verification[len("Related evidence: ") :]
+        verification = verification[:1].upper() + verification[1:]
+    add_paragraph(doc, verification, bold_label="Verification: ")
 
 
 def add_appendix_heading(doc: DocumentObject, letter: str) -> None:
