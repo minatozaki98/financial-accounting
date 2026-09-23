@@ -592,7 +592,13 @@ def enforce_document_typography(doc: Document) -> None:
                 paragraph.paragraph_format.first_line_indent = Inches(-0.5)
 
         if body_index <= index < references_index:
-            if text in EXAMPLE_LABELS:
+            if re.fullmatch(r"Phase [1-4]: [^\n]+", text):
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                paragraph.paragraph_format.left_indent = Inches(0)
+                paragraph.paragraph_format.first_line_indent = Inches(0)
+                paragraph.paragraph_format.space_after = Pt(0)
+                paragraph.paragraph_format.keep_with_next = True
+            elif text in EXAMPLE_LABELS:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 paragraph.paragraph_format.left_indent = Inches(0.5)
                 paragraph.paragraph_format.first_line_indent = Inches(0)

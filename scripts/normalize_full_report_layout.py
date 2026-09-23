@@ -494,6 +494,134 @@ def tidy_examples_and_evidence_file(path: Path) -> None:
     doc.save(path)
 
 
+PHASE_TECHNICAL_PATTERN = re.compile(
+    r"\b(?:GET|POST|PUT|DELETE|PATCH)\s+/(?:api/)?[A-Za-z0-9_{}?&=./:\-]+"
+    r"|\bdotnet test\b"
+)
+
+
+def set_phase_prose(paragraph: Paragraph, text: str) -> None:
+    paragraph.clear()
+    cursor = 0
+    for match in PHASE_TECHNICAL_PATTERN.finditer(text):
+        if match.start() > cursor:
+            paragraph.add_run(text[cursor : match.start()])
+        run = paragraph.add_run(match.group(0))
+        run.font.name = "Courier New"
+        cursor = match.end()
+    if cursor < len(text):
+        paragraph.add_run(text[cursor:])
+    paragraph.style = "Normal"
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    paragraph.paragraph_format.left_indent = Inches(0)
+    paragraph.paragraph_format.first_line_indent = Inches(0.5)
+    paragraph.paragraph_format.line_spacing = 2.0
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(6)
+    paragraph.paragraph_format.keep_with_next = False
+    for run in paragraph.runs:
+        run.font.size = Pt(12)
+        if run.font.name != "Courier New":
+            run.font.name = "Times New Roman"
+
+
+def smooth_phase_narrative(doc: DocumentObject) -> None:
+    paragraphs = doc.paragraphs
+    start = next(i for i, p in enumerate(paragraphs) if normalized(p.text) == "3.1.1 Testing Environment and Reproducibility")
+    end = next(i for i, p in enumerate(paragraphs[start + 1 :], start + 1) if normalized(p.text) == "3.1.2 Selected Source-Code Evidence")
+    section = paragraphs[start:end]
+    if any(
+        normalized(p.text).startswith("Initial security, performance, and code-quality testing is conducted")
+        for p in section
+    ):
+        return
+
+    def find(prefix: str) -> Paragraph:
+        matches = [p for p in section if normalized(p.text).startswith(prefix)]
+        if len(matches) != 1:
+            raise RuntimeError(f"Expected one Phase 1-4 paragraph beginning {prefix!r}; found {len(matches)}")
+        return matches[0]
+
+    headings = [find(f"Phase {number}:") for number in range(1, 5)]
+    for heading in headings:
+        heading.style = "Normal"
+        heading.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        heading.paragraph_format.left_indent = Inches(0)
+        heading.paragraph_format.first_line_indent = Inches(0)
+        heading.paragraph_format.line_spacing = 2.0
+        heading.paragraph_format.space_after = Pt(0)
+        heading.paragraph_format.keep_with_next = True
+        for run in heading.runs:
+            run.bold = True
+            run.font.name = "Times New Roman"
+            run.font.size = Pt(12)
+
+    baseline = find("Initial security and performance testing")
+    set_phase_prose(
+        baseline,
+        "Initial security, performance, and code-quality testing is conducted on the financial accounting ASP.NET Core RESTful API. Its endpoints cover authentication, chart of accounts, journal entries, accounting periods, financial reports, and audit logs. SonarQube analyzes source-code quality, OWASP ZAP runs baseline and authenticated API security scans, and Apache JMeter runs load, soak, and spike profiles at 50, 100, and 500 concurrent users. Measurements from the common baseline branch provide the reference for evaluating subsequent changes.",
+    )
+    example_api = find("Example: Financial Accounting API:")
+    set_phase_prose(
+        example_api,
+        "The evaluation API uses a multi-tier architecture comprising API, BAL/Services, MODEL/Entities, and Tests. It has role-based access control for Admin, FinanceManager, User, and Auditor roles, JWT authentication, and comprehensive audit logging.",
+    )
+
+    generated = find("Code recommendations are generated using ChatGPT")
+    set_phase_prose(
+        generated,
+        "ChatGPT (Codex 5.4), accessed through OpenAI’s Codex coding environment, receives tool findings, relevant code snippets, and expected constraints before suggesting candidate fixes. Its guidance includes parameterized queries to prevent SQL injection, more efficient loops, and secure session management. A human reviewer applies each candidate on a dedicated branch, runs dotnet test, and measures it again with the same tool used at baseline. The recommendation is evaluated against its target metric and regression tests rather than accepted automatically.",
+    )
+    security = find("Example: Security Enhancement")
+    set_phase_prose(
+        security,
+        "For the security example, write endpoints such as POST /journal-entries and POST /journal-entries/bulk must prevent untrusted input from changing database-query behavior or bypassing authorization. The candidate guidance preserves Entity Framework parameterization, validates DTO input, rejects unauthorized roles, and protects write operations with JWT authentication and role policies.",
+    )
+    performance = find("Example: Performance Optimization")
+    set_phase_prose(
+        performance,
+        "For the performance example, slow p95 latency on GET /reports/trial-balance, GET /reports/profit-loss, GET /reports/balance-sheet, and GET /reports/account-ledger during soak and spike workloads motivates a caching proposal. The illustrative recommendation is to cache frequently requested report results in memory for ten minutes. Table 3.4 then records selected SonarQube code-quality remediation evidence.",
+    )
+
+    post_testing = find("With ChatGPT-guided changes implemented")
+    set_phase_prose(
+        post_testing,
+        "After candidate changes are implemented on separate branches, the same tools and configurations are used for another round of testing. SonarQube rechecks code quality, OWASP ZAP repeats baseline and authenticated API scans across the endpoint groups on its remediation branch, and JMeter repeats the 50-, 100-, and 500-user load tests together with soak and spike profiles on its remediation branch. Security, performance, and code-quality measurements are then compared with the common baseline branch.",
+    )
+    comparison = find("The data collected from the baseline")
+    set_phase_prose(
+        comparison,
+        "Finally, results from the common baseline branch are compared with the SonarQube, OWASP ZAP, and JMeter remediation branches to judge the effect of each ChatGPT-guided change. The comparison considers security findings, performance metrics, and code-quality outcomes, including acceptance targets that were not met. Appendices A–N provide the environment, exact branch and commit provenance, curated source-code listings, reproduction automation, dashboards, result traceability, and limitations in this full report.",
+    )
+
+    remove_targets = [
+        find("Tools: SonarQube"),
+        find("The API features role-based access control"),
+        find("Example Guidance from ChatGPT:"),
+        find("Baseline Issue: Security and validation risk"),
+        find("ChatGPT Recommendation: preserve Entity Framework"),
+        find("Baseline Issue: Slow p95 latency"),
+        find("ChatGPT Recommendation: Implement caching"),
+        find("Example Adjustment: Use in-memory caching"),
+        find("Example: Security: Run ZAP"),
+    ]
+    for paragraph in remove_targets:
+        remove_paragraph(paragraph)
+    for paragraph in section:
+        if is_empty_paragraph(paragraph):
+            previous = paragraph._p.getprevious()
+            following = paragraph._p.getnext()
+            if previous is not None and following is not None:
+                remove_paragraph(paragraph)
+
+
+def smooth_phase_narrative_file(path: Path) -> None:
+    doc = Document(path)
+    smooth_phase_narrative(doc)
+    report_formatter.enable_field_update_on_open(doc)
+    doc.save(path)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize tables, paragraph emphasis, and pagination in the full thesis report.")
     parser.add_argument("target", nargs="?", type=Path, default=DEFAULT_REPORT)
@@ -507,14 +635,21 @@ def main() -> None:
         action="store_true",
         help="Tidy example labels and source-code evidence captions without rewriting other sections.",
     )
+    parser.add_argument(
+        "--phases-only",
+        action="store_true",
+        help="Convert Phase 1-4 methodology text into connected prose.",
+    )
     args = parser.parse_args()
     target = args.target.resolve()
-    if args.appendices_only and args.examples_only:
+    if sum((args.appendices_only, args.examples_only, args.phases_only)) > 1:
         parser.error("Select only one targeted formatting mode.")
     if args.appendices_only:
         compact_appendices_file(target)
     elif args.examples_only:
         tidy_examples_and_evidence_file(target)
+    elif args.phases_only:
+        smooth_phase_narrative_file(target)
     else:
         normalize_report(target)
     print(target)

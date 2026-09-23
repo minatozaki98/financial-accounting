@@ -42,6 +42,50 @@ layout_normalizer = load_module(
 
 
 class ThesisAppendixReportTests(unittest.TestCase):
+    def test_phase_methodology_becomes_idempotent_prose(self):
+        doc = Document()
+        doc.add_paragraph("3.1.1 Testing Environment and Reproducibility", style="Heading 3")
+        old_paragraphs = [
+            "Phase 1: Baseline Analysis",
+            "Initial security and performance testing are conducted",
+            "Tools: SonarQube",
+            "Example: Financial Accounting API: A complex RESTful API",
+            "The API features role-based access control",
+            "Phase 2: ChatGPT-Generated Improvements",
+            "Code recommendations are generated using ChatGPT",
+            "Example Guidance from ChatGPT:",
+            "Example: Security Enhancement",
+            "Baseline Issue: Security and validation risk",
+            "ChatGPT Recommendation: preserve Entity Framework",
+            "Example: Performance Optimization",
+            "Baseline Issue: Slow p95 latency",
+            "ChatGPT Recommendation: Implement caching",
+            "Example Adjustment: Use in-memory caching",
+            "Phase 3: Post-Improvement Testing",
+            "With ChatGPT-guided changes implemented",
+            "Example: Security: Run ZAP",
+            "Phase 4: Comparative Analysis and Reporting",
+            "The data collected from the baseline",
+        ]
+        for text in old_paragraphs:
+            doc.add_paragraph(text)
+        table = doc.add_table(rows=1, cols=1)
+        table.cell(0, 0).text = "evidence preserved"
+        doc.add_paragraph("3.1.2 Selected Source-Code Evidence", style="Heading 3")
+
+        layout_normalizer.smooth_phase_narrative(doc)
+        first_pass = [p.text for p in doc.paragraphs]
+        layout_normalizer.smooth_phase_narrative(doc)
+
+        self.assertEqual(first_pass, [p.text for p in doc.paragraphs])
+        self.assertEqual("evidence preserved", table.cell(0, 0).text)
+        self.assertEqual(4, len([p for p in doc.paragraphs if p.text.startswith("Phase ")]))
+        self.assertFalse(any(p.text.startswith("Tools:") for p in doc.paragraphs))
+        self.assertFalse(any(p._p.xpath("./w:pPr/w:numPr") for p in doc.paragraphs))
+        prose = next(p for p in doc.paragraphs if p.text.startswith("Initial security, performance"))
+        self.assertEqual("JUSTIFY (3)", str(prose.alignment))
+        self.assertEqual(2.0, prose.paragraph_format.line_spacing)
+
     def test_example_labels_and_source_evidence_use_stable_alignment(self):
         doc = Document()
         example = doc.add_paragraph(" Example:")
