@@ -359,11 +359,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["JMeter", "50/100/500 VU core gate", "100 VU ≤500 ms; 500 VU ≤1200 ms"],
         ["Regression", "Focused tests and role checks", "Accounting and authorization preserved"],
     ], 0.80, 1.58, 11.72, 3.80, widths=[0.21,0.45,0.34], font_size=17)
-    box(slide, 0.80, 5.72, 11.72, 0.66, ORANGE_LIGHT, radius=True)
-    text(slide, "A better stress-profile number cannot override an unmet core performance target.", 1.05, 5.80, 11.15, 0.49, 19, ORANGE, bold=True)
+    box(slide, 0.80, 5.62, 11.72, 0.96, ORANGE_LIGHT, radius=True)
+    text(slide, "100 VU is peak use—keep p95 within 0.5 s; 500 VU is stress—allow up to 1.2 s. Study-defined targets.",
+         1.04, 5.76, 11.18, 0.70, 18, ORANGE, bold=True)
     add_notes(slide, 70, "A result is not called successful because one chart looks better.",
-              "Static analysis has an issue count and a Quality Gate, but coverage and complexity also matter. ZAP has a configured gate, while raw observations still have to be disclosed. JMeter has primary 50, 100, and 500 VU core checks; 100 VU must stay at or below five hundred milliseconds and 500 VU at or below twelve hundred. We also require tests and role behavior to stay intact.",
-              "Current report Table 4.1 and §4.1.")
+              "Static analysis has an issue count and a Quality Gate, but coverage and complexity also matter. ZAP has a configured gate, while raw observations still have to be disclosed. JMeter has primary 50, 100, and 500 VU core checks. The 100 VU profile represents peak use, so the study sets a p95 target of five hundred milliseconds: 95 percent of requests should complete within half a second. The 500 VU profile is stress beyond normal use, so the study permits a longer p95 of twelve hundred milliseconds while still requiring bounded degradation. These are engineering acceptance choices set in the test plan before the retest, not universal industry standards or a validated production SLA. We report the raw response times as well as the gate judgment.",
+              "Current report Table 4.1 and §4.1; Document/JMETER_ZAP_TEST_PLAN.md §4.6.")
 
     # 10. Human-in-the-loop boundary
     slide = header(prs, "Method", "Codex proposed; humans and tools decided", "Current report §§3.1.3-3.1.4; Appendices I and K", TEAL)
@@ -476,9 +477,11 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     table(slide, rows, 0.80, 1.55, 11.72, 3.40, widths=[0.19,0.24,0.24,0.33], font_size=20)
     box(slide, 0.80, 5.26, 11.72, 1.07, RED_LIGHT, radius=True)
     text(slide, "NOT MET: 100 VU 1,146.9 > 500 ms; 500 VU 1,547.95 > 1,200 ms", 1.04, 5.43, 11.21, 0.67, 24, RED, bold=True)
+    text(slide, "100 VU = peak responsiveness; 500 VU = stress tolerance. Study-defined, not universal.",
+         1.04, 6.52, 11.15, 0.51, 16, MUTED)
     add_notes(slide, 90, "The primary performance criterion was not achieved.",
-              "All three fresh core total-p95 values increased. At 50 VU, p95 rose from thirty-three to about two hundred milliseconds; at 100 VU, from about two hundred fifty-six to one thousand one hundred forty-seven; at 500 VU, from one hundred six to one thousand five hundred forty-eight. Errors stayed at zero, but the 100 VU and 500 VU limits were exceeded, so the predefined core performance target was not met. The raw machine-readable gate status is FAIL.",
-              "Fresh JMeter baseline/remediation summary.json; current report §4.4 and Table 4.5.",
+              "All three fresh core total-p95 values increased. At 50 VU, p95 rose from thirty-three to about two hundred milliseconds; at 100 VU, from about two hundred fifty-six to one thousand one hundred forty-seven; at 500 VU, from one hundred six to one thousand five hundred forty-eight. The different limits are engineering acceptance choices: 100 VU represents peak use, where the study asks for p95 within half a second; 500 VU is stress, where up to 1.2 seconds is allowed. They are not universal standards or a validated production SLA. Errors stayed at zero, but the measured p95 values exceeded both limits, so the predefined core performance target was not met. The raw machine-readable gate status is FAIL.",
+              "Document/JMETER_ZAP_TEST_PLAN.md §4.6; fresh JMeter baseline/remediation summary.json; current report §4.4 and Table 4.5.",
               "Do not carry the historical core-gate PASS into this fresh result.")
 
     # 18. Stress-profile improvements
