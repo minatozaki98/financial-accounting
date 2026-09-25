@@ -49,7 +49,7 @@ WHITE = RGBColor(255, 255, 255)
 
 EVIDENCE_CUES: dict[int, tuple[str, str]] = {
     1: ("backup slide 27 (claim-to-evidence map)", "Appendix M"),
-    2: ("backup slides 29-31 (three measured outcomes)", "Appendices E-G and M"),
+    2: ("next slides 3-7 (problem and method)", "Appendices A and M"),
     3: ("backup slides 29-31 (the three risks)", "Appendices E-G"),
     4: ("backup slides 29-31 (one answer per tool)", "Appendix M"),
     5: ("backup slides 34 and 42-44 (API behavior)", "Appendices B-D, H, and J"),
@@ -304,23 +304,32 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Advisor: Asst. Prof. Dr. Darun Kesrarat", 0.72, 5.05, 10.9, 0.34, 18, MUTED)
     box(slide, 0.72, 6.20, 11.78, 0.66, TEAL_LIGHT, radius=True)
     text(slide, "One existing API · one shared baseline · three independent measurements", 0.95, 6.30, 11.30, 0.43, 19, TEAL, bold=True)
-    add_notes(slide, 45, "This is an evidence-based evaluation of Codex 5.4 as an advisor.",
-              "Good morning. I evaluate whether ChatGPT, used through Codex 5.4, can help improve an existing financial accounting API. The model suggests changes; I review and apply selected ones; SonarQube, OWASP ZAP, and JMeter show what the measured results support.",
+    add_notes(slide, 45, "This is an evidence-based evaluation of ChatGPT as an advisor.",
+              "Good morning. I evaluate whether ChatGPT can help improve an existing financial accounting API. The assistant suggests changes; I review and apply selected ones; SonarQube, OWASP ZAP, and JMeter show what the measured results support.",
               "Current full report title page and Abstract.")
 
-    # 2. Decision snapshot
-    slide = header(prs, "Opening", "The fresh evidence is mixed", "Current report §4.5; Table 4.5; Appendix M", TEAL)
-    metric(slide, 0.78, 1.56, 3.78, "Static quality", "17 to 0", "Unique SonarQube issues", GREEN_LIGHT, GREEN)
-    metric(slide, 4.78, 1.56, 3.78, "Security", "Gate PASS", "One raw API Medium remains", ORANGE_LIGHT, ORANGE)
-    metric(slide, 8.78, 1.56, 3.78, "Performance", "Target not met", "100 and 500 VU exceed limits", RED_LIGHT, RED)
-    box(slide, 0.78, 3.28, 11.78, 2.64, WHITE, BORDER, radius=True)
-    text(slide, "Defensible conclusion", 1.05, 3.62, 10.9, 0.36, 20, TEAL, bold=True)
-    text(slide, "ChatGPT-guided remediation closed the fresh static issues and passed the configured ZAP gate. It did not meet the predefined core performance target, despite lower soak and spike p95 values.",
-         1.05, 4.10, 10.90, 1.30, 23, INK)
-    add_notes(slide, 60, "The results are mixed: code quality improved, security has one remaining alert, and core speed missed its target.",
-              "Here is the result first. SonarQube issues fell from 17 to zero. ZAP's selected checks passed, but the API scan still had one Medium alert because the local site used HTTP. JMeter response times at 100 and 500 simulated users were above our study limits. Soak and spike improved, but they are separate tests.",
-              "Current report Table 4.5 and Appendix M.",
-              "Do not claim that the 50, 100, or 500 VU core p95 values improved; all three increased.")
+    # 2. Opening question, with outcomes intentionally reserved for the results section.
+    slide = header(prs, "Opening", "When is an AI suggestion an improvement?", "Current report §§1.1-1.5 and Chapter 3", TEAL)
+    box(slide, 0.80, 1.55, 11.72, 1.70, WHITE, BORDER, radius=True)
+    text(slide, "A plausible code change is not enough for a financial API.",
+         1.13, 1.79, 11.08, 0.49, 27, INK, bold=True)
+    text(slide, "The question is whether a reviewed ChatGPT suggestion survives functional and independent tool checks.",
+         1.13, 2.47, 11.08, 0.49, 19, TEAL)
+    opening_cards = [
+        (0.80, "01", "Existing system", "One accounting API with real routes and roles", NAVY, NAVY_LIGHT),
+        (4.78, "02", "Human review", "I accept or reject each proposed change", TEAL, TEAL_LIGHT),
+        (8.76, "03", "Independent checks", "Tests, SonarQube, ZAP, and JMeter", GREEN, GREEN_LIGHT),
+    ]
+    for x, number, title, body, accent, fill in opening_cards:
+        box(slide, x, 3.73, 3.76, 2.21, fill, BORDER, radius=True)
+        text(slide, number, x+0.23, 4.01, 0.51, 0.35, 17, accent, bold=True)
+        text(slide, title, x+0.23, 4.49, 3.28, 0.43, 22, accent, bold=True)
+        text(slide, body, x+0.23, 5.10, 3.28, 0.61, 17, INK)
+    text(slide, "The measurements—not the assistant's confidence—will answer the question.",
+         0.86, 6.32, 11.60, 0.42, 19, TEAL, bold=True)
+    add_notes(slide, 55, "The opening question is whether reviewed AI advice withstands measurement.",
+              "Before I show any result, I want to define the question. ChatGPT can suggest a code change that looks reasonable, but that does not mean the accounting API is better. I use one existing API, review each candidate change myself, run functional tests, and compare independent tool measurements with a saved baseline. I will explain the problem and the method first, then let the results answer whether the suggestions helped.",
+              "Current report §§1.1-1.5 and Chapter 3; next slides 3-7; Appendices A and M.")
 
     # 3. Practical problem
     slide = header(prs, "Problem", "One financial API has three different risks", "Current report §§1.1-1.4 and §3.1", NAVY)
@@ -352,7 +361,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, tag, 0.96, y+0.40, 0.96, 0.44, 24, WHITE, bold=True, align=PP_ALIGN.CENTER)
         text(slide, question, 2.38, y+0.24, 9.80, 0.84, 22, INK)
     add_notes(slide, 65, "I ask one measurable question for each tool.",
-              "First, did the code warnings decrease, and did coverage or complexity get worse? Second, did security alerts decrease, and what remained? Third, did the API stay within the response-time limits at the three user counts? I answer each question with the tool's before-and-after result, not with an AI opinion.",
+              "First, did the code warnings decrease, and did coverage or complexity get worse? Second, did security alerts decrease, and what remained? Third, did the API stay within the response-time limits at the three different user counts? I answer each question with the tool's before-and-after result, not with an AI opinion.",
               "Current report §1.5 and Table 4.1.")
 
     # 5. Research design and assistant selection
@@ -374,7 +383,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Contribution: evidence-backed AI-assisted remediation—not a new algorithm, matrix, or model comparison.",
          1.06, 6.04, 11.20, 0.42, 18, TEAL, bold=True)
     add_notes(slide, 75, "This is an applied single-case evaluation, not a new algorithm.",
-              "This is applied research: I study one existing financial accounting API and ask what happens when ChatGPT helps me address measured problems. I am not inventing a new algorithm or a scoring matrix. Why ChatGPT rather than Claude or Copilot? ChatGPT is widely used and recognizable, making it a relevant case to examine. Claude and Copilot can also analyze code and suggest changes. I used ChatGPT through Codex 5.4 and held that one assistant fixed so I could trace findings, suggestions, my review, and independent results in depth. I am not comparing AI assistants, and I cannot claim ChatGPT is better or uniquely capable. I also would not call it the first AI coding tool. I review the proposed edits; tests and the three independent tools judge the outcomes.",
+              "This is applied research: I study one existing financial accounting API and ask what happens when ChatGPT helps me address measured problems. I am not inventing a new algorithm or a scoring matrix. Why ChatGPT rather than Claude or Copilot? ChatGPT is widely used and recognizable, making it a relevant case to examine. Claude and Copilot can also analyze code and suggest changes. I held ChatGPT fixed as the one assistant so I could trace findings, suggestions, my review, and independent results in depth. I am not comparing AI assistants, and I cannot claim ChatGPT is better or uniquely capable. I also would not call it the first AI coding tool. I review the proposed edits; tests and the three independent tools judge the outcomes.",
               "Current report §§1.6 and 3.1-3.3, Table 3.3 and §3.6; OpenAI adoption study: https://openai.com/business/guides-and-resources/chatgpt-usage-and-adoption-patterns-at-work/ ; Claude Code overview: https://code.claude.com/docs/en/overview ; GitHub Copilot GA: https://github.blog/news-insights/product-news/github-copilot-is-generally-available-to-all-developers/ .")
 
     # 6. Branch isolation
@@ -401,7 +410,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     slide = header(prs, "Method", "Four phases turn suggestions into evidence", "Current report §3.1.1; Figures 3.1-3.4", TEAL)
     phases = [
         ("01", "Capture baseline", "Freeze code, dataset, and raw tool output"),
-        ("02", "Propose bounded fix", "Give Codex the finding, source context, and constraints"),
+        ("02", "Propose bounded fix", "Give ChatGPT the finding, source context, and constraints"),
         ("03", "Review and re-test", "I review, run tests, and rerun the same tool"),
         ("04", "Compare and report", "Apply gates; disclose residuals and unmet targets"),
     ]
@@ -413,14 +422,19 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, body, x+0.20, 3.88, 2.48, 1.16, 17, MUTED)
     text(slide, "The model does not approve its own output.", 0.78, 5.98, 11.8, 0.50, 23, TEAL, bold=True)
     add_notes(slide, 70, "A suggestion must be checked before it becomes a result.",
-              "First I saved the baseline result. Next I gave Codex a specific tool warning and the relevant code. Then I reviewed the suggested edit, ran tests, and ran the same tool again. Finally I compared the new number with the baseline and the study rule. A patch that looks good is not automatically a success.",
+              "First I saved the baseline result. Next I gave ChatGPT a specific tool warning and the relevant code. Then I reviewed the suggested edit, ran tests, and ran the same tool again. Finally I compared the new number with the baseline and the study rule. A patch that looks good is not automatically a success.",
               "Current report §3.1.1 and Figures 3.1-3.4.")
 
     # 8. Dataset and environment
     slide = header(prs, "Method", "One local setup and a seeded dataset", "Current report Tables 3.2 and 3.11; Appendix H", TEAL)
     metric(slide, 0.78, 1.58, 3.77, "Accounts", str(facts["dataset"]["accounts"]), "Seeded count in run record", NAVY_LIGHT, NAVY)
     metric(slide, 4.78, 1.58, 3.77, "Journal entries", f"{facts['dataset']['journalEntries']:,}", f"At least {facts['dataset']['postedEntries']:,} posted", NAVY_LIGHT, NAVY)
-    metric(slide, 8.78, 1.58, 3.77, "Test host", "Windows 11", ".NET 8 · local SQL Server", NAVY_LIGHT, NAVY)
+    metric(slide, 8.78, 1.58, 3.77, "Test host", "Local ", ".NET 8 · local SQL Server", NAVY_LIGHT, NAVY)
+    for shape in slide.shapes:
+        if shape.has_text_frame and shape.text == "Local ":
+            shape.top = 1796281
+            shape.height = 421654
+            break
     box(slide, 0.78, 3.27, 11.77, 2.45, WHITE, BORDER, radius=True)
     text(slide, "Tool versions in the fresh reproduction", 1.06, 3.57, 11.05, 0.42, 21, TEAL, bold=True)
     text(slide, "SonarQube 26.7     |     OWASP ZAP 2.17     |     Apache JMeter 5.5", 1.06, 4.22, 11.04, 0.60, 24, INK, bold=True)
@@ -467,7 +481,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         (0.80, TEAL_LIGHT, TEAL, "01  INPUT", "Start with evidence",
          "Tool finding + relevant code", "Example: SonarQube flags eight controller parameters."),
         (4.79, NAVY_LIGHT, NAVY, "02  HUMAN DECISION", "Review the proposed fix",
-         "Codex suggests; I decide.", "I check correctness, accounting behavior, and access control."),
+         "ChatGPT suggests; I decide.", "I check correctness, accounting behavior, and access control."),
         (8.78, GREEN_LIGHT, GREEN, "03  INDEPENDENT CHECK", "Verify the outcome",
          "Run tests; rerun the same tool.", "Compare with the saved baseline and the study target."),
     ]
@@ -486,7 +500,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "An AI proposal is not proof: the JMeter branch did not meet its main speed target.",
          1.12, 6.15, 11.08, 0.37, 18, ORANGE, bold=True)
     add_notes(slide, 80, "A proposal passes through my review and independent measurement.",
-              "Read this diagram from left to right. On the left, I start with a real tool finding and the source code needed to understand it. For example, SonarQube flagged eight controller parameters. In the middle, Codex proposes a change, but it does not decide whether that change is correct. I reviewed the request DTO for accounting behavior and access control before using it. On the right, I run focused tests and rerun the same tool on the changed branch. I compare that result with the saved baseline and the study target. SonarQube's unique issue count went from 17 to zero; JMeter did not meet its main speed target. The arrows represent checks, not automatic acceptance of an AI suggestion.",
+              "Read this diagram from left to right. On the left, I start with a real tool finding and the source code needed to understand it. For example, SonarQube flagged eight controller parameters. In the middle, ChatGPT proposes a change, but it does not decide whether that change is correct. I reviewed the request DTO for accounting behavior and access control before using it. On the right, I run focused tests and rerun the same tool on the changed branch. I compare that result with the saved baseline and the study target. SonarQube's unique issue count went from 17 to zero; JMeter did not meet its main speed target. The arrows represent checks, not automatic acceptance of an AI suggestion.",
               "Current report §§3.1.3-3.1.4, Appendices I and K.")
 
     # 11. What changed in code
@@ -502,42 +516,50 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "For code quality, I replaced eight controller parameters with one request object. For security, I put security headers before Swagger. For performance, I added ledger caching and stopped saving a new report snapshot on that read path. These are the code changes I made; the next slides show whether the measurements improved.",
               "Current report Table 4.3 and Appendices E-G.")
 
-    # 12. SonarQube result
-    slide = header(prs, "Results", "SonarQube closed all 17 fresh issues", "Current report §4.2; Table 4.2; Figures L.1-L.4", GREEN)
-    metric(slide, 0.80, 1.50, 3.76, "Unique issues", "17 → 0", "Current run", GREEN_LIGHT, GREEN)
-    metric(slide, 4.78, 1.50, 3.76, "Quality Gate", "OK → OK", "No gate conditions recorded", GREEN_LIGHT, GREEN)
-    metric(slide, 8.76, 1.50, 3.76, "Coverage", "74.4 → 74.3%", "Down 0.1 percentage point", ORANGE_LIGHT, ORANGE)
-    sonar_cards = [
-        (0.80, "Bugs 0 · Vulnerabilities 0",
-         "All 17 baseline issues were legacy Code Smells. Newer impact labels can still mention Reliability or Security."),
-        (4.78, "Duplicated-line density 0.0%",
-         "SonarQube reported 0.0% for the analyzed code; that is not proof of no repeated code."),
-        (8.76, "Coverage: 0.1 percentage point down",
-         "74.4% → 74.3%. This is a small measured decrease; saved summaries do not explain its exact cause."),
+    # 12. SonarQube result: foreground the change, show the controls without calling zeros gains.
+    slide = header(prs, "Results", "SonarQube: 17 findings closed", "Current report §4.2; Table 4.2; Figures L.1-L.4", GREEN)
+    box(slide, 0.80, 1.55, 5.47, 4.65, GREEN_LIGHT, BORDER, radius=True)
+    text(slide, "PRIMARY OUTCOME", 1.12, 1.88, 4.83, 0.32, 16, GREEN, bold=True)
+    text(slide, "17 → 0", 1.10, 2.42, 4.85, 1.01, 53, GREEN, bold=True)
+    text(slide, "unique SonarQube issues", 1.12, 3.51, 4.77, 0.46, 24, GREEN, bold=True)
+    text(slide, "All 17 baseline issues were legacy Code Smells.", 1.12, 4.30, 4.73, 0.68, 19, INK)
+    text(slide, "Example fix: eight controller parameters → one request DTO.",
+         1.12, 5.20, 4.73, 0.75, 18, INK)
+    box(slide, 6.52, 1.55, 6.00, 4.65, WHITE, BORDER, radius=True)
+    text(slide, "CONTROLS MONITORED", 6.82, 1.88, 5.37, 0.34, 16, TEAL, bold=True)
+    control_rows = [
+        "Coverage 74.4% → 74.3% (−0.1 pp)",
+        "Bugs / Vulnerabilities 0 / 0 → 0 / 0",
+        "Duplicate density 0.0% → 0.0%",
+        "Quality Gate OK → OK",
+        "Complexity 886 → 889",
     ]
-    for x, title, body in sonar_cards:
-        box(slide, x, 3.12, 3.76, 2.69, WHITE, BORDER, radius=True)
-        text(slide, title, x+0.20, 3.35, 3.34, 0.69, 18, TEAL, bold=True)
-        text(slide, body, x+0.20, 4.15, 3.34, 1.39, 16, INK)
-    text(slide, "Impact labels overlap (Reliability 2, Security 1, Maintainability 16); complexity rose 886 → 889.",
-         0.86, 6.16, 11.61, 0.45, 16, MUTED)
-    add_notes(slide, 100, "The zeros and the small coverage decrease have different meanings.",
-              "SonarQube reported 17 unique baseline issues and zero after the changes. Why do Bugs and Vulnerabilities show zero even at baseline? In the legacy issue-type field, all 17 were classified as code smells. SonarQube's newer impact labels also marked some of those same issues as Reliability or Security concerns. Those labels overlap; they are not additional unique bugs or vulnerabilities. Duplicated-line density was 0.0 percent in both scans: the tool did not report duplicated lines at its displayed precision in this analyzed scope. It does not prove the whole codebase has no repeated logic. Coverage moved from 74.4 to 74.3 percent, a decrease of 0.1 percentage point. The saved summaries give the percentages but not the underlying covered and uncovered counts, so I cannot identify the exact cause. Cyclomatic complexity roughly counts decision paths through code; it rose from 886 to 889. I report both changes as small regressions. The Quality Gate said OK on both branches but its saved conditions list was empty, so the issue count is the clearer comparison.",
-              "Next slides 14-15; backup slides 29 and 35-36; SonarQube quality-gate.json and summary.json; current report Table 4.2, Appendices E and L.",
-              "The full report lists OK/OK; explain that the captured gate response has an empty conditions list.")
+    for i, row in enumerate(control_rows):
+        y = 2.42 + i * 0.72
+        text(slide, row, 6.82, y, 5.36, 0.43, 18, INK)
+        if i < len(control_rows)-1:
+            line(slide, 6.82, y+0.58, 12.18, y+0.58, BORDER, 1)
+    box(slide, 0.84, 6.37, 11.64, 0.49, GREEN_LIGHT, radius=True)
+    text(slide, "The targeted gain is issue closure; adjacent quality measures stayed close to baseline.",
+         1.07, 6.43, 11.18, 0.35, 17, GREEN, bold=True)
+    add_notes(slide, 85, "The targeted 17 findings were resolved; other metrics are controls, not improvements.",
+              "The main result is 17 distinct SonarQube issues in the baseline and zero after the reviewed fixes. In the legacy issue-type field, all 17 were classified as code smells. I ran tests and repeated the scan on the isolated code-quality branch. The right-hand metrics are controls, not gains: coverage stayed close to baseline at 74.4 versus 74.3 percent; legacy Bugs and Vulnerabilities stayed at zero; duplicated-line density stayed at 0.0 percent; the Quality Gate stayed OK; and complexity rose slightly from 886 to 889. This supports targeted maintainability remediation with adjacent measures monitored. I do not claim the zero Bug or Vulnerability count proves the running API is secure—that is why I test security separately with ZAP. Cyclomatic complexity roughly counts decision paths through code. If asked why newer Reliability and Security impacts appeared, those labels overlap on the same legacy code-smell issues. The saved coverage summary lacks the underlying counts, so I cannot identify the exact cause of the 0.1 percentage-point change.",
+              "Next slides 14-15; backup slides 29 and 35-36; SonarQube issues.json, measures.json and quality-gate.json; current report Table 4.2, Appendices E and L.",
+              "Do not call the baseline zeros an improvement or treat Quality Gate OK/OK as evidence of issue closure; its captured condition list is empty.")
 
     # 13. Native Sonar evidence
-    slide = header(prs, "Results", "SonarQube issues changed; gate status did not", "Current capture · Appendix L, Figures L.1 and L.3", GREEN)
+    slide = header(prs, "Evidence", "The SonarQube dashboards confirm 17 → 0", "Current capture · Appendix L, Figures L.1 and L.3", GREEN)
     text(slide, "Baseline · commit 7a0469d9", 0.88, 1.42, 5.62, 0.38, 17, NAVY, bold=True)
     text(slide, "Remediation · commit a2279bcb", 6.82, 1.42, 5.62, 0.38, 17, GREEN, bold=True)
     image_contain(slide, DASHBOARD_ROOT / "sonarqube" / "sonarqube-baseline-overview.png", 0.86, 1.88, 5.63, 3.85)
     image_contain(slide, DASHBOARD_ROOT / "sonarqube" / "sonarqube-remediation-overview.png", 6.82, 1.88, 5.63, 3.85)
     box(slide, 0.84, 5.92, 11.64, 0.75, GREEN_LIGHT, radius=True)
-    text(slide, "Gate OK/OK has no recorded conditions; the measured improvement is 17 issues → 0.",
+    text(slide, "17 unique issues → 0; Quality Gate remained OK on both branches.",
          1.07, 6.01, 11.19, 0.55, 16, GREEN, bold=True)
-    add_notes(slide, 60, "Both dashboards say OK, but the issue count is the useful comparison.",
-              "If asked why both Quality Gates passed, point out that the saved gate files show OK with an empty list of conditions on each branch. That status therefore did not distinguish the scans. The baseline had 17 distinct issues; the changed branch had zero. Coverage moved from 74.4 to 74.3 percent, so I show that small decrease too. These are screenshots of the tool, not a new chart I made.",
-              "Next slide 15; backup slides 29 and 35-36; Appendix L Figures L.1-L.4; sonar/baseline and remediation quality-gate.json.")
+    add_notes(slide, 60, "The saved dashboard views corroborate the issue-count change.",
+              "I now point to the two actual SonarQube dashboard captures. The baseline scan reports 17 unique issues; the code-quality branch reports zero. The Quality Gate reads OK in both, so I use the issue count—not a change in gate status—as the evidence of remediation. Slide 15 shows representative source-code changes behind this result, and Appendix L has larger dashboard views.",
+              "Next slide 15; backup slides 29 and 35-36; Appendix L Figures L.1-L.4; sonar/baseline and remediation issues.json and quality-gate.json.",
+              "The saved Quality Gate responses contain no conditions; do not describe this as a failed-to-passed gate.")
 
     # 15. Representative SonarQube source changes, shown immediately after the scan evidence.
     slide = header(prs, "Evidence", "Two SonarQube fixes in source code", "Appendix E, Listings E.1-E.2", GREEN)
@@ -714,7 +736,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, body, 1.95, y+0.68, 10.20, 0.45, 18, INK)
     text(slide, "Thank you. Questions?", 0.82, 6.36, 11.72, 0.39, 25, TEAL, bold=True)
     add_notes(slide, 80, "The contribution is a way to check AI suggestions, including when they do not work.",
-              "This was an applied case study, not a new algorithm, scoring matrix, or comparison of AI assistants. Codex helped me propose code changes. I reviewed them, and the original tools measured the results. Code warnings reached zero and selected security checks passed, but the main performance target was not met. My contribution is the traceable process and this honest mixed result, not a claim that ChatGPT always improves an API. Thank you; I welcome questions.",
+              "This was an applied case study, not a new algorithm, scoring matrix, or comparison of AI assistants. ChatGPT helped me propose code changes. I reviewed them, and the original tools measured the results. Code warnings reached zero and selected security checks passed, but the main performance target was not met. My contribution is the traceable process and this honest mixed result, not a claim that ChatGPT always improves an API. Thank you; I welcome questions.",
               "Current report Chapter 5 and Appendices A-N.")
 
     return len(prs.slides)
@@ -796,7 +818,6 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
         ["Static quality", "baseline-sonarqube-v1", "a2279bcb"],
         ["Security", "baseline-zap-v1", "5f3bd3cc"],
         ["Performance", "baseline-jmeter-v1", "78b08b62"],
-        ["Reproduction", "codex/thesis-reproducibility-v1", "efa19cea"],
     ], 0.80, 1.51, 11.72, 4.85, widths=[0.25,0.47,0.28], font_size=17)
     backup_notes(slide, "branch provenance", "Current report Appendix A and Table 3.1.")
 
@@ -949,7 +970,7 @@ def build() -> Path:
     prs.core_properties.title = "Final Thesis Defense - Current Fresh Results"
     prs.core_properties.subject = "Branch-isolated evidence for financial accounting API remediation"
     prs.core_properties.author = "Zaw Ye Htut Ko"
-    prs.core_properties.keywords = "SonarQube, OWASP ZAP, JMeter, Codex 5.4, financial API"
+    prs.core_properties.keywords = "SonarQube, OWASP ZAP, JMeter, ChatGPT, financial API"
     main_count = build_main_slides(prs, facts)
     if main_count != 26:
         raise RuntimeError(f"Expected 26 timed slides, built {main_count}")
