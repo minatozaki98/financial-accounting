@@ -356,12 +356,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "Current report §1.5 and Table 4.1.")
 
     # 5. Research design and assistant selection
-    slide = header(prs, "Method", "An applied case study of one existing API", "Current report §§1.6 and 3.1-3.3; Table 3.3", TEAL)
+    slide = header(prs, "Method", "An applied case study of one existing API", "Current report §§1.6 and 3.1-3.3; OpenAI adoption study", TEAL)
     research_cards = [
         (0.80, NAVY_LIGHT, NAVY, "WHAT I STUDIED", "Applied case study",
          "One ASP.NET Core financial API with accounts, journal entries, reports, and four user roles."),
         (4.78, TEAL_LIGHT, TEAL, "WHY THIS ASSISTANT", "Why ChatGPT?",
-         "Chosen for this case because Codex 5.4 can use scanner findings and source context to propose traceable code edits."),
+         "ChatGPT is widely used and recognizable. It is one case to study deeply—not uniquely capable of coding fixes."),
         (8.76, GREEN_LIGHT, GREEN, "HOW I JUDGED IT", "Measured comparison",
          "One baseline and isolated branches; tests, SonarQube, ZAP, and JMeter judge the changes."),
     ]
@@ -374,8 +374,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Contribution: evidence-backed AI-assisted remediation—not a new algorithm, matrix, or model comparison.",
          1.06, 6.04, 11.20, 0.42, 18, TEAL, bold=True)
     add_notes(slide, 75, "This is an applied single-case evaluation, not a new algorithm.",
-              "This is applied research: I study one existing financial accounting API and ask what happens when ChatGPT helps me address measured problems. I am not inventing a new algorithm or a scoring matrix. Why ChatGPT? It is the one assistant named in my research question, and through Codex 5.4 I can give it an actual scanner finding plus repository code and ask for a candidate change. I keep that one assistant fixed so I can examine this workflow in depth; I am not comparing AI assistants or claiming ChatGPT is the best one. I review the proposed edits, while tests and the three independent tools decide the outcomes.",
-              "Current report §§1.6 and 3.1-3.3, Table 3.3 and §3.6.")
+              "This is applied research: I study one existing financial accounting API and ask what happens when ChatGPT helps me address measured problems. I am not inventing a new algorithm or a scoring matrix. Why ChatGPT rather than Claude or Copilot? ChatGPT is widely used and recognizable, making it a relevant case to examine. Claude and Copilot can also analyze code and suggest changes. I used ChatGPT through Codex 5.4 and held that one assistant fixed so I could trace findings, suggestions, my review, and independent results in depth. I am not comparing AI assistants, and I cannot claim ChatGPT is better or uniquely capable. I also would not call it the first AI coding tool. I review the proposed edits; tests and the three independent tools judge the outcomes.",
+              "Current report §§1.6 and 3.1-3.3, Table 3.3 and §3.6; OpenAI adoption study: https://openai.com/business/guides-and-resources/chatgpt-usage-and-adoption-patterns-at-work/ ; Claude Code overview: https://code.claude.com/docs/en/overview ; GitHub Copilot GA: https://github.blog/news-insights/product-news/github-copilot-is-generally-available-to-all-developers/ .")
 
     # 6. Branch isolation
     slide = header(prs, "Method", "Every remediation branch starts from one baseline", "Current report Table 3.1 and Appendix A", TEAL)
