@@ -47,6 +47,31 @@ NAVY = RGBColor(36, 70, 108)
 NAVY_LIGHT = RGBColor(235, 243, 251)
 WHITE = RGBColor(255, 255, 255)
 
+EVIDENCE_CUES: dict[int, tuple[str, str]] = {
+    1: ("backup slide 23 (claim-to-evidence map)", "Appendix M"),
+    2: ("backup slides 25-27 (three measured outcomes)", "Appendices E-G and M"),
+    3: ("backup slides 25-27 (the three risks)", "Appendices E-G"),
+    4: ("backup slides 25-27 (one answer per tool)", "Appendix M"),
+    5: ("backup slides 30 and 40-42 (API behavior)", "Appendices B-D, H, and J"),
+    6: ("backup slide 24 (tested commits)", "Appendix A"),
+    7: ("backup slides 24 and 28-29 (source and tests)", "Appendices A, E-G, I, and K"),
+    8: ("backup slide 23 (120-account run record)", "Appendix H; Tables 3.10-3.11"),
+    9: ("backup slides 25-27 (results checked against the rules)", "Appendices K and M"),
+    10: ("backup slides 28-29 (before/after code)", "Appendices E-G, I, and K"),
+    11: ("backup slides 28-29 (actual code changes)", "Appendices E-G"),
+    12: ("backup slides 25 and 31-32 (SonarQube data)", "Appendices E, L, and M"),
+    13: ("backup slides 25 and 31-32 (SonarQube detail)", "Appendix L, Figures L.1-L.4"),
+    14: ("backup slide 26 (current ZAP counts)", "Appendices F and M"),
+    15: ("backup slide 26 for current counts; slides 33-34 for historical images", "Appendix L, Figures L.5-L.8"),
+    16: ("backup slides 27 and 35-39 (JMeter profiles)", "Appendices K and L"),
+    17: ("backup slides 27, 29, and 36-37 (result, code, dashboards)", "Appendices G, K, L, and N"),
+    18: ("backup slides 27 and 38-39 (soak and spike)", "Appendix L, Figures L.12-L.13 and L.17-L.18"),
+    19: ("backup slides 27, 29, and 38-39 (mixed endpoint behavior)", "Appendix G; Table 4.4"),
+    20: ("backup slides 40-42 (browser views)", "Appendix J; Figures 4.2-4.7"),
+    21: ("backup slides 25-27 (outcome details)", "Appendices M and N"),
+    22: ("backup slide 23 (where every claim is checked)", "Appendices A, M, and N"),
+}
+
 
 def read_facts() -> dict:
     report = Document(REPORT)
@@ -64,6 +89,10 @@ def read_facts() -> dict:
         sonar[role] = json.loads((EVIDENCE_ROOT / "sonar" / role / "summary.json").read_text(encoding="utf-8-sig"))
         zap[role] = json.loads((EVIDENCE_ROOT / "zap" / role / "summary.json").read_text(encoding="utf-8-sig"))
         jmeter[role] = json.loads((EVIDENCE_ROOT / "jmeter" / role / "summary.json").read_text(encoding="utf-8-sig"))
+    dataset = json.loads((EVIDENCE_ROOT / "branch-verification.json").read_text(encoding="utf-8-sig"))["dataset"]
+    for role in ("baseline", "remediation"):
+        if any(jmeter[role]["dataset"][key] != dataset[key] for key in ("accounts", "journalEntries", "postedEntries")):
+            raise RuntimeError(f"JMeter {role} dataset counts disagree with branch verification.")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8-sig"))
     captures = {capture["imagePath"]: capture for capture in manifest["captures"]}
     return {
@@ -71,6 +100,7 @@ def read_facts() -> dict:
         "sonar": sonar,
         "zap": zap,
         "jmeter": jmeter,
+        "dataset": dataset,
         "sonar_rows": sonar_rows,
         "closure": closure,
         "captures": captures,
@@ -140,6 +170,21 @@ def add_notes(slide, seconds, key, script, source, caution=""):
         f"SOURCE: {source}"
         + (f"\nCAUTION: {caution}" if caution else "")
     )
+
+
+def add_evidence_cues(prs: Presentation) -> None:
+    if set(EVIDENCE_CUES) != set(range(1, 23)):
+        raise RuntimeError("Every main slide needs an evidence cue.")
+    for slide_number, (slides, appendix) in EVIDENCE_CUES.items():
+        notes = prs.slides[slide_number - 1].notes_slide.notes_text_frame
+        marker = "\n\nSCRIPT:\n"
+        if marker not in notes.text:
+            raise RuntimeError(f"Slide {slide_number} has no speaker script.")
+        notes.text = notes.text.replace(
+            marker,
+            f"\nSHOW IF ASKED: {slides}\nAPPENDIX: {appendix}{marker}",
+            1,
+        )
 
 
 def image_contain(slide, path: Path, x, y, w, h, border=True, visible_top_px: int | None = None):
@@ -246,8 +291,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Defensible conclusion", 1.05, 3.62, 10.9, 0.36, 20, TEAL, bold=True)
     text(slide, "ChatGPT-guided remediation closed the fresh static issues and passed the configured ZAP gate. It did not meet the predefined core performance target, despite better soak and spike aggregates.",
          1.05, 4.10, 10.90, 1.30, 23, INK)
-    add_notes(slide, 60, "Static quality succeeded; security has a disclosed residual; the core performance target was not met.",
-              "I want to give the result before the details. The fresh reproduction reduced SonarQube issues from seventeen to zero. ZAP passed the configured rule gate, but one raw Medium HTTP-only observation remained in the authenticated scan. JMeter's primary core performance target was not met at the 100 and 500 VU workloads. Improvements in soak and spike do not change that conclusion.",
+    add_notes(slide, 60, "The results are mixed: code quality improved, security has one remaining alert, and core speed missed its target.",
+              "Here is the result first. SonarQube issues fell from 17 to zero. ZAP's selected checks passed, but the API scan still had one Medium alert because the local site used HTTP. JMeter response times at 100 and 500 simulated users were above our study limits. Soak and spike improved, but they are separate tests.",
               "Current report Table 4.5 and Appendix M.",
               "Do not repeat the historical claim that all core JMeter profiles improved.")
 
@@ -263,8 +308,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, title, x+0.25, 2.10, 3.25, 0.50, 24, color, bold=True)
         text(slide, body, x+0.25, 2.94, 3.20, 1.72, 21, INK)
     text(slide, "No one scanner can stand in for all three dimensions.", 0.78, 5.84, 11.8, 0.55, 24, INK, bold=True)
-    add_notes(slide, 60, "The three risks need different measurements.",
-              "A financial API can have source-code warnings, runtime security observations, and slow responses at the same time. These failures have different causes. That is why the study uses three independent tools and checks that remediation does not break the accounting behavior.",
+    add_notes(slide, 60, "Code, security, and speed need different checks.",
+              "A program can have confusing code, unsafe web settings, and slow requests at the same time. One tool cannot check all three. I used SonarQube to read code, ZAP to test the running API, and JMeter to send load. I also ran tests to check that accounting behavior still worked.",
               "Current report Chapter 1 and §3.1.")
 
     # 4. Research questions
@@ -280,12 +325,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         box(slide, 0.80, y, 1.30, 1.33, color)
         text(slide, tag, 0.96, y+0.40, 0.96, 0.44, 24, WHITE, bold=True, align=PP_ALIGN.CENTER)
         text(slide, question, 2.38, y+0.24, 9.80, 0.84, 22, INK)
-    add_notes(slide, 65, "Each research question has an acceptance rule.",
-              "The first question is about code quality: can the issue count fall without overlooking coverage and complexity? The second is about security: can configured scanner rules pass while raw observations remain visible? The third is about performance: do the primary load gates pass, not just selected stress profiles? These rules were used to judge the results in Chapter Four.",
+    add_notes(slide, 65, "I ask one measurable question for each tool.",
+              "First, did the code warnings decrease, and did coverage or complexity get worse? Second, did security alerts decrease, and what remained? Third, did the API stay within the response-time limits at the three user counts? I answer each question with the tool's before-and-after result, not with an AI opinion.",
               "Current report §1.5 and Table 4.1.")
 
     # 5. System under study
-    slide = header(prs, "Method", "The unit of analysis is an existing accounting API", "Current report §§3.1-3.2; Table 3.3", TEAL)
+    slide = header(prs, "Method", "The study tested one existing accounting API", "Current report §§3.1-3.2; Table 3.3", TEAL)
     box(slide, 0.80, 1.55, 4.10, 4.83, NAVY_LIGHT, BORDER, radius=True)
     text(slide, "ASP.NET Core 8", 1.09, 1.88, 3.52, 0.50, 27, NAVY, bold=True)
     text(slide, "SQL Server financial database\nJWT authentication · RBAC\nDouble-entry posting · audit log", 1.09, 2.61, 3.52, 2.64, 22, INK)
@@ -294,8 +339,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Endpoint groups exercised", 5.41, 1.86, 6.83, 0.42, 22, TEAL, bold=True)
     list_items(slide, ["Authentication and users", "Accounts and periods", "Journal entries and bulk posting", "Financial reports", "Audit logs"],
                5.42, 2.48, 6.65, row_h=0.70, size=20)
-    add_notes(slide, 70, "This is one nontrivial API, not a set of unrelated projects.",
-              "The evaluated system has accounting workflows, a SQL Server database, JWT authentication, four exact role names, protected write operations, report generation, and audit logging. The same API is measured before and after each tool-specific branch. The dashboard later in this talk is a demonstration client, not the benchmark dataset itself.",
+    add_notes(slide, 70, "All comparisons use the same accounting API.",
+              "This API has login, four user roles, accounts, journal entries, reports, and an audit log. It uses a local SQL Server database. I compared a baseline with changed versions of this same API. The web screenshots later show that the app can be used; those screenshots are not JMeter performance measurements.",
               "Current report §§3.1-3.2, Table 3.3, Figures 4.2-4.7.")
 
     # 6. Branch isolation
@@ -314,8 +359,8 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, branch, x+0.22, 4.18, 3.32, 0.38, 16, INK, bold=True)
         text(slide, f"Tested commit {commit}", x+0.22, 4.74, 3.32, 0.28, 13, MUTED)
     text(slide, "Compare one tool branch at a time; do not combine their deltas into one causal claim.", 0.80, 5.96, 11.8, 0.50, 19, INK)
-    add_notes(slide, 70, "Branch isolation makes each before-and-after comparison traceable.",
-              "We froze a common baseline at commit 7a0469d9. The SonarQube, ZAP, and JMeter changes were assessed on separate refs. The exact tested commits are recorded, so a later change to a branch name cannot silently change the result. I compare each remediation branch to that same baseline, one tool at a time.",
+    add_notes(slide, 70, "Each tool's change has its own branch.",
+              "I used one saved baseline version as the starting point. I put the code-quality, security, and performance changes on separate branches. That lets me compare each changed version with the same starting code. I also recorded the exact commits so the code being compared cannot silently change later.",
               "Current report Appendix A and Table 3.1.")
 
     # 7. Workflow
@@ -333,52 +378,52 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, title, x+0.20, 2.91, 2.48, 0.70, 20, INK, bold=True)
         text(slide, body, x+0.20, 3.88, 2.48, 1.16, 17, MUTED)
     text(slide, "The model does not approve its own output.", 0.78, 5.98, 11.8, 0.50, 23, TEAL, bold=True)
-    add_notes(slide, 70, "The model's suggestion is a candidate, not the result.",
-              "Phase one captures the baseline. Phase two supplies a tool finding, relevant code, and a narrow instruction to the model. Phase three is human review, tests, and a fresh run of the same measuring tool. Phase four compares the branch result with the baseline using the original decision rule. This prevents an attractive patch from being called successful just because it looks plausible.",
+    add_notes(slide, 70, "A suggestion must be checked before it becomes a result.",
+              "First I saved the baseline result. Next I gave Codex a specific tool warning and the relevant code. Then I reviewed the suggested edit, ran tests, and ran the same tool again. Finally I compared the new number with the baseline and the study rule. A patch that looks good is not automatically a success.",
               "Current report §3.1.1 and Figures 3.1-3.4.")
 
     # 8. Dataset and environment
-    slide = header(prs, "Method", "One controlled environment and a seeded dataset", "Current report Tables 3.2 and 3.11; Appendix H", TEAL)
-    metric(slide, 0.78, 1.58, 3.77, "Accounts", "120", "Deterministic seed", NAVY_LIGHT, NAVY)
-    metric(slide, 4.78, 1.58, 3.77, "Journal entries", "30,000", "At least 5,000 posted", NAVY_LIGHT, NAVY)
+    slide = header(prs, "Method", "One local setup and a seeded dataset", "Current report Tables 3.2 and 3.11; Appendix H", TEAL)
+    metric(slide, 0.78, 1.58, 3.77, "Accounts", str(facts["dataset"]["accounts"]), "Seeded count in run record", NAVY_LIGHT, NAVY)
+    metric(slide, 4.78, 1.58, 3.77, "Journal entries", f"{facts['dataset']['journalEntries']:,}", f"At least {facts['dataset']['postedEntries']:,} posted", NAVY_LIGHT, NAVY)
     metric(slide, 8.78, 1.58, 3.77, "Test host", "Windows 11", ".NET 8 · local SQL Server", NAVY_LIGHT, NAVY)
     box(slide, 0.78, 3.27, 11.77, 2.45, WHITE, BORDER, radius=True)
     text(slide, "Tool versions in the fresh reproduction", 1.06, 3.57, 11.05, 0.42, 21, TEAL, bold=True)
     text(slide, "SonarQube 26.7     |     OWASP ZAP 2.17     |     Apache JMeter 5.5", 1.06, 4.22, 11.04, 0.60, 24, INK, bold=True)
-    text(slide, "A single host and one fresh run per branch limit generalization.", 1.06, 5.03, 11.04, 0.35, 17, MUTED)
-    add_notes(slide, 60, "The comparison uses a reproducible local setup but only one host.",
-              "The seeded database contains 120 accounts and thirty thousand journal entries, with at least five thousand posted entries. The benchmark used one Windows 11 host, ASP.NET Core 8, local SQL Server, and pinned tool versions. These controls help repeat the run, but one host and one fresh run per branch are still important limitations.",
-              "Current report Tables 3.2 and 3.11, Appendix H and verification summaries.")
+    text(slide, "120 accounts are recorded in the run evidence (backup slide 23; Appendix H).", 1.06, 5.03, 11.04, 0.35, 17, MUTED)
+    add_notes(slide, 60, "The 120 accounts are seeded test data, not customer records.",
+              "The test scripts created 120 accounts and 30,000 journal entries. At least 5,000 entries were posted, so the report endpoints had data to process. This is not a screenshot of 120 individual accounts: the count is recorded in the run record. We used one local computer and one fresh run per branch, so the result is limited to this setup.",
+              "Backup slide 23; branch-verification.json dataset counts; current report Tables 3.10-3.11 and Appendix H.")
 
     # 9. Acceptance rules
-    slide = header(prs, "Method", "Success was decided by tool-specific gates", "Current report Table 4.1 and §4.1", TEAL)
+    slide = header(prs, "Method", "Outcomes were judged by tool-specific measures", "Current report Table 4.1 and §4.1", TEAL)
     table(slide, [
         ["Area", "Primary decision", "Control metric"],
-        ["SonarQube", "Close fresh issues; Quality Gate OK", "Coverage and complexity disclosed"],
+        ["SonarQube", "Compare unique issues; show gate status", "Coverage and complexity disclosed"],
         ["OWASP ZAP", "Configured-rule gate; report raw alerts", "Residual HTTP-only observation disclosed"],
         ["JMeter", "50/100/500 VU core gate", "100 VU ≤500 ms; 500 VU ≤1200 ms"],
         ["Regression", "Focused tests and role checks", "Accounting and authorization preserved"],
     ], 0.80, 1.58, 11.72, 3.80, widths=[0.21,0.45,0.34], font_size=17)
     box(slide, 0.80, 5.62, 11.72, 0.96, ORANGE_LIGHT, radius=True)
-    text(slide, "100 VU is peak use—keep p95 within 0.5 s; 500 VU is stress—allow up to 1.2 s. Study-defined targets.",
+    text(slide, "Study scenarios: 100 VU = planned peak; 500 VU = heavier load. These are not measured production traffic.",
          1.04, 5.76, 11.18, 0.70, 18, ORANGE, bold=True)
-    add_notes(slide, 70, "A result is not called successful because one chart looks better.",
-              "Static analysis has an issue count and a Quality Gate, but coverage and complexity also matter. ZAP has a configured gate, while raw observations still have to be disclosed. JMeter has primary 50, 100, and 500 VU core checks. The 100 VU profile represents peak use, so the study sets a p95 target of five hundred milliseconds: 95 percent of requests should complete within half a second. The 500 VU profile is stress beyond normal use, so the study permits a longer p95 of twelve hundred milliseconds while still requiring bounded degradation. These are engineering acceptance choices set in the test plan before the retest, not universal industry standards or a validated production SLA. We report the raw response times as well as the gate judgment.",
+    add_notes(slide, 70, "Each tool has a rule, but the measured numbers still matter.",
+              "I named 100 simulated users the peak scenario and 500 the heavier-load scenario in the test plan. This was not a measured peak from real customers. The study set p95 targets of 500 milliseconds and 1,200 milliseconds respectively. Those numbers are study choices, not universal standards. I compare the after-fix result with each target and still report the actual time, so the committee can see more than a pass/fail label.",
               "Current report Table 4.1 and §4.1; Document/JMETER_ZAP_TEST_PLAN.md §4.6.")
 
     # 10. Human-in-the-loop boundary
-    slide = header(prs, "Method", "Codex proposed; humans and tools decided", "Current report §§3.1.3-3.1.4; Appendices I and K", TEAL)
-    stages = ["Native tool finding", "Bounded code context", "Candidate patch", "Human review", "Tests", "Tool rerun"]
+    slide = header(prs, "Method", "From a tool warning to a measured result", "Current report §§3.1.3-3.1.4; Appendices I and K", TEAL)
+    stages = ["Tool finding", "Relevant code", "Suggested edit", "Human check", "Run tests", "Measure again"]
     for i, stage in enumerate(stages):
         x = 0.78 + i*2.08
         box(slide, x, 2.35, 1.87, 1.24, TEAL_LIGHT if i<3 else GREEN_LIGHT, BORDER, radius=True)
         text(slide, stage, x+0.13, 2.53, 1.61, 0.89, 17, TEAL if i<3 else GREEN, bold=True, align=PP_ALIGN.CENTER)
         if i<5:text(slide, "→", x+1.88, 2.66, 0.20, 0.30, 21, MUTED, bold=True)
     box(slide, 1.20, 4.18, 10.92, 1.34, WHITE, BORDER, radius=True)
-    text(slide, "Every accepted interpretation is linked to a branch, a tested commit, and a machine-readable run.",
+    text(slide, "An AI suggestion is not proof: a person checks it, then the same tool measures the result.",
          1.54, 4.47, 10.24, 0.77, 22, INK, bold=True, align=PP_ALIGN.CENTER)
-    add_notes(slide, 70, "The model is an advisor under a human-controlled test loop.",
-              "The prompt contains the scanner or benchmark finding, a small relevant source excerpt, and constraints such as keeping tests and contracts intact. Codex suggests a patch. A human reviews it, the focused test suite runs, and the original tool is rerun. A patch can still miss its measured target; the JMeter result is the clearest example of that boundary.",
+    add_notes(slide, 70, "Codex suggested changes; I checked and measured them.",
+              "Here is one example. SonarQube flagged a controller with eight query parameters. I showed Codex that warning and the relevant code. It suggested a request DTO. I reviewed the edit, ran tests, and scanned the changed branch again. SonarQube issues went from 17 to zero. I followed the same check-again process for ZAP and JMeter, including the JMeter target that was not met.",
               "Current report §§3.1.3-3.1.4, Appendices I and K.")
 
     # 11. What changed in code
@@ -387,38 +432,39 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Track", "Representative change", "What it was meant to address"],
         ["SonarQube", "Eight query parameters → JournalEntryQueryDto", "Controller maintainability finding S107"],
         ["ZAP", "SecurityHeadersMiddleware before Swagger", "Browser-facing security headers"],
-        ["JMeter", "Ledger caching; avoid report write amplification", "Repeated report calculation and database pressure"],
+        ["JMeter", "Cache ledger data; avoid repeated report snapshot writes", "Reduce repeated report and database work"],
     ], 0.80, 1.65, 11.72, 3.58, widths=[0.20,0.43,0.37], font_size=18)
     text(slide, "Mechanism and measured outcome are shown separately on the next slides.", 0.83, 5.65, 11.72, 0.50, 20, TEAL, bold=True)
-    add_notes(slide, 70, "Similar-looking code changes can have very different measured outcomes.",
-              "For maintainability, a request DTO replaced a controller action with eight query parameters. For security, header middleware moved ahead of Swagger and UI exposure was constrained. For performance, the JMeter branch added ledger caching and reduced report persistence work. These are mechanisms, not proof of success by themselves; the tool results on the next slides show what actually happened.",
+    add_notes(slide, 70, "The three branches changed different parts of the API.",
+              "For code quality, I replaced eight controller parameters with one request object. For security, I put security headers before Swagger. For performance, I added ledger caching and stopped saving a new report snapshot on that read path. These are the code changes I made; the next slides show whether the measurements improved.",
               "Current report Table 4.3 and Appendices E-G.")
 
     # 12. SonarQube result
     slide = header(prs, "Results", "SonarQube closed all 17 fresh issues", "Current report §4.2; Table 4.2; Figures L.1-L.4", GREEN)
     metric(slide, 0.80, 1.50, 3.76, "Unique issues", "17 → 0", "Current run", GREEN_LIGHT, GREEN)
-    metric(slide, 4.78, 1.50, 3.76, "Quality Gate", "OK → OK", "Both branches pass", GREEN_LIGHT, GREEN)
+    metric(slide, 4.78, 1.50, 3.76, "Quality Gate", "OK → OK", "No gate conditions recorded", GREEN_LIGHT, GREEN)
     metric(slide, 8.76, 1.50, 3.76, "Coverage", "74.4 → 74.3%", "Down 0.1 percentage point", ORANGE_LIGHT, ORANGE)
     box(slide, 0.80, 3.14, 11.72, 2.30, WHITE, BORDER, radius=True)
     text(slide, "Do not add impact counts together", 1.09, 3.45, 10.90, 0.40, 22, TEAL, bold=True)
     text(slide, "The 17 distinct findings carried overlapping Reliability 2, Security 1, and Maintainability 16 impacts. Cyclomatic complexity rose 886 → 889; duplication stayed 0.0%.",
          1.09, 4.03, 10.88, 0.99, 20, INK)
-    add_notes(slide, 80, "The fresh issue count reached zero, with small control-metric regressions disclosed.",
-              "SonarQube found seventeen distinct issues on the shared baseline and none on the SonarQube remediation branch. Both Quality Gates were OK. Coverage slipped from 74.4 to 74.3 percent and cyclomatic complexity rose by three, so I do not call those measures unchanged. The newer Reliability, Security, and Maintainability impact counts overlap; they are not nineteen separate issues.",
-              "Current report Table 4.2, Appendix E, Figures L.1-L.4.",
-              "Legacy Bugs and Vulnerabilities are both zero; the MQR Security impact is a different classification.")
+    add_notes(slide, 80, "The measurable SonarQube improvement is 17 distinct issues to zero.",
+              "SonarQube reported 17 distinct issues before the code change and zero after it. The gate status says OK for both scans, but the saved gate records contain no conditions, so I do not use OK alone as proof that the original code had no problems. Coverage fell slightly from 74.4 to 74.3 percent and complexity rose by three. The reliability, security, and maintainability labels can overlap; they are not extra issues to add to 17.",
+              "Backup slides 25 and 31-32; SonarQube quality-gate.json and summary.json; current report Table 4.2, Appendices E and L.",
+              "The full report lists OK/OK; explain that the captured gate response has an empty conditions list.")
 
     # 13. Native Sonar evidence
-    slide = header(prs, "Results", "Native SonarQube views support the metric table", "Fresh Sep 22 capture · Appendix L, Figures L.1 and L.3", GREEN)
+    slide = header(prs, "Results", "SonarQube issues changed; gate status did not", "Current capture · Appendix L, Figures L.1 and L.3", GREEN)
     text(slide, "Baseline · commit 7a0469d9", 0.88, 1.42, 5.62, 0.38, 17, NAVY, bold=True)
     text(slide, "Remediation · commit a2279bcb", 6.82, 1.42, 5.62, 0.38, 17, GREEN, bold=True)
     image_contain(slide, DASHBOARD_ROOT / "sonarqube" / "sonarqube-baseline-overview.png", 0.86, 1.88, 5.63, 3.85)
     image_contain(slide, DASHBOARD_ROOT / "sonarqube" / "sonarqube-remediation-overview.png", 6.82, 1.88, 5.63, 3.85)
-    box(slide, 0.84, 5.99, 11.64, 0.59, GREEN_LIGHT, radius=True)
-    text(slide, "Fresh source screenshots; use Appendix L for the larger overview and issue views.", 1.07, 6.07, 11.19, 0.41, 16, GREEN, bold=True)
-    add_notes(slide, 60, "The tool views correspond to the pinned baseline and remediation commits.",
-              "These are native SonarQube captures from the fresh reproduction, not a chart invented for the presentation. The baseline overview shows Security, Reliability, and Maintainability impacts plus 74.4 percent coverage. The remediation overview shows zero open issues and 74.3 percent coverage. Appendix L also includes the issue-list views if the committee asks for rule-level detail.",
-              "Appendix L Figures L.1-L.4 and dashboard-capture manifest.")
+    box(slide, 0.84, 5.92, 11.64, 0.75, GREEN_LIGHT, radius=True)
+    text(slide, "Gate OK/OK has no recorded conditions; the measured improvement is 17 issues → 0.",
+         1.07, 6.01, 11.19, 0.55, 16, GREEN, bold=True)
+    add_notes(slide, 60, "Both dashboards say OK, but the issue count is the useful comparison.",
+              "If asked why both Quality Gates passed, point out that the saved gate files show OK with an empty list of conditions on each branch. That status therefore did not distinguish the scans. The baseline had 17 distinct issues; the changed branch had zero. Coverage moved from 74.4 to 74.3 percent, so I show that small decrease too. These are screenshots of the tool, not a new chart I made.",
+              "Backup slides 25 and 31-32; Appendix L Figures L.1-L.4; sonar/baseline and remediation quality-gate.json.")
 
     # 14. Fresh ZAP results
     passive_before = next(x for x in zap["baseline"]["scans"] if x["scan"] == "baseline")
@@ -433,10 +479,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     ], 0.80, 1.63, 11.72, 2.60, widths=[0.20,0.23,0.23,0.34], font_size=18)
     metric(slide, 0.80, 4.66, 5.66, "Configured rules", "PASS", "Both branches", GREEN_LIGHT, GREEN)
     metric(slide, 6.85, 4.66, 5.66, "Residual raw alert", "HTTP Only Site", "Local HTTP transport · CWE-311", ORANGE_LIGHT, ORANGE)
-    add_notes(slide, 80, "The configured ZAP rule gate passed, but one raw Medium alert remains.",
-              "In the fresh passive scan, Medium went from three to zero and Low from six to zero. In the authenticated API scan, Low went from three to zero, but Medium remained one. That observation is HTTP Only Site on the local HTTP transport. The configured business-endpoint rule set passed on both branches, but I do not say every raw Medium alert was eliminated.",
-              "Current report §4.3, fresh ZAP baseline/remediation summary.json, Appendix F.",
-              "Do not use the historical dashboard screenshot as proof of zero fresh API Medium alerts.")
+    text(slide, "Local HTTP caused the alert; an HTTPS retest is needed before claiming it is cleared.",
+         0.85, 6.29, 11.65, 0.46, 16, ORANGE, bold=True)
+    add_notes(slide, 80, "The remaining Medium alert is about the test connection.",
+              "ZAP saw that this local API was served over HTTP, not HTTPS, and named the alert HTTP Only Site. The other low-level API alerts went from three to zero. I cannot say the Medium alert was fixed, because I did not run this scan against a working HTTPS endpoint. It is not impossible to fix: set up HTTPS and repeat the scan. The configured rule gate passed, but the raw Medium alert remains visible.",
+              "Backup slide 26; current report §4.3, Appendices F and M; ZAP remediation raw API JSON alert 10106.",
+              "The screenshots on backup slides 33-34 are historical; use slide 26 for current alert counts.")
 
     # 15. ZAP capture provenance
     slide = header(prs, "Results", "ZAP dashboard captures are historical visuals", "Appendix L, Figures L.5-L.8; fresh counts on prior slide", RED)
@@ -451,20 +499,20 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "Dashboard-capture manifest, Appendix L Figures L.7-L.8, fresh ZAP summary.json.")
 
     # 16. JMeter workload definitions
-    slide = header(prs, "Results", "JMeter measured three core profiles and two stress profiles", "Current report §§3.8 and 4.4; Appendix K", ORANGE)
+    slide = header(prs, "Results", "JMeter tested three user counts, plus soak and spike", "Current report §§3.8 and 4.4; Appendix K", ORANGE)
     for i, (label, value, detail) in enumerate([
-        ("50 VU", "50 users", "Normal load"), ("100 VU", "100 users", "Higher concurrency"),
-        ("500 VU", "500 users", "Heavy concurrency"), ("soak", "sustained", "Long-running behavior"),
-        ("spike", "burst", "Surge and recovery"),
+        ("50 VU", "50 users", "Normal scenario"), ("100 VU", "100 users", "Planned peak scenario"),
+        ("500 VU", "500 users", "Heavier-load scenario"), ("soak", "steady", "Long-running test"),
+        ("spike", "burst", "Sudden-load test"),
     ]):
         x = 0.78 + i*2.49
         box(slide, x, 2.00, 2.30, 2.57, WHITE, BORDER, radius=True)
         text(slide, label.upper(), x+0.18, 2.27, 1.94, 0.45, 25, ORANGE, bold=True, align=PP_ALIGN.CENTER)
         text(slide, value, x+0.18, 3.04, 1.94, 0.45, 20, INK, bold=True, align=PP_ALIGN.CENTER)
         text(slide, detail, x+0.16, 3.79, 1.98, 0.48, 14, MUTED, align=PP_ALIGN.CENTER)
-    text(slide, "50/100/500 VU are workload sizes; p95 is a latency percentile.", 0.82, 5.35, 11.78, 0.65, 24, ORANGE, bold=True)
-    add_notes(slide, 60, "Stress improvements cannot stand in for the core gate.",
-              "The 50, 100, and 500 virtual-user profiles exercise increasingly heavy core load. These are workload sizes, whereas p50, p90, p95, and p99 are response-time percentiles measured in milliseconds. Archived JMeter folder IDs retain p50, p100, and p500 for traceability. Soak and spike add sustained and sudden-load evidence; they are additional interpretation, not a substitute for the primary core gate.",
+    text(slide, "VU means simulated users; p95 is the time within which 95% of requests finish.", 0.82, 5.35, 11.78, 0.65, 22, ORANGE, bold=True)
+    add_notes(slide, 60, "User count and response-time percentile are different things.",
+              "VU means simulated users. The 50, 100, and 500 VU tests use different user counts; 100 VU is only the planned peak scenario, not a measured customer peak. Soak keeps traffic going for a long time. Spike sends a sudden burst. p95 is a time in milliseconds: 95 percent of requests finish at or below it. Soak and spike are extra tests; they do not replace the three core user-count checks.",
               "Current report §§3.8 and 4.4, Appendix K.")
 
     # 17. JMeter core target not met
@@ -477,17 +525,17 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     table(slide, rows, 0.80, 1.55, 11.72, 3.40, widths=[0.19,0.24,0.24,0.33], font_size=20)
     box(slide, 0.80, 5.26, 11.72, 1.07, RED_LIGHT, radius=True)
     text(slide, "NOT MET: 100 VU 1,146.9 > 500 ms; 500 VU 1,547.95 > 1,200 ms", 1.04, 5.43, 11.21, 0.67, 24, RED, bold=True)
-    text(slide, "100 VU = peak responsiveness; 500 VU = stress tolerance. Study-defined, not universal.",
-         1.04, 6.52, 11.15, 0.51, 16, MUTED)
-    add_notes(slide, 90, "The primary performance criterion was not achieved.",
-              "All three fresh core total-p95 values increased. At 50 VU, p95 rose from thirty-three to about two hundred milliseconds; at 100 VU, from about two hundred fifty-six to one thousand one hundred forty-seven; at 500 VU, from one hundred six to one thousand five hundred forty-eight. The different limits are engineering acceptance choices: 100 VU represents peak use, where the study asks for p95 within half a second; 500 VU is stress, where up to 1.2 seconds is allowed. They are not universal standards or a validated production SLA. Errors stayed at zero, but the measured p95 values exceeded both limits, so the predefined core performance target was not met. The raw machine-readable gate status is FAIL.",
-              "Document/JMETER_ZAP_TEST_PLAN.md §4.6; fresh JMeter baseline/remediation summary.json; current report §4.4 and Table 4.5.",
-              "Do not carry the historical core-gate PASS into this fresh result.")
+    text(slide, "Fixes: cache ledger data; avoid report snapshot writes. Exact cause of slowdown not isolated.",
+         1.04, 6.38, 11.15, 0.51, 16, MUTED)
+    add_notes(slide, 90, "The code changes did not meet the core speed target; the precise cause is unknown.",
+              "The performance branch cached account-ledger data and stopped saving a new report snapshot on that read path. These changes were meant to reduce repeated work. In the fresh run, 100-user p95 rose from 255.9 to 1,146.9 milliseconds and 500-user p95 rose from 106 to 1,547.95 milliseconds. Both exceeded our study limits, although request errors stayed at zero. I cannot identify one cause for the slowdown: we have one run and no saved CPU, memory, database-query, or cache-hit measurements. I would repeat the tests with those measurements before blaming the code or the test computer.",
+              "Backup slide 29 and Appendix G for the code; slide 27 and slides 36-37 for the numbers and dashboards; Appendices K, L, and N for controls and limits.",
+              "Do not say caching or the host caused the slowdown; the evidence does not isolate either cause.")
 
     # 18. Stress-profile improvements
     soak_before, soak_after = baseline_profiles["soak"], after_profiles["soak"]
     spike_before, spike_after = baseline_profiles["spike"], after_profiles["spike"]
-    slide = header(prs, "Results", "Soak and spike improved, but they are secondary", "Current report §4.4; fresh JMeter summary.json", ORANGE)
+    slide = header(prs, "Results", "Soak and spike improved; core targets did not", "Current report §4.4; fresh JMeter summary.json", ORANGE)
     box(slide, 0.80, 1.70, 5.66, 3.72, GREEN_LIGHT, BORDER, radius=True)
     text(slide, "SOAK TOTAL p95", 1.10, 2.04, 5.06, 0.32, 16, GREEN, bold=True)
     text(slide, f"{soak_before['p95Ms']:g} → {soak_after['p95Ms']:g} ms", 1.10, 2.68, 5.05, 0.62, 30, GREEN, bold=True)
@@ -496,9 +544,10 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "SPIKE TOTAL p95", 7.14, 2.04, 5.05, 0.32, 16, GREEN, bold=True)
     text(slide, f"{spike_before['p95Ms']:,.0f} → {spike_after['p95Ms']:,.0f} ms", 7.14, 2.68, 5.05, 0.62, 29, GREEN, bold=True)
     text(slide, f"{percent_lower(spike_before['p95Ms'],spike_after['p95Ms'])}% lower; errors {spike_before['errorPct']}% → {spike_after['errorPct']}%", 7.14, 3.65, 5.05, 0.52, 19, INK)
-    text(slide, "Core 100 and 500 VU limits were exceeded; stress gains do not change the decision.", 0.84, 5.79, 11.70, 0.63, 20, RED, bold=True)
-    add_notes(slide, 75, "Stress gains are real but do not meet the primary core target.",
-              "The soak aggregate p95 fell from 443.95 to 171 milliseconds. Spike aggregate p95 fell from about 33.4 seconds to 4.73 seconds, and spike errors fell to zero. These are meaningful fresh stress-profile gains, but the core 100 VU and 500 VU target remains unmet. I therefore call performance mixed, not generally improved.",
+    text(slide, "Soak = long steady run; spike = sudden burst. Neither replaces the 100/500 VU core checks.",
+         0.84, 5.79, 11.70, 0.63, 19, RED, bold=True)
+    add_notes(slide, 75, "Two additional tests improved, but the main user-count checks did not.",
+              "Soak kept traffic going steadily; its total p95 fell from 443.95 to 171 milliseconds. Spike sent a sudden burst; its total p95 fell from about 33.4 seconds to 4.73 seconds. These are better results for those two tests. They are not the same thing as the 500-VU user-count test, and they do not erase the slower 100- and 500-VU core results. That is why I say the performance evidence is mixed.",
               "Fresh JMeter baseline/remediation summary.json; current report §4.4.")
 
     # 19. Endpoint-level tradeoff
@@ -510,10 +559,10 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     ], 0.80, 1.62, 11.72, 2.54, widths=[0.29,0.22,0.22,0.27], font_size=19)
     box(slide, 0.80, 4.49, 11.72, 1.72, WHITE, BORDER, radius=True)
     text(slide, "Why this matters", 1.07, 4.73, 10.90, 0.38, 19, ORANGE, bold=True)
-    text(slide, "Caching and query changes can help one workload while making another worse. Endpoint results and core aggregate gates must both be read.",
+    text(slide, "The same endpoint behaved differently under two workloads. These results do not identify one cause.",
          1.07, 5.14, 10.88, 0.77, 20, INK)
-    add_notes(slide, 70, "The account-ledger endpoint is a concrete counterexample to a universal speedup claim.",
-              "Under the fresh soak run, account-ledger p95 rose from about 742 to 3,826 milliseconds. Under spike it fell from about 50.3 seconds to 12.9 seconds. The summary report endpoints also improved under spike, but this one endpoint shows why a code mechanism or one workload cannot be generalized to all load conditions.",
+    add_notes(slide, 70, "One report endpoint improved in one test and slowed in another.",
+              "The account-ledger endpoint got slower during the long soak test: p95 rose from about 742 to 3,826 milliseconds. During the sudden spike test it improved, from about 50.3 seconds to 12.9 seconds. This does not tell us why. It shows that I cannot claim every report request became faster under every workload.",
               "Current report Table 4.4 and Appendix G.")
 
     # 20. User-visible application evidence
@@ -524,12 +573,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Balanced journal-entry lines", 6.96, 5.56, 5.47, 0.33, 18, NAVY, bold=True)
     box(slide, 0.84, 6.03, 11.65, 0.58, NAVY_LIGHT, radius=True)
     text(slide, "These are browser workflow screenshots; their displayed counts are not benchmark metrics.", 1.04, 6.10, 11.19, 0.39, 16, NAVY, bold=True)
-    add_notes(slide, 70, "The application evidence demonstrates the user-visible API path.",
-              "A React client signs in with JWT, shows roles, calls the accounting API, and presents reports and journal-entry lines. The dashboard and expanded journal detail shown here are captured from that workflow. They are not performance measurements, and their live displayed counts should not be confused with the fixed JMeter seed dataset. Other browser views, including auditor restrictions, are in the appendix.",
+    add_notes(slide, 70, "These are app screens, not speed-test results.",
+              "The pictures show the admin dashboard and a journal entry whose debit and credit lines balance. They help demonstrate that a person can use the API through the web app. They do not show how fast the API is. For performance evidence, use backup slide 27 or the JMeter dashboards on slides 35-39.",
               "Current report §4.6 and Figures 4.2-4.7.")
 
     # 21. Decision matrix and limits
-    slide = header(prs, "Synthesis", "The decision is deliberately asymmetric", "Current report Table 4.5; Appendix N", TEAL)
+    slide = header(prs, "Synthesis", "The three results are different", "Current report Table 4.5; Appendix N", TEAL)
     table(slide, [
         ["Area", "Decision", "Why"],
         ["Code quality", "Achieved", "17 issues → 0; gate OK; small coverage/complexity regressions"],
@@ -538,15 +587,15 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Stress behavior", "Partially achieved", "Soak and spike aggregates improved"],
     ], 0.80, 1.49, 11.72, 4.12, widths=[0.20,0.28,0.52], font_size=17)
     text(slide, "Limits: one API · one host · one run per branch · CPU/RAM and service tiers not controlled", 0.83, 5.92, 11.68, 0.45, 19, MUTED)
-    add_notes(slide, 80, "The thesis supports some improvements, not a blanket success claim.",
-              "Code quality met its primary criterion while coverage and cyclomatic complexity had small regressions. ZAP's configured rule gate passed, but the raw HTTP-only Medium remained. JMeter core performance did not meet its gate, though stress aggregates improved. This is one API on one host with one fresh run per branch. The dated evidence does not preserve CPU and RAM specifications or utilization, application and database resource limits, or a managed service tier. These results should be replicated under recorded and matched capacity before broader generalization.",
+    add_notes(slide, 80, "The study does not support a blanket claim that everything improved.",
+              "Code warnings fell from 17 to zero, although coverage fell a little and complexity rose. ZAP's selected checks passed, but the local HTTP alert stayed. JMeter missed the main 100- and 500-user speed targets even though soak and spike improved. This is one API on one computer with one fresh run per branch. We did not save CPU and memory readings for those runs, so I would repeat the tests before claiming the result applies elsewhere.",
               "Current report Table 4.5 and Appendix N.")
 
     # 22. Conclusion
-    slide = header(prs, "Closing", "The strongest result is the controlled audit-to-fix method", "Current report Chapter 5; Appendices A-N", TEAL)
+    slide = header(prs, "Closing", "The strongest contribution is the traceable check-and-fix method", "Current report Chapter 5; Appendices A-N", TEAL)
     for index, (number, title, body, color) in enumerate([
         ("01", "The model can help", "Seventeen fresh static issues closed; security rule gate passed.", GREEN),
-        ("02", "Measurement can reject it", "The primary JMeter target was not met despite stress gains.", RED),
+        ("02", "Measurement can reject it", "The primary JMeter target was not met despite better soak and spike results.", RED),
         ("03", "Provenance makes it auditable", "Pinned branches, tests, dashboard captures, and raw records remain available.", TEAL),
     ]):
         y = 1.51 + index*1.58
@@ -555,21 +604,21 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, title, 1.95, y+0.15, 10.20, 0.43, 22, color, bold=True)
         text(slide, body, 1.95, y+0.68, 10.20, 0.45, 18, INK)
     text(slide, "Thank you. Questions?", 0.82, 6.36, 11.72, 0.39, 25, TEAL, bold=True)
-    add_notes(slide, 80, "Human review and repeatable tools decide which AI suggestions count.",
-              "My answer is qualified. ChatGPT through Codex 5.4 helped close fresh static issues and pass the configured security gate. The same structured workflow also showed that the primary performance target was not met, rather than hiding it behind better stress charts. The contribution is a traceable method for asking the model to improve existing code and then allowing independent evidence to accept, limit, or reject the claim. Thank you; I welcome questions.",
+    add_notes(slide, 80, "The contribution is a way to check AI suggestions, including when they do not work.",
+              "Codex helped me propose code changes. A person reviewed them, and the original tools measured the results. Code warnings reached zero and selected security checks passed, but the main performance target was not met. My contribution is the traceable process and this honest mixed result, not a claim that ChatGPT always improves an API. Thank you; I welcome questions.",
               "Current report Chapter 5 and Appendices A-N.")
 
     return len(prs.slides)
 
 
-def backup_notes(slide, title, source, caveat=""):
+def backup_notes(slide, title, source, caveat="", explanation=""):
     add_notes(slide, 0, f"Backup evidence: {title}.",
-              "Open this slide only if the committee asks for the underlying records. Read the classification and source line before interpreting the screenshot or table.",
+              explanation or "Open this slide if asked for proof. Point to the relevant number or code change, then name the source shown on the slide.",
               source, caveat)
 
 
 def dashboard_pair(prs, title, before_path: str, after_path: str, summary: str, source: str,
-                   classification: str, accent=TEAL):
+                   classification: str, accent=TEAL, explanation=""):
     slide = header(prs, "Backup · native dashboards", title, source, accent)
     text(slide, "BASELINE", 0.88, 1.40, 5.62, 0.34, 17, NAVY, bold=True)
     text(slide, "REMEDIATION", 6.83, 1.40, 5.62, 0.34, 17, accent, bold=True)
@@ -581,7 +630,9 @@ def dashboard_pair(prs, title, before_path: str, after_path: str, summary: str, 
     before = facts_capture(before_path)
     after = facts_capture(after_path)
     backup_notes(slide, title, source,
-                 f"Capture classification: {classification}. Baseline {before['branch']} @ {before['commit'][:8]}, run {before['runId']}; remediation {after['branch']} @ {after['commit'][:8]}, run {after['runId']}.")
+                 f"Capture classification: {classification}. Baseline {before['branch']} @ {before['commit'][:8]}, run {before['runId']}; remediation {after['branch']} @ {after['commit'][:8]}, run {after['runId']}.",
+                 explanation)
+    return slide
 
 
 CAPTURES: dict[str, dict] = {}
@@ -605,7 +656,8 @@ def app_pair(prs, title, left_file: str, left_label: str, right_file: str | None
         image_contain(slide, WEB_ROOT / left_file, 1.20, 1.63, 10.85, 4.79, visible_top_px=1000)
         text(slide, left_label, 1.24, 6.39, 10.80, 0.28, 16, NAVY, bold=True)
     backup_notes(slide, title, source,
-                 "These are browser workflow captures; visible live application counts are not JMeter benchmark metrics.")
+                 "These are browser workflow captures; visible live application counts are not JMeter benchmark metrics.",
+                 "These pictures show that a person can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 27 or dashboards 35-39.")
 
 
 def build_appendix_slides(prs: Presentation, facts: dict) -> None:
@@ -618,12 +670,14 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     slide = header(prs, "Backup evidence", "Where each defense claim can be checked", "Current report Appendices A-N and dashboard-capture manifest", NAVY)
     table(slide, [
         ["Claim", "Machine-readable record", "Report evidence"],
+        [f"Dataset: {facts['dataset']['accounts']} accounts", "branch-verification.json", "Tables 3.10-3.11 · Appendix H"],
         ["Static issues", "sonar/*/summary.json", "Table 4.2 · Appendix E · Figures L.1-L.4"],
         ["ZAP raw/gate", "zap/*/summary.json", "§4.3 · Appendix F · Figures L.5-L.8"],
         ["JMeter p95/gate", "jmeter/*/summary.json", "§4.4 · Appendix G · Figures L.9-L.18"],
         ["Working API", "role/browser run records", "§4.6 · Figures 4.2-4.7"],
-    ], 0.80, 1.52, 11.72, 4.26, widths=[0.23,0.30,0.47], font_size=16)
-    backup_notes(slide, "evidence map", "Current report Appendices A-N and dashboard-capture manifest.")
+    ], 0.80, 1.52, 11.72, 4.58, widths=[0.23,0.30,0.47], font_size=16)
+    backup_notes(slide, "evidence map", "branch-verification.json dataset counts; current report Appendices A-N.",
+                 explanation="Start with the claim in the left column. The middle column names the raw result file; the right column names the report section. The first row confirms the 120 seeded accounts used by the tests.")
 
     # 24. Provenance
     slide = header(prs, "Backup evidence", "Exact baseline and remediation commits", "Current report Appendix A; Table 3.1", NAVY)
@@ -652,14 +706,15 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
         "Reliability impacts (MQR)*": "Overlapping impact", "Security impacts (MQR)*": "Overlapping impact",
         "Maintainability impacts (MQR)*": "Overlapping impact", "Security hotspots": "Scanner finding",
         "Coverage": "Down 0.1 point", "Duplicated lines": "Unchanged", "Cyclomatic complexity": "Up 3",
-        "Cognitive complexity": "Unchanged", "Quality Gate": "OK on both",
+        "Cognitive complexity": "Unchanged", "Quality Gate": "OK/OK; no conditions saved",
     }
     for name in important:
         before, after = facts["sonar_rows"][name]
         rows.append([name.replace(" (legacy type)", "").replace(" impacts (MQR)*", " impact*"), before, after, interpretation[name]])
     table(slide, rows, 0.79, 1.40, 11.75, 5.39, widths=[0.36,0.15,0.15,0.34], font_size=12)
-    backup_notes(slide, "full fresh SonarQube metrics", "Current report Table 4.2; fresh SonarQube summary.json.",
-                 "* MQR impacts overlap; do not sum them as unique issues.")
+    backup_notes(slide, "full fresh SonarQube metrics", "Current report Table 4.2; fresh SonarQube summary.json and quality-gate.json.",
+                 "* MQR impacts overlap; do not sum them as unique issues. Both saved gate files have an empty conditions list.",
+                 "Point to Total unique issues: 17 before, zero after. The gate status is OK on both, but no gate conditions were saved, so do not use that status alone to claim improvement. Coverage slipped by 0.1 percentage point.")
 
     # 26. Full ZAP raw outcomes
     slide = header(prs, "Backup evidence", "Fresh ZAP raw alert counts and gate", "Current report §4.3; fresh ZAP summaries; Appendix F", RED)
@@ -674,7 +729,8 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     text(slide, "Raw API Medium after remediation = 1 (HTTP Only Site); configured rule gate = PASS.",
          1.03, 5.99, 11.20, 0.42, 17, ORANGE, bold=True)
     backup_notes(slide, "full fresh ZAP outcomes", "Current report §4.3 and fresh ZAP summary.json.",
-                 "Do not infer fresh zero-Medium API outcome from historical dashboards.")
+                 "Do not infer fresh zero-Medium API outcome from historical dashboards.",
+                 "Point to the Auth API after-fix row: Medium is still one, while Low is zero. The Medium is HTTP Only Site because the local scan used HTTP. The configured rule gate passed, but this raw alert was not cleared; an HTTPS retest is needed.")
 
     # 27. Full JMeter profiles
     slide = header(prs, "Backup evidence", "Fresh JMeter profile matrix", "Current report §4.4; fresh JMeter summaries", ORANGE)
@@ -685,7 +741,8 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
                      f"{before['errorPct']:.4f}%", f"{after['errorPct']:.4f}%", f"{after['throughput']:.2f}"])
     table(slide, rows, 0.79, 1.53, 11.75, 4.53, widths=[0.14,0.19,0.19,0.17,0.17,0.14], font_size=16)
     text(slide, "Baseline core gate PASS; remediation core gate FAIL (100 VU and 500 VU thresholds).", 0.83, 6.29, 11.67, 0.41, 17, RED, bold=True)
-    backup_notes(slide, "full fresh JMeter matrix", "Fresh JMeter baseline/remediation summary.json and current report §4.4.")
+    backup_notes(slide, "full fresh JMeter matrix", "Fresh JMeter baseline/remediation summary.json and current report §4.4.",
+                 explanation="Point to the 100- and 500-VU rows. Their after-fix p95 values are higher than before and exceed the study limits, so the core target was not met. Soak and spike have lower p95 after the fix, but those are separate tests.")
 
     # 28. Source-code example: S107
     slide = header(prs, "Backup evidence", "S107 source: eight parameters to one DTO", "Current report Listing E.1; Tables 3.4 and 4.3", TEAL)
@@ -707,11 +764,12 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     text(slide, "SecurityHeadersMiddleware\n→ before Swagger/OpenAPI\n\nSwagger UI exposed only when the separate UI flag allows it.",
          1.04, 2.37, 5.13, 2.70, 20, INK, valign=MSO_ANCHOR.TOP)
     text(slide, "PERFORMANCE · FinancialReportService.cs", 7.04, 1.82, 5.17, 0.36, 17, ORANGE, bold=True)
-    text(slide, "Account-ledger payload cache\n+ avoid snapshot write pressure\n\nFresh load behavior remains mixed; core gate FAIL.",
+    text(slide, "Cache account-ledger data\n+ stop report snapshot writes on this read path\n\nThe core speed target was not met.",
          7.04, 2.37, 5.15, 2.70, 20, INK, valign=MSO_ANCHOR.TOP)
-    text(slide, "A code-level mechanism is evidence of implementation, not evidence that a load gate passed.",
+    text(slide, "This shows what changed in code; slide 27 shows whether performance improved.",
          0.85, 6.24, 11.70, 0.42, 16, TEAL, bold=True)
-    backup_notes(slide, "security and performance source paths", "Current report Appendices F and G.")
+    backup_notes(slide, "security and performance source paths", "Current report Appendices F and G.",
+                 explanation="The left side shows the security-header change. The right side shows the performance attempt: cache ledger data and avoid a report snapshot write on this read path. This proves the change was made, not that it made the API faster. For speed numbers, open backup slide 27 and dashboards 36-37.")
 
     # 30. Role/invariant checks
     slide = header(prs, "Backup evidence", "Authorization and accounting controls remained testable", "Current report Appendices C, D, I and §4.6", NAVY)
@@ -727,32 +785,54 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     # 31-39. Every tool dashboard capture appears once, paired by profile/role.
     dashboard_pair(prs, "SonarQube overview · baseline vs remediation",
                    "sonarqube/sonarqube-baseline-overview.png", "sonarqube/sonarqube-remediation-overview.png",
-                   "Fresh: 17 unique issues → 0; Quality Gate OK/OK; coverage 74.4% → 74.3%.",
-                   "Appendix L Figures L.1 and L.3", "fresh-reproduction", GREEN)
+                   "17 issues → 0; gate OK/OK (no conditions recorded); coverage 74.4% → 74.3%.",
+                   "Appendix L Figures L.1 and L.3", "fresh-reproduction", GREEN,
+                   "The two current screenshots show different issue counts: 17 before and zero after. Both show Quality Gate OK, but the saved gate files contain no conditions. Do not present OK/OK as the evidence of improvement; use the issue counts and disclose that coverage fell slightly.")
     dashboard_pair(prs, "SonarQube issues · baseline vs remediation",
                    "sonarqube/sonarqube-baseline-issues.png", "sonarqube/sonarqube-remediation-issues.png",
                    "Fresh issue-list views: 17 baseline findings and 0 after remediation.",
-                   "Appendix L Figures L.2 and L.4", "fresh-reproduction", GREEN)
+                   "Appendix L Figures L.2 and L.4", "fresh-reproduction", GREEN,
+                   "Point to the issue list: the baseline has 17 distinct findings and the changed branch has zero. These are the direct issue-count views; the gate status is separate.")
     dashboard_pair(prs, "ZAP passive scan · historical dashboard capture",
                    "zap/zap-baseline-before-summary.png", "zap/zap-baseline-after-summary.png",
                    "Historical screenshots; fresh passive result: Medium 3 / Low 6 → 0 / 0.",
-                   "Appendix L Figures L.5 and L.6; fresh ZAP summary.json", "rendered-historical", RED)
+                   "Appendix L Figures L.5 and L.6; fresh ZAP summary.json", "rendered-historical", RED,
+                   "These images came from earlier scans and show the native ZAP view. For the current passive counts, open backup slide 26. Do not read these old pictures as the fresh result.")
     dashboard_pair(prs, "ZAP authenticated API · historical dashboard capture",
                    "zap/zap-api-before-summary.png", "zap/zap-api-after-summary.png",
                    "Historical screenshots; fresh API result: Medium 1 / Low 3 → Medium 1 / Low 0.",
-                   "Appendix L Figures L.7 and L.8; fresh ZAP summary.json", "rendered-historical", RED)
+                   "Appendix L Figures L.7 and L.8; fresh ZAP summary.json", "rendered-historical", RED,
+                   "These images are historical. The current authenticated API scan still has one Medium HTTP Only Site alert. Show backup slide 26 for current counts, not this older picture.")
     for profile, number in [("p50",9),("p100",10),("p500",11),("soak",12),("spike",13)]:
         before, after = sb[profile], sa[profile]
-        judgment = "CORE FAIL" if profile in ("p100", "p500") else ("STRESS GAIN" if profile in ("soak", "spike") else "CORE SLOWER")
+        judgment = {
+            "p50": "CORE SLOWER", "p100": "CORE TARGET NOT MET", "p500": "CORE TARGET NOT MET",
+            "soak": "SOAK p95 LOWER", "spike": "SPIKE p95 LOWER",
+        }[profile]
+        if profile in ("p100", "p500"):
+            limit = 500 if profile == "p100" else 1200
+            explanation = (f"In the Total row, find the 95th-percentile response time. At {PROFILE_DISPLAY[profile]}, "
+                           f"it rose from {before['p95Ms']:g} to {after['p95Ms']:g} milliseconds. "
+                           f"The after-fix value is above this study's {limit}-millisecond limit, so the core target was not met. "
+                           "This is a measurement, not proof of what caused the slowdown.")
+        elif profile == "p50":
+            explanation = (f"At 50 simulated users, total p95 rose from {before['p95Ms']:g} to "
+                           f"{after['p95Ms']:g} milliseconds. It is slower after the code change, even though "
+                           "it stayed below this study's 300-millisecond limit.")
+        else:
+            workload = "long steady soak" if profile == "soak" else "sudden spike"
+            explanation = (f"This {workload} test had a lower total p95 after the change: "
+                           f"{before['p95Ms']:g} to {after['p95Ms']:g} milliseconds. That is an improvement "
+                           "for this test only. It does not change the unmet 100- and 500-user core targets on slide 27.")
         dashboard_pair(prs, f"JMeter {PROFILE_DISPLAY.get(profile, profile)} · baseline vs remediation",
                        f"jmeter/jmeter-baseline-{profile}-dashboard.png",
                        f"jmeter/jmeter-remediation-{profile}-dashboard.png",
                        f"Fresh total p95 {before['p95Ms']:g} → {after['p95Ms']:g} ms · {judgment}.",
                        f"Appendix L Figures L.{number} and L.{number+5}; fresh JMeter summary.json",
-                       "fresh-reproduction", ORANGE)
+                       "fresh-reproduction", ORANGE, explanation)
 
     # 40-42. Browser evidence without the credential-bearing login screen.
-    app_pair(prs, "Application: administration and reporting", "02-dashboard-admin.png", "Admin dashboard",
+    app_pair(prs, "App screens—not load-test data", "02-dashboard-admin.png", "Admin dashboard",
              "03-reports-trial-balance.png", "Trial-balance report", "Current report Figures 4.2 and 4.3")
     app_pair(prs, "Application: audit and role restrictions", "04-audit-logs.png", "Audit-log view",
              "05-auditor-role-view.png", "Auditor navigation", "Current report Figures 4.4 and 4.5")
@@ -777,6 +857,7 @@ def build() -> Path:
     build_appendix_slides(prs, facts)
     if len(prs.slides) != 42:
         raise RuntimeError(f"Expected 42 total slides, built {len(prs.slides)}")
+    add_evidence_cues(prs)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     prs.save(OUTPUT)
     return OUTPUT

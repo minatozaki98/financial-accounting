@@ -25,6 +25,30 @@ def slide_text(slide) -> str:
 
 
 class CurrentThesisDefenseTests(unittest.TestCase):
+    def test_committee_notes_are_plain_and_point_to_evidence(self):
+        deck = Presentation(DECK)
+        self.assertEqual(42, len(deck.slides))
+        for index in range(22):
+            notes = deck.slides[index].notes_slide.notes_text_frame.text
+            self.assertIn("SHOW IF ASKED:", notes, f"slide {index + 1}")
+            self.assertIn("APPENDIX:", notes, f"slide {index + 1}")
+
+        dataset_rows = [
+            " | ".join(cell.text for cell in row.cells)
+            for shape in deck.slides[22].shapes if shape.has_table
+            for row in shape.table.rows
+        ]
+        self.assertTrue(any("120 accounts" in row and "branch-verification.json" in row for row in dataset_rows))
+        self.assertIn("not a measured peak from real customers", deck.slides[8].notes_slide.notes_text_frame.text)
+        self.assertIn("Tool finding", slide_text(deck.slides[9]))
+        self.assertIn("no recorded conditions", slide_text(deck.slides[12]).lower())
+        self.assertIn("HTTPS retest", slide_text(deck.slides[13]))
+        self.assertIn("set up HTTPS and repeat the scan", deck.slides[13].notes_slide.notes_text_frame.text)
+        self.assertIn("cannot identify one cause", deck.slides[16].notes_slide.notes_text_frame.text)
+        self.assertIn("SOAK p95 LOWER", slide_text(deck.slides[37]))
+        self.assertIn("SPIKE p95 LOWER", slide_text(deck.slides[38]))
+        self.assertIn("not load-test data", slide_text(deck.slides[39]).lower())
+
     def test_deck_carries_fresh_results_and_all_dashboard_captures(self):
         with ZipFile(DECK) as package:
             self.assertIsNone(package.testzip())
@@ -50,10 +74,9 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("1,547.95", slide_text(deck.slides[16]))
         self.assertIn("Core performance target was not met", slide_text(deck.slides[16]))
         self.assertIn("NOT MET:", slide_text(deck.slides[16]))
-        self.assertIn("100 VU is peak use", slide_text(deck.slides[8]))
-        self.assertIn("500 VU is stress", slide_text(deck.slides[8]))
-        self.assertIn("Study-defined, not universal", slide_text(deck.slides[16]))
-        self.assertIn("engineering acceptance choices", deck.slides[16].notes_slide.notes_text_frame.text)
+        self.assertIn("100 VU = planned peak", slide_text(deck.slides[8]))
+        self.assertIn("500 VU = heavier load", slide_text(deck.slides[8]))
+        self.assertIn("Exact cause of slowdown not isolated", slide_text(deck.slides[16]))
         self.assertIn("50 VU", slide_text(deck.slides[15]))
         self.assertIn("100 VU", slide_text(deck.slides[16]))
         self.assertIn("500 VU", slide_text(deck.slides[16]))
@@ -61,7 +84,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertNotIn("FAIL", "\n".join(slide_text(deck.slides[index]) for index in range(22)))
         self.assertIn("remediation core gate FAIL", slide_text(deck.slides[26]))
         self.assertIn("CPU/RAM and service tiers not controlled", slide_text(deck.slides[20]))
-        self.assertIn("does not preserve CPU and RAM specifications", deck.slides[20].notes_slide.notes_text_frame.text)
+        self.assertIn("did not save CPU and memory readings", deck.slides[20].notes_slide.notes_text_frame.text)
         self.assertIn("historical dashboard capture", slide_text(deck.slides[32]))
         self.assertIn("historical dashboard capture", slide_text(deck.slides[33]))
         all_visible = "\n".join(slide_text(slide) for slide in deck.slides)
