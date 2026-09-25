@@ -73,6 +73,10 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("GET /reports/account-ledger", slide_text(deck.slides[22]))
         self.assertIn("SOAK p95 LOWER", slide_text(deck.slides[39]))
         self.assertIn("SPIKE p95 LOWER", slide_text(deck.slides[40]))
+        workload_notes = deck.slides[21].notes_slide.notes_text_frame.text
+        self.assertIn("Soak means repeated traffic over time", workload_notes)
+        self.assertIn("Spike means many users arrive quickly", workload_notes)
+        self.assertIn("not direct proof of no soak drift or spike recovery", workload_notes)
         self.assertIn("not load-test data", slide_text(deck.slides[41]).lower())
 
     def test_deck_carries_fresh_results_without_historical_zap_captures(self):

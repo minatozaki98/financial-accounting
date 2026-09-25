@@ -626,8 +626,9 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Core 50, 100, and 500 VU p95 all worsened; these separate gains do not reverse that result.",
          0.84, 5.79, 11.70, 0.63, 19, RED, bold=True)
     add_notes(slide, 75, "Exactly which measurements improved differs by test shape.",
-              "At 50, 100, and 500 simulated users, the total p95 response time got worse after the change; none of those core p95 results improved. In the long soak test, total p95 and p99 were lower, but average response time rose and throughput fell. In the sudden spike test, p95, p99, and average response time were lower, throughput increased, and the error rate fell to zero. I call the evidence mixed because these gains are specific to soak and spike, while the primary user-count speed targets were not met.",
-              "Fresh JMeter baseline/remediation summary.json; current report §4.4.")
+              "Soak means repeated traffic over time; I look for performance getting worse as requests continue. Spike means many users arrive quickly; I look at the burst and whether response times recover afterward. In these runs, total p95 fell from 443.95 to 171 milliseconds for soak and from about 33.4 to 4.7 seconds for spike. These whole-run numbers are not direct proof of no soak drift or spike recovery. The core 50, 100, and 500 VU p95 results worsened, so I cannot claim overall performance success.",
+              "Fresh JMeter baseline/remediation summary.json; current report §4.4; Appendix L Figures L.12-L.13 and L.17-L.18.",
+              "Do not claim a fixed three-hour soak or exactly 100 total threads: the runner configures 100 core plus 30 report threads and has no fixed-duration scheduler.")
 
     # 19. Endpoint-level tradeoff
     slide = header(prs, "Results", "GET /reports/account-ledger behaved differently", "Current report Table 4.4; Appendix G", ORANGE)
