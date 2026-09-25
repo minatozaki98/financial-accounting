@@ -355,19 +355,27 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "First, did the code warnings decrease, and did coverage or complexity get worse? Second, did security alerts decrease, and what remained? Third, did the API stay within the response-time limits at the three user counts? I answer each question with the tool's before-and-after result, not with an AI opinion.",
               "Current report §1.5 and Table 4.1.")
 
-    # 5. System under study
-    slide = header(prs, "Method", "The study tested one existing accounting API", "Current report §§3.1-3.2; Table 3.3", TEAL)
-    box(slide, 0.80, 1.55, 4.10, 4.83, NAVY_LIGHT, BORDER, radius=True)
-    text(slide, "ASP.NET Core 8", 1.09, 1.88, 3.52, 0.50, 27, NAVY, bold=True)
-    text(slide, "SQL Server financial database\nJWT authentication · RBAC\nDouble-entry posting · audit log", 1.09, 2.61, 3.52, 2.64, 22, INK)
-    text(slide, "Four roles: Admin, FinanceManager, User, Auditor", 1.09, 5.61, 3.48, 0.48, 15, MUTED)
-    box(slide, 5.12, 1.55, 7.40, 4.83, WHITE, BORDER, radius=True)
-    text(slide, "Endpoint groups exercised", 5.41, 1.86, 6.83, 0.42, 22, TEAL, bold=True)
-    list_items(slide, ["Authentication and users", "Accounts and periods", "Journal entries and bulk posting", "Financial reports", "Audit logs"],
-               5.42, 2.48, 6.65, row_h=0.70, size=20)
-    add_notes(slide, 70, "All comparisons use the same accounting API.",
-              "This API has login, four user roles, accounts, journal entries, reports, and an audit log. It uses a local SQL Server database. I compared a baseline with changed versions of this same API. The web screenshots later show that the app can be used; those screenshots are not JMeter performance measurements.",
-              "Current report §§3.1-3.2, Table 3.3, Figures 4.2-4.7.")
+    # 5. Research design and assistant selection
+    slide = header(prs, "Method", "An applied case study of one existing API", "Current report §§1.6 and 3.1-3.3; Table 3.3", TEAL)
+    research_cards = [
+        (0.80, NAVY_LIGHT, NAVY, "WHAT I STUDIED", "Applied case study",
+         "One ASP.NET Core financial API with accounts, journal entries, reports, and four user roles."),
+        (4.78, TEAL_LIGHT, TEAL, "WHY THIS ASSISTANT", "Why ChatGPT?",
+         "Chosen for this case because Codex 5.4 can use scanner findings and source context to propose traceable code edits."),
+        (8.76, GREEN_LIGHT, GREEN, "HOW I JUDGED IT", "Measured comparison",
+         "One baseline and isolated branches; tests, SonarQube, ZAP, and JMeter judge the changes."),
+    ]
+    for x, fill, accent, tag, title, body in research_cards:
+        box(slide, x, 1.62, 3.76, 3.93, fill, BORDER, radius=True)
+        text(slide, tag, x+0.22, 1.90, 3.30, 0.28, 14, accent, bold=True)
+        text(slide, title, x+0.22, 2.42, 3.30, 0.58, 24, accent, bold=True)
+        text(slide, body, x+0.22, 3.22, 3.30, 1.91, 20, INK)
+    box(slide, 0.84, 5.88, 11.64, 0.75, WHITE, BORDER, radius=True)
+    text(slide, "Contribution: evidence-backed AI-assisted remediation—not a new algorithm, matrix, or model comparison.",
+         1.06, 6.04, 11.20, 0.42, 18, TEAL, bold=True)
+    add_notes(slide, 75, "This is an applied single-case evaluation, not a new algorithm.",
+              "This is applied research: I study one existing financial accounting API and ask what happens when ChatGPT helps me address measured problems. I am not inventing a new algorithm or a scoring matrix. Why ChatGPT? It is the one assistant named in my research question, and through Codex 5.4 I can give it an actual scanner finding plus repository code and ask for a candidate change. I keep that one assistant fixed so I can examine this workflow in depth; I am not comparing AI assistants or claiming ChatGPT is the best one. I review the proposed edits, while tests and the three independent tools decide the outcomes.",
+              "Current report §§1.6 and 3.1-3.3, Table 3.3 and §3.6.")
 
     # 6. Branch isolation
     slide = header(prs, "Method", "Every remediation branch starts from one baseline", "Current report Table 3.1 and Appendix A", TEAL)
@@ -499,14 +507,22 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     metric(slide, 0.80, 1.50, 3.76, "Unique issues", "17 → 0", "Current run", GREEN_LIGHT, GREEN)
     metric(slide, 4.78, 1.50, 3.76, "Quality Gate", "OK → OK", "No gate conditions recorded", GREEN_LIGHT, GREEN)
     metric(slide, 8.76, 1.50, 3.76, "Coverage", "74.4 → 74.3%", "Down 0.1 percentage point", ORANGE_LIGHT, ORANGE)
-    box(slide, 0.80, 3.14, 11.72, 2.30, WHITE, BORDER, radius=True)
-    text(slide, "Do not add impact counts together", 1.09, 3.45, 10.90, 0.40, 22, TEAL, bold=True)
-    text(slide, "The 17 findings had overlapping impacts: Reliability 2, Security 1, Maintainability 16. Complexity rose 886 → 889; duplication stayed 0.0%.",
-         1.09, 4.00, 10.88, 0.83, 19, INK)
-    text(slide, "Cyclomatic complexity counts possible decision paths through code; a higher count can need more tests.",
-         1.09, 4.90, 10.88, 0.44, 16, MUTED)
-    add_notes(slide, 80, "The measurable SonarQube improvement is 17 distinct issues to zero.",
-              "SonarQube reported 17 distinct issues before the code change and zero after it. Cyclomatic complexity is a rough count of the different decision paths through code, such as branches. Its total rose from 886 to 889, a small increase; that is not an improvement. Coverage also fell slightly from 74.4 to 74.3 percent. Both gate statuses say OK, but the saved gate records list no conditions, so I rely mainly on the issue count. The reliability, security, and maintainability labels overlap and are not extra issues to add to 17.",
+    sonar_cards = [
+        (0.80, "Bugs 0 · Vulnerabilities 0",
+         "All 17 baseline issues were legacy Code Smells. Newer impact labels can still mention Reliability or Security."),
+        (4.78, "Duplicated-line density 0.0%",
+         "SonarQube reported 0.0% for the analyzed code; that is not proof of no repeated code."),
+        (8.76, "Coverage: 0.1 percentage point down",
+         "74.4% → 74.3%. This is a small measured decrease; saved summaries do not explain its exact cause."),
+    ]
+    for x, title, body in sonar_cards:
+        box(slide, x, 3.12, 3.76, 2.69, WHITE, BORDER, radius=True)
+        text(slide, title, x+0.20, 3.35, 3.34, 0.69, 18, TEAL, bold=True)
+        text(slide, body, x+0.20, 4.15, 3.34, 1.39, 16, INK)
+    text(slide, "Impact labels overlap (Reliability 2, Security 1, Maintainability 16); complexity rose 886 → 889.",
+         0.86, 6.16, 11.61, 0.45, 16, MUTED)
+    add_notes(slide, 100, "The zeros and the small coverage decrease have different meanings.",
+              "SonarQube reported 17 unique baseline issues and zero after the changes. Why do Bugs and Vulnerabilities show zero even at baseline? In the legacy issue-type field, all 17 were classified as code smells. SonarQube's newer impact labels also marked some of those same issues as Reliability or Security concerns. Those labels overlap; they are not additional unique bugs or vulnerabilities. Duplicated-line density was 0.0 percent in both scans: the tool did not report duplicated lines at its displayed precision in this analyzed scope. It does not prove the whole codebase has no repeated logic. Coverage moved from 74.4 to 74.3 percent, a decrease of 0.1 percentage point. The saved summaries give the percentages but not the underlying covered and uncovered counts, so I cannot identify the exact cause. Cyclomatic complexity roughly counts decision paths through code; it rose from 886 to 889. I report both changes as small regressions. The Quality Gate said OK on both branches but its saved conditions list was empty, so the issue count is the clearer comparison.",
               "Next slides 14-15; backup slides 29 and 35-36; SonarQube quality-gate.json and summary.json; current report Table 4.2, Appendices E and L.",
               "The full report lists OK/OK; explain that the captured gate response has an empty conditions list.")
 
@@ -698,7 +714,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         text(slide, body, 1.95, y+0.68, 10.20, 0.45, 18, INK)
     text(slide, "Thank you. Questions?", 0.82, 6.36, 11.72, 0.39, 25, TEAL, bold=True)
     add_notes(slide, 80, "The contribution is a way to check AI suggestions, including when they do not work.",
-              "Codex helped me propose code changes. I reviewed them, and the original tools measured the results. Code warnings reached zero and selected security checks passed, but the main performance target was not met. My contribution is the traceable process and this honest mixed result, not a claim that ChatGPT always improves an API. Thank you; I welcome questions.",
+              "This was an applied case study, not a new algorithm, scoring matrix, or comparison of AI assistants. Codex helped me propose code changes. I reviewed them, and the original tools measured the results. Code warnings reached zero and selected security checks passed, but the main performance target was not met. My contribution is the traceable process and this honest mixed result, not a claim that ChatGPT always improves an API. Thank you; I welcome questions.",
               "Current report Chapter 5 and Appendices A-N.")
 
     return len(prs.slides)
