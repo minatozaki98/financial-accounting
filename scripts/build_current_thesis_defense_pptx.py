@@ -455,17 +455,30 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
 
     # 10. Human-in-the-loop boundary
     slide = header(prs, "Method", "From a tool warning to a measured result", "Current report §§3.1.3-3.1.4; Appendices I and K", TEAL)
-    stages = ["Tool finding", "Relevant code", "Suggested edit", "I check", "I run tests", "Measure again"]
-    for i, stage in enumerate(stages):
-        x = 0.78 + i*2.08
-        box(slide, x, 2.35, 1.87, 1.24, TEAL_LIGHT if i<3 else GREEN_LIGHT, BORDER, radius=True)
-        text(slide, stage, x+0.13, 2.53, 1.61, 0.89, 17, TEAL if i<3 else GREEN, bold=True, align=PP_ALIGN.CENTER)
-        if i<5:text(slide, "→", x+1.88, 2.66, 0.20, 0.30, 21, MUTED, bold=True)
-    box(slide, 1.20, 4.18, 10.92, 1.34, WHITE, BORDER, radius=True)
-    text(slide, "An AI suggestion is not proof: I check it, then the same tool measures the result.",
-         1.54, 4.47, 10.24, 0.77, 22, INK, bold=True, align=PP_ALIGN.CENTER)
-    add_notes(slide, 70, "Codex suggested changes; I checked and measured them.",
-              "Here is one example. SonarQube flagged a controller with eight query parameters. I showed Codex that warning and the relevant code. It suggested a request DTO. I reviewed the edit, ran tests, and scanned the changed branch again. SonarQube issues went from 17 to zero. I followed the same check-again process for ZAP and JMeter, including the JMeter target that was not met.",
+    diagram_columns = [
+        (0.80, TEAL_LIGHT, TEAL, "01  INPUT", "Start with evidence",
+         "Tool finding + relevant code", "Example: SonarQube flags eight controller parameters."),
+        (4.79, NAVY_LIGHT, NAVY, "02  HUMAN DECISION", "Review the proposed fix",
+         "Codex suggests; I decide.", "I check correctness, accounting behavior, and access control."),
+        (8.78, GREEN_LIGHT, GREEN, "03  INDEPENDENT CHECK", "Verify the outcome",
+         "Run tests; rerun the same tool.", "Compare with the saved baseline and the study target."),
+    ]
+    for x, fill, accent, step, title, method, explanation in diagram_columns:
+        box(slide, x, 1.74, 3.75, 3.14, fill, BORDER, radius=True)
+        text(slide, step, x+0.20, 1.98, 3.33, 0.28, 14, accent, bold=True)
+        text(slide, title, x+0.20, 2.41, 3.33, 0.76, 21, accent, bold=True)
+        text(slide, method, x+0.20, 3.21, 3.33, 0.50, 17, INK, bold=True)
+        text(slide, explanation, x+0.20, 3.86, 3.33, 0.72, 16, INK)
+    text(slide, "→", 4.56, 3.05, 0.22, 0.42, 26, MUTED, bold=True)
+    text(slide, "→", 8.55, 3.05, 0.22, 0.42, 26, MUTED, bold=True)
+    box(slide, 0.84, 5.16, 11.64, 0.68, WHITE, BORDER, radius=True)
+    text(slide, "Concrete result: request DTO adopted; SonarQube unique issues 17 → 0.",
+         1.12, 5.30, 11.08, 0.38, 19, TEAL, bold=True)
+    box(slide, 0.84, 6.01, 11.64, 0.67, ORANGE_LIGHT, radius=True)
+    text(slide, "An AI proposal is not proof: the JMeter branch did not meet its main speed target.",
+         1.12, 6.15, 11.08, 0.37, 18, ORANGE, bold=True)
+    add_notes(slide, 80, "A proposal passes through my review and independent measurement.",
+              "Read this diagram from left to right. On the left, I start with a real tool finding and the source code needed to understand it. For example, SonarQube flagged eight controller parameters. In the middle, Codex proposes a change, but it does not decide whether that change is correct. I reviewed the request DTO for accounting behavior and access control before using it. On the right, I run focused tests and rerun the same tool on the changed branch. I compare that result with the saved baseline and the study target. SonarQube's unique issue count went from 17 to zero; JMeter did not meet its main speed target. The arrows represent checks, not automatic acceptance of an AI suggestion.",
               "Current report §§3.1.3-3.1.4, Appendices I and K.")
 
     # 11. What changed in code
