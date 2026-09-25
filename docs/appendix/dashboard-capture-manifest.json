@@ -1,5 +1,39 @@
 {
   "schemaVersion": 1,
+  "presentationCaptures": [
+    {
+      "imagePath": "zap/zap-fresh-passive-before-summary.png",
+      "evidenceClassification": "fresh-derived-report",
+      "sourceArtifact": "docs/appendix/verification-runs/research/zap/baseline/zap-baseline-fresh-before-20260922-184527.json",
+      "captureMethod": "Severity Summary element in HTML rendered by scripts/phase4/generate-zap-detailed-report.ps1",
+      "medium": 3,
+      "low": 6
+    },
+    {
+      "imagePath": "zap/zap-fresh-passive-after-summary.png",
+      "evidenceClassification": "fresh-derived-report",
+      "sourceArtifact": "docs/appendix/verification-runs/research/zap/remediation/zap-baseline-fresh-after-20260922-190527.json",
+      "captureMethod": "Severity Summary element in HTML rendered by scripts/phase4/generate-zap-detailed-report.ps1",
+      "medium": 0,
+      "low": 0
+    },
+    {
+      "imagePath": "zap/zap-fresh-api-before-summary.png",
+      "evidenceClassification": "fresh-derived-report",
+      "sourceArtifact": "docs/appendix/verification-runs/research/zap/baseline/zap-api-fresh-before-20260922-184706.json",
+      "captureMethod": "Severity Summary element in HTML rendered by scripts/phase4/generate-zap-detailed-report.ps1",
+      "medium": 1,
+      "low": 3
+    },
+    {
+      "imagePath": "zap/zap-fresh-api-after-summary.png",
+      "evidenceClassification": "fresh-derived-report",
+      "sourceArtifact": "docs/appendix/verification-runs/research/zap/remediation/zap-api-fresh-after-20260922-190653.json",
+      "captureMethod": "Severity Summary element in HTML rendered by scripts/phase4/generate-zap-detailed-report.ps1",
+      "medium": 1,
+      "low": 0
+    }
+  ],
   "requiredCaptures": [
     "sonarqube/sonarqube-baseline-overview.png",
     "sonarqube/sonarqube-baseline-issues.png",

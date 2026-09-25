@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+import subprocess
+import tempfile
 import unittest
 import json
 from hashlib import sha256
@@ -25,6 +27,24 @@ def slide_text(slide) -> str:
 
 
 class CurrentThesisDefenseTests(unittest.TestCase):
+    def test_fresh_zap_report_renders_the_scanned_http_site(self):
+        renderer = ROOT / "scripts" / "phase4" / "generate-zap-detailed-report.ps1"
+        cases = [
+            ("baseline", "zap-api-fresh-before-20260922-184706.json", 1, 3),
+            ("remediation", "zap-api-fresh-after-20260922-190653.json", 1, 0),
+        ]
+        with tempfile.TemporaryDirectory() as temp_dir:
+            for role, name, medium, low in cases:
+                source = ROOT / "docs" / "appendix" / "verification-runs" / "research" / "zap" / role / name
+                output = Path(temp_dir) / f"{role}.html"
+                subprocess.run(
+                    ["pwsh", "-NoProfile", "-File", str(renderer), "-JsonPath", str(source), "-OutputPath", str(output)],
+                    check=True, capture_output=True, text=True,
+                )
+                html = output.read_text(encoding="utf-8-sig")
+                self.assertIn(f'<div class="card medium"><div>Medium Alerts</div><div class="num">{medium}</div>', html)
+                self.assertIn(f'<div class="card low"><div>Low Alerts</div><div class="num">{low}</div>', html)
+
     def test_committee_notes_are_plain_and_point_to_evidence(self):
         deck = Presentation(DECK)
         self.assertEqual(44, len(deck.slides))
@@ -46,7 +66,8 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("decision paths through code", deck.slides[12].notes_slide.notes_text_frame.text)
         self.assertIn("JournalEntryQueryDto", slide_text(deck.slides[14]))
         self.assertIn("RunAsync", slide_text(deck.slides[14]))
-        self.assertIn("PASSIVE SCAN", slide_text(deck.slides[16]))
+        self.assertIn("PASSIVE SCAN", slide_text(deck.slides[15]))
+        self.assertIn("AUTHENTICATED API SCAN", slide_text(deck.slides[16]))
         self.assertIn("HTTP Only Site", slide_text(deck.slides[16]))
         self.assertIn("outside this study's measured scope", deck.slides[18].notes_slide.notes_text_frame.text)
         self.assertIn("GET /reports/account-ledger", slide_text(deck.slides[22]))
@@ -73,11 +94,24 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         credential_screen = ROOT / "Document" / "outputs" / "web-app-evidence" / "01-login.png"
         self.assertNotIn(sha256(credential_screen.read_bytes()).hexdigest(), embedded_hashes)
 
+        for name in (
+            "zap-fresh-passive-before-summary.png",
+            "zap-fresh-passive-after-summary.png",
+            "zap-fresh-api-before-summary.png",
+            "zap-fresh-api-after-summary.png",
+        ):
+            capture = ROOT / "docs" / "appendix" / "dashboards" / "zap" / name
+            self.assertIn(sha256(capture.read_bytes()).hexdigest(), embedded_hashes, name)
+
         deck = Presentation(DECK)
         self.assertEqual(44, len(deck.slides))
         self.assertIn("17 to 0", slide_text(deck.slides[1]))
         self.assertIn("Target not met", slide_text(deck.slides[1]))
         self.assertIn("raw API Medium remains", slide_text(deck.slides[15]))
+        self.assertIn("rendered from the current ZAP scan JSON", slide_text(deck.slides[15]))
+        self.assertIn("rendered from the current ZAP scan JSON", slide_text(deck.slides[16]))
+        self.assertIn("I am showing the passive scan before and after", deck.slides[15].notes_slide.notes_text_frame.text)
+        self.assertIn("I am showing the signed-in API scan before and after", deck.slides[16].notes_slide.notes_text_frame.text)
         self.assertIn("1,146.9", slide_text(deck.slides[18]))
         self.assertIn("1,547.95", slide_text(deck.slides[18]))
         self.assertIn("NOT MET:", slide_text(deck.slides[18]))

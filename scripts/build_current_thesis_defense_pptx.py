@@ -532,43 +532,42 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "Here are two representative before-and-after changes I reviewed. The S107 controller action passed eight query values separately; after the change it accepts one query object. The S6966 startup call changed from app.Run to await app.RunAsync. Appendix E shows fuller excerpts. The SonarQube issue lists on the preceding slide and in backup show the measured 17-to-zero result.",
               "Appendix E Listings E.1-E.2; backup slide 32 for the larger S107 example; Appendix L Figures L.2 and L.4 for the issue lists.")
 
-    # 14. Fresh ZAP results
+    # 16-17. Screenshots rendered from the current raw ZAP reports.
     passive_before = next(x for x in zap["baseline"]["scans"] if x["scan"] == "baseline")
     passive_after = next(x for x in zap["remediation"]["scans"] if x["scan"] == "baseline")
     api_before = next(x for x in zap["baseline"]["scans"] if x["scan"] == "api")
     api_after = next(x for x in zap["remediation"]["scans"] if x["scan"] == "api")
-    slide = header(prs, "Results", "ZAP passed the configured gate; raw API Medium remains", "Current report §4.3; fresh ZAP summaries; Appendix F", RED)
-    table(slide, [
-        ["Fresh scan", "Baseline Medium / Low", "After Medium / Low", "Interpretation"],
-        ["Passive", f"{passive_before['medium']} / {passive_before['low']}", f"{passive_after['medium']} / {passive_after['low']}", "Both severities cleared"],
-        ["Authenticated API", f"{api_before['medium']} / {api_before['low']}", f"{api_after['medium']} / {api_after['low']}", "One raw Medium disclosed"],
-    ], 0.80, 1.63, 11.72, 2.60, widths=[0.20,0.23,0.23,0.34], font_size=18)
-    metric(slide, 0.80, 4.66, 5.66, "Configured rules", "PASS", "Both branches", GREEN_LIGHT, GREEN)
-    metric(slide, 6.85, 4.66, 5.66, "Residual raw alert", "HTTP Only Site", "Local HTTP transport · CWE-311", ORANGE_LIGHT, ORANGE)
-    text(slide, "Local HTTP caused the alert; an HTTPS retest is needed before claiming it is cleared.",
-         0.85, 6.29, 11.65, 0.46, 16, ORANGE, bold=True)
-    add_notes(slide, 80, "The remaining Medium alert is about the test connection.",
-              "The passive scan watches normal responses and headers; Medium and Low alerts fell from three and six to zero. The authenticated API scan signs in and exercises protected routes; its Low alerts fell from three to zero, but one Medium remained. ZAP named it HTTP Only Site because this local test used HTTP. I cannot call it cleared without setting up HTTPS and repeating the scan. The configured rules passed, but that is a separate judgment from the raw alert count.",
-              "Next slide 17; backup slide 30; current report §4.3, Appendices F and M; ZAP raw API alert 10106.")
+    slide = header(prs, "Results", "ZAP passive alerts cleared; raw API Medium remains", "Current report §4.3; ZAP raw scan JSON; Appendix F", RED)
+    text(slide, "PASSIVE SCAN · BASELINE", 0.83, 1.42, 11.70, 0.29, 17, NAVY, bold=True)
+    image_contain(slide, DASHBOARD_ROOT / "zap/zap-fresh-passive-before-summary.png", 0.84, 1.79, 11.64, 0.88)
+    text(slide, "PASSIVE SCAN · AFTER FIXES", 0.83, 2.96, 11.70, 0.29, 17, GREEN, bold=True)
+    image_contain(slide, DASHBOARD_ROOT / "zap/zap-fresh-passive-after-summary.png", 0.84, 3.32, 11.64, 0.88)
+    text(slide, "Severity-card screenshots rendered from the current ZAP scan JSON.",
+         0.84, 4.37, 11.64, 0.36, 15, MUTED)
+    box(slide, 0.84, 4.93, 11.64, 1.54, GREEN_LIGHT, radius=True)
+    text(slide, f"Medium {passive_before['medium']} → {passive_after['medium']}    |    Low {passive_before['low']} → {passive_after['low']}",
+         1.10, 5.14, 11.12, 0.48, 27, GREEN, bold=True)
+    text(slide, "This scan observes ordinary responses and headers. The signed-in API scan follows on slide 17.",
+         1.10, 5.84, 11.08, 0.40, 17, INK)
+    add_notes(slide, 55, "The passive scan improved, but it is only one view of security.",
+              "I am showing the passive scan before and after the changes. This scan observes normal responses and their headers; it does not sign in. In the upper screenshot, ZAP reports three Medium and six Low alert types. In the lower screenshot, both counts are zero. These are screenshots of report cards rendered from my current raw ZAP scan data. They are not a claim that the protected API is free of alerts. I will show that separate scan on the next slide.",
+              "Next slide 17; backup slide 30; current report §4.3; Appendix F; fresh passive raw ZAP JSON and summaries.")
 
-    # 17. Current ZAP proof: use the fresh raw records, not older screenshots.
-    slide = header(prs, "Evidence", "Fresh ZAP records: two different scans", "Current ZAP summary.json and API alert 10106; Appendix F", RED)
-    box(slide, 0.80, 1.59, 5.66, 4.51, WHITE, BORDER, radius=True)
-    box(slide, 6.83, 1.59, 5.66, 4.51, WHITE, BORDER, radius=True)
-    text(slide, "PASSIVE SCAN", 1.07, 1.91, 5.10, 0.39, 19, RED, bold=True)
-    text(slide, "Observes ordinary responses and headers; it does not sign in.", 1.07, 2.48, 5.10, 0.85, 19, INK)
-    text(slide, f"Medium {passive_before['medium']} → {passive_after['medium']}\nLow {passive_before['low']} → {passive_after['low']}",
-         1.07, 3.61, 5.10, 1.37, 28, GREEN, bold=True)
-    text(slide, "AUTHENTICATED API SCAN", 7.10, 1.91, 5.10, 0.39, 19, RED, bold=True)
-    text(slide, "Signs in and tests protected API routes.", 7.10, 2.48, 5.10, 0.85, 19, INK)
-    text(slide, f"Medium {api_before['medium']} → {api_after['medium']}\nLow {api_before['low']} → {api_after['low']}",
-         7.10, 3.61, 5.10, 1.37, 28, ORANGE, bold=True)
-    box(slide, 0.84, 6.25, 11.64, 0.55, ORANGE_LIGHT, radius=True)
-    text(slide, "Remaining Medium: HTTP Only Site. Local scan used HTTP; an HTTPS retest is needed.",
-         1.02, 6.30, 11.27, 0.42, 16, ORANGE, bold=True)
-    add_notes(slide, 50, "Passive and signed-in API scans test different parts of the running service.",
-              "On the left, the passive scan observed regular responses and their headers. Its Medium and Low counts both fell to zero. On the right, the API scan signed in and tested protected routes. Its Low count fell to zero, but one Medium stayed. The raw alert calls it HTTP Only Site because our local scan target used HTTP. I did not evaluate that alert under HTTPS, so I cannot call it cleared; a working HTTPS endpoint and another scan would be needed.",
-              "Current ZAP baseline/remediation summary.json; raw API alert 10106; Appendix F and Appendix M.")
+    slide = header(prs, "Evidence", "Signed-in API scan: Low cleared; one Medium remains", "Current report §4.3; ZAP raw scan JSON and alert 10106; Appendix F", RED)
+    text(slide, "AUTHENTICATED API SCAN · BASELINE", 0.83, 1.42, 11.70, 0.29, 17, NAVY, bold=True)
+    image_contain(slide, DASHBOARD_ROOT / "zap/zap-fresh-api-before-summary.png", 0.84, 1.79, 11.64, 0.88)
+    text(slide, "AUTHENTICATED API SCAN · AFTER FIXES", 0.83, 2.96, 11.70, 0.29, 17, ORANGE, bold=True)
+    image_contain(slide, DASHBOARD_ROOT / "zap/zap-fresh-api-after-summary.png", 0.84, 3.32, 11.64, 0.88)
+    text(slide, "Severity-card screenshots rendered from the current ZAP scan JSON.",
+         0.84, 4.37, 11.64, 0.36, 15, MUTED)
+    box(slide, 0.84, 4.93, 11.64, 1.54, ORANGE_LIGHT, radius=True)
+    text(slide, f"Medium {api_before['medium']} → {api_after['medium']}    |    Low {api_before['low']} → {api_after['low']}",
+         1.10, 5.14, 11.12, 0.48, 27, ORANGE, bold=True)
+    text(slide, "Remaining Medium: HTTP Only Site. Configured rules passed; HTTPS needs a separate retest.",
+         1.10, 5.84, 11.08, 0.40, 17, INK)
+    add_notes(slide, 65, "The signed-in scan improved, but it did not clear every raw alert.",
+              "I am showing the signed-in API scan before and after the changes. Unlike the passive scan, this test signs in and exercises protected routes. Low alert types fell from three to zero, while Medium stayed at one. The remaining alert is called HTTP Only Site: my local scan target was served over HTTP. The selected security rules passed, but that pass result is different from saying every raw alert disappeared. I would need a working HTTPS endpoint and another scan before calling this Medium alert cleared. These screenshots were rendered from the current raw ZAP scan data; the raw counts and the alert are in Appendix F.",
+              "Backup slide 30; current report §4.3; Appendix F and Appendix M; fresh API raw ZAP JSON, summaries, alert 10106.")
 
     # 16. JMeter workload definitions
     slide = header(prs, "Results", "JMeter tested three user counts, plus soak and spike", "Current report §§3.8 and 4.4; Appendix K", ORANGE)

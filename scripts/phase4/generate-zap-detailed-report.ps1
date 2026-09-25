@@ -58,7 +58,7 @@ if ([string]::IsNullOrWhiteSpace($OutputPath)) {
 $fullOutputPath = [System.IO.Path]::GetFullPath($OutputPath)
 $raw = Get-Content -Path $fullJsonPath -Raw
 $report = $raw | ConvertFrom-Json
-$site = @($report.site | Select-Object -First 1)[0]
+$site = @($report.site | Sort-Object @{ Expression = { @($_.alerts).Count }; Descending = $true } | Select-Object -First 1)[0]
 $alerts = @($site.alerts)
 $insights = @($report.insights)
 
