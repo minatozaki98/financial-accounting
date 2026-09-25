@@ -32,6 +32,12 @@ H = 7.5
 FONT = "Arial"
 CODE_FONT = "Courier New"
 PROFILE_DISPLAY = {"p50": "50 VU", "p100": "100 VU", "p500": "500 VU"}
+JMETER_REQUEST_ORDER = (
+    "Total", "GET /accounts", "GET /journal-entries", "GET /periods",
+    "GET /reports/account-ledger", "GET /reports/balance-sheet",
+    "GET /reports/profit-loss", "GET /reports/trial-balance",
+    "GET /users/me", "POST /auth/login", "POST /journal-entries/bulk",
+)
 INK = RGBColor(37, 43, 51)
 MUTED = RGBColor(91, 104, 116)
 LIGHT = RGBColor(247, 249, 252)
@@ -70,8 +76,8 @@ EVIDENCE_CUES: dict[int, tuple[str, str]] = {
     19: ("next slides 20-21 (native 100/500 VU dashboards)", "Appendices G, K, L, and N"),
     20: ("backup slide 38 (larger 100 VU dashboard)", "Appendix L, Figures L.10 and L.15"),
     21: ("backup slide 39 (larger 500 VU dashboard)", "Appendix L, Figures L.11 and L.16"),
-    22: ("backup slides 31 and 40-41 (soak and spike)", "Appendix L, Figures L.12-L.13 and L.17-L.18"),
-    23: ("backup slides 33 and 40-41 (mixed endpoint behavior)", "Appendix G; Table 4.4"),
+    22: ("backup slides 31 and 40-41 (soak and spike); per-request slides 46-47", "Appendix L, Figures L.12-L.13 and L.17-L.18"),
+    23: ("backup slides 33 and 40-41 (mixed endpoint behavior); per-request slides 46-47", "Appendix G; Table 4.4"),
     24: ("backup slides 42-44 (browser views)", "Appendix J; Figures 4.2-4.7"),
     25: ("backup slides 29-31 (outcome details)", "Appendices M and N"),
     26: ("backup slide 27 (claim-to-evidence map)", "Appendix N"),
@@ -676,10 +682,10 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     # 18. Stress-profile improvements
     soak_before, soak_after = baseline_profiles["soak"], after_profiles["soak"]
     spike_before, spike_after = baseline_profiles["spike"], after_profiles["spike"]
-    slide = header(prs, "Results", "Soak/spike p95 fell; core p95 rose", "Current report §4.4; fresh JMeter summary.json", ORANGE)
-    box(slide, 0.80, 1.70, 5.66, 3.72, GREEN_LIGHT, BORDER, radius=True)
-    text(slide, "SOAK TOTAL p95", 1.10, 2.04, 5.06, 0.32, 16, GREEN, bold=True)
-    text(slide, f"{soak_before['p95Ms']:g} → {soak_after['p95Ms']:g} ms", 1.10, 2.68, 5.05, 0.62, 30, GREEN, bold=True)
+    slide = header(prs, "Results", "Pooled soak/spike p95 fell; core p95 rose", "Current report §4.4; fresh JMeter summaries and request statistics", ORANGE)
+    box(slide, 0.80, 1.70, 5.66, 3.72, ORANGE_LIGHT, BORDER, radius=True)
+    text(slide, "SOAK TOTAL p95", 1.10, 2.04, 5.06, 0.32, 16, ORANGE, bold=True)
+    text(slide, f"{soak_before['p95Ms']:g} → {soak_after['p95Ms']:g} ms", 1.10, 2.68, 5.05, 0.62, 30, ORANGE, bold=True)
     text(slide, f"{percent_lower(soak_before['p95Ms'],soak_after['p95Ms'])}% lower on the fresh run", 1.10, 3.65, 5.05, 0.52, 21, INK)
     text(slide, "p99 lower; average time and throughput worse", 1.10, 4.44, 5.05, 0.67, 16, MUTED)
     box(slide, 6.84, 1.70, 5.66, 3.72, GREEN_LIGHT, BORDER, radius=True)
@@ -689,9 +695,11 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "p99 and average time lower; throughput higher", 7.14, 4.44, 5.05, 0.67, 16, MUTED)
     text(slide, "Core 50, 100, and 500 VU p95 all worsened; these separate gains do not reverse that result.",
          0.84, 5.79, 11.70, 0.63, 19, RED, bold=True)
-    add_notes(slide, 75, "Exactly which measurements improved differs by test shape.",
-              "Soak means repeated traffic over time; I look for performance getting worse as requests continue. Spike means many users arrive quickly; I look at the burst and whether response times recover afterward. In these runs, total p95 fell from 443.95 to 171 milliseconds for soak and from about 33.4 to 4.7 seconds for spike. These whole-run numbers are not direct proof of no soak drift or spike recovery. The core 50, 100, and 500 VU p95 results worsened, so I cannot claim overall performance success.",
-              "Fresh JMeter baseline/remediation summary.json; current report §4.4; Appendix L Figures L.12-L.13 and L.17-L.18.",
+    text(slide, "Soak: 9 of 10 request p95 values higher · Spike: all 10 request p95 values lower.",
+         0.84, 6.38, 11.70, 0.39, 16, ORANGE, bold=True)
+    add_notes(slide, 85, "The pooled total and individual requests must be read together.",
+              "Soak means repeated traffic over time. Spike means many users arrive quickly. The whole-run Total p95 fell in both profiles. But the request-level records add an important distinction: in soak, 9 of 10 individual request p95 values rose after the change, even though the pooled Total p95 fell. The Total is recalculated from all requests; it is not an average of the individual request p95 values. In spike, all 10 individual request p95 values fell and overall errors went from 218 to zero. This is why I do not say every soak request improved. The detailed request tables are on slides 46 and 47, and the native dashboards remain in Appendix L. These whole-run figures are not direct proof of no soak drift or spike recovery. The core 50, 100, and 500 VU p95 results worsened, so I cannot claim overall performance success.",
+              "Fresh JMeter baseline/remediation statistics.json and summary.json; current report §4.4; Appendix L Figures L.12-L.13 and L.17-L.18.",
               "Do not claim a fixed three-hour soak or exactly 100 total threads: the runner configures 100 core plus 30 report threads and has no fixed-duration scheduler.")
 
     # 19. Endpoint-level tradeoff
@@ -728,12 +736,12 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Code quality", "Achieved", "17 issues → 0; gate OK; small coverage/complexity regressions"],
         ["Security", "Configured gate passed", "Passive cleared; raw API Medium transport alert remains"],
         ["Core performance", "Not achieved", "100 VU and 500 VU p95 exceeded thresholds"],
-        ["Soak/spike p95", "Improved separately", "Tail p95 fell; other measures were mixed"],
+        ["Soak/spike p95", "Total p95 lower", "Soak: 9/10 requests higher; spike: 10/10 lower"],
     ], 0.80, 1.49, 11.72, 4.12, widths=[0.20,0.28,0.52], font_size=17)
     text(slide, "Next: where these case-study conclusions apply, and what requires another test.",
          0.83, 5.92, 11.68, 0.45, 19, MUTED)
     add_notes(slide, 80, "The study does not support a blanket claim that everything improved.",
-              "Code warnings fell from 17 to zero, although coverage fell a little and complexity rose. ZAP's selected checks passed, but the local HTTP alert stayed. JMeter missed the main 100- and 500-user speed targets even though soak and spike improved. Each tool therefore answers a different part of the research question. On the next slide I will explain which conclusions apply to this tested case and what would need more validation before generalizing them.",
+              "Code warnings fell from 17 to zero, although coverage fell a little and complexity rose. ZAP's selected checks passed, but the local HTTP alert stayed. JMeter missed the main 100- and 500-user speed targets. The pooled soak and spike p95 values fell, but nine of ten soak request p95 values actually rose; all ten spike request p95 values fell. Each tool therefore answers a different part of the research question. On the next slide I will explain which conclusions apply to this tested case and what would need more validation before generalizing them.",
               "Current report Table 4.5 and Appendix N.")
 
     # 26. Limitations and next validation
@@ -825,6 +833,74 @@ def app_pair(prs, title, left_file: str, left_label: str, right_file: str | None
     backup_notes(slide, title, source,
                  "These are browser workflow captures; visible live application counts are not JMeter benchmark metrics.",
                  "These pictures show that I can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 31 or dashboards 38-42.")
+
+
+def request_detail_slide(prs: Presentation, facts: dict, profile: str) -> None:
+    """Expose every recorded request while retaining the native dashboard slides."""
+    summaries = {
+        role: profile_map(facts["jmeter"][role])[profile]
+        for role in ("baseline", "remediation")
+    }
+    records = {
+        role: json.loads((ROOT / summary["statisticsPath"]).read_text(encoding="utf-8-sig"))
+        for role, summary in summaries.items()
+    }
+    before, after = records["baseline"], records["remediation"]
+    if set(before) != set(JMETER_REQUEST_ORDER) or set(after) != set(JMETER_REQUEST_ORDER):
+        raise RuntimeError(f"The {profile} request labels differ from the saved JMeter profile.")
+    if any(before[request]["sampleCount"] != after[request]["sampleCount"] for request in JMETER_REQUEST_ORDER):
+        raise RuntimeError(f"The {profile} before/after request counts are not matched.")
+    for role, record in records.items():
+        if abs(record["Total"]["pct2ResTime"] - summaries[role]["p95Ms"]) > 0.02:
+            raise RuntimeError(f"The {profile} {role} summary disagrees with statistics.json.")
+
+    source = ("Fresh JMeter baseline/remediation statistics.json; "
+              f"Appendix L Figures L.{12 if profile == 'soak' else 13} and "
+              f"L.{17 if profile == 'soak' else 18}")
+    slide = header(prs, "Backup evidence", f"JMeter {profile} · every request", source, ORANGE)
+    rows = [["Request", "Baseline p95", "After p95", "Failures B→A", "p95"]]
+    for request in JMETER_REQUEST_ORDER:
+        baseline, remediation = before[request], after[request]
+        direction = "Lower" if remediation["pct2ResTime"] < baseline["pct2ResTime"] else "Higher"
+        rows.append([
+            request,
+            f"{baseline['pct2ResTime']:,.2f}",
+            f"{remediation['pct2ResTime']:,.2f}",
+            f"{baseline['errorCount']}→{remediation['errorCount']}",
+            direction,
+        ])
+    grid = table(slide, rows, 0.80, 1.47, 11.72, 4.77,
+                 widths=[0.37, 0.17, 0.17, 0.15, 0.14], font_size=15)
+    for row_index in range(1, len(rows)):
+        cell = grid.cell(row_index, 4)
+        for paragraph in cell.text_frame.paragraphs:
+            for run in paragraph.runs:
+                run.font.bold = True
+                run.font.color.rgb = GREEN if rows[row_index][4] == "Lower" else RED
+
+    higher = sum(after[request]["pct2ResTime"] > before[request]["pct2ResTime"]
+                 for request in JMETER_REQUEST_ORDER if request != "Total")
+    lower = 10 - higher
+    if profile == "soak":
+        if (higher, lower) != (9, 1):
+            raise RuntimeError("The soak request-level p95 direction changed.")
+        takeaway = "Soak: Total p95 lower, but 9/10 request p95 values higher; failures remained zero."
+        explanation = ("The pooled Total p95 fell, but nine of ten individual request p95 values rose. "
+                       "Total p95 is a pooled percentile, not the average of the request p95 values. "
+                       "Only profit-loss had a lower request p95. All requests had zero failures before and after. "
+                       "The before/after sample count matches for every request. Point to the requested endpoint "
+                       "in this table, then to the native soak dashboards on slide 41 if asked for the tool view.")
+    else:
+        if (higher, lower) != (0, 10):
+            raise RuntimeError("The spike request-level p95 direction changed.")
+        takeaway = "Spike: all 10 request p95 values lower; total failures 218 → 0."
+        explanation = ("All ten individual request p95 values fell in the spike run. The total failed samples "
+                       "fell from 218 to zero. The before/after sample count matches for every request. "
+                       "This is a burst-specific improvement, not proof that the core 100- and 500-user "
+                       "targets passed. Open the native spike dashboards on slide 42 if asked for the tool view.")
+    box(slide, 0.84, 6.34, 11.64, 0.45, ORANGE_LIGHT, radius=True)
+    text(slide, takeaway, 1.04, 6.39, 11.25, 0.33, 16, ORANGE, bold=True)
+    backup_notes(slide, f"{profile} request-level JMeter results", source, explanation=explanation)
 
 
 def build_appendix_slides(prs: Presentation, facts: dict) -> None:
@@ -975,11 +1051,14 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
             explanation = (f"At 50 simulated users, total p95 rose from {before['p95Ms']:g} to "
                            f"{after['p95Ms']:g} milliseconds. It is slower after the code change, even though "
                            "it stayed below this study's 300-millisecond limit.")
+        elif profile == "soak":
+            explanation = (f"The pooled Total p95 fell from {before['p95Ms']:g} to {after['p95Ms']:g} milliseconds, "
+                           "but 9 of 10 individual request p95 values rose. Open the request table on slide 46. "
+                           "The core 100- and 500-user targets were still not met.")
         else:
-            workload = "long steady soak" if profile == "soak" else "sudden spike"
-            explanation = (f"This {workload} test had a lower total p95 after the change: "
-                           f"{before['p95Ms']:g} to {after['p95Ms']:g} milliseconds. That is an improvement "
-                           "for this test only. It does not change the unmet 100- and 500-user core targets on slide 31.")
+            explanation = (f"The spike Total p95 fell from {before['p95Ms']:g} to {after['p95Ms']:g} milliseconds, "
+                           "and all 10 individual request p95 values fell. Open the request table on slide 47. "
+                           "The core 100- and 500-user targets were still not met.")
         dashboard_pair(prs, f"JMeter {PROFILE_DISPLAY.get(profile, profile)} · baseline vs remediation",
                        f"jmeter/jmeter-baseline-{profile}-dashboard.png",
                        f"jmeter/jmeter-remediation-{profile}-dashboard.png",
@@ -994,6 +1073,8 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
              "05-auditor-role-view.png", "Auditor navigation", "Current report Figures 4.4 and 4.5")
     app_pair(prs, "Application: evidence and balanced journal lines", "06-research-evidence.png", "Research-evidence map",
              "07-journal-entry-details.png", "Expanded debit and credit lines", "Current report Figures 4.6 and 4.7")
+    request_detail_slide(prs, facts, "soak")
+    request_detail_slide(prs, facts, "spike")
 
 
 def build() -> Path:
@@ -1011,8 +1092,8 @@ def build() -> Path:
     if main_count != 27:
         raise RuntimeError(f"Expected 27 timed slides, built {main_count}")
     build_appendix_slides(prs, facts)
-    if len(prs.slides) != 45:
-        raise RuntimeError(f"Expected 45 total slides, built {len(prs.slides)}")
+    if len(prs.slides) != 47:
+        raise RuntimeError(f"Expected 47 total slides, built {len(prs.slides)}")
     for slide in prs.slides:
         notes = slide.notes_slide.notes_text_frame
         notes.text = shift_backup_references(notes.text)

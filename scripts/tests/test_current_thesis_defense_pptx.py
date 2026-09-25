@@ -23,7 +23,13 @@ DECK = (
 
 
 def slide_text(slide) -> str:
-    return "\n".join(shape.text for shape in slide.shapes if shape.has_text_frame)
+    parts = []
+    for shape in slide.shapes:
+        if shape.has_text_frame:
+            parts.append(shape.text)
+        if shape.has_table:
+            parts.extend(cell.text for row in shape.table.rows for cell in row.cells)
+    return "\n".join(parts)
 
 
 class CurrentThesisDefenseTests(unittest.TestCase):
@@ -47,7 +53,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
 
     def test_committee_notes_are_plain_and_point_to_evidence(self):
         deck = Presentation(DECK)
-        self.assertEqual(45, len(deck.slides))
+        self.assertEqual(47, len(deck.slides))
         opening = slide_text(deck.slides[1])
         self.assertIn("When is an AI suggestion an improvement?", opening)
         self.assertNotIn("17 to 0", opening)
@@ -55,7 +61,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertNotIn("result first", deck.slides[1].notes_slide.notes_text_frame.text.lower())
         self.assertIn("three different user counts", deck.slides[3].notes_slide.notes_text_frame.text)
         self.assertIn("Local", slide_text(deck.slides[7]))
-        for index in range(45):
+        for index in range(47):
             self.assertNotIn("codex", slide_text(deck.slides[index]).lower())
             self.assertNotIn("codex", deck.slides[index].notes_slide.notes_text_frame.text.lower())
         for index in range(27):
@@ -112,6 +118,40 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("Spike means many users arrive quickly", workload_notes)
         self.assertIn("not direct proof of no soak drift or spike recovery", workload_notes)
         self.assertIn("not load-test data", slide_text(deck.slides[42]).lower())
+        self.assertIn("Pooled soak/spike p95 fell", slide_text(deck.slides[21]))
+        self.assertIn("Soak: 9 of 10 request p95 values higher", slide_text(deck.slides[21]))
+        self.assertIn("Spike: all 10 request p95 values lower", slide_text(deck.slides[21]))
+        self.assertIn("9 of 10 individual request p95 values rose", deck.slides[21].notes_slide.notes_text_frame.text)
+        self.assertIn("not an average of the individual request p95 values", deck.slides[21].notes_slide.notes_text_frame.text)
+        request_names = (
+            "GET /accounts", "GET /journal-entries", "GET /periods",
+            "GET /reports/account-ledger", "GET /reports/balance-sheet",
+            "GET /reports/profit-loss", "GET /reports/trial-balance",
+            "GET /users/me", "POST /auth/login", "POST /journal-entries/bulk",
+        )
+        for index, profile in ((45, "soak"), (46, "spike")):
+            detail = slide_text(deck.slides[index])
+            self.assertIn(f"JMeter {profile} · every request", detail)
+            for name in request_names:
+                self.assertIn(name, detail)
+            self.assertIn("Baseline p95", detail)
+            self.assertIn("After p95", detail)
+            self.assertIn("Failures B→A", detail)
+            result_table = next(shape.table for shape in deck.slides[index].shapes if shape.has_table)
+            displayed = {row.cells[0].text: [cell.text for cell in row.cells]
+                         for row in list(result_table.rows)[1:]}
+            self.assertEqual(11, len(displayed))
+            records = {}
+            for role in ("baseline", "remediation"):
+                summary = json.loads((ROOT / "docs" / "appendix" / "verification-runs" /
+                                      "research" / "jmeter" / role / "summary.json").read_text(encoding="utf-8-sig"))
+                entry = next(item for item in summary["profiles"] if item["profile"] == profile)
+                records[role] = json.loads((ROOT / entry["statisticsPath"]).read_text(encoding="utf-8-sig"))
+            for request, baseline in records["baseline"].items():
+                remediation = records["remediation"][request]
+                self.assertEqual(f"{baseline['pct2ResTime']:,.2f}", displayed[request][1])
+                self.assertEqual(f"{remediation['pct2ResTime']:,.2f}", displayed[request][2])
+                self.assertEqual(f"{baseline['errorCount']}→{remediation['errorCount']}", displayed[request][3])
         limitation = slide_text(deck.slides[25])
         self.assertIn("Limitations and next validation", limitation)
         self.assertIn("one api", limitation.lower())
@@ -150,7 +190,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
             self.assertIn(sha256(capture.read_bytes()).hexdigest(), embedded_hashes, name)
 
         deck = Presentation(DECK)
-        self.assertEqual(45, len(deck.slides))
+        self.assertEqual(47, len(deck.slides))
         self.assertIn("When is an AI suggestion an improvement?", slide_text(deck.slides[1]))
         self.assertNotIn("17 to 0", slide_text(deck.slides[1]))
         self.assertIn("raw API Medium remains", slide_text(deck.slides[15]))
