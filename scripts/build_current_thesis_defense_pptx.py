@@ -70,18 +70,19 @@ EVIDENCE_CUES: dict[int, tuple[str, str]] = {
     13: ("next slides 14-15 (scan and code proof)", "Appendices E and L"),
     14: ("next slide 15; backup slides 29 and 35-36", "Appendix L, Figures L.1-L.4"),
     15: ("backup slide 32 (larger S107 example)", "Appendix E, Listings E.1-E.2"),
-    16: ("next slide 17 (fresh ZAP proof)", "Appendices F and M"),
-    17: ("backup slide 30 (raw ZAP counts)", "Appendix F"),
-    18: ("backup slides 31 and 37-41 (JMeter profiles)", "Appendices K and L"),
-    19: ("next slides 20-21 (native 100/500 VU dashboards)", "Appendices G, K, L, and N"),
-    20: ("backup slide 38 (larger 100 VU dashboard)", "Appendix L, Figures L.10 and L.15"),
-    21: ("backup slide 39 (larger 500 VU dashboard)", "Appendix L, Figures L.11 and L.16"),
-    22: ("backup slides 31 and 40-41 (soak and spike); per-request slides 46-47", "Appendix L, Figures L.12-L.13 and L.17-L.18"),
-    23: ("backup slides 33 and 40-41 (mixed endpoint behavior); per-request slides 46-47", "Appendix G; Table 4.4"),
-    24: ("backup slides 42-44 (browser views)", "Appendix J; Figures 4.2-4.7"),
-    25: ("backup slides 29-31 (outcome details)", "Appendices M and N"),
-    26: ("backup slide 27 (claim-to-evidence map)", "Appendix N"),
-    27: ("backup slide 27 (where every claim is checked)", "Appendices A, M, and N"),
+    16: ("next slides 17-18 (raw ZAP outcomes)", "Appendices F and K"),
+    17: ("next slide 18 (fresh ZAP proof)", "Appendices F and M"),
+    18: ("backup slide 30 (raw ZAP counts)", "Appendix F"),
+    19: ("backup slides 31 and 37-41 (JMeter profiles)", "Appendices K and L"),
+    20: ("next slides 21-22 (native 100/500 VU dashboards)", "Appendices G, K, L, and N"),
+    21: ("backup slide 38 (larger 100 VU dashboard)", "Appendix L, Figures L.10 and L.15"),
+    22: ("backup slide 39 (larger 500 VU dashboard)", "Appendix L, Figures L.11 and L.16"),
+    23: ("backup slides 31 and 40-41 (soak and spike); per-request slides 47-48", "Appendix L, Figures L.12-L.13 and L.17-L.18"),
+    24: ("backup slides 33 and 40-41 (mixed endpoint behavior); per-request slides 47-48", "Appendix G; Table 4.4"),
+    25: ("backup slides 42-44 (browser views)", "Appendix J; Figures 4.2-4.7"),
+    26: ("backup slides 29-31 (outcome details)", "Appendices M and N"),
+    27: ("backup slide 27 (claim-to-evidence map)", "Appendix N"),
+    28: ("backup slide 27 (where every claim is checked)", "Appendices A, M, and N"),
 }
 
 
@@ -90,7 +91,7 @@ def shift_backup_references(value: str) -> str:
     pattern = r"(backup slides?\s+)(\d+(?:-\d+)?(?:\s*(?:,|and)\s*\d+(?:-\d+)?)*)"
 
     def replace(match: re.Match[str]) -> str:
-        numbers = re.sub(r"\d+", lambda number: str(int(number.group()) + 1), match.group(2))
+        numbers = re.sub(r"\d+", lambda number: str(int(number.group()) + 2), match.group(2))
         return match.group(1) + numbers
 
     return re.sub(pattern, replace, value, flags=re.IGNORECASE)
@@ -196,7 +197,7 @@ def add_notes(slide, seconds, key, script, source, caution=""):
 
 
 def add_evidence_cues(prs: Presentation) -> None:
-    if set(EVIDENCE_CUES) != set(range(1, 28)):
+    if set(EVIDENCE_CUES) != set(range(1, 29)):
         raise RuntimeError("Every main slide needs an evidence cue.")
     for slide_number, (slides, appendix) in EVIDENCE_CUES.items():
         notes = prs.slides[slide_number - 1].notes_slide.notes_text_frame
@@ -602,7 +603,30 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "Here are two representative before-and-after changes I reviewed. The S107 controller action passed eight query values separately; after the change it accepts one query object. The S6966 startup call changed from app.Run to await app.RunAsync. Appendix E shows fuller excerpts. The SonarQube issue lists on the preceding slide and in backup show the measured 17-to-zero result.",
               "Appendix E Listings E.1-E.2; backup slide 32 for the larger S107 example; Appendix L Figures L.2 and L.4 for the issue lists.")
 
-    # 16-17. Screenshots rendered from the current raw ZAP reports.
+    # 16. Explain the scan policy before showing ZAP outcomes.
+    slide = header(prs, "Method", "What I configured in ZAP", "ZAP runner scripts and rule profiles; Appendices F and K", RED)
+    zap_setup_cards = [
+        (0.80, "PASSIVE SCAN", "Observe responses",
+         "Starts at /health/live. Inspects headers, cookies, and disclosures without attack payloads.", NAVY_LIGHT, NAVY),
+        (4.78, "AUTHENTICATED API", "Probe documented routes",
+         "Imports OpenAPI and sends JWT plus API-version headers. Separate role checks run first.", TEAL_LIGHT, TEAL),
+        (8.76, "RULE POLICY", "FAIL / WARN / IGNORE",
+         "Selected XSS/SQLi IDs fail if raised; headers warn; specified test noise is ignored.", ORANGE_LIGHT, ORANGE),
+    ]
+    for x, tag, title, detail, fill, accent in zap_setup_cards:
+        box(slide, x, 1.57, 3.76, 3.98, fill, BORDER, radius=True)
+        text(slide, tag, x+0.23, 1.87, 3.30, 0.30, 15, accent, bold=True)
+        text(slide, title, x+0.23, 2.39, 3.30, 0.84, 22, accent, bold=True)
+        text(slide, detail, x+0.23, 3.48, 3.30, 1.70, 18, INK)
+    box(slide, 0.84, 5.88, 11.64, 0.80, WHITE, BORDER, radius=True)
+    text(slide, "PASS does not mean zero alerts: raw findings remain visible on the next slides.",
+         1.06, 6.03, 11.20, 0.47, 19, RED, bold=True)
+    add_notes(slide, 70, "ZAP had two scan profiles and a warning-tolerant rule policy.",
+              "Before the results, here is exactly how I configured ZAP. The passive scan starts at the API health route and inspects normal responses for missing security headers, cookie settings, and disclosures; it does not send attack payloads. The API scan imports the OpenAPI document and is configured to send a JWT bearer token and API-version header to documented routes. The runner also performs selected unauthorized and role-boundary checks separately from ZAP's active scanner. In the rule files, selected SQL-injection and XSS IDs are marked FAIL if raised, header and cookie findings are WARN, and specified Swagger or expected test noise is IGNORE. The fresh runner used -IgnoreWarnings, so PASS means no configured hard-fail finding stopped the run; it does not mean every raw alert cleared. The next two slides show both scans' actual alert counts.",
+              "scripts/phase4/run-zap-baseline.ps1, run-zap-api.ps1, zap-baseline-rules.tsv and zap-api-rules.tsv; scripts/thesis/Invoke-ResearchVerification.ps1; Appendices F and K.",
+              "The API scan preset does not prove every XSS check ran. One raw Medium HTTP Only Site alert remains on a business route; do not call the security outcome fully achieved or equate this PASS with the separate zero-Medium criterion.")
+
+    # 17-18. Screenshots rendered from the current raw ZAP reports.
     passive_before = next(x for x in zap["baseline"]["scans"] if x["scan"] == "baseline")
     passive_after = next(x for x in zap["remediation"]["scans"] if x["scan"] == "baseline")
     api_before = next(x for x in zap["baseline"]["scans"] if x["scan"] == "api")
@@ -617,11 +641,11 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     box(slide, 0.84, 4.93, 11.64, 1.54, GREEN_LIGHT, radius=True)
     text(slide, f"Medium {passive_before['medium']} → {passive_after['medium']}    |    Low {passive_before['low']} → {passive_after['low']}",
          1.10, 5.14, 11.12, 0.48, 27, GREEN, bold=True)
-    text(slide, "This scan observes ordinary responses and headers. The signed-in API scan follows on slide 17.",
+    text(slide, "This scan observes ordinary responses and headers. The signed-in API scan follows on slide 18.",
          1.10, 5.84, 11.08, 0.40, 17, INK)
     add_notes(slide, 55, "The passive scan improved, but it is only one view of security.",
               "I am showing the passive scan before and after the changes. This scan observes normal responses and their headers; it does not sign in. In the upper screenshot, ZAP reports three Medium and six Low alert types. In the lower screenshot, both counts are zero. These are screenshots of report cards rendered from my current raw ZAP scan data. They are not a claim that the protected API is free of alerts. I will show that separate scan on the next slide.",
-              "Next slide 17; backup slide 30; current report §4.3; Appendix F; fresh passive raw ZAP JSON and summaries.")
+              "Next slide 18; backup slide 30; current report §4.3; Appendix F; fresh passive raw ZAP JSON and summaries.")
 
     slide = header(prs, "Evidence", "Signed-in API scan: Low cleared; one Medium remains", "Current report §4.3; ZAP raw scan JSON and alert 10106; Appendix F", RED)
     text(slide, "AUTHENTICATED API SCAN · BASELINE", 0.83, 1.42, 11.70, 0.29, 17, NAVY, bold=True)
@@ -670,7 +694,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
          1.04, 6.38, 11.15, 0.51, 16, MUTED)
     add_notes(slide, 90, "The code changes did not meet the core speed target; the precise cause is unknown.",
               "The performance branch cached account-ledger data and stopped saving a new report snapshot on that read path. These changes were intended to reduce repeated work. JMeter measured response times, throughput, and errors. At 100 and 500 simulated users, the p95 response times were higher after the change and exceeded our study limits. CPU, memory, database-query, and cache-hit measurements were outside this study's measured scope, so I can report the slowdown but cannot identify one cause for it.",
-              "Next slides 20-21 for native JMeter proof; backup slide 33 and Appendix G for the code; Appendix N for the measurement limits.",
+              "Next slides 21-22 for native JMeter proof; backup slide 33 and Appendix G for the code; Appendix N for the measurement limits.",
               "Do not say caching or the host caused the slowdown; the evidence does not isolate either cause.")
 
     # 20-21. Show each failed core profile in the native JMeter view immediately after the conclusion.
@@ -698,7 +722,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     text(slide, "Soak: 9 of 10 request p95 values higher · Spike: all 10 request p95 values lower.",
          0.84, 6.38, 11.70, 0.39, 16, ORANGE, bold=True)
     add_notes(slide, 85, "The pooled total and individual requests must be read together.",
-              "Soak means repeated traffic over time. Spike means many users arrive quickly. The whole-run Total p95 fell in both profiles. But the request-level records add an important distinction: in soak, 9 of 10 individual request p95 values rose after the change, even though the pooled Total p95 fell. The Total is recalculated from all requests; it is not an average of the individual request p95 values. In spike, all 10 individual request p95 values fell and overall errors went from 218 to zero. This is why I do not say every soak request improved. The detailed request tables are on slides 46 and 47, and the native dashboards remain in Appendix L. These whole-run figures are not direct proof of no soak drift or spike recovery. The core 50, 100, and 500 VU p95 results worsened, so I cannot claim overall performance success.",
+              "Soak means repeated traffic over time. Spike means many users arrive quickly. The whole-run Total p95 fell in both profiles. But the request-level records add an important distinction: in soak, 9 of 10 individual request p95 values rose after the change, even though the pooled Total p95 fell. The Total is recalculated from all requests; it is not an average of the individual request p95 values. In spike, all 10 individual request p95 values fell and overall errors went from 218 to zero. This is why I do not say every soak request improved. The detailed request tables are on slides 47 and 48, and the native dashboards remain in Appendix L. These whole-run figures are not direct proof of no soak drift or spike recovery. The core 50, 100, and 500 VU p95 results worsened, so I cannot claim overall performance success.",
               "Fresh JMeter baseline/remediation statistics.json and summary.json; current report §4.4; Appendix L Figures L.12-L.13 and L.17-L.18.",
               "Do not claim a fixed three-hour soak or exactly 100 total threads: the runner configures 100 core plus 30 report threads and has no fixed-duration scheduler.")
 
@@ -726,7 +750,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     box(slide, 0.84, 6.03, 11.65, 0.58, NAVY_LIGHT, radius=True)
     text(slide, "These are browser workflow screenshots; their displayed counts are not benchmark metrics.", 1.04, 6.10, 11.19, 0.39, 16, NAVY, bold=True)
     add_notes(slide, 70, "These are app screens, not speed-test results.",
-              "The pictures show the admin dashboard and a journal entry whose debit and credit lines balance. They help demonstrate that I can use the API through the web app. They do not show how fast the API is. For performance evidence, use backup slide 31 or the JMeter dashboards on slides 37-41.",
+              "The pictures show the admin dashboard and a journal entry whose debit and credit lines balance. They help demonstrate that I can use the API through the web app. They do not show how fast the API is. For performance evidence, use backup slide 31 or the JMeter dashboards on slides 39-43.",
               "Current report §4.6 and Figures 4.2-4.7.")
 
     # 25. Decision matrix, followed by a separate scope slide.
@@ -832,7 +856,7 @@ def app_pair(prs, title, left_file: str, left_label: str, right_file: str | None
         text(slide, left_label, 1.24, 6.39, 10.80, 0.28, 16, NAVY, bold=True)
     backup_notes(slide, title, source,
                  "These are browser workflow captures; visible live application counts are not JMeter benchmark metrics.",
-                 "These pictures show that I can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 31 or dashboards 38-42.")
+                 "These pictures show that I can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 31 or dashboards 39-43.")
 
 
 def request_detail_slide(prs: Presentation, facts: dict, profile: str) -> None:
@@ -889,7 +913,7 @@ def request_detail_slide(prs: Presentation, facts: dict, profile: str) -> None:
                        "Total p95 is a pooled percentile, not the average of the request p95 values. "
                        "Only profit-loss had a lower request p95. All requests had zero failures before and after. "
                        "The before/after sample count matches for every request. Point to the requested endpoint "
-                       "in this table, then to the native soak dashboards on slide 41 if asked for the tool view.")
+                       "in this table, then to the native soak dashboards on slide 42 if asked for the tool view.")
     else:
         if (higher, lower) != (0, 10):
             raise RuntimeError("The spike request-level p95 direction changed.")
@@ -897,7 +921,7 @@ def request_detail_slide(prs: Presentation, facts: dict, profile: str) -> None:
         explanation = ("All ten individual request p95 values fell in the spike run. The total failed samples "
                        "fell from 218 to zero. The before/after sample count matches for every request. "
                        "This is a burst-specific improvement, not proof that the core 100- and 500-user "
-                       "targets passed. Open the native spike dashboards on slide 42 if asked for the tool view.")
+                       "targets passed. Open the native spike dashboards on slide 43 if asked for the tool view.")
     box(slide, 0.84, 6.34, 11.64, 0.45, ORANGE_LIGHT, radius=True)
     text(slide, takeaway, 1.04, 6.39, 11.25, 0.33, 16, ORANGE, bold=True)
     backup_notes(slide, f"{profile} request-level JMeter results", source, explanation=explanation)
@@ -1008,10 +1032,10 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
     text(slide, "PERFORMANCE · FinancialReportService.cs", 7.04, 1.82, 5.17, 0.36, 17, ORANGE, bold=True)
     text(slide, "Cache account-ledger data\n+ stop report snapshot writes on this read path\n\nThe core speed target was not met.",
          7.04, 2.37, 5.15, 2.70, 20, INK, valign=MSO_ANCHOR.TOP)
-    text(slide, "This shows what changed in code; slide 31 shows the measured performance result.",
+    text(slide, "This shows what changed in code; slide 33 shows the measured performance result.",
          0.85, 6.24, 11.70, 0.42, 16, TEAL, bold=True)
     backup_notes(slide, "security and performance source paths", "Current report Appendices F and G.",
-                 explanation="The left side shows the security-header change. The right side shows my performance attempt: cache ledger data and avoid a report snapshot write on this read path. This proves the change was made, not that it made the API faster. For speed numbers, open backup slide 31 and dashboards 38-39.")
+                 explanation="The left side shows the security-header change. The right side shows my performance attempt: cache ledger data and avoid a report snapshot write on this read path. This proves the change was made, not that it made the API faster. For speed numbers, open backup slide 31 and dashboards 40-41.")
 
     # 30. Role/invariant checks
     slide = header(prs, "Backup evidence", "Authorization and accounting controls remained testable", "Current report Appendices C, D, I and §4.6", NAVY)
@@ -1053,11 +1077,11 @@ def build_appendix_slides(prs: Presentation, facts: dict) -> None:
                            "it stayed below this study's 300-millisecond limit.")
         elif profile == "soak":
             explanation = (f"The pooled Total p95 fell from {before['p95Ms']:g} to {after['p95Ms']:g} milliseconds, "
-                           "but 9 of 10 individual request p95 values rose. Open the request table on slide 46. "
+                           "but 9 of 10 individual request p95 values rose. Open the request table on slide 47. "
                            "The core 100- and 500-user targets were still not met.")
         else:
             explanation = (f"The spike Total p95 fell from {before['p95Ms']:g} to {after['p95Ms']:g} milliseconds, "
-                           "and all 10 individual request p95 values fell. Open the request table on slide 47. "
+                           "and all 10 individual request p95 values fell. Open the request table on slide 48. "
                            "The core 100- and 500-user targets were still not met.")
         dashboard_pair(prs, f"JMeter {PROFILE_DISPLAY.get(profile, profile)} · baseline vs remediation",
                        f"jmeter/jmeter-baseline-{profile}-dashboard.png",
@@ -1089,11 +1113,11 @@ def build() -> Path:
     prs.core_properties.author = "Zaw Ye Htut Ko"
     prs.core_properties.keywords = "SonarQube, OWASP ZAP, JMeter, ChatGPT, financial API"
     main_count = build_main_slides(prs, facts)
-    if main_count != 27:
-        raise RuntimeError(f"Expected 27 timed slides, built {main_count}")
+    if main_count != 28:
+        raise RuntimeError(f"Expected 28 timed slides, built {main_count}")
     build_appendix_slides(prs, facts)
-    if len(prs.slides) != 47:
-        raise RuntimeError(f"Expected 47 total slides, built {len(prs.slides)}")
+    if len(prs.slides) != 48:
+        raise RuntimeError(f"Expected 48 total slides, built {len(prs.slides)}")
     for slide in prs.slides:
         notes = slide.notes_slide.notes_text_frame
         notes.text = shift_backup_references(notes.text)

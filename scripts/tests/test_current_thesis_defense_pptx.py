@@ -53,7 +53,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
 
     def test_committee_notes_are_plain_and_point_to_evidence(self):
         deck = Presentation(DECK)
-        self.assertEqual(47, len(deck.slides))
+        self.assertEqual(48, len(deck.slides))
         opening = slide_text(deck.slides[1])
         self.assertIn("When is an AI suggestion an improvement?", opening)
         self.assertNotIn("17 to 0", opening)
@@ -61,18 +61,19 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertNotIn("result first", deck.slides[1].notes_slide.notes_text_frame.text.lower())
         self.assertIn("three different user counts", deck.slides[3].notes_slide.notes_text_frame.text)
         self.assertIn("Local", slide_text(deck.slides[7]))
-        for index in range(47):
+        for index in range(48):
             self.assertNotIn("codex", slide_text(deck.slides[index]).lower())
             self.assertNotIn("codex", deck.slides[index].notes_slide.notes_text_frame.text.lower())
-        for index in range(27):
+        for index in range(28):
             notes = deck.slides[index].notes_slide.notes_text_frame.text
             self.assertIn("SHOW IF ASKED:", notes, f"slide {index + 1}")
             self.assertIn("APPENDIX:", notes, f"slide {index + 1}")
             self.assertNotIn("backup slide 27", notes, f"stale backup reference on slide {index + 1}")
+            self.assertNotIn("backup slide 28", notes, f"stale backup reference on slide {index + 1}")
 
         dataset_rows = [
             " | ".join(cell.text for cell in row.cells)
-            for shape in deck.slides[27].shapes if shape.has_table
+            for shape in deck.slides[28].shapes if shape.has_table
             for row in shape.table.rows
         ]
         self.assertTrue(any("120 accounts" in row and "branch-verification.json" in row for row in dataset_rows))
@@ -106,30 +107,37 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertIn("17 unique issues → 0", slide_text(deck.slides[13]))
         self.assertIn("JournalEntryQueryDto", slide_text(deck.slides[14]))
         self.assertIn("RunAsync", slide_text(deck.slides[14]))
-        self.assertIn("PASSIVE SCAN", slide_text(deck.slides[15]))
-        self.assertIn("AUTHENTICATED API SCAN", slide_text(deck.slides[16]))
-        self.assertIn("HTTP Only Site", slide_text(deck.slides[16]))
-        self.assertIn("outside this study's measured scope", deck.slides[18].notes_slide.notes_text_frame.text)
-        self.assertIn("GET /reports/account-ledger", slide_text(deck.slides[22]))
-        self.assertIn("SOAK p95 LOWER", slide_text(deck.slides[40]))
-        self.assertIn("SPIKE p95 LOWER", slide_text(deck.slides[41]))
-        workload_notes = deck.slides[21].notes_slide.notes_text_frame.text
+        zap_setup = slide_text(deck.slides[15])
+        self.assertIn("What I configured in ZAP", zap_setup)
+        self.assertIn("PASS does not mean zero alerts", zap_setup)
+        self.assertIn("JWT", zap_setup)
+        self.assertIn("WARN", zap_setup)
+        self.assertIn("-IgnoreWarnings", deck.slides[15].notes_slide.notes_text_frame.text)
+        self.assertIn("Appendices F and K", deck.slides[15].notes_slide.notes_text_frame.text)
+        self.assertIn("PASSIVE SCAN", slide_text(deck.slides[16]))
+        self.assertIn("AUTHENTICATED API SCAN", slide_text(deck.slides[17]))
+        self.assertIn("HTTP Only Site", slide_text(deck.slides[17]))
+        self.assertIn("outside this study's measured scope", deck.slides[19].notes_slide.notes_text_frame.text)
+        self.assertIn("GET /reports/account-ledger", slide_text(deck.slides[23]))
+        self.assertIn("SOAK p95 LOWER", slide_text(deck.slides[41]))
+        self.assertIn("SPIKE p95 LOWER", slide_text(deck.slides[42]))
+        workload_notes = deck.slides[22].notes_slide.notes_text_frame.text
         self.assertIn("Soak means repeated traffic over time", workload_notes)
         self.assertIn("Spike means many users arrive quickly", workload_notes)
         self.assertIn("not direct proof of no soak drift or spike recovery", workload_notes)
-        self.assertIn("not load-test data", slide_text(deck.slides[42]).lower())
-        self.assertIn("Pooled soak/spike p95 fell", slide_text(deck.slides[21]))
-        self.assertIn("Soak: 9 of 10 request p95 values higher", slide_text(deck.slides[21]))
-        self.assertIn("Spike: all 10 request p95 values lower", slide_text(deck.slides[21]))
-        self.assertIn("9 of 10 individual request p95 values rose", deck.slides[21].notes_slide.notes_text_frame.text)
-        self.assertIn("not an average of the individual request p95 values", deck.slides[21].notes_slide.notes_text_frame.text)
+        self.assertIn("not load-test data", slide_text(deck.slides[43]).lower())
+        self.assertIn("Pooled soak/spike p95 fell", slide_text(deck.slides[22]))
+        self.assertIn("Soak: 9 of 10 request p95 values higher", slide_text(deck.slides[22]))
+        self.assertIn("Spike: all 10 request p95 values lower", slide_text(deck.slides[22]))
+        self.assertIn("9 of 10 individual request p95 values rose", deck.slides[22].notes_slide.notes_text_frame.text)
+        self.assertIn("not an average of the individual request p95 values", deck.slides[22].notes_slide.notes_text_frame.text)
         request_names = (
             "GET /accounts", "GET /journal-entries", "GET /periods",
             "GET /reports/account-ledger", "GET /reports/balance-sheet",
             "GET /reports/profit-loss", "GET /reports/trial-balance",
             "GET /users/me", "POST /auth/login", "POST /journal-entries/bulk",
         )
-        for index, profile in ((45, "soak"), (46, "spike")):
+        for index, profile in ((46, "soak"), (47, "spike")):
             detail = slide_text(deck.slides[index])
             self.assertIn(f"JMeter {profile} · every request", detail)
             for name in request_names:
@@ -152,14 +160,14 @@ class CurrentThesisDefenseTests(unittest.TestCase):
                 self.assertEqual(f"{baseline['pct2ResTime']:,.2f}", displayed[request][1])
                 self.assertEqual(f"{remediation['pct2ResTime']:,.2f}", displayed[request][2])
                 self.assertEqual(f"{baseline['errorCount']}→{remediation['errorCount']}", displayed[request][3])
-        limitation = slide_text(deck.slides[25])
+        limitation = slide_text(deck.slides[26])
         self.assertIn("Limitations and next validation", limitation)
         self.assertIn("one api", limitation.lower())
         self.assertIn("CPU/RAM", limitation)
         self.assertIn("HTTPS", limitation)
-        self.assertIn("repeat", deck.slides[25].notes_slide.notes_text_frame.text.lower())
-        self.assertIn("Appendix N", deck.slides[25].notes_slide.notes_text_frame.text)
-        self.assertIn("The strongest contribution", slide_text(deck.slides[26]))
+        self.assertIn("repeat", deck.slides[26].notes_slide.notes_text_frame.text.lower())
+        self.assertIn("Appendix N", deck.slides[26].notes_slide.notes_text_frame.text)
+        self.assertIn("The strongest contribution", slide_text(deck.slides[27]))
 
     def test_deck_carries_fresh_results_without_historical_zap_captures(self):
         with ZipFile(DECK) as package:
@@ -190,22 +198,22 @@ class CurrentThesisDefenseTests(unittest.TestCase):
             self.assertIn(sha256(capture.read_bytes()).hexdigest(), embedded_hashes, name)
 
         deck = Presentation(DECK)
-        self.assertEqual(47, len(deck.slides))
+        self.assertEqual(48, len(deck.slides))
         self.assertIn("When is an AI suggestion an improvement?", slide_text(deck.slides[1]))
         self.assertNotIn("17 to 0", slide_text(deck.slides[1]))
-        self.assertIn("raw API Medium remains", slide_text(deck.slides[15]))
-        self.assertIn("rendered from the current ZAP scan JSON", slide_text(deck.slides[15]))
+        self.assertIn("raw API Medium remains", slide_text(deck.slides[16]))
         self.assertIn("rendered from the current ZAP scan JSON", slide_text(deck.slides[16]))
-        self.assertIn("I am showing the passive scan before and after", deck.slides[15].notes_slide.notes_text_frame.text)
-        self.assertIn("I am showing the signed-in API scan before and after", deck.slides[16].notes_slide.notes_text_frame.text)
-        self.assertIn("1,146.9", slide_text(deck.slides[18]))
-        self.assertIn("1,547.95", slide_text(deck.slides[18]))
-        self.assertIn("NOT MET:", slide_text(deck.slides[18]))
-        self.assertIn("100 VU", slide_text(deck.slides[19]))
-        self.assertIn("500 VU", slide_text(deck.slides[20]))
-        self.assertNotIn("FAIL", "\n".join(slide_text(deck.slides[index]) for index in range(27)))
-        self.assertIn("remediation core gate FAIL", slide_text(deck.slides[31]))
-        self.assertIn("CPU/RAM", slide_text(deck.slides[25]))
+        self.assertIn("rendered from the current ZAP scan JSON", slide_text(deck.slides[17]))
+        self.assertIn("I am showing the passive scan before and after", deck.slides[16].notes_slide.notes_text_frame.text)
+        self.assertIn("I am showing the signed-in API scan before and after", deck.slides[17].notes_slide.notes_text_frame.text)
+        self.assertIn("1,146.9", slide_text(deck.slides[19]))
+        self.assertIn("1,547.95", slide_text(deck.slides[19]))
+        self.assertIn("NOT MET:", slide_text(deck.slides[19]))
+        self.assertIn("100 VU", slide_text(deck.slides[20]))
+        self.assertIn("500 VU", slide_text(deck.slides[21]))
+        self.assertNotIn("FAIL", "\n".join(slide_text(deck.slides[index]) for index in range(28) if index != 15))
+        self.assertIn("remediation core gate FAIL", slide_text(deck.slides[32]))
+        self.assertIn("CPU/RAM", slide_text(deck.slides[26]))
         all_visible = "\n".join(slide_text(slide) for slide in deck.slides)
         self.assertNotIn("GPT-5.5", all_visible)
         self.assertNotIn("28 to 0", all_visible)
@@ -214,7 +222,7 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertNotIn("historical dashboard capture", all_visible.lower())
 
         times = []
-        for index in range(27):
+        for index in range(28):
             slide = deck.slides[index]
             notes = slide.notes_slide.notes_text_frame.text
             self.assertNotIn("September", notes)
