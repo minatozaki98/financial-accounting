@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from PIL import Image
@@ -73,8 +74,20 @@ EVIDENCE_CUES: dict[int, tuple[str, str]] = {
     23: ("backup slides 33 and 40-41 (mixed endpoint behavior)", "Appendix G; Table 4.4"),
     24: ("backup slides 42-44 (browser views)", "Appendix J; Figures 4.2-4.7"),
     25: ("backup slides 29-31 (outcome details)", "Appendices M and N"),
-    26: ("backup slide 27 (where every claim is checked)", "Appendices A, M, and N"),
+    26: ("backup slide 27 (claim-to-evidence map)", "Appendix N"),
+    27: ("backup slide 27 (where every claim is checked)", "Appendices A, M, and N"),
 }
+
+
+def shift_backup_references(value: str) -> str:
+    """Account for the new main slide without changing appendix figure numbers."""
+    pattern = r"(backup slides?\s+)(\d+(?:-\d+)?(?:\s*(?:,|and)\s*\d+(?:-\d+)?)*)"
+
+    def replace(match: re.Match[str]) -> str:
+        numbers = re.sub(r"\d+", lambda number: str(int(number.group()) + 1), match.group(2))
+        return match.group(1) + numbers
+
+    return re.sub(pattern, replace, value, flags=re.IGNORECASE)
 
 
 def read_facts() -> dict:
@@ -177,7 +190,7 @@ def add_notes(slide, seconds, key, script, source, caution=""):
 
 
 def add_evidence_cues(prs: Presentation) -> None:
-    if set(EVIDENCE_CUES) != set(range(1, 27)):
+    if set(EVIDENCE_CUES) != set(range(1, 28)):
         raise RuntimeError("Every main slide needs an evidence cue.")
     for slide_number, (slides, appendix) in EVIDENCE_CUES.items():
         notes = prs.slides[slide_number - 1].notes_slide.notes_text_frame
@@ -186,7 +199,7 @@ def add_evidence_cues(prs: Presentation) -> None:
             raise RuntimeError(f"Slide {slide_number} has no speaker script.")
         notes.text = notes.text.replace(
             marker,
-            f"\nSHOW IF ASKED: {slides}\nAPPENDIX: {appendix}{marker}",
+            f"\nSHOW IF ASKED: {shift_backup_references(slides)}\nAPPENDIX: {appendix}{marker}",
             1,
         )
 
@@ -708,7 +721,7 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
               "The pictures show the admin dashboard and a journal entry whose debit and credit lines balance. They help demonstrate that I can use the API through the web app. They do not show how fast the API is. For performance evidence, use backup slide 31 or the JMeter dashboards on slides 37-41.",
               "Current report §4.6 and Figures 4.2-4.7.")
 
-    # 21. Decision matrix and limits
+    # 25. Decision matrix, followed by a separate scope slide.
     slide = header(prs, "Synthesis", "The three results are different", "Current report Table 4.5; Appendix N", TEAL)
     table(slide, [
         ["Area", "Decision", "Why"],
@@ -717,12 +730,35 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
         ["Core performance", "Not achieved", "100 VU and 500 VU p95 exceeded thresholds"],
         ["Soak/spike p95", "Improved separately", "Tail p95 fell; other measures were mixed"],
     ], 0.80, 1.49, 11.72, 4.12, widths=[0.20,0.28,0.52], font_size=17)
-    text(slide, "Limits: one API · one host · one run per branch · CPU/RAM and service tiers not controlled", 0.83, 5.92, 11.68, 0.45, 19, MUTED)
+    text(slide, "Next: where these case-study conclusions apply, and what requires another test.",
+         0.83, 5.92, 11.68, 0.45, 19, MUTED)
     add_notes(slide, 80, "The study does not support a blanket claim that everything improved.",
-              "Code warnings fell from 17 to zero, although coverage fell a little and complexity rose. ZAP's selected checks passed, but the local HTTP alert stayed. JMeter missed the main 100- and 500-user speed targets even though soak and spike improved. This is one API on one computer with one fresh run per branch. We did not save CPU and memory readings for those runs, so I would repeat the tests before claiming the result applies elsewhere.",
+              "Code warnings fell from 17 to zero, although coverage fell a little and complexity rose. ZAP's selected checks passed, but the local HTTP alert stayed. JMeter missed the main 100- and 500-user speed targets even though soak and spike improved. Each tool therefore answers a different part of the research question. On the next slide I will explain which conclusions apply to this tested case and what would need more validation before generalizing them.",
               "Current report Table 4.5 and Appendix N.")
 
-    # 22. Conclusion
+    # 26. Limitations and next validation
+    slide = header(prs, "Scope", "Limitations and next validation", "Current report, Limitations and Future Work; Appendix N", NAVY)
+    limit_cards = [
+        (0.80, "ONE CASE", "one API · one ChatGPT setup",
+         "The findings describe this financial API and dataset, not every API or AI assistant.", NAVY_LIGHT, NAVY),
+        (4.78, "LOCAL MEASUREMENT", "one fresh run per branch",
+         "CPU/RAM use and hosted service tiers were outside the measured variables.", TEAL_LIGHT, TEAL),
+        (8.76, "DEPLOYMENT", "local HTTP target",
+         "An HTTPS retest is needed for the remaining ZAP transport observation.", ORANGE_LIGHT, ORANGE),
+    ]
+    for x, tag, title, detail, fill, accent in limit_cards:
+        box(slide, x, 1.57, 3.76, 3.98, fill, BORDER, radius=True)
+        text(slide, tag, x+0.23, 1.87, 3.30, 0.30, 15, accent, bold=True)
+        text(slide, title, x+0.23, 2.39, 3.30, 0.90, 23, accent, bold=True)
+        text(slide, detail, x+0.23, 3.54, 3.30, 1.60, 19, INK)
+    box(slide, 0.84, 5.88, 11.64, 0.80, WHITE, BORDER, radius=True)
+    text(slide, "Next: repeat matched runs with resource traces; test HTTPS; compare assistants separately.",
+         1.06, 6.03, 11.20, 0.47, 18, NAVY, bold=True)
+    add_notes(slide, 75, "These boundaries define where the case-study result applies.",
+              "This slide states where my conclusions apply. I tested one financial API and one ChatGPT configuration so the branch comparisons are traceable. Each evidence branch has one fresh local run. JMeter measured API response times, but CPU and RAM utilization and managed service tiers were outside my measured variables, so I cannot assign one hardware cause to the slower core profiles or claim the same timing on another machine. ZAP examined a local HTTP target; the remaining HTTP Only Site observation needs a production-like HTTPS retest. To extend this work, I would repeat matched runs while recording resource use and run-to-run variability, test defined hardware or service tiers and HTTPS, and compare another assistant in a separate study. The observed issue closure and tool outputs remain valid for the tested case; broader claims need replication.",
+              "Current report, Limitations and Future Work; Appendix N; backup claim-to-evidence map.")
+
+    # 27. Conclusion
     slide = header(prs, "Closing", "The strongest contribution is the traceable check-and-fix method", "Current report Chapter 5; Appendices A-N", TEAL)
     for index, (number, title, body, color) in enumerate([
         ("01", "The model can help", "Seventeen fresh static issues closed; security rule gate passed.", GREEN),
@@ -788,7 +824,7 @@ def app_pair(prs, title, left_file: str, left_label: str, right_file: str | None
         text(slide, left_label, 1.24, 6.39, 10.80, 0.28, 16, NAVY, bold=True)
     backup_notes(slide, title, source,
                  "These are browser workflow captures; visible live application counts are not JMeter benchmark metrics.",
-                 "These pictures show that I can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 31 or dashboards 37-41.")
+                 "These pictures show that I can use the application and see its accounting screens. They do not measure speed. For JMeter response times, open backup slide 31 or dashboards 38-42.")
 
 
 def build_appendix_slides(prs: Presentation, facts: dict) -> None:
@@ -972,11 +1008,14 @@ def build() -> Path:
     prs.core_properties.author = "Zaw Ye Htut Ko"
     prs.core_properties.keywords = "SonarQube, OWASP ZAP, JMeter, ChatGPT, financial API"
     main_count = build_main_slides(prs, facts)
-    if main_count != 26:
-        raise RuntimeError(f"Expected 26 timed slides, built {main_count}")
+    if main_count != 27:
+        raise RuntimeError(f"Expected 27 timed slides, built {main_count}")
     build_appendix_slides(prs, facts)
-    if len(prs.slides) != 44:
-        raise RuntimeError(f"Expected 44 total slides, built {len(prs.slides)}")
+    if len(prs.slides) != 45:
+        raise RuntimeError(f"Expected 45 total slides, built {len(prs.slides)}")
+    for slide in prs.slides:
+        notes = slide.notes_slide.notes_text_frame
+        notes.text = shift_backup_references(notes.text)
     add_evidence_cues(prs)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     prs.save(OUTPUT)
