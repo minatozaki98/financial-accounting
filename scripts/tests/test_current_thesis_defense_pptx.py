@@ -61,6 +61,14 @@ class CurrentThesisDefenseTests(unittest.TestCase):
         self.assertNotIn("result first", deck.slides[1].notes_slide.notes_text_frame.text.lower())
         self.assertIn("three different user counts", deck.slides[3].notes_slide.notes_text_frame.text)
         self.assertIn("Local", slide_text(deck.slides[7]))
+        evaluation_rules = slide_text(deck.slides[9])
+        self.assertIn("Additional check / target", evaluation_rules)
+        self.assertIn("Raw alert severities reported", evaluation_rules)
+        evaluation_notes = deck.slides[9].notes_slide.notes_text_frame.text
+        for topic in ("SonarQube", "OWASP ZAP", "JMeter", "Regression"):
+            self.assertIn(topic, evaluation_notes)
+        self.assertIn("configured PASS does not mean zero raw alerts", evaluation_notes)
+        self.assertIn("accounting and authorization", evaluation_notes)
         for index in range(48):
             self.assertNotIn("codex", slide_text(deck.slides[index]).lower())
             self.assertNotIn("codex", deck.slides[index].notes_slide.notes_text_frame.text.lower())

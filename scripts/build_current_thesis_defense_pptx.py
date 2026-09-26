@@ -482,18 +482,19 @@ def build_main_slides(prs: Presentation, facts: dict) -> int:
     # 9. Acceptance rules
     slide = header(prs, "Method", "Outcomes were judged by tool-specific measures", "Current report Table 4.1 and §4.1", TEAL)
     table(slide, [
-        ["Area", "Primary decision", "Control metric"],
+        ["Area", "Primary decision", "Additional check / target"],
         ["SonarQube", "Compare unique issues; show gate status", "Coverage and complexity disclosed"],
-        ["OWASP ZAP", "Configured-rule gate; report raw alerts", "Residual HTTP-only observation disclosed"],
+        ["OWASP ZAP", "Configured-rule gate; report raw alerts", "Raw alert severities reported, including residuals"],
         ["JMeter", "50/100/500 VU core gate", "100 VU ≤500 ms; 500 VU ≤1200 ms"],
         ["Regression", "Focused tests and role checks", "Accounting and authorization preserved"],
     ], 0.80, 1.58, 11.72, 3.80, widths=[0.21,0.45,0.34], font_size=17)
     box(slide, 0.80, 5.62, 11.72, 0.96, ORANGE_LIGHT, radius=True)
     text(slide, "Study scenarios: 100 VU = planned peak; 500 VU = heavier load. These are not measured production traffic.",
          1.04, 5.76, 11.18, 0.70, 18, ORANGE, bold=True)
-    add_notes(slide, 70, "Each tool has a rule, but the measured numbers still matter.",
-              "I named 100 simulated users the peak scenario and 500 the heavier-load scenario in the test plan. This was not a measured peak from real customers. The study set p95 targets of 500 milliseconds and 1,200 milliseconds respectively. Those numbers are study choices, not universal standards. I compare the after-fix result with each target and still report the actual time, so the committee can see more than a pass/fail label.",
-              "Current report Table 4.1 and §4.1; Document/JMETER_ZAP_TEST_PLAN.md §4.6.")
+    add_notes(slide, 90, "Each row has a primary decision and a separate check or target.",
+              "Read this table as four ways I checked the changes, not four promises that every number would improve. For SonarQube, I compare the number of distinct code issues before and after. I also show its Quality Gate, coverage, and complexity, so the committee can see any trade-off rather than just a lower issue count. For OWASP ZAP, I use the selected fail-rule policy to judge the scan, but a configured PASS does not mean zero raw alerts; I report their severities and any remaining observation separately. For JMeter, I measure p95 response time at 50, 100, and 500 simulated users. The 100-user limit of 500 milliseconds and the 500-user limit of 1,200 milliseconds are study targets, not measured production traffic or universal standards. Finally, Regression means I run focused tests and role checks to confirm accounting and authorization still work after a code change. Together these measures support a decision; one tool's PASS label cannot speak for all four areas.",
+              "Current report Table 4.1 and §4.1; Document/JMETER_ZAP_TEST_PLAN.md §4.6; ZAP rule profiles and focused test records.",
+              "The last column intentionally combines secondary controls and predefined targets; do not describe every cell as an expected result.")
 
     # 10. Human-in-the-loop boundary
     slide = header(prs, "Method", "From a tool warning to a measured result", "Current report §§3.1.3-3.1.4; Appendices I and K", TEAL)
