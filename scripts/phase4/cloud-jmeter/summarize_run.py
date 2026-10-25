@@ -10,6 +10,7 @@ import re
 import sys
 
 from concurrency_gate import analyze
+from lifecycle_gate import analyze_lifecycle, reconcile_jtl_with_lifecycle
 
 
 START_PATTERN = re.compile(r"Running test \((\d+)\)")
@@ -32,8 +33,11 @@ def summarize(jtl: Path, log: Path, target_users: int, ramp_seconds: int,
     start_ms = int(starts[0])
     hold_start = start_ms + ramp_seconds * 1000
     hold_end = hold_start + hold_seconds * 1000
-    concurrency = analyze(jtl, target_users, start_ms, ramp_seconds,
-                          hold_seconds, bin_seconds)
+    jtl_concurrency = analyze(jtl, target_users, start_ms, ramp_seconds,
+                              hold_seconds, bin_seconds)
+    lifecycle = analyze_lifecycle(log_text, target_users, start_ms,
+                                  ramp_seconds, ramp_seconds + hold_seconds)
+    concurrency = reconcile_jtl_with_lifecycle(jtl_concurrency, lifecycle)
     elapsed = defaultdict(list)
     failures = defaultdict(int)
     codes = defaultdict(int)
@@ -52,6 +56,7 @@ def summarize(jtl: Path, log: Path, target_users: int, ramp_seconds: int,
     all_elapsed = [value for values in elapsed.values() for value in values]
     log_error_lines = [line for line in log_text.splitlines() if ERROR_PATTERN.search(line)]
     return {
+        "analysis_protocol_version": 2,
         "valid_run": concurrency["valid"] and not log_error_lines and count > 0,
         "concurrency": concurrency,
         "jmeter_log_error_count": len(log_error_lines),

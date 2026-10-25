@@ -5,10 +5,32 @@ import json
 from pathlib import Path
 from statistics import median
 
-from run_matrix import DEFAULT_STATE, PROFILES
+from run_matrix import DEFAULT_STATE, PROFILES, sha256
+from summarize_run import summarize
+from summarize_special import summarize_soak, summarize_spike
 
 
 STATIC_GATES = {"p50": (300, 0.5), "p100": (500, 1.0), "p500": (1200, 2.0)}
+
+
+def reanalyze_run(run_dir: Path, profile: str, users: int,
+                  ramp: int, hold: int) -> dict:
+    """Use the same amended gate on every raw run while preserving v1 evidence."""
+    expected = json.loads((run_dir / "sha256.json").read_text(encoding="utf-8"))
+    for filename in ("run.jtl", "run.log"):
+        if sha256(run_dir / filename) != expected.get(filename):
+            raise ValueError(f"raw {filename} hash differs from the captured manifest")
+    jtl, log = run_dir / "run.jtl", run_dir / "run.log"
+    if profile == "soak":
+        current = summarize_soak(jtl, log)
+    elif profile == "spike":
+        current = summarize_spike(jtl, log)
+    else:
+        current = summarize(jtl, log, users, ramp, hold)
+    original = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    if primary(current, profile) != primary(original, profile):
+        raise ValueError(f"measured {profile} metrics changed during reanalysis")
+    return current
 
 
 def primary(summary: dict, profile: str) -> dict:
@@ -36,8 +58,15 @@ def gate_passes(summary: dict, profile: str) -> bool:
 
 def active_users(summary: dict, profile: str) -> dict:
     concurrency = summary["concurrency"]["peak"] if profile == "spike" else summary["concurrency"]
-    return {key: concurrency[key] for key in
-            ("observed_peak", "min_hold_active", "median_hold_active", "full_bins", "hold_bins")}
+    result = {key: concurrency[key] for key in
+              ("observed_peak", "min_hold_active", "median_hold_active", "full_bins", "hold_bins")}
+    lifecycle = concurrency["lifecycle"]
+    result.update({"jtl_missing_bins": concurrency["jtl_missing_bins"],
+                   "lifecycle_minimum_active": lifecycle["minimum_active"],
+                   "lifecycle_maximum_active": lifecycle["maximum_active"],
+                   "lifecycle_started_threads": lifecycle["started_threads"],
+                   "lifecycle_finished_threads": lifecycle["finished_threads"]})
+    return result
 
 
 def spread(values: list[float]) -> dict:
@@ -63,7 +92,8 @@ def compare(state: Path) -> dict:
                 raise ValueError(f"{marker.name} lacks one source side")
             observations = {}
             for side, run_id in sides.items():
-                summary = json.loads((evidence / run_id / "summary.json").read_text(encoding="utf-8"))
+                users, ramp, hold, _ = PROFILES[profile]
+                summary = reanalyze_run(evidence / run_id, profile, users, ramp, hold)
                 if not summary["valid_run"]:
                     raise ValueError(f"invalid run was marked complete: {run_id}")
                 observations[side] = {"run_id": run_id, "summary": summary,
@@ -126,7 +156,7 @@ def compare(state: Path) -> dict:
         }
     if missing:
         raise ValueError("comparison is incomplete; missing pairs: " + ", ".join(missing))
-    return {"profiles": result, "source_revisions": json.loads(
+    return {"analysis_protocol_version": 2, "profiles": result, "source_revisions": json.loads(
         (Path(__file__).resolve().parents[3] /
          "Document/experiments/jmeter-cloud-20261023/source-revisions.json").read_text())}
 

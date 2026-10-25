@@ -1,6 +1,8 @@
 {
   "experiment": "financial-accounting-jmeter-20261025",
   "state": "environment-and-profiles-frozen-after-valid-500-user-and-spike-pilots",
+  "analysis_protocol_version": 2,
+  "analysis_protocol_amendment": "Post-scoring correction: JMeter thread lifecycle proves continuous users; empty JTL request bins are reported, not interpreted as lost users. See validity-amendment.md.",
   "provider": "Akamai Cloud",
   "region": "sg-sin-2",
   "vpc_cidr": "10.240.42.0/24",

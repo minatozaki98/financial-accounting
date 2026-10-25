@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 
 from concurrency_gate import analyze
+from lifecycle_gate import analyze_lifecycle, reconcile_jtl_with_lifecycle
 from summarize_run import ERROR_PATTERN, START_PATTERN, percentile, summarize
 
 
@@ -93,13 +94,17 @@ def summarize_spike(jtl: Path, log: Path) -> dict:
     concurrency = {}
     for name, (start_second, end_second, users) in SPIKE_PHASES.items():
         phases[name] = phase(jtl, start_ms, start_second, end_second)
-        concurrency[name] = analyze(jtl, users, start_ms + start_second * 1000,
-                                    0, end_second - start_second, 5)
+        jtl_concurrency = analyze(jtl, users, start_ms + start_second * 1000,
+                                  0, end_second - start_second, 5)
+        lifecycle = analyze_lifecycle(text, users, start_ms, start_second,
+                                      end_second, settle_seconds=5)
+        concurrency[name] = reconcile_jtl_with_lifecycle(jtl_concurrency, lifecycle)
     drift = drift_pct(phases["base"], phases["recovery"])
     count = sum(value["samples"] for value in phases.values())
     failed = sum(value["errors"] for value in phases.values())
     error_pct = round(100 * failed / count, 4) if count else None
     return {
+        "analysis_protocol_version": 2,
         "valid_run": all(value["valid"] for value in concurrency.values()) and not errors and count > 0,
         "test_start_ms": start_ms,
         "jmeter_log_error_count": len(errors),
