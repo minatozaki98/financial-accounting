@@ -90,6 +90,13 @@ def scp(ip: str, state: Path, remote: str, local: Path) -> None:
     run_command(command, timeout=180)
 
 
+def prepare_run_directories(target: str, generator: str, state: Path,
+                            remote: str) -> None:
+    """Create result paths before either host starts a metrics collector."""
+    for ip in (target, generator):
+        ssh(ip, state, f"mkdir -p {remote}")
+
+
 def provider_ips(state: Path, manifest: dict) -> dict[str, str]:
     token = (state / "secrets/akamai-token.txt").read_text(encoding="utf-8").strip()
     api = AkamaiApi(token)
@@ -159,7 +166,7 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
     for role, ip in (("target", target), ("generator", generator)):
         ssh(ip, state, "ps -eo pid,comm,pcpu,rss --sort=-pcpu | head -n 20; docker ps",
             output=local / f"{role}-processes-before.txt")
-    ssh(generator, state, f"mkdir -p {remote}")
+    prepare_run_directories(target, generator, state, remote)
     for role, ip in (("target", target), ("generator", generator)):
         metrics = f"/opt/jmeter-research/results/matrix/{run_id}-{role}-metrics.jsonl"
         collector_log = f"/opt/jmeter-research/results/matrix/{run_id}-{role}-collector.log"
