@@ -1,6 +1,8 @@
 import importlib.util
 from datetime import datetime, timezone
+import json
 from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -58,6 +60,38 @@ class TeardownTests(unittest.TestCase):
         self.assertIn("deadline not reached", MODULE.teardown(
             self.manifest, api, datetime(2026, 10, 24, tzinfo=timezone.utc))[0])
         self.assertEqual(api.calls, [])
+
+    def test_server_only_manifest_retains_network_resources(self):
+        api = FakeApi()
+        manifest = {key: self.manifest[key] for key in
+                    ("deadline_utc", "region", "instances")}
+        MODULE.teardown(manifest, api, datetime(2026, 10, 26, tzinfo=timezone.utc),
+                        wait_seconds=0)
+        self.assertEqual([path for method, path in api.calls if method == "DELETE"],
+                         ["/linode/instances/42"])
+        self.assertIn("/vpcs/7", api.resources)
+        self.assertIn("/networking/firewalls/9", api.resources)
+
+    def test_automatic_delete_requires_all_copied_pair_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            evidence = Path(directory)
+            for profile in MODULE.PROFILES:
+                for repeat in (1, 2, 3):
+                    runs = []
+                    for side in ("before", "after"):
+                        run_id = f"{profile}-r{repeat}-{side}-a1"
+                        run_dir = evidence / run_id
+                        run_dir.mkdir()
+                        for name in ("run.jtl", "run.log", "sha256.json", "summary.json",
+                                     "resource-summary.json"):
+                            (run_dir / name).write_text("copied", encoding="utf-8")
+                        runs.append({"side": side, "run_id": run_id})
+                    (evidence / f"{profile}-r{repeat}-pair.json").write_text(
+                        json.dumps({"runs": runs}), encoding="utf-8")
+            MODULE.require_complete_evidence(evidence)
+            (evidence / "spike-r3-pair.json").unlink()
+            with self.assertRaisesRegex(ValueError, "missing paired evidence"):
+                MODULE.require_complete_evidence(evidence)
 
 
 if __name__ == "__main__":
