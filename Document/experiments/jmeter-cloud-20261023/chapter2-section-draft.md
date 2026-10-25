@@ -2,11 +2,11 @@
 
 ## Introduction to the Literature Review
 
-Cloud-hosted performance results depend on both the application and the environment used to measure it. Papadopoulos et al. (2021) propose methodological principles for designing and reporting reproducible cloud performance studies, including clear metrics, experimental configuration, repeated observations, shared artifacts, and cost. Baresi et al. (2023) empirically examine VM performance variability across resources, isolation conditions, time, and cost. Together, these works explain why a before/after comparison needs to keep the cloud region, VM size, software images, dataset, and measurement protocol fixed within each pair and report variation across repetitions.
+Cloud-hosted performance results depend on both the application and the environment used to measure it. Papadopoulos et al. (2021) set out eight methodological principles for cloud performance studies, including explicit metrics, configuration, repeated observations, artifacts, statistical evaluation, and cost reporting. Their contribution is a methodology, not a measured speedup for this API. Baresi et al. (2023) analyze 16 VM types from four providers using ten benchmarks and 28 metrics. They report variability across resources, isolation, time, and cost. These findings explain why a before/after comparison needs to hold region, VM tier, software images, dataset, and workload fixed within each pair and report variation across repetitions.
 
 ## Key Themes and Findings
 
-The distribution of response times matters in addition to its average. Dean and Barroso (2013) explain how high latency in the tail of a Web service's response-time distribution can dominate user-visible behavior as scale and utilization increase. This supports reporting p95 and p99 latency alongside throughput and error rate. He et al. (2019) study statistical performance testing of cloud applications, reinforcing the need to interpret variable measurements through repeated observations rather than a single favorable run.
+The distribution of response times matters in addition to its average. Dean and Barroso (2013) explain how high latency in the tail of a Web service's response-time distribution can dominate user-visible behavior as scale and utilization increase. This supports reporting p95 and p99 latency alongside throughput and error rate. He et al. (2019) propose PT4Cloud, a statistical stopping method for cloud tests. Across 33 benchmark configurations on AWS and Chameleon, they report 95.4% average accuracy relative to extensive testing while reducing test runs by 62%. Their result shows why both measurement uncertainty and cloud cost matter; those accuracy figures are for their evaluated systems, not this financial API.
 
 ## Methodological Gap and Application to This Study
 
@@ -14,7 +14,7 @@ These publications do not prescribe the exact virtual-user counts, pass threshol
 
 ## Critical Analysis
 
-Dedicated virtual CPUs and container limits reduce avoidable interference, but they cannot eliminate all cloud variance. The three paired repetitions permit the report to show spread rather than claim universal performance from one machine. The same workload includes writes, so the database grows during a run; every run begins from the same backup, and resulting row counts must be reported as a limitation when interpreting throughput and latency. A result that fails the predeclared concurrency gate is excluded from the scored comparison even if its request errors are low.
+Dedicated virtual CPUs and container limits reduce avoidable interference, but they cannot eliminate all cloud variance. Dean and Barroso's distributed-service analysis justifies examining latency tails; it does not predict a numerical gain for this single API. The three paired repetitions permit descriptive medians, ranges, and paired differences; they do not implement PT4Cloud's statistical stopping method or establish significance across providers. The same workload includes writes, so the database grows during a run; every run begins from the same backup, and resulting row counts must be reported as a limitation when interpreting throughput and latency. A result that fails the predeclared concurrency gate is excluded from the scored comparison even if its request errors are low.
 
 ## Verified References
 
