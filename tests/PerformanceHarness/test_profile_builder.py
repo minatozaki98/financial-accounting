@@ -89,6 +89,22 @@ class ProfileBuilderTests(unittest.TestCase):
             self.assertFalse("Admin@123" in content, plan.name)
             self.assertIn("${__P(password,)}", content)
 
+    def test_spike_adds_400_users_then_returns_to_100(self):
+        result = self.build()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        plan = self.output / "financial-api-spike-controlled.jmx"
+        self.assertTrue(plan.exists(), "the controlled spike profile is missing")
+        groups = group_values(plan)
+        self.assertEqual([int(g[1]["ThreadGroup.num_threads"]) for g in groups],
+                         [70, 30, 280, 120])
+        self.assertEqual([g[1]["ThreadGroup.delay"] for g in groups],
+                         ["0", "0", "150", "150"])
+        self.assertEqual([g[1]["ThreadGroup.ramp_time"] for g in groups],
+                         ["30", "30", "30", "30"])
+        self.assertEqual([g[1]["ThreadGroup.duration"] for g in groups],
+                         ["780", "780", "330", "330"])
+        self.assertTrue(all(g[2] == "-1" for g in groups))
+
 
 if __name__ == "__main__":
     unittest.main()
