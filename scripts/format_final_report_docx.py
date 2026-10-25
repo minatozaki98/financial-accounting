@@ -310,6 +310,12 @@ REFERENCE_ENTRIES = [
         "https://doi.org/10.52783/jes.2471",
     ),
     (
+        "Grzeszuk, M., & Miłosz, M. (2025). Performance comparison of CRUD operations in Spring Boot and ASP.NET Core frameworks. ",
+        "Journal of Computer Sciences Institute, 35",
+        ", 175–183. ",
+        "https://doi.org/10.35784/jcsi.7198",
+    ),
+    (
         "He, S., Manns, G., Saunders, J., Wang, W., Pollock, L., & Soffa, M. L. (2019). A statistics-based performance testing methodology for cloud applications. In ",
         "Proceedings of the 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE)",
         " (pp. 188–199). ACM. ",
@@ -380,6 +386,12 @@ REFERENCE_ENTRIES = [
         "Future Internet, 15",
         "(10), Article 326. ",
         "https://doi.org/10.3390/fi15100326",
+    ),
+    (
+        "Szewczyk, M., & Skublewska-Paszkowska, M. (2025). Performance comparison of development frameworks in selected environments in REST API architecture. ",
+        "Journal of Computer Sciences Institute, 35",
+        ", 121–128. ",
+        "https://doi.org/10.35784/jcsi.7041",
     ),
     (
         "Yetiştiren, B., Özsoy, I., Ayerdem, M., & Tüzün, E. (2023). ",
