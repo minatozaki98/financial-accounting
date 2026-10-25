@@ -63,6 +63,14 @@ TABLE_CAPTION_TITLES = {
         "Status",
     ): "JMeter before-and-after performance profile comparison.",
     (
+        "Profile",
+        "Metric",
+        "Baseline",
+        "After fixes",
+        "Change",
+        "After status",
+    ): "JMeter results from three valid pairs per profile.",
+    (
         "Example",
         "Before branch",
         "Before code",
@@ -166,6 +174,13 @@ TABLE_CAPTION_TITLES = {
         "After fixes",
         "Main remediation",
     ): "Performance hotspot comparison for reviewer-visible report endpoints.",
+    (
+        "Endpoint",
+        "Profile metric",
+        "Baseline",
+        "After fixes",
+        "After-revision changes",
+    ): "Performance hotspots for sampled report and bulk-write endpoints.",
     (
         "Track",
         "Branch or source",
@@ -1197,10 +1212,21 @@ def format_report(docx_path: Path) -> None:
     configure_caption_style(doc)
     configure_heading_styles(doc)
     split_combined_headings(doc)
-    normalize_report_structure(doc)
+    # The GPT-5.5 comparison report has its own chapter/section outline.
+    # The primary report's paragraph moves and heading renames do not apply.
+    if "gpt55" not in docx_path.name.lower():
+        normalize_report_structure(doc)
     apply_heading_styles(doc)
     normalize_heading_runs(doc)
     number_table_captions(doc)
+    if "gpt55" in docx_path.name.lower():
+        for paragraph in doc.paragraphs:
+            if paragraph.style.name == "Caption" and normalized_text(paragraph).startswith((
+                "Table 4.4. Performance hotspots for sampled report and bulk-write endpoints.",
+                "Table 4.5. Security and quality-gate closure matrix.",
+            )):
+                paragraph.paragraph_format.page_break_before = True
+                paragraph.paragraph_format.keep_with_next = True
     number_figure_captions(doc)
     rebuild_acronym_list(doc)
     rebuild_references(doc)

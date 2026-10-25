@@ -1,0 +1,11 @@
+{
+  "archive_path": "C:\\Users\\Asus\\Documents\\ResearchEvidence\\financial-accounting\\jmeter-cloud-20261025-raw.tar.gz",
+  "sha256": "CA0C9795BB179F92410D5A9A680F8B4562129D8759342BF2F8BE8113021ED9F9",
+  "bytes": 141024578,
+  "verified_file_count": 509,
+  "jtl_file_count": 33,
+  "valid_pair_marker_count": 15,
+  "source_state_relative_path": ".superpowers/sdd/2026-10-23-cloud-jmeter-experiment/evidence/matrix",
+  "included_scope": "JMeter run evidence only; no secrets directory or API-token file path",
+  "invoice_or_payment_data_included": false
+}

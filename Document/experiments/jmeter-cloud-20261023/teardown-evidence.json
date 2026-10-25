@@ -1,0 +1,25 @@
+{
+  "verified_utc": "2026-10-25T21:13:31.617244+00:00",
+  "instances": {
+    "target": {
+      "id": 109151022,
+      "status": "absent"
+    },
+    "generator": {
+      "id": 109152681,
+      "status": "absent"
+    }
+  },
+  "experiment_instances_remaining": [],
+  "vpc": {
+    "id": 713050,
+    "retained": true
+  },
+  "firewall": {
+    "id": 222190138,
+    "retained": true
+  },
+  "account_balance_uninvoiced_usd": 3.1,
+  "final_invoice_status": "not yet issued",
+  "temporary_token_status": "pending action-time revocation confirmation"
+}

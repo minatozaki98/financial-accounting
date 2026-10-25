@@ -1,0 +1,3440 @@
+{
+  "analysis_protocol_version": 2,
+  "profiles": {
+    "p50": {
+      "valid_pairs": 3,
+      "order": [
+        [
+          "before",
+          "after"
+        ],
+        [
+          "after",
+          "before"
+        ],
+        [
+          "before",
+          "after"
+        ]
+      ],
+      "gate_passes": {
+        "before": 3,
+        "after": 3
+      },
+      "active_users": {
+        "before": [
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          },
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          },
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          }
+        ],
+        "after": [
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          },
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          },
+          {
+            "observed_peak": 50,
+            "min_hold_active": 50,
+            "median_hold_active": 50.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 50,
+            "lifecycle_maximum_active": 50,
+            "lifecycle_started_threads": 50,
+            "lifecycle_finished_threads": 50
+          }
+        ]
+      },
+      "metrics": {
+        "p95_ms": {
+          "before": {
+            "median": 161,
+            "minimum": 156,
+            "maximum": 170,
+            "values": [
+              161,
+              156,
+              170
+            ]
+          },
+          "after": {
+            "median": 29,
+            "minimum": 26,
+            "maximum": 33,
+            "values": [
+              33,
+              29,
+              26
+            ]
+          },
+          "paired_percent_changes": [
+            -79.503,
+            -81.41,
+            -84.706
+          ],
+          "median_paired_percent_change": -81.41
+        },
+        "p99_ms": {
+          "before": {
+            "median": 593,
+            "minimum": 468,
+            "maximum": 821,
+            "values": [
+              593,
+              468,
+              821
+            ]
+          },
+          "after": {
+            "median": 578,
+            "minimum": 438,
+            "maximum": 769,
+            "values": [
+              769,
+              578,
+              438
+            ]
+          },
+          "paired_percent_changes": [
+            29.68,
+            23.504,
+            -46.65
+          ],
+          "median_paired_percent_change": 23.504
+        },
+        "error_pct": {
+          "before": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "after": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "paired_percent_changes": [
+            null,
+            null,
+            null
+          ],
+          "median_paired_percent_change": null
+        },
+        "requests_per_second": {
+          "before": {
+            "median": 192.077,
+            "minimum": 186.532,
+            "maximum": 192.352,
+            "values": [
+              192.3517,
+              192.0767,
+              186.5317
+            ]
+          },
+          "after": {
+            "median": 205.238,
+            "minimum": 201.525,
+            "maximum": 208.523,
+            "values": [
+              201.525,
+              205.2383,
+              208.5233
+            ]
+          },
+          "paired_percent_changes": [
+            4.769,
+            6.852,
+            11.79
+          ],
+          "median_paired_percent_change": 6.852
+        }
+      },
+      "endpoints": {
+        "GET /accounts": {
+          "before": {
+            "p95_ms": {
+              "median": 27,
+              "minimum": 25,
+              "maximum": 28,
+              "values": [
+                27,
+                25,
+                28
+              ]
+            },
+            "p99_ms": {
+              "median": 81,
+              "minimum": 76,
+              "maximum": 547,
+              "values": [
+                81,
+                76,
+                547
+              ]
+            },
+            "total_samples": 69881,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 14,
+              "minimum": 13,
+              "maximum": 15,
+              "values": [
+                15,
+                14,
+                13
+              ]
+            },
+            "p99_ms": {
+              "median": 444,
+              "minimum": 404,
+              "maximum": 634,
+              "values": [
+                634,
+                444,
+                404
+              ]
+            },
+            "total_samples": 71884,
+            "total_errors": 0
+          }
+        },
+        "GET /journal-entries": {
+          "before": {
+            "p95_ms": {
+              "median": 80,
+              "minimum": 78,
+              "maximum": 86,
+              "values": [
+                80,
+                78,
+                86
+              ]
+            },
+            "p99_ms": {
+              "median": 528,
+              "minimum": 301,
+              "maximum": 799,
+              "values": [
+                301,
+                528,
+                799
+              ]
+            },
+            "total_samples": 69886,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 50,
+              "minimum": 38,
+              "maximum": 55,
+              "values": [
+                55,
+                50,
+                38
+              ]
+            },
+            "p99_ms": {
+              "median": 700,
+              "minimum": 481,
+              "maximum": 848,
+              "values": [
+                848,
+                700,
+                481
+              ]
+            },
+            "total_samples": 71887,
+            "total_errors": 0
+          }
+        },
+        "GET /periods": {
+          "before": {
+            "p95_ms": {
+              "median": 25,
+              "minimum": 23,
+              "maximum": 27,
+              "values": [
+                25,
+                23,
+                27
+              ]
+            },
+            "p99_ms": {
+              "median": 79,
+              "minimum": 72,
+              "maximum": 643,
+              "values": [
+                79,
+                72,
+                643
+              ]
+            },
+            "total_samples": 69880,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 12,
+              "minimum": 11,
+              "maximum": 14,
+              "values": [
+                14,
+                12,
+                11
+              ]
+            },
+            "p99_ms": {
+              "median": 44,
+              "minimum": 41,
+              "maximum": 730,
+              "values": [
+                730,
+                41,
+                44
+              ]
+            },
+            "total_samples": 71874,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/account-ledger": {
+          "before": {
+            "p95_ms": {
+              "median": 386,
+              "minimum": 366,
+              "maximum": 424,
+              "values": [
+                386,
+                366,
+                424
+              ]
+            },
+            "p99_ms": {
+              "median": 1189,
+              "minimum": 1184,
+              "maximum": 1912,
+              "values": [
+                1184,
+                1189,
+                1912
+              ]
+            },
+            "total_samples": 10506,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 48,
+              "minimum": 39,
+              "maximum": 50,
+              "values": [
+                50,
+                48,
+                39
+              ]
+            },
+            "p99_ms": {
+              "median": 532,
+              "minimum": 138,
+              "maximum": 823,
+              "values": [
+                823,
+                532,
+                138
+              ]
+            },
+            "total_samples": 13604,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/balance-sheet": {
+          "before": {
+            "p95_ms": {
+              "median": 313,
+              "minimum": 300,
+              "maximum": 355,
+              "values": [
+                313,
+                300,
+                355
+              ]
+            },
+            "p99_ms": {
+              "median": 1176,
+              "minimum": 908,
+              "maximum": 1941,
+              "values": [
+                908,
+                1176,
+                1941
+              ]
+            },
+            "total_samples": 10505,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 34,
+              "minimum": 31,
+              "maximum": 36,
+              "values": [
+                36,
+                34,
+                31
+              ]
+            },
+            "p99_ms": {
+              "median": 226,
+              "minimum": 149,
+              "maximum": 714,
+              "values": [
+                714,
+                226,
+                149
+              ]
+            },
+            "total_samples": 13613,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/profit-loss": {
+          "before": {
+            "p95_ms": {
+              "median": 334,
+              "minimum": 311,
+              "maximum": 353,
+              "values": [
+                353,
+                311,
+                334
+              ]
+            },
+            "p99_ms": {
+              "median": 1011,
+              "minimum": 966,
+              "maximum": 1811,
+              "values": [
+                1011,
+                966,
+                1811
+              ]
+            },
+            "total_samples": 10509,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 36,
+              "minimum": 29,
+              "maximum": 40,
+              "values": [
+                40,
+                36,
+                29
+              ]
+            },
+            "p99_ms": {
+              "median": 466,
+              "minimum": 289,
+              "maximum": 746,
+              "values": [
+                746,
+                466,
+                289
+              ]
+            },
+            "total_samples": 13605,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/trial-balance": {
+          "before": {
+            "p95_ms": {
+              "median": 319,
+              "minimum": 318,
+              "maximum": 346,
+              "values": [
+                319,
+                318,
+                346
+              ]
+            },
+            "p99_ms": {
+              "median": 1763,
+              "minimum": 1038,
+              "maximum": 1919,
+              "values": [
+                1038,
+                1763,
+                1919
+              ]
+            },
+            "total_samples": 10512,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 35,
+              "minimum": 31,
+              "maximum": 37,
+              "values": [
+                37,
+                35,
+                31
+              ]
+            },
+            "p99_ms": {
+              "median": 588,
+              "minimum": 492,
+              "maximum": 722,
+              "values": [
+                722,
+                588,
+                492
+              ]
+            },
+            "total_samples": 13609,
+            "total_errors": 0
+          }
+        },
+        "GET /users/me": {
+          "before": {
+            "p95_ms": {
+              "median": 38,
+              "minimum": 36,
+              "maximum": 39,
+              "values": [
+                38,
+                36,
+                39
+              ]
+            },
+            "p99_ms": {
+              "median": 141,
+              "minimum": 110,
+              "maximum": 393,
+              "values": [
+                141,
+                110,
+                393
+              ]
+            },
+            "total_samples": 80390,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 17,
+              "minimum": 15,
+              "maximum": 19,
+              "values": [
+                19,
+                17,
+                15
+              ]
+            },
+            "p99_ms": {
+              "median": 550,
+              "minimum": 64,
+              "maximum": 596,
+              "values": [
+                596,
+                550,
+                64
+              ]
+            },
+            "total_samples": 85489,
+            "total_errors": 0
+          }
+        },
+        "POST /journal-entries/bulk": {
+          "before": {
+            "p95_ms": {
+              "median": 110,
+              "minimum": 95,
+              "maximum": 121,
+              "values": [
+                110,
+                95,
+                121
+              ]
+            },
+            "p99_ms": {
+              "median": 776,
+              "minimum": 350,
+              "maximum": 1546,
+              "values": [
+                776,
+                350,
+                1546
+              ]
+            },
+            "total_samples": 10507,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 104,
+              "minimum": 82,
+              "maximum": 125,
+              "values": [
+                125,
+                104,
+                82
+              ]
+            },
+            "p99_ms": {
+              "median": 1132,
+              "minimum": 976,
+              "maximum": 1745,
+              "values": [
+                1745,
+                1132,
+                976
+              ]
+            },
+            "total_samples": 13607,
+            "total_errors": 0
+          }
+        }
+      },
+      "drift_pct": null,
+      "legacy_drift_pct": null
+    },
+    "p100": {
+      "valid_pairs": 3,
+      "order": [
+        [
+          "before",
+          "after"
+        ],
+        [
+          "after",
+          "before"
+        ],
+        [
+          "before",
+          "after"
+        ]
+      ],
+      "gate_passes": {
+        "before": 0,
+        "after": 3
+      },
+      "active_users": {
+        "before": [
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          }
+        ],
+        "after": [
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          }
+        ]
+      },
+      "metrics": {
+        "p95_ms": {
+          "before": {
+            "median": 670,
+            "minimum": 663,
+            "maximum": 694,
+            "values": [
+              663,
+              670,
+              694
+            ]
+          },
+          "after": {
+            "median": 47,
+            "minimum": 42,
+            "maximum": 49,
+            "values": [
+              47,
+              42,
+              49
+            ]
+          },
+          "paired_percent_changes": [
+            -92.911,
+            -93.731,
+            -92.939
+          ],
+          "median_paired_percent_change": -92.939
+        },
+        "p99_ms": {
+          "before": {
+            "median": 1201,
+            "minimum": 1153,
+            "maximum": 1457,
+            "values": [
+              1201,
+              1153,
+              1457
+            ]
+          },
+          "after": {
+            "median": 703,
+            "minimum": 496,
+            "maximum": 801,
+            "values": [
+              801,
+              496,
+              703
+            ]
+          },
+          "paired_percent_changes": [
+            -33.306,
+            -56.982,
+            -51.75
+          ],
+          "median_paired_percent_change": -51.75
+        },
+        "error_pct": {
+          "before": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "after": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "paired_percent_changes": [
+            null,
+            null,
+            null
+          ],
+          "median_paired_percent_change": null
+        },
+        "requests_per_second": {
+          "before": {
+            "median": 291.393,
+            "minimum": 285.357,
+            "maximum": 292.013,
+            "values": [
+              291.3933,
+              292.0133,
+              285.3567
+            ]
+          },
+          "after": {
+            "median": 392.543,
+            "minimum": 391.358,
+            "maximum": 404.658,
+            "values": [
+              392.5433,
+              404.6583,
+              391.3583
+            ]
+          },
+          "paired_percent_changes": [
+            34.713,
+            38.575,
+            37.147
+          ],
+          "median_paired_percent_change": 37.147
+        }
+      },
+      "endpoints": {
+        "GET /accounts": {
+          "before": {
+            "p95_ms": {
+              "median": 68,
+              "minimum": 67,
+              "maximum": 70,
+              "values": [
+                68,
+                67,
+                70
+              ]
+            },
+            "p99_ms": {
+              "median": 123,
+              "minimum": 119,
+              "maximum": 803,
+              "values": [
+                123,
+                119,
+                803
+              ]
+            },
+            "total_samples": 114131,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 20,
+              "minimum": 20,
+              "maximum": 21,
+              "values": [
+                20,
+                20,
+                21
+              ]
+            },
+            "p99_ms": {
+              "median": 568,
+              "minimum": 68,
+              "maximum": 598,
+              "values": [
+                568,
+                68,
+                598
+              ]
+            },
+            "total_samples": 138907,
+            "total_errors": 0
+          }
+        },
+        "GET /journal-entries": {
+          "before": {
+            "p95_ms": {
+              "median": 298,
+              "minimum": 287,
+              "maximum": 304,
+              "values": [
+                298,
+                287,
+                304
+              ]
+            },
+            "p99_ms": {
+              "median": 1035,
+              "minimum": 935,
+              "maximum": 1102,
+              "values": [
+                935,
+                1035,
+                1102
+              ]
+            },
+            "total_samples": 114184,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 82,
+              "minimum": 70,
+              "maximum": 83,
+              "values": [
+                83,
+                70,
+                82
+              ]
+            },
+            "p99_ms": {
+              "median": 853,
+              "minimum": 399,
+              "maximum": 907,
+              "values": [
+                907,
+                399,
+                853
+              ]
+            },
+            "total_samples": 138916,
+            "total_errors": 0
+          }
+        },
+        "GET /periods": {
+          "before": {
+            "p95_ms": {
+              "median": 66,
+              "minimum": 64,
+              "maximum": 67,
+              "values": [
+                66,
+                64,
+                67
+              ]
+            },
+            "p99_ms": {
+              "median": 171,
+              "minimum": 114,
+              "maximum": 727,
+              "values": [
+                114,
+                171,
+                727
+              ]
+            },
+            "total_samples": 114140,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 19,
+              "minimum": 18,
+              "maximum": 20,
+              "values": [
+                19,
+                18,
+                20
+              ]
+            },
+            "p99_ms": {
+              "median": 595,
+              "minimum": 395,
+              "maximum": 787,
+              "values": [
+                787,
+                395,
+                595
+              ]
+            },
+            "total_samples": 138920,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/account-ledger": {
+          "before": {
+            "p95_ms": {
+              "median": 1326,
+              "minimum": 1265,
+              "maximum": 1354,
+              "values": [
+                1326,
+                1265,
+                1354
+              ]
+            },
+            "p99_ms": {
+              "median": 2820,
+              "minimum": 2750,
+              "maximum": 2885,
+              "values": [
+                2820,
+                2885,
+                2750
+              ]
+            },
+            "total_samples": 10778,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 68,
+              "minimum": 63,
+              "maximum": 75,
+              "values": [
+                68,
+                63,
+                75
+              ]
+            },
+            "p99_ms": {
+              "median": 804,
+              "minimum": 693,
+              "maximum": 934,
+              "values": [
+                934,
+                693,
+                804
+              ]
+            },
+            "total_samples": 26236,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/balance-sheet": {
+          "before": {
+            "p95_ms": {
+              "median": 1180,
+              "minimum": 1161,
+              "maximum": 1219,
+              "values": [
+                1161,
+                1180,
+                1219
+              ]
+            },
+            "p99_ms": {
+              "median": 2760,
+              "minimum": 2606,
+              "maximum": 2859,
+              "values": [
+                2606,
+                2859,
+                2760
+              ]
+            },
+            "total_samples": 10768,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 53,
+              "minimum": 52,
+              "maximum": 57,
+              "values": [
+                53,
+                52,
+                57
+              ]
+            },
+            "p99_ms": {
+              "median": 750,
+              "minimum": 482,
+              "maximum": 931,
+              "values": [
+                931,
+                482,
+                750
+              ]
+            },
+            "total_samples": 26243,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/profit-loss": {
+          "before": {
+            "p95_ms": {
+              "median": 1170,
+              "minimum": 1153,
+              "maximum": 1287,
+              "values": [
+                1153,
+                1170,
+                1287
+              ]
+            },
+            "p99_ms": {
+              "median": 2764,
+              "minimum": 2684,
+              "maximum": 2832,
+              "values": [
+                2684,
+                2764,
+                2832
+              ]
+            },
+            "total_samples": 10768,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 58,
+              "minimum": 51,
+              "maximum": 61,
+              "values": [
+                58,
+                51,
+                61
+              ]
+            },
+            "p99_ms": {
+              "median": 833,
+              "minimum": 207,
+              "maximum": 850,
+              "values": [
+                850,
+                207,
+                833
+              ]
+            },
+            "total_samples": 26248,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/trial-balance": {
+          "before": {
+            "p95_ms": {
+              "median": 1183,
+              "minimum": 1144,
+              "maximum": 1336,
+              "values": [
+                1183,
+                1144,
+                1336
+              ]
+            },
+            "p99_ms": {
+              "median": 2671,
+              "minimum": 2640,
+              "maximum": 2705,
+              "values": [
+                2705,
+                2640,
+                2671
+              ]
+            },
+            "total_samples": 10775,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 53,
+              "minimum": 52,
+              "maximum": 61,
+              "values": [
+                53,
+                52,
+                61
+              ]
+            },
+            "p99_ms": {
+              "median": 726,
+              "minimum": 569,
+              "maximum": 741,
+              "values": [
+                726,
+                569,
+                741
+              ]
+            },
+            "total_samples": 26251,
+            "total_errors": 0
+          }
+        },
+        "GET /users/me": {
+          "before": {
+            "p95_ms": {
+              "median": 107,
+              "minimum": 106,
+              "maximum": 108,
+              "values": [
+                107,
+                106,
+                108
+              ]
+            },
+            "p99_ms": {
+              "median": 310,
+              "minimum": 240,
+              "maximum": 506,
+              "values": [
+                310,
+                240,
+                506
+              ]
+            },
+            "total_samples": 124937,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 28,
+              "minimum": 26,
+              "maximum": 29,
+              "values": [
+                28,
+                26,
+                29
+              ]
+            },
+            "p99_ms": {
+              "median": 590,
+              "minimum": 466,
+              "maximum": 616,
+              "values": [
+                590,
+                466,
+                616
+              ]
+            },
+            "total_samples": 165168,
+            "total_errors": 0
+          }
+        },
+        "POST /journal-entries/bulk": {
+          "before": {
+            "p95_ms": {
+              "median": 422,
+              "minimum": 395,
+              "maximum": 431,
+              "values": [
+                422,
+                395,
+                431
+              ]
+            },
+            "p99_ms": {
+              "median": 1659,
+              "minimum": 1127,
+              "maximum": 1863,
+              "values": [
+                1127,
+                1659,
+                1863
+              ]
+            },
+            "total_samples": 10777,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 120,
+              "minimum": 115,
+              "maximum": 129,
+              "values": [
+                120,
+                115,
+                129
+              ]
+            },
+            "p99_ms": {
+              "median": 1625,
+              "minimum": 1119,
+              "maximum": 1863,
+              "values": [
+                1863,
+                1119,
+                1625
+              ]
+            },
+            "total_samples": 26247,
+            "total_errors": 0
+          }
+        }
+      },
+      "drift_pct": null,
+      "legacy_drift_pct": null
+    },
+    "p500": {
+      "valid_pairs": 3,
+      "order": [
+        [
+          "before",
+          "after"
+        ],
+        [
+          "after",
+          "before"
+        ],
+        [
+          "before",
+          "after"
+        ]
+      ],
+      "gate_passes": {
+        "before": 0,
+        "after": 0
+      },
+      "active_users": {
+        "before": [
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          }
+        ],
+        "after": [
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 120,
+            "hold_bins": 120,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          }
+        ]
+      },
+      "metrics": {
+        "p95_ms": {
+          "before": {
+            "median": 4729,
+            "minimum": 4657,
+            "maximum": 21850,
+            "values": [
+              4729,
+              4657,
+              21850
+            ]
+          },
+          "after": {
+            "median": 1294,
+            "minimum": 1293,
+            "maximum": 1298,
+            "values": [
+              1294,
+              1298,
+              1293
+            ]
+          },
+          "paired_percent_changes": [
+            -72.637,
+            -72.128,
+            -94.082
+          ],
+          "median_paired_percent_change": -72.637
+        },
+        "p99_ms": {
+          "before": {
+            "median": 6987,
+            "minimum": 6646,
+            "maximum": 25691,
+            "values": [
+              6987,
+              6646,
+              25691
+            ]
+          },
+          "after": {
+            "median": 2016,
+            "minimum": 1980,
+            "maximum": 2047,
+            "values": [
+              1980,
+              2016,
+              2047
+            ]
+          },
+          "paired_percent_changes": [
+            -71.662,
+            -69.666,
+            -92.032
+          ],
+          "median_paired_percent_change": -71.662
+        },
+        "error_pct": {
+          "before": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "after": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "paired_percent_changes": [
+            null,
+            null,
+            null
+          ],
+          "median_paired_percent_change": null
+        },
+        "requests_per_second": {
+          "before": {
+            "median": 263.452,
+            "minimum": 55.942,
+            "maximum": 265.95,
+            "values": [
+              263.4517,
+              265.95,
+              55.9417
+            ]
+          },
+          "after": {
+            "median": 740.433,
+            "minimum": 731.713,
+            "maximum": 747.91,
+            "values": [
+              740.4333,
+              747.91,
+              731.7133
+            ]
+          },
+          "paired_percent_changes": [
+            181.051,
+            181.222,
+            1207.993
+          ],
+          "median_paired_percent_change": 181.222
+        }
+      },
+      "endpoints": {
+        "GET /accounts": {
+          "before": {
+            "p95_ms": {
+              "median": 1300,
+              "minimum": 1264,
+              "maximum": 6578,
+              "values": [
+                1300,
+                1264,
+                6578
+              ]
+            },
+            "p99_ms": {
+              "median": 3335,
+              "minimum": 2745,
+              "maximum": 8285,
+              "values": [
+                3335,
+                2745,
+                8285
+              ]
+            },
+            "total_samples": 75823,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 395,
+              "minimum": 340,
+              "maximum": 401,
+              "values": [
+                395,
+                340,
+                401
+              ]
+            },
+            "p99_ms": {
+              "median": 926,
+              "minimum": 657,
+              "maximum": 964,
+              "values": [
+                964,
+                657,
+                926
+              ]
+            },
+            "total_samples": 256155,
+            "total_errors": 0
+          }
+        },
+        "GET /journal-entries": {
+          "before": {
+            "p95_ms": {
+              "median": 3759,
+              "minimum": 3681,
+              "maximum": 22958,
+              "values": [
+                3759,
+                3681,
+                22958
+              ]
+            },
+            "p99_ms": {
+              "median": 6442,
+              "minimum": 5634,
+              "maximum": 25632,
+              "values": [
+                6442,
+                5634,
+                25632
+              ]
+            },
+            "total_samples": 75878,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1705,
+              "minimum": 1687,
+              "maximum": 1857,
+              "values": [
+                1705,
+                1687,
+                1857
+              ]
+            },
+            "p99_ms": {
+              "median": 2719,
+              "minimum": 2685,
+              "maximum": 2872,
+              "values": [
+                2719,
+                2872,
+                2685
+              ]
+            },
+            "total_samples": 256274,
+            "total_errors": 0
+          }
+        },
+        "GET /periods": {
+          "before": {
+            "p95_ms": {
+              "median": 1291,
+              "minimum": 1227,
+              "maximum": 6299,
+              "values": [
+                1291,
+                1227,
+                6299
+              ]
+            },
+            "p99_ms": {
+              "median": 3226,
+              "minimum": 2751,
+              "maximum": 7238,
+              "values": [
+                3226,
+                2751,
+                7238
+              ]
+            },
+            "total_samples": 75865,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 514,
+              "minimum": 453,
+              "maximum": 532,
+              "values": [
+                514,
+                453,
+                532
+              ]
+            },
+            "p99_ms": {
+              "median": 1050,
+              "minimum": 1041,
+              "maximum": 1052,
+              "values": [
+                1050,
+                1052,
+                1041
+              ]
+            },
+            "total_samples": 256381,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/account-ledger": {
+          "before": {
+            "p95_ms": {
+              "median": 9355,
+              "minimum": 8498,
+              "maximum": 28678,
+              "values": [
+                9355,
+                8498,
+                28678
+              ]
+            },
+            "p99_ms": {
+              "median": 11692,
+              "minimum": 11483,
+              "maximum": 31418,
+              "values": [
+                11692,
+                11483,
+                31418
+              ]
+            },
+            "total_samples": 7975,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1215,
+              "minimum": 1210,
+              "maximum": 1226,
+              "values": [
+                1226,
+                1215,
+                1210
+              ]
+            },
+            "p99_ms": {
+              "median": 1951,
+              "minimum": 1941,
+              "maximum": 1995,
+              "values": [
+                1951,
+                1941,
+                1995
+              ]
+            },
+            "total_samples": 51184,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/balance-sheet": {
+          "before": {
+            "p95_ms": {
+              "median": 6879,
+              "minimum": 6540,
+              "maximum": 23344,
+              "values": [
+                6879,
+                6540,
+                23344
+              ]
+            },
+            "p99_ms": {
+              "median": 9223,
+              "minimum": 9160,
+              "maximum": 24508,
+              "values": [
+                9223,
+                9160,
+                24508
+              ]
+            },
+            "total_samples": 7968,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1267,
+              "minimum": 1266,
+              "maximum": 1281,
+              "values": [
+                1267,
+                1266,
+                1281
+              ]
+            },
+            "p99_ms": {
+              "median": 2149,
+              "minimum": 2016,
+              "maximum": 2159,
+              "values": [
+                2149,
+                2159,
+                2016
+              ]
+            },
+            "total_samples": 51232,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/profit-loss": {
+          "before": {
+            "p95_ms": {
+              "median": 6855,
+              "minimum": 6377,
+              "maximum": 22998,
+              "values": [
+                6855,
+                6377,
+                22998
+              ]
+            },
+            "p99_ms": {
+              "median": 9433,
+              "minimum": 9312,
+              "maximum": 24714,
+              "values": [
+                9433,
+                9312,
+                24714
+              ]
+            },
+            "total_samples": 7990,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1140,
+              "minimum": 1137,
+              "maximum": 1158,
+              "values": [
+                1137,
+                1158,
+                1140
+              ]
+            },
+            "p99_ms": {
+              "median": 1931,
+              "minimum": 1917,
+              "maximum": 2052,
+              "values": [
+                1917,
+                2052,
+                1931
+              ]
+            },
+            "total_samples": 51193,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/trial-balance": {
+          "before": {
+            "p95_ms": {
+              "median": 6966,
+              "minimum": 6402,
+              "maximum": 23771,
+              "values": [
+                6966,
+                6402,
+                23771
+              ]
+            },
+            "p99_ms": {
+              "median": 9537,
+              "minimum": 8490,
+              "maximum": 24770,
+              "values": [
+                9537,
+                8490,
+                24770
+              ]
+            },
+            "total_samples": 7976,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1200,
+              "minimum": 1187,
+              "maximum": 1223,
+              "values": [
+                1187,
+                1200,
+                1223
+              ]
+            },
+            "p99_ms": {
+              "median": 1974,
+              "minimum": 1861,
+              "maximum": 2098,
+              "values": [
+                1861,
+                1974,
+                2098
+              ]
+            },
+            "total_samples": 51194,
+            "total_errors": 0
+          }
+        },
+        "GET /users/me": {
+          "before": {
+            "p95_ms": {
+              "median": 2285,
+              "minimum": 2248,
+              "maximum": 13782,
+              "values": [
+                2285,
+                2248,
+                13782
+              ]
+            },
+            "p99_ms": {
+              "median": 4777,
+              "minimum": 3990,
+              "maximum": 15995,
+              "values": [
+                4777,
+                3990,
+                15995
+              ]
+            },
+            "total_samples": 83760,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 739,
+              "minimum": 736,
+              "maximum": 788,
+              "values": [
+                788,
+                739,
+                736
+              ]
+            },
+            "p99_ms": {
+              "median": 1258,
+              "minimum": 1198,
+              "maximum": 1312,
+              "values": [
+                1258,
+                1198,
+                1312
+              ]
+            },
+            "total_samples": 307229,
+            "total_errors": 0
+          }
+        },
+        "POST /journal-entries/bulk": {
+          "before": {
+            "p95_ms": {
+              "median": 4532,
+              "minimum": 4515,
+              "maximum": 18407,
+              "values": [
+                4515,
+                4532,
+                18407
+              ]
+            },
+            "p99_ms": {
+              "median": 6854,
+              "minimum": 6365,
+              "maximum": 21202,
+              "values": [
+                6854,
+                6365,
+                21202
+              ]
+            },
+            "total_samples": 7971,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1855,
+              "minimum": 1783,
+              "maximum": 1921,
+              "values": [
+                1855,
+                1783,
+                1921
+              ]
+            },
+            "p99_ms": {
+              "median": 2825,
+              "minimum": 2779,
+              "maximum": 2976,
+              "values": [
+                2825,
+                2976,
+                2779
+              ]
+            },
+            "total_samples": 51192,
+            "total_errors": 0
+          }
+        }
+      },
+      "drift_pct": null,
+      "legacy_drift_pct": null
+    },
+    "soak": {
+      "valid_pairs": 3,
+      "order": [
+        [
+          "before",
+          "after"
+        ],
+        [
+          "after",
+          "before"
+        ],
+        [
+          "before",
+          "after"
+        ]
+      ],
+      "gate_passes": {
+        "before": 3,
+        "after": 1
+      },
+      "active_users": {
+        "before": [
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          }
+        ],
+        "after": [
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          },
+          {
+            "observed_peak": 100,
+            "min_hold_active": 100,
+            "median_hold_active": 100.0,
+            "full_bins": 540,
+            "hold_bins": 540,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 100,
+            "lifecycle_maximum_active": 100,
+            "lifecycle_started_threads": 100,
+            "lifecycle_finished_threads": 100
+          }
+        ]
+      },
+      "metrics": {
+        "p95_ms": {
+          "before": {
+            "median": 685,
+            "minimum": 672,
+            "maximum": 714,
+            "values": [
+              714,
+              672,
+              685
+            ]
+          },
+          "after": {
+            "median": 50,
+            "minimum": 42,
+            "maximum": 56,
+            "values": [
+              56,
+              50,
+              42
+            ]
+          },
+          "paired_percent_changes": [
+            -92.157,
+            -92.56,
+            -93.869
+          ],
+          "median_paired_percent_change": -92.56
+        },
+        "p99_ms": {
+          "before": {
+            "median": 1203,
+            "minimum": 1152,
+            "maximum": 1520,
+            "values": [
+              1520,
+              1152,
+              1203
+            ]
+          },
+          "after": {
+            "median": 652,
+            "minimum": 587,
+            "maximum": 713,
+            "values": [
+              713,
+              652,
+              587
+            ]
+          },
+          "paired_percent_changes": [
+            -53.092,
+            -43.403,
+            -51.205
+          ],
+          "median_paired_percent_change": -51.205
+        },
+        "error_pct": {
+          "before": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "after": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "paired_percent_changes": [
+            null,
+            null,
+            null
+          ],
+          "median_paired_percent_change": null
+        },
+        "requests_per_second": {
+          "before": {
+            "median": 286.479,
+            "minimum": 280.898,
+            "maximum": 288.383,
+            "values": [
+              280.8978,
+              288.3826,
+              286.4793
+            ]
+          },
+          "after": {
+            "median": 400.624,
+            "minimum": 394.752,
+            "maximum": 405.691,
+            "values": [
+              394.7515,
+              400.6244,
+              405.6907
+            ]
+          },
+          "paired_percent_changes": [
+            40.532,
+            38.921,
+            41.613
+          ],
+          "median_paired_percent_change": 40.532
+        }
+      },
+      "endpoints": {
+        "GET /accounts": {
+          "before": {
+            "p95_ms": {
+              "median": 67,
+              "minimum": 66,
+              "maximum": 72,
+              "values": [
+                72,
+                66,
+                67
+              ]
+            },
+            "p99_ms": {
+              "median": 134,
+              "minimum": 128,
+              "maximum": 588,
+              "values": [
+                588,
+                134,
+                128
+              ]
+            },
+            "total_samples": 506198,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 20,
+              "minimum": 16,
+              "maximum": 22,
+              "values": [
+                22,
+                20,
+                16
+              ]
+            },
+            "p99_ms": {
+              "median": 489,
+              "minimum": 86,
+              "maximum": 507,
+              "values": [
+                507,
+                489,
+                86
+              ]
+            },
+            "total_samples": 631174,
+            "total_errors": 0
+          }
+        },
+        "GET /journal-entries": {
+          "before": {
+            "p95_ms": {
+              "median": 298,
+              "minimum": 295,
+              "maximum": 324,
+              "values": [
+                324,
+                295,
+                298
+              ]
+            },
+            "p99_ms": {
+              "median": 1021,
+              "minimum": 946,
+              "maximum": 1606,
+              "values": [
+                1606,
+                946,
+                1021
+              ]
+            },
+            "total_samples": 506198,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 94,
+              "minimum": 75,
+              "maximum": 110,
+              "values": [
+                110,
+                94,
+                75
+              ]
+            },
+            "p99_ms": {
+              "median": 840,
+              "minimum": 740,
+              "maximum": 867,
+              "values": [
+                867,
+                840,
+                740
+              ]
+            },
+            "total_samples": 631190,
+            "total_errors": 0
+          }
+        },
+        "GET /periods": {
+          "before": {
+            "p95_ms": {
+              "median": 65,
+              "minimum": 64,
+              "maximum": 69,
+              "values": [
+                69,
+                64,
+                65
+              ]
+            },
+            "p99_ms": {
+              "median": 126,
+              "minimum": 119,
+              "maximum": 595,
+              "values": [
+                595,
+                126,
+                119
+              ]
+            },
+            "total_samples": 506198,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 18,
+              "minimum": 14,
+              "maximum": 21,
+              "values": [
+                21,
+                18,
+                14
+              ]
+            },
+            "p99_ms": {
+              "median": 530,
+              "minimum": 461,
+              "maximum": 643,
+              "values": [
+                643,
+                530,
+                461
+              ]
+            },
+            "total_samples": 631172,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/account-ledger": {
+          "before": {
+            "p95_ms": {
+              "median": 1270,
+              "minimum": 1208,
+              "maximum": 1475,
+              "values": [
+                1475,
+                1208,
+                1270
+              ]
+            },
+            "p99_ms": {
+              "median": 2799,
+              "minimum": 2718,
+              "maximum": 3086,
+              "values": [
+                3086,
+                2718,
+                2799
+              ]
+            },
+            "total_samples": 47630,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 64,
+              "minimum": 51,
+              "maximum": 75,
+              "values": [
+                75,
+                64,
+                51
+              ]
+            },
+            "p99_ms": {
+              "median": 760,
+              "minimum": 695,
+              "maximum": 760,
+              "values": [
+                760,
+                760,
+                695
+              ]
+            },
+            "total_samples": 119693,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/balance-sheet": {
+          "before": {
+            "p95_ms": {
+              "median": 1218,
+              "minimum": 1164,
+              "maximum": 1397,
+              "values": [
+                1397,
+                1164,
+                1218
+              ]
+            },
+            "p99_ms": {
+              "median": 2927,
+              "minimum": 2703,
+              "maximum": 3096,
+              "values": [
+                2927,
+                2703,
+                3096
+              ]
+            },
+            "total_samples": 47627,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 56,
+              "minimum": 44,
+              "maximum": 64,
+              "values": [
+                64,
+                56,
+                44
+              ]
+            },
+            "p99_ms": {
+              "median": 732,
+              "minimum": 696,
+              "maximum": 733,
+              "values": [
+                733,
+                732,
+                696
+              ]
+            },
+            "total_samples": 119690,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/profit-loss": {
+          "before": {
+            "p95_ms": {
+              "median": 1209,
+              "minimum": 1171,
+              "maximum": 1350,
+              "values": [
+                1350,
+                1171,
+                1209
+              ]
+            },
+            "p99_ms": {
+              "median": 2749,
+              "minimum": 2720,
+              "maximum": 2856,
+              "values": [
+                2856,
+                2720,
+                2749
+              ]
+            },
+            "total_samples": 47631,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 59,
+              "minimum": 45,
+              "maximum": 67,
+              "values": [
+                67,
+                59,
+                45
+              ]
+            },
+            "p99_ms": {
+              "median": 730,
+              "minimum": 658,
+              "maximum": 757,
+              "values": [
+                757,
+                730,
+                658
+              ]
+            },
+            "total_samples": 119699,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/trial-balance": {
+          "before": {
+            "p95_ms": {
+              "median": 1203,
+              "minimum": 1180,
+              "maximum": 1407,
+              "values": [
+                1407,
+                1180,
+                1203
+              ]
+            },
+            "p99_ms": {
+              "median": 2786,
+              "minimum": 2761,
+              "maximum": 3017,
+              "values": [
+                3017,
+                2786,
+                2761
+              ]
+            },
+            "total_samples": 47629,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 54,
+              "minimum": 43,
+              "maximum": 62,
+              "values": [
+                62,
+                54,
+                43
+              ]
+            },
+            "p99_ms": {
+              "median": 682,
+              "minimum": 656,
+              "maximum": 713,
+              "values": [
+                713,
+                656,
+                682
+              ]
+            },
+            "total_samples": 119699,
+            "total_errors": 0
+          }
+        },
+        "GET /users/me": {
+          "before": {
+            "p95_ms": {
+              "median": 106,
+              "minimum": 105,
+              "maximum": 116,
+              "values": [
+                116,
+                105,
+                106
+              ]
+            },
+            "p99_ms": {
+              "median": 268,
+              "minimum": 197,
+              "maximum": 748,
+              "values": [
+                748,
+                197,
+                268
+              ]
+            },
+            "total_samples": 553818,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 27,
+              "minimum": 22,
+              "maximum": 31,
+              "values": [
+                31,
+                27,
+                22
+              ]
+            },
+            "p99_ms": {
+              "median": 502,
+              "minimum": 412,
+              "maximum": 579,
+              "values": [
+                579,
+                502,
+                412
+              ]
+            },
+            "total_samples": 750873,
+            "total_errors": 0
+          }
+        },
+        "POST /journal-entries/bulk": {
+          "before": {
+            "p95_ms": {
+              "median": 404,
+              "minimum": 404,
+              "maximum": 443,
+              "values": [
+                443,
+                404,
+                404
+              ]
+            },
+            "p99_ms": {
+              "median": 1816,
+              "minimum": 1639,
+              "maximum": 1840,
+              "values": [
+                1816,
+                1639,
+                1840
+              ]
+            },
+            "total_samples": 47622,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 126,
+              "minimum": 96,
+              "maximum": 164,
+              "values": [
+                164,
+                126,
+                96
+              ]
+            },
+            "p99_ms": {
+              "median": 1533,
+              "minimum": 1124,
+              "maximum": 1657,
+              "values": [
+                1657,
+                1124,
+                1533
+              ]
+            },
+            "total_samples": 119690,
+            "total_errors": 0
+          }
+        }
+      },
+      "drift_pct": {
+        "before": [
+          10.549,
+          11.043,
+          11.061
+        ],
+        "after": [
+          64.103,
+          43.902,
+          12.821
+        ]
+      },
+      "legacy_drift_pct": {
+        "before": [
+          14.97,
+          12.62,
+          15.789
+        ],
+        "after": [
+          75.676,
+          64.103,
+          35.294
+        ]
+      }
+    },
+    "spike": {
+      "valid_pairs": 3,
+      "order": [
+        [
+          "before",
+          "after"
+        ],
+        [
+          "after",
+          "before"
+        ],
+        [
+          "before",
+          "after"
+        ]
+      ],
+      "gate_passes": {
+        "before": 3,
+        "after": 0
+      },
+      "active_users": {
+        "before": [
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 60,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 60,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 500,
+            "median_hold_active": 500.0,
+            "full_bins": 60,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          }
+        ],
+        "after": [
+          {
+            "observed_peak": 500,
+            "min_hold_active": 498,
+            "median_hold_active": 500.0,
+            "full_bins": 59,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 498,
+            "median_hold_active": 500.0,
+            "full_bins": 59,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          },
+          {
+            "observed_peak": 500,
+            "min_hold_active": 498,
+            "median_hold_active": 500.0,
+            "full_bins": 59,
+            "hold_bins": 60,
+            "jtl_missing_bins": 0,
+            "lifecycle_minimum_active": 500,
+            "lifecycle_maximum_active": 500,
+            "lifecycle_started_threads": 500,
+            "lifecycle_finished_threads": 500
+          }
+        ]
+      },
+      "metrics": {
+        "p95_ms": {
+          "before": {
+            "median": 4275,
+            "minimum": 4274,
+            "maximum": 4435,
+            "values": [
+              4274,
+              4435,
+              4275
+            ]
+          },
+          "after": {
+            "median": 1159,
+            "minimum": 1131,
+            "maximum": 1226,
+            "values": [
+              1226,
+              1131,
+              1159
+            ]
+          },
+          "paired_percent_changes": [
+            -71.315,
+            -74.498,
+            -72.889
+          ],
+          "median_paired_percent_change": -72.889
+        },
+        "p99_ms": {
+          "before": {
+            "median": 5867,
+            "minimum": 5835,
+            "maximum": 5995,
+            "values": [
+              5835,
+              5995,
+              5867
+            ]
+          },
+          "after": {
+            "median": 1877,
+            "minimum": 1586,
+            "maximum": 1943,
+            "values": [
+              1943,
+              1586,
+              1877
+            ]
+          },
+          "paired_percent_changes": [
+            -66.701,
+            -73.545,
+            -68.007
+          ],
+          "median_paired_percent_change": -68.007
+        },
+        "error_pct": {
+          "before": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "after": {
+            "median": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "paired_percent_changes": [
+            null,
+            null,
+            null
+          ],
+          "median_paired_percent_change": null
+        },
+        "requests_per_second": {
+          "before": {
+            "median": 285.303,
+            "minimum": 277.837,
+            "maximum": 285.687,
+            "values": [
+              285.6867,
+              277.8367,
+              285.3033
+            ]
+          },
+          "after": {
+            "median": 810.993,
+            "minimum": 796.347,
+            "maximum": 816.31,
+            "values": [
+              796.3467,
+              816.31,
+              810.9933
+            ]
+          },
+          "paired_percent_changes": [
+            178.748,
+            193.809,
+            184.257
+          ],
+          "median_paired_percent_change": 184.257
+        }
+      },
+      "endpoints": {
+        "GET /accounts": {
+          "before": {
+            "p95_ms": {
+              "median": 1050,
+              "minimum": 1024,
+              "maximum": 1148,
+              "values": [
+                1024,
+                1148,
+                1050
+              ]
+            },
+            "p99_ms": {
+              "median": 2170,
+              "minimum": 1948,
+              "maximum": 2184,
+              "values": [
+                2170,
+                1948,
+                2184
+              ]
+            },
+            "total_samples": 55287,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 321,
+              "minimum": 311,
+              "maximum": 329,
+              "values": [
+                311,
+                321,
+                329
+              ]
+            },
+            "p99_ms": {
+              "median": 800,
+              "minimum": 739,
+              "maximum": 942,
+              "values": [
+                942,
+                739,
+                800
+              ]
+            },
+            "total_samples": 139968,
+            "total_errors": 0
+          }
+        },
+        "GET /journal-entries": {
+          "before": {
+            "p95_ms": {
+              "median": 3065,
+              "minimum": 3023,
+              "maximum": 3201,
+              "values": [
+                3065,
+                3201,
+                3023
+              ]
+            },
+            "p99_ms": {
+              "median": 4311,
+              "minimum": 4071,
+              "maximum": 4413,
+              "values": [
+                4071,
+                4413,
+                4311
+              ]
+            },
+            "total_samples": 55247,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1434,
+              "minimum": 1361,
+              "maximum": 1816,
+              "values": [
+                1816,
+                1361,
+                1434
+              ]
+            },
+            "p99_ms": {
+              "median": 2456,
+              "minimum": 2176,
+              "maximum": 2484,
+              "values": [
+                2484,
+                2176,
+                2456
+              ]
+            },
+            "total_samples": 140072,
+            "total_errors": 0
+          }
+        },
+        "GET /periods": {
+          "before": {
+            "p95_ms": {
+              "median": 1035,
+              "minimum": 1002,
+              "maximum": 1162,
+              "values": [
+                1002,
+                1162,
+                1035
+              ]
+            },
+            "p99_ms": {
+              "median": 2066,
+              "minimum": 1865,
+              "maximum": 2178,
+              "values": [
+                2066,
+                1865,
+                2178
+              ]
+            },
+            "total_samples": 55301,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 408,
+              "minimum": 393,
+              "maximum": 446,
+              "values": [
+                446,
+                393,
+                408
+              ]
+            },
+            "p99_ms": {
+              "median": 958,
+              "minimum": 647,
+              "maximum": 1140,
+              "values": [
+                1140,
+                647,
+                958
+              ]
+            },
+            "total_samples": 140012,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/account-ledger": {
+          "before": {
+            "p95_ms": {
+              "median": 7144,
+              "minimum": 7084,
+              "maximum": 7501,
+              "values": [
+                7144,
+                7501,
+                7084
+              ]
+            },
+            "p99_ms": {
+              "median": 8152,
+              "minimum": 8035,
+              "maximum": 8738,
+              "values": [
+                8035,
+                8738,
+                8152
+              ]
+            },
+            "total_samples": 5581,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1085,
+              "minimum": 1066,
+              "maximum": 1187,
+              "values": [
+                1187,
+                1066,
+                1085
+              ]
+            },
+            "p99_ms": {
+              "median": 1862,
+              "minimum": 1566,
+              "maximum": 1886,
+              "values": [
+                1886,
+                1566,
+                1862
+              ]
+            },
+            "total_samples": 27836,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/balance-sheet": {
+          "before": {
+            "p95_ms": {
+              "median": 5476,
+              "minimum": 5462,
+              "maximum": 5573,
+              "values": [
+                5476,
+                5573,
+                5462
+              ]
+            },
+            "p99_ms": {
+              "median": 6842,
+              "minimum": 6548,
+              "maximum": 7498,
+              "values": [
+                6548,
+                7498,
+                6842
+              ]
+            },
+            "total_samples": 5607,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1113,
+              "minimum": 1081,
+              "maximum": 1215,
+              "values": [
+                1215,
+                1081,
+                1113
+              ]
+            },
+            "p99_ms": {
+              "median": 1993,
+              "minimum": 1577,
+              "maximum": 2034,
+              "values": [
+                1993,
+                1577,
+                2034
+              ]
+            },
+            "total_samples": 27797,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/profit-loss": {
+          "before": {
+            "p95_ms": {
+              "median": 5478,
+              "minimum": 5378,
+              "maximum": 5506,
+              "values": [
+                5378,
+                5478,
+                5506
+              ]
+            },
+            "p99_ms": {
+              "median": 6957,
+              "minimum": 6590,
+              "maximum": 7146,
+              "values": [
+                6590,
+                7146,
+                6957
+              ]
+            },
+            "total_samples": 5600,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1023,
+              "minimum": 968,
+              "maximum": 1097,
+              "values": [
+                1097,
+                968,
+                1023
+              ]
+            },
+            "p99_ms": {
+              "median": 1641,
+              "minimum": 1329,
+              "maximum": 1793,
+              "values": [
+                1793,
+                1329,
+                1641
+              ]
+            },
+            "total_samples": 27805,
+            "total_errors": 0
+          }
+        },
+        "GET /reports/trial-balance": {
+          "before": {
+            "p95_ms": {
+              "median": 5580,
+              "minimum": 5408,
+              "maximum": 5790,
+              "values": [
+                5408,
+                5790,
+                5580
+              ]
+            },
+            "p99_ms": {
+              "median": 6904,
+              "minimum": 6234,
+              "maximum": 7734,
+              "values": [
+                6234,
+                7734,
+                6904
+              ]
+            },
+            "total_samples": 5625,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1063,
+              "minimum": 1049,
+              "maximum": 1239,
+              "values": [
+                1239,
+                1049,
+                1063
+              ]
+            },
+            "p99_ms": {
+              "median": 1833,
+              "minimum": 1612,
+              "maximum": 1869,
+              "values": [
+                1869,
+                1612,
+                1833
+              ]
+            },
+            "total_samples": 27865,
+            "total_errors": 0
+          }
+        },
+        "GET /users/me": {
+          "before": {
+            "p95_ms": {
+              "median": 1854,
+              "minimum": 1830,
+              "maximum": 2027,
+              "values": [
+                1830,
+                2027,
+                1854
+              ]
+            },
+            "p99_ms": {
+              "median": 2872,
+              "minimum": 2853,
+              "maximum": 2981,
+              "values": [
+                2853,
+                2981,
+                2872
+              ]
+            },
+            "total_samples": 60780,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 717,
+              "minimum": 676,
+              "maximum": 772,
+              "values": [
+                772,
+                676,
+                717
+              ]
+            },
+            "p99_ms": {
+              "median": 1102,
+              "minimum": 1015,
+              "maximum": 1280,
+              "values": [
+                1280,
+                1102,
+                1015
+              ]
+            },
+            "total_samples": 167882,
+            "total_errors": 0
+          }
+        },
+        "POST /auth/login": {
+          "before": {
+            "p95_ms": {
+              "median": 2223,
+              "minimum": 2096,
+              "maximum": 3853,
+              "values": [
+                2223,
+                2096,
+                3853
+              ]
+            },
+            "p99_ms": {
+              "median": 2223,
+              "minimum": 2096,
+              "maximum": 3853,
+              "values": [
+                2223,
+                2096,
+                3853
+              ]
+            },
+            "total_samples": 7,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 535,
+              "minimum": 501,
+              "maximum": 563,
+              "values": [
+                501,
+                563,
+                535
+              ]
+            },
+            "p99_ms": {
+              "median": 535,
+              "minimum": 501,
+              "maximum": 563,
+              "values": [
+                501,
+                563,
+                535
+              ]
+            },
+            "total_samples": 6,
+            "total_errors": 0
+          }
+        },
+        "POST /journal-entries/bulk": {
+          "before": {
+            "p95_ms": {
+              "median": 3859,
+              "minimum": 3632,
+              "maximum": 3875,
+              "values": [
+                3859,
+                3875,
+                3632
+              ]
+            },
+            "p99_ms": {
+              "median": 4744,
+              "minimum": 4651,
+              "maximum": 5676,
+              "values": [
+                4651,
+                5676,
+                4744
+              ]
+            },
+            "total_samples": 5613,
+            "total_errors": 0
+          },
+          "after": {
+            "p95_ms": {
+              "median": 1681,
+              "minimum": 1525,
+              "maximum": 1927,
+              "values": [
+                1927,
+                1525,
+                1681
+              ]
+            },
+            "p99_ms": {
+              "median": 2688,
+              "minimum": 2333,
+              "maximum": 2780,
+              "values": [
+                2780,
+                2333,
+                2688
+              ]
+            },
+            "total_samples": 27852,
+            "total_errors": 0
+          }
+        }
+      },
+      "drift_pct": {
+        "before": [
+          7.583,
+          5.49,
+          11.037
+        ],
+        "after": [
+          38.889,
+          24.324,
+          81.481
+        ]
+      },
+      "legacy_drift_pct": {
+        "before": [
+          -50.618,
+          -22.597,
+          -21.774
+        ],
+        "after": [
+          -93.394,
+          -93.122,
+          -94.504
+        ]
+      }
+    }
+  },
+  "source_revisions": {
+    "Before": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "After": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "Scope": "API BAL MODEL tests",
+    "PatchSha256": "9e96decc451dd839be236dcb76c879ac5ea28a66c9adec5ac3d64c880e13801e"
+  }
+}
