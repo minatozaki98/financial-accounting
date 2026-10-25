@@ -27,6 +27,7 @@ class SpecialSummaryTests(unittest.TestCase):
             self.assertTrue(result["valid_run"])
             self.assertEqual(result["recovery_p95_drift_pct"], 10)
             self.assertTrue(all(value["valid"] for value in result["concurrency"].values()))
+            self.assertIn("legacy_first_last_20pct_samples", result)
 
     def test_soak_reports_drift_failure_without_invalidating_measurement(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -41,6 +42,7 @@ class SpecialSummaryTests(unittest.TestCase):
             self.assertTrue(result["valid_run"])
             self.assertEqual(result["soak"]["p95_drift_pct"], 30)
             self.assertFalse(result["performance_gates"]["p95_drift_at_most_20"])
+            self.assertEqual(result["legacy_first_last_20pct_samples"]["window_samples"], 108)
 
 
 if __name__ == "__main__":

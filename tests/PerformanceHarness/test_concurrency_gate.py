@@ -48,7 +48,7 @@ class ConcurrencyGateTests(unittest.TestCase):
             return result, json.loads(result.stdout) if result.stdout else None
 
     def test_sustained_500_users_passes(self):
-        samples = [
+        samples = [{"timeStamp": START_MS + 4_900, "allThreads": 500, "threadName": "user-ramp"}] + [
             {"timeStamp": START_MS + offset, "allThreads": 500, "threadName": f"user-{i}"}
             for i, offset in enumerate((5_100, 10_100, 15_100), 1)
         ]
@@ -57,6 +57,18 @@ class ConcurrencyGateTests(unittest.TestCase):
         self.assertTrue(report["valid"])
         self.assertEqual(report["hold_bins"], 3)
         self.assertEqual(report["observed_peak"], 500)
+        self.assertEqual(report["ramp_peak"], 500)
+
+    def test_reaching_target_only_after_ramp_fails(self):
+        samples = [
+            {"timeStamp": START_MS + 4_900, "allThreads": 490, "threadName": "user-ramp"},
+            {"timeStamp": START_MS + 5_100, "allThreads": 500, "threadName": "user-1"},
+            {"timeStamp": START_MS + 10_100, "allThreads": 500, "threadName": "user-2"},
+            {"timeStamp": START_MS + 15_100, "allThreads": 500, "threadName": "user-3"},
+        ]
+        result, report = self.run_gate(samples)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("target_not_reached_by_ramp_end", report["failures"])
 
     def test_500_threads_started_sequentially_does_not_pass(self):
         samples = [

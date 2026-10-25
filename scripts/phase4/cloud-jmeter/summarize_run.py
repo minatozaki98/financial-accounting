@@ -66,7 +66,8 @@ def summarize(jtl: Path, log: Path, target_users: int, ramp_seconds: int,
         },
         "endpoints": {
             label: {"samples": len(values), "errors": failures[label],
-                    "p95_ms": percentile(values, 0.95)}
+                    "p95_ms": percentile(values, 0.95),
+                    "p99_ms": percentile(values, 0.99)}
             for label, values in sorted(elapsed.items())
         },
         "error_codes": dict(sorted(codes.items())),

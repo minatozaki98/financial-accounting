@@ -22,6 +22,7 @@ def analyze(jtl: Path, target_users: int, test_start_ms: int, ramp_seconds: int,
     expected_bins = hold_seconds // bin_seconds
     bin_minima: dict[int, int] = {}
     observed_peak = 0
+    ramp_peak = 0
     unique_threads: set[str] = set()
 
     with jtl.open(newline="", encoding="utf-8-sig") as stream:
@@ -33,6 +34,8 @@ def analyze(jtl: Path, target_users: int, test_start_ms: int, ramp_seconds: int,
             timestamp = int(row["timeStamp"])
             active = int(row["allThreads"])
             observed_peak = max(observed_peak, active)
+            if timestamp <= hold_start:
+                ramp_peak = max(ramp_peak, active)
             unique_threads.add(row["threadName"])
             if hold_start <= timestamp < hold_end:
                 index = (timestamp - hold_start) // bin_width_ms
@@ -45,6 +48,8 @@ def analyze(jtl: Path, target_users: int, test_start_ms: int, ramp_seconds: int,
         failures.append("missing_samples")
     if observed_peak < target_users:
         failures.append("target_never_reached")
+    if ramp_seconds > 0 and ramp_peak < target_users:
+        failures.append("target_not_reached_by_ramp_end")
     if any(value < math.ceil(target_users * 0.95) for value in values):
         failures.append("below_95_percent")
     if full_bins < math.ceil(expected_bins * 0.95):
@@ -54,6 +59,7 @@ def analyze(jtl: Path, target_users: int, test_start_ms: int, ramp_seconds: int,
         "valid": not failures,
         "target_users": target_users,
         "observed_peak": observed_peak,
+        "ramp_peak": ramp_peak,
         "unique_threads": len(unique_threads),
         "hold_bins": expected_bins,
         "bins_observed": len(values),

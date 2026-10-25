@@ -36,6 +36,7 @@ def host_snapshot(previous_cpu):
     return {
         "cpu_percent": cpu_percent,
         "available_kib": mem.get("MemAvailable"),
+        "swap_total_kib": mem.get("SwapTotal", 0),
         "swap_used_kib": mem.get("SwapTotal", 0) - mem.get("SwapFree", 0),
         "swap_pages_in": virtual_memory.get("pswpin", 0),
         "swap_pages_out": virtual_memory.get("pswpout", 0),

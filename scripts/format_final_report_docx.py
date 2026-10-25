@@ -280,10 +280,22 @@ ACRONYMS = [
 # and an optional permanent URL. Entries are alphabetized by first author.
 REFERENCE_ENTRIES = [
     (
+        "Baresi, L., Dolci, T., Quattrocchi, G., & Rasi, N. (2023). A multi-faceted analysis of the performance variability of virtual machines. ",
+        "Software: Practice and Experience, 53",
+        "(11), 2067–2091. ",
+        "https://doi.org/10.1002/spe.3244",
+    ),
+    (
         "Chen, E., Huang, R., Chen, H.-S., Tseng, Y.-H., & Li, L.-Y. (2023). ",
         "GPTutor: A ChatGPT-powered programming tool for code explanation",
         " [Preprint]. arXiv. ",
         "https://doi.org/10.48550/arXiv.2305.01863",
+    ),
+    (
+        "Dean, J., & Barroso, L. A. (2013). The tail at scale. ",
+        "Communications of the ACM, 56",
+        "(2), 74–80. ",
+        "https://doi.org/10.1145/2408776.2408794",
     ),
     (
         "Fajkovic, E., & Rundberg, E. (2023). ",
@@ -296,6 +308,12 @@ REFERENCE_ENTRIES = [
         "Journal of Electrical Systems, 20",
         "(5s), 1396-1404. ",
         "https://doi.org/10.52783/jes.2471",
+    ),
+    (
+        "He, S., Manns, G., Saunders, J., Wang, W., Pollock, L., & Soffa, M. L. (2019). A statistics-based performance testing methodology for cloud applications. In ",
+        "Proceedings of the 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE)",
+        " (pp. 188–199). ACM. ",
+        "https://doi.org/10.1145/3338906.3338912",
     ),
     (
         "Hou, X., Zhao, Y., Liu, Y., Yang, Z., Wang, K., Li, L., Luo, X., Lo, D., Grundy, J., & Wang, H. (2024). Large language models for software engineering: A systematic literature review. ",
@@ -326,6 +344,12 @@ REFERENCE_ENTRIES = [
         "European Journal of Technic, 13",
         "(2). ",
         "https://doi.org/10.36222/ejt.1330631",
+    ),
+    (
+        "Papadopoulos, A. V., Versluis, L., Bauer, A., Herbst, N., von Kistowski, J., Ali-Eldin, A., Abad, C. L., Amaral, J. N., Tůma, P., & Iosup, A. (2021). Methodological principles for reproducible performance evaluation in cloud computing. ",
+        "IEEE Transactions on Software Engineering, 47",
+        "(8), 1528–1543. ",
+        "https://doi.org/10.1109/TSE.2019.2927908",
     ),
     (
         "Pearce, H., Ahmad, B., Tan, B., Dolan-Gavitt, B., & Karri, R. (2022). Asleep at the keyboard? Assessing the security of GitHub Copilot's code contributions. In ",

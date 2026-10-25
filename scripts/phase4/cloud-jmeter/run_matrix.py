@@ -5,13 +5,14 @@ import ctypes
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 import subprocess
 import sys
 import time
 
-from summarize_run import summarize
+from summarize_run import START_PATTERN, summarize
 from summarize_metrics import summarize as summarize_metrics
 from summarize_special import summarize_soak, summarize_spike
 from teardown import AkamaiApi
@@ -105,7 +106,7 @@ def provider_ips(state: Path, manifest: dict) -> dict[str, str]:
     return ips
 
 
-def check_budget(manifest: dict, next_duration: int) -> None:
+def check_budget(manifest: dict, next_duration: int, state: Path) -> None:
     now = datetime.now(timezone.utc)
     deadline = datetime.fromisoformat(manifest["deadline_utc"].replace("Z", "+00:00"))
     started = datetime.fromisoformat(manifest["started_utc"].replace("Z", "+00:00"))
@@ -113,8 +114,17 @@ def check_budget(manifest: dict, next_duration: int) -> None:
         raise RuntimeError("next run may cross the 24-hour cost stop")
     projected = (now - started).total_seconds() / 3600 + (next_duration + 1800) / 3600
     projected *= (manifest["target_hourly_usd"] + manifest["generator_hourly_usd"]) * 1.07
-    if projected >= manifest["operational_stop_usd"]:
-        raise RuntimeError("projected charges reach the $80 operational stop")
+    token = (state / "secrets/akamai-token.txt").read_text(encoding="utf-8").strip()
+    account = AkamaiApi(token).request("GET", "/account")
+    accrued = float(account["balance_uninvoiced"])
+    # Akamai rounds usage up to the nearest hour; keep a whole-hour margin on
+    # each VM instead of treating the listed rate as exact per-second billing.
+    next_cost = (math.ceil((next_duration + 1800) / 3600) + 1) * (
+        manifest["target_hourly_usd"] + manifest["generator_hourly_usd"]) * 1.07
+    if accrued >= manifest["total_budget_usd"]:
+        raise RuntimeError("Akamai accrued charges reached the hard total budget")
+    if max(projected, accrued + next_cost) >= manifest["operational_stop_usd"]:
+        raise RuntimeError(f"projected charges reach the ${manifest['operational_stop_usd']} operational stop")
 
 
 def next_attempt(evidence: Path, profile: str, repeat: int) -> int:
@@ -129,13 +139,18 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
     target, generator = ips["target"], ips["generator"]
     users, ramp, hold, guard = PROFILES[profile]
     duration = ramp + hold + guard
-    check_budget(manifest, duration)
+    check_budget(manifest, duration, state)
     run_id = f"{profile}-r{repeat}-{side}-a{attempt}"
     local = state / "evidence/matrix" / run_id
     local.mkdir(parents=True, exist_ok=False)
     remote = f"/opt/jmeter-research/results/matrix/{run_id}"
     ssh(target, state, f"bash /opt/jmeter-research/restore-db.sh {side}",
         timeout=150, output=local / "restore.log")
+    image_manifest = json.loads((ROOT / "Document/experiments/jmeter-cloud-20261023/container-images.json").read_text())
+    expected_image = image_manifest["built_api_images"][side]
+    actual_image = ssh(target, state, "docker inspect jmeter-research-api-1 --format={{.Image}}")
+    if actual_image != expected_image:
+        raise ValueError(f"{side} API image differs from frozen source build")
     ssh(target, state, "bash /opt/jmeter-research/db-state.sh",
         timeout=60, output=local / "db-state-before.txt")
     remote_hash = ssh(generator, state, f"sha256sum /opt/jmeter-research/plans/financial-api-{profile}-controlled.jmx").split()[0]
@@ -168,25 +183,40 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
             local / f"{role}-metrics.jsonl")
     ssh(target, state, "bash /opt/jmeter-research/db-state.sh",
         timeout=60, output=local / "db-state-after.txt")
-    resource = {role: summarize_metrics(local / f"{role}-metrics.jsonl")
-                for role in ("target", "generator")}
+    starts = START_PATTERN.findall((local / "run.log").read_text(encoding="utf-8", errors="replace"))
+    if len(starts) != 1:
+        raise ValueError(f"one JMeter start timestamp required for {run_id}")
+    test_start_ms = int(starts[0])
+    hold_start, hold_end = ((180, 480) if profile == "spike" else (ramp, ramp + hold))
+    resource = {
+        role: {
+            "full": summarize_metrics(local / f"{role}-metrics.jsonl"),
+            "scored_hold": summarize_metrics(local / f"{role}-metrics.jsonl",
+                                             test_start_ms + hold_start * 1000,
+                                             test_start_ms + hold_end * 1000),
+        }
+        for role in ("target", "generator")
+    }
     (local / "resource-summary.json").write_text(json.dumps(resource, indent=2) + "\n")
     for role in ("target", "generator"):
-        if (resource[role]["host_min_available_mib"] < 1024 or
-                resource[role]["host_swap_pages_in_delta"] != 0 or
-                resource[role]["host_swap_pages_out_delta"] != 0):
+        full = resource[role]["full"]
+        if (full["host_min_available_mib"] < 1024 or
+                full["host_max_swap_total_mib"] != 0 or
+                full["host_swap_pages_in_delta"] != 0 or
+                full["host_swap_pages_out_delta"] != 0):
             raise RuntimeError(f"{role} host lost memory headroom or used swap in {run_id}")
         if any(item["oom_kill_delta"] not in (None, 0)
-               for item in resource[role]["containers"].values()):
+               for item in full["containers"].values()):
             raise RuntimeError(f"container OOM kill observed on {role} in {run_id}")
-    jmeter_resource = resource["generator"]["containers"].get("jmeter-research-jmeter")
+    jmeter_resource = resource["generator"]["scored_hold"]["containers"].get("jmeter-research-jmeter")
+    jmeter_full = resource["generator"]["full"]["containers"].get("jmeter-research-jmeter")
     generator_cpu_cap = manifest.get("generator_cpu_cap", 4)
-    if (jmeter_resource is None or
+    if (jmeter_resource is None or jmeter_full is None or
             jmeter_resource["cpu_effective_cores_p95"] is None or
             jmeter_resource["cpu_effective_cores_p95"] >= 0.9 * generator_cpu_cap or
             jmeter_resource["cpu_throttled_period_fraction"] is None or
             jmeter_resource["cpu_throttled_period_fraction"] > 0.01 or
-            jmeter_resource["memory_peak_pct_of_limit"] >= 95):
+            jmeter_full["memory_peak_pct_of_limit"] >= 95):
         raise RuntimeError(f"JMeter generator headroom failed in {run_id}")
     hashes = {path.name: sha256(path) for path in local.iterdir() if path.is_file()}
     (local / "sha256.json").write_text(json.dumps(hashes, indent=2) + "\n")
@@ -200,6 +230,7 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
     if not summary["valid_run"]:
         raise RuntimeError(f"invalid {run_id} concurrency/log gate; pair must be rerun")
     return {"run_id": run_id, "side": side, "profile": profile,
+            "api_image_id": actual_image,
             "protocol_sha256": protocol[profile]["sha256"], "summary": summary,
             "resources": resource, "hashes": hashes}
 

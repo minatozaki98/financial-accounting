@@ -1,0 +1,24 @@
+{
+  "verified_utc_date": "2026-10-25",
+  "platform": "linux/amd64",
+  "images": {
+    "sdk": "mcr.microsoft.com/dotnet/sdk@sha256:77b6ff7bc2ff63923d8e57180f5b695308a8b1d758d33048221bd3f3b2250561",
+    "runtime": "mcr.microsoft.com/dotnet/aspnet@sha256:04300d40d5b232cfb0a46cfcbc16536f6fe374a6f15bb602f93425bc072b9a32",
+    "sql": "mcr.microsoft.com/mssql/server@sha256:b62fd060da637a3205e87148d849b8e9f59cf7701a2622ff686c1ca621fa2e2a",
+    "jmeter": "justb4/jmeter@sha256:088ac52b759a198a5afa5ae13d0a6306e9f2017d71ad140ff57427f6930406f7"
+  },
+  "source_archives": {
+    "before": {
+      "commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+      "sha256": "9974E502C7841D85C47513FD32C5D006B449E8B43635C1BDC7028E13C536AAD8"
+    },
+    "after": {
+      "commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+      "sha256": "A2B05EF05B4C43AD44F3D01C62F258C34A39F90E638EDC25719D5F18CB373B49"
+    }
+  },
+  "built_api_images": {
+    "before": "sha256:9d3f9c9868b0bda52c01d05a6beaa12faa23dd7392e8e6fb9a3ef716173d2e9e",
+    "after": "sha256:e6b95114176e939e7248a47577494c16f69ca9f7ad44e02481dc53bd2cdcc034"
+  }
+}
