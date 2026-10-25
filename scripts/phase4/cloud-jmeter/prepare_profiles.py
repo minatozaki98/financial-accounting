@@ -25,7 +25,8 @@ def set_property(group: ET.Element, name: str, value: str) -> None:
 
 
 def build_profile(source: Path, output: Path, core: int, complex_users: int,
-                  ramp_seconds: int, hold_seconds: int) -> str:
+                  ramp_seconds: int, hold_seconds: int,
+                  shutdown_guard_seconds: int = 30) -> str:
     tree = ET.parse(source)
     root = tree.getroot()
     groups = list(root.iter("ThreadGroup"))
@@ -35,7 +36,7 @@ def build_profile(source: Path, output: Path, core: int, complex_users: int,
         set_property(group, "ThreadGroup.num_threads", str(count))
         set_property(group, "ThreadGroup.ramp_time", str(ramp_seconds))
         set_property(group, "ThreadGroup.scheduler", "true")
-        set_property(group, "ThreadGroup.duration", str(ramp_seconds + hold_seconds))
+        set_property(group, "ThreadGroup.duration", str(ramp_seconds + hold_seconds + shutdown_guard_seconds))
         set_property(group, "ThreadGroup.delay", "0")
         controller = group.find("./elementProp[@name='ThreadGroup.main_controller']")
         if controller is None:
@@ -55,12 +56,35 @@ def build_profile(source: Path, output: Path, core: int, complex_users: int,
         "loops": "-1",
         "complexLoops": "-1",
         "password": "${__P(password,)}",
+        "mode": "${__P(mode,mixed)}",
     }
     for item in root.iter("elementProp"):
         name = item.find("./stringProp[@name='Argument.name']")
         value = item.find("./stringProp[@name='Argument.value']")
         if name is not None and value is not None and name.text in fixed_variables:
             value.text = fixed_variables[name.text]
+
+    # JMeter does not append GET arguments when the sampler path is an absolute
+    # URL. The old plans therefore sent report requests without periodId and
+    # accountId, which returned HTTP 400. Put the synthetic IDs in the URL.
+    for sampler in root.iter("HTTPSamplerProxy"):
+        if not (sampler.get("testname") or "").startswith("GET /reports/"):
+            continue
+        path = sampler.find("./stringProp[@name='HTTPSampler.path']")
+        arguments = sampler.find("./elementProp[@name='HTTPsampler.Arguments']/collectionProp")
+        if path is None or arguments is None:
+            raise ValueError(f"report sampler lacks path or arguments: {sampler.get('testname')}")
+        pairs = []
+        for argument in list(arguments):
+            name = argument.find("./stringProp[@name='Argument.name']")
+            value = argument.find("./stringProp[@name='Argument.value']")
+            if name is None or value is None or not name.text or not value.text:
+                raise ValueError(f"incomplete report query in {sampler.get('testname')}")
+            pairs.append(f"{name.text}={value.text}")
+            arguments.remove(argument)
+        if not pairs:
+            raise ValueError(f"report sampler lacks query parameters: {sampler.get('testname')}")
+        path.text = path.text + "?" + "&".join(pairs)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     tree.write(output, encoding="utf-8", xml_declaration=True)
@@ -69,8 +93,9 @@ def build_profile(source: Path, output: Path, core: int, complex_users: int,
 
 def build_spike(source: Path, output: Path) -> str:
     # Thirty-second ramp, two minutes at 100, thirty-second spike ramp,
-    # five minutes at 500, then five minutes of 100-user recovery.
-    build_profile(source, output, 70, 30, 30, 750)
+    # five scored minutes at 500, thirty unscored seconds to drain the
+    # additional threads, then five scored minutes at 100 plus shutdown guard.
+    build_profile(source, output, 70, 30, 30, 780)
     tree = ET.parse(output)
     root = tree.getroot()
     test_tree = root[0][1]
@@ -86,7 +111,7 @@ def build_spike(source: Path, output: Path) -> str:
         extra_group.set("testname", name)
         set_property(extra_group, "ThreadGroup.num_threads", str(count))
         set_property(extra_group, "ThreadGroup.ramp_time", "30")
-        set_property(extra_group, "ThreadGroup.duration", "330")
+        set_property(extra_group, "ThreadGroup.duration", "360")
         set_property(extra_group, "ThreadGroup.delay", "150")
         test_tree.append(extra_group)
         test_tree.append(copy.deepcopy(group_tree))
@@ -116,6 +141,7 @@ def main() -> int:
                 "complex_users": complex_users,
                 "ramp_seconds": args.ramp_seconds,
                 "hold_seconds": hold,
+                "shutdown_guard_seconds": 30,
                 "sha256": digest,
                 "path": output.as_posix(),
             }
@@ -127,7 +153,9 @@ def main() -> int:
             "base_hold_seconds": 120,
             "spike_ramp_seconds": 30,
             "spike_hold_seconds": 300,
+            "spike_drain_guard_seconds": 30,
             "recovery_seconds": 300,
+            "shutdown_guard_seconds": 30,
             "sha256": build_spike(args.source, spike_output),
             "path": spike_output.as_posix(),
         }

@@ -1,0 +1,14 @@
+services:
+  jmeter:
+    image: ${JMETER_IMAGE:?JMETER_IMAGE must be a pinned digest}
+    cpus: 4.0
+    mem_limit: 4g
+    memswap_limit: 4g
+    environment:
+      HEAP: -Xms1g -Xmx2g -XX:MaxMetaspaceSize=256m
+    volumes:
+      - ./plans:/plans:ro
+      - ./run-config:/run-config:ro
+      - ./results:/results
+    entrypoint: ["jmeter"]
+    profiles: ["manual-run"]

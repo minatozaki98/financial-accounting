@@ -1,0 +1,34 @@
+services:
+  sql:
+    image: ${SQL_IMAGE:?SQL_IMAGE must be a pinned digest}
+    cpus: 2.0
+    mem_limit: 4g
+    memswap_limit: 4g
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_MEMORY_LIMIT_MB: "3072"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:?MSSQL_SA_PASSWORD required}
+    ports:
+      - "127.0.0.1:1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+    restart: unless-stopped
+  api:
+    image: ${API_IMAGE:?API_IMAGE required}
+    cpus: 2.0
+    mem_limit: 2g
+    memswap_limit: 2g
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      AppSettings__ConnectionStrings: ${API_CONNECTION_STRING:?API_CONNECTION_STRING required}
+      AppSettings__JwtSecret: ${JWT_SECRET:?JWT_SECRET required}
+      Logging__LogLevel__Default: Warning
+    ports:
+      - "${TARGET_PRIVATE_IP:?TARGET_PRIVATE_IP required}:8080:8080"
+    depends_on:
+      - sql
+    restart: unless-stopped
+volumes:
+  sql-data:

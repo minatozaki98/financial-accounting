@@ -1,0 +1,17 @@
+ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk@sha256:77b6ff7bc2ff63923d8e57180f5b695308a8b1d758d33048221bd3f3b2250561
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet@sha256:04300d40d5b232cfb0a46cfcbc16536f6fe374a6f15bb602f93425bc072b9a32
+FROM ${SDK_IMAGE} AS build
+WORKDIR /src
+COPY global.json Directory.Build.props Directory.Build.targets ./
+COPY API/ API/
+COPY BAL/ BAL/
+COPY MODEL/ MODEL/
+RUN dotnet restore API/API.csproj
+RUN dotnet publish API/API.csproj -c Release --no-restore -o /app/publish
+
+FROM ${RUNTIME_IMAGE} AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "API.dll"]

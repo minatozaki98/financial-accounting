@@ -64,7 +64,7 @@ class ProfileBuilderTests(unittest.TestCase):
                 self.assertEqual(loops, "-1")
                 self.assertEqual(props["ThreadGroup.scheduler"], "true")
                 self.assertEqual(props["ThreadGroup.ramp_time"], "120")
-                self.assertEqual(props["ThreadGroup.duration"], "720")
+                self.assertEqual(props["ThreadGroup.duration"], "750")
         samplers = lambda plan: [n.get("testname") for n in ET.parse(plan).iter("HTTPSamplerProxy")]
         self.assertEqual(samplers(p100), samplers(p500))
 
@@ -79,7 +79,7 @@ class ProfileBuilderTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         groups = group_values(self.output / "financial-api-soak-controlled.jmx")
         self.assertEqual([int(g[1]["ThreadGroup.num_threads"]) for g in groups], [70, 30])
-        self.assertTrue(all(g[1]["ThreadGroup.duration"] == "2820" for g in groups))
+        self.assertTrue(all(g[1]["ThreadGroup.duration"] == "2850" for g in groups))
 
     def test_generated_plans_do_not_embed_the_old_default_password(self):
         result = self.build()
@@ -88,6 +88,23 @@ class ProfileBuilderTests(unittest.TestCase):
             content = plan.read_text(encoding="utf-8")
             self.assertFalse("Admin@123" in content, plan.name)
             self.assertIn("${__P(password,)}", content)
+
+    def test_mixed_flow_is_default_and_report_ids_are_in_get_urls(self):
+        result = self.build()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        plan = self.output / "financial-api-p500-controlled.jmx"
+        self.assertEqual(plan_variables(plan)["mode"], "${__P(mode,mixed)}")
+        reports = [node for node in ET.parse(plan).iter("HTTPSamplerProxy")
+                   if (node.get("testname") or "").startswith("GET /reports/")]
+        self.assertEqual(len(reports), 4)
+        for sampler in reports:
+            path = sampler.find("./stringProp[@name='HTTPSampler.path']").text
+            self.assertIn("?", path, sampler.get("testname"))
+            self.assertIn("periodId=${periodId}", path)
+            if sampler.get("testname") == "GET /reports/account-ledger":
+                self.assertIn("accountId=${accountId}", path)
+            arguments = sampler.find("./elementProp[@name='HTTPsampler.Arguments']/collectionProp")
+            self.assertEqual(len(arguments), 0)
 
     def test_spike_adds_400_users_then_returns_to_100(self):
         result = self.build()
@@ -102,7 +119,7 @@ class ProfileBuilderTests(unittest.TestCase):
         self.assertEqual([g[1]["ThreadGroup.ramp_time"] for g in groups],
                          ["30", "30", "30", "30"])
         self.assertEqual([g[1]["ThreadGroup.duration"] for g in groups],
-                         ["780", "780", "330", "330"])
+                         ["840", "840", "360", "360"])
         self.assertTrue(all(g[2] == "-1" for g in groups))
 
 

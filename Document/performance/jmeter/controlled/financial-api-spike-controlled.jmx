@@ -40,7 +40,7 @@
           </elementProp>
           <elementProp name="mode" elementType="Argument">
             <stringProp name="Argument.name">mode</stringProp>
-            <stringProp name="Argument.value">${__P(mode,core)}</stringProp>
+            <stringProp name="Argument.value">${__P(mode,mixed)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="coreUsers" elementType="Argument">
@@ -82,7 +82,7 @@
         <stringProp name="ThreadGroup.num_threads">70</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">780</stringProp>
+        <stringProp name="ThreadGroup.duration">840</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -302,7 +302,7 @@
         <stringProp name="ThreadGroup.num_threads">30</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">780</stringProp>
+        <stringProp name="ThreadGroup.duration">840</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -453,20 +453,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/trial-balance" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/trial-balance</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/trial-balance?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -489,20 +482,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/profit-loss" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/profit-loss</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/profit-loss?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -525,20 +511,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/balance-sheet" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/balance-sheet</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/balance-sheet?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -561,27 +540,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/account-ledger" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="accountId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">accountId</stringProp>
-                  <stringProp name="Argument.value">${accountId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/account-ledger</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/account-ledger?accountId=${accountId}&amp;periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -612,7 +577,7 @@
         <stringProp name="ThreadGroup.num_threads">280</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">330</stringProp>
+        <stringProp name="ThreadGroup.duration">360</stringProp>
         <stringProp name="ThreadGroup.delay">150</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -832,7 +797,7 @@
         <stringProp name="ThreadGroup.num_threads">120</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">330</stringProp>
+        <stringProp name="ThreadGroup.duration">360</stringProp>
         <stringProp name="ThreadGroup.delay">150</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -983,20 +948,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/trial-balance" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/trial-balance</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/trial-balance?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1019,20 +977,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/profit-loss" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/profit-loss</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/profit-loss?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1055,20 +1006,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/balance-sheet" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/balance-sheet</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/balance-sheet?periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1091,27 +1035,13 @@
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /reports/account-ledger" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="accountId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">accountId</stringProp>
-                  <stringProp name="Argument.value">${accountId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-                <elementProp name="periodId" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.name">periodId</stringProp>
-                  <stringProp name="Argument.value">${periodId}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+                </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain" />
             <stringProp name="HTTPSampler.port" />
             <stringProp name="HTTPSampler.protocol" />
             <stringProp name="HTTPSampler.contentEncoding" />
-            <stringProp name="HTTPSampler.path">${baseUrl}/reports/account-ledger</stringProp>
+            <stringProp name="HTTPSampler.path">${baseUrl}/reports/account-ledger?accountId=${accountId}&amp;periodId=${periodId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

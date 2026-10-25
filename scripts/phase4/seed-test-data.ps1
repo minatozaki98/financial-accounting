@@ -546,7 +546,7 @@ FROM dbo.JournalEntries;
 
     Write-Host "Seed completed."
     Write-Host "Admin user: $AdminUsername ($adminUserId)"
-    Write-Host "Demo users: finance-manager, normal-user, auditor-user (password: $AdminPassword)"
+    Write-Host "Demo users: finance-manager, normal-user, auditor-user"
     Write-Host "Period: $PeriodId"
     Write-Host "Accounts: $finalAccountCount"
     Write-Host "Journal entries: $finalTotalEntries (posted: $finalPostedEntries)"
