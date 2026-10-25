@@ -286,6 +286,12 @@ REFERENCE_ENTRIES = [
         "https://doi.org/10.1002/spe.3244",
     ),
     (
+        "Chaudhuri, S., & Narasayya, V. (1997). An efficient, cost-driven index selection tool for Microsoft SQL Server. In ",
+        "Proceedings of the 23rd International Conference on Very Large Data Bases",
+        " (pp. 146–155). Morgan Kaufmann. ",
+        "https://www.vldb.org/conf/1997/P146.PDF",
+    ),
+    (
         "Chen, E., Huang, R., Chen, H.-S., Tseng, Y.-H., & Li, L.-Y. (2023). ",
         "GPTutor: A ChatGPT-powered programming tool for code explanation",
         " [Preprint]. arXiv. ",
@@ -344,6 +350,12 @@ REFERENCE_ENTRIES = [
         "Proceedings of the 19th ACM Asia Conference on Computer and Communications Security",
         " (pp. 1299-1315). ACM. ",
         "https://doi.org/10.1145/3634737.3661134",
+    ),
+    (
+        "Nishtala, R., Fugal, H., Grimm, S., Kwiatkowski, M., Lee, H., Li, H. C., McElroy, R., Paleczny, M., Peek, D., Saab, P., Stafford, D., Tung, T., & Venkataramani, V. (2013). Scaling Memcache at Facebook. In ",
+        "Proceedings of the 10th USENIX Symposium on Networked Systems Design and Implementation",
+        " (pp. 385–398). USENIX Association. ",
+        "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala",
     ),
     (
         "Özpolat, Z., Yıldırım, Ö., & Karabatak, M. (2023). Artificial intelligence-based tools in software development processes: Application of ChatGPT. ",
