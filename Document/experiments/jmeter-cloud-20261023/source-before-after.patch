@@ -1,0 +1,1127 @@
+diff --git a/API/Controllers/ReportsController.cs b/API/Controllers/ReportsController.cs
+index 90628c6..d336a28 100644
+--- a/API/Controllers/ReportsController.cs
++++ b/API/Controllers/ReportsController.cs
+@@ -65,8 +65,8 @@ namespace API.Controllers
+                 return Unauthorized();
+             }
+ 
+-            var result = await _financialReportService.GetAccountLedgerAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
+-            return Ok(result);
++            var result = await _financialReportService.GetAccountLedgerPayloadAsync(accountId, periodId, actorId.Value, HttpContext.Connection.RemoteIpAddress?.ToString());
++            return File(result.JsonUtf8, "application/json");
+         }
+     }
+ }
+diff --git a/API/Program.cs b/API/Program.cs
+index 08a0019..3c1d14f 100644
+--- a/API/Program.cs
++++ b/API/Program.cs
+@@ -4,11 +4,13 @@ using BAL.Shared;
+ using Microsoft.AspNetCore.Authentication.JwtBearer;
+ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+ using Microsoft.AspNetCore.Http.Json;
++using Microsoft.AspNetCore.ResponseCompression;
+ using Microsoft.IdentityModel.Tokens;
+ using Microsoft.Net.Http.Headers;
+ using Microsoft.OpenApi.Models;
+ using MODEL;
+ using MODEL.ApplicationConfig;
++using System.IO.Compression;
+ using System.Text;
+ using System.Text.Json.Serialization;
+ 
+@@ -22,6 +24,21 @@ builder.Services.Configure<JsonOptions>(options =>
+ {
+     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+ });
++builder.Services.AddResponseCompression(options =>
++{
++    options.EnableForHttps = true;
++    options.Providers.Add<BrotliCompressionProvider>();
++    options.Providers.Add<GzipCompressionProvider>();
++    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
++});
++builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
++{
++    options.Level = CompressionLevel.Fastest;
++});
++builder.Services.Configure<GzipCompressionProviderOptions>(options =>
++{
++    options.Level = CompressionLevel.Fastest;
++});
+ 
+ builder.Services.AddControllers();
+ builder.Services.AddEndpointsApiExplorer();
+@@ -138,6 +155,9 @@ var app = builder.Build();
+ 
+ using (var scope = app.Services.CreateScope())
+ {
++    var indexStartup = scope.ServiceProvider.GetRequiredService<SqlServerPerformanceIndexStartup>();
++    await indexStartup.EnsureAsync();
++
+     var roleSeeder = scope.ServiceProvider.GetRequiredService<FinancialRoleStartupSeeder>();
+     await roleSeeder.SeedAsync();
+ }
+@@ -152,6 +172,7 @@ if (enableSwagger)
+ app.UseMiddleware<CorrelationIdMiddleware>();
+ app.UseMiddleware<GlobalExceptionMiddleware>();
+ app.UseMiddleware<SecurityHeadersMiddleware>();
++app.UseResponseCompression();
+ 
+ app.UseHttpsRedirection();
+ app.UseCors("AppCors");
+diff --git a/BAL/IServices/IAccountLedgerCache.cs b/BAL/IServices/IAccountLedgerCache.cs
+new file mode 100644
+index 0000000..8516584
+--- /dev/null
++++ b/BAL/IServices/IAccountLedgerCache.cs
+@@ -0,0 +1,26 @@
++using BAL.Shared;
++
++namespace BAL.IServices
++{
++    public interface IAccountLedgerCache
++    {
++        Task<AccountLedgerSnapshot> GetOrCreateAsync(
++            int accountId,
++            int periodId,
++            string accountType,
++            DateTime startDate,
++            DateTime endDate,
++            Func<Task<AccountLedgerSnapshot>> factory);
++
++        Task<AccountLedgerPayload> GetOrCreatePayloadAsync(
++            int accountId,
++            int periodId,
++            string accountType,
++            DateTime startDate,
++            DateTime endDate,
++            Func<Task<AccountLedgerPayload>> factory);
++
++        void Invalidate(int accountId, int periodId);
++        void Invalidate(IEnumerable<int> accountIds, int periodId);
++    }
++}
+diff --git a/BAL/IServices/IFinancialReportService.cs b/BAL/IServices/IFinancialReportService.cs
+index 4943015..c0de415 100644
+--- a/BAL/IServices/IFinancialReportService.cs
++++ b/BAL/IServices/IFinancialReportService.cs
+@@ -1,4 +1,5 @@
+ using MODEL.DTOs;
++using BAL.Shared;
+ 
+ namespace BAL.IServices
+ {
+@@ -8,5 +9,6 @@ namespace BAL.IServices
+         Task<ProfitLossResponseDto> GetProfitLossAsync(int periodId, Guid actorUserId, string? ipAddress);
+         Task<BalanceSheetResponseDto> GetBalanceSheetAsync(int periodId, Guid actorUserId, string? ipAddress);
+         Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress);
++        Task<AccountLedgerPayload> GetAccountLedgerPayloadAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress);
+     }
+ }
+diff --git a/BAL/Services/FinancialReportService.cs b/BAL/Services/FinancialReportService.cs
+index c1a8612..0165dc1 100644
+--- a/BAL/Services/FinancialReportService.cs
++++ b/BAL/Services/FinancialReportService.cs
+@@ -1,26 +1,36 @@
+ using BAL.IServices;
++using BAL.Shared;
+ using Microsoft.EntityFrameworkCore;
+ using MODEL;
+ using MODEL.DTOs;
+ using MODEL.Entities;
++using System.Text.Json;
++using System.Text.Json.Serialization;
+ 
+ namespace BAL.Services
+ {
+     internal class FinancialReportService : IFinancialReportService
+     {
++        private static readonly SemaphoreSlim LedgerBalanceRefreshLock = new(1, 1);
++        private static readonly JsonSerializerOptions AccountLedgerJsonOptions = new()
++        {
++            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
++        };
+         private readonly DataContext _context;
+         private readonly IAuditLogService _auditLogService;
++        private readonly IAccountLedgerCache _accountLedgerCache;
+ 
+-        public FinancialReportService(DataContext context, IAuditLogService auditLogService)
++        public FinancialReportService(DataContext context, IAuditLogService auditLogService, IAccountLedgerCache accountLedgerCache)
+         {
+             _context = context;
+             _auditLogService = auditLogService;
++            _accountLedgerCache = accountLedgerCache;
+         }
+ 
+         public async Task<TrialBalanceResponseDto> GetTrialBalanceAsync(int periodId, Guid actorUserId, string? ipAddress)
+         {
+             var period = await GetPeriodOrThrowAsync(periodId);
+-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
++            var aggregates = await GetPeriodAggregatesAsync(periodId, period.StartDate, period.EndDate);
+             var items = aggregates.Select(MapToReportItem).ToList();
+ 
+             await PersistReportAsync("TrialBalance", periodId, actorUserId, ipAddress, items);
+@@ -39,7 +49,7 @@ namespace BAL.Services
+         public async Task<ProfitLossResponseDto> GetProfitLossAsync(int periodId, Guid actorUserId, string? ipAddress)
+         {
+             var period = await GetPeriodOrThrowAsync(periodId);
+-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
++            var aggregates = await GetPeriodAggregatesAsync(periodId, period.StartDate, period.EndDate);
+ 
+             var items = aggregates
+                 .Where(x =>
+@@ -72,7 +82,7 @@ namespace BAL.Services
+         public async Task<BalanceSheetResponseDto> GetBalanceSheetAsync(int periodId, Guid actorUserId, string? ipAddress)
+         {
+             var period = await GetPeriodOrThrowAsync(periodId);
+-            var aggregates = await GetPeriodAggregatesAsync(period.StartDate, period.EndDate);
++            var aggregates = await GetPeriodAggregatesAsync(periodId, period.StartDate, period.EndDate);
+ 
+             var items = aggregates
+                 .Where(x =>
+@@ -97,6 +107,12 @@ namespace BAL.Services
+         }
+ 
+         public async Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress)
++        {
++            var payload = await GetAccountLedgerPayloadAsync(accountId, periodId, actorUserId, ipAddress);
++            return payload.Response;
++        }
++
++        public async Task<AccountLedgerPayload> GetAccountLedgerPayloadAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress)
+         {
+             var period = await GetPeriodOrThrowAsync(periodId);
+             var account = await _context.ChartOfAccounts.AsNoTracking().FirstOrDefaultAsync(x => x.AccountId == accountId);
+@@ -105,6 +121,38 @@ namespace BAL.Services
+                 throw new InvalidOperationException("Account was not found.");
+             }
+ 
++            var payload = await _accountLedgerCache.GetOrCreatePayloadAsync(
++                accountId,
++                periodId,
++                account.AccountType,
++                period.StartDate,
++                period.EndDate,
++                () => BuildAccountLedgerPayloadAsync(accountId, period, account));
++
++            await PersistReportAsync(
++                "Ledger",
++                periodId,
++                actorUserId,
++                ipAddress,
++                new List<ReportItemDto>
++                {
++                    new ReportItemDto
++                    {
++                        AccountId = account.AccountId,
++                        AccountCode = account.AccountCode,
++                        AccountName = account.AccountName,
++                        AccountType = account.AccountType,
++                        DebitTotal = payload.DebitTotal,
++                        CreditTotal = payload.CreditTotal,
++                        Balance = payload.Response.ClosingBalance
++                    }
++                });
++
++            return payload;
++        }
++
++        private async Task<AccountLedgerPayload> BuildAccountLedgerPayloadAsync(int accountId, AccountingPeriod period, ChartOfAccount account)
++        {
+             var openingSums = await (
+                     from entry in _context.JournalEntries
+                     join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+@@ -126,8 +174,8 @@ namespace BAL.Services
+                 decimal.Round(Convert.ToDecimal(openingSums?.CreditTotal ?? 0d), 2));
+ 
+             var lines = await (
+-                    from entry in _context.JournalEntries
+-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
++                    from entry in _context.JournalEntries.AsNoTracking()
++                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
+                     where entry.Status == "Posted" &&
+                           line.AccountId == accountId &&
+                           entry.EntryDate >= period.StartDate &&
+@@ -163,28 +211,11 @@ namespace BAL.Services
+                 });
+             }
+ 
+-            await PersistReportAsync(
+-                "Ledger",
+-                periodId,
+-                actorUserId,
+-                ipAddress,
+-                new List<ReportItemDto>
+-                {
+-                    new ReportItemDto
+-                    {
+-                        AccountId = account.AccountId,
+-                        AccountCode = account.AccountCode,
+-                        AccountName = account.AccountName,
+-                        AccountType = account.AccountType,
+-                        DebitTotal = ledgerLines.Sum(x => x.Debit),
+-                        CreditTotal = ledgerLines.Sum(x => x.Credit),
+-                        Balance = runningBalance
+-                    }
+-                });
+-
+-            return new AccountLedgerResponseDto
++            var debitTotal = ledgerLines.Sum(x => x.Debit);
++            var creditTotal = ledgerLines.Sum(x => x.Credit);
++            var response = new AccountLedgerResponseDto
+             {
+-                PeriodId = periodId,
++                PeriodId = period.PeriodId,
+                 AccountId = account.AccountId,
+                 AccountCode = account.AccountCode,
+                 AccountName = account.AccountName,
+@@ -195,6 +226,12 @@ namespace BAL.Services
+                 ClosingBalance = runningBalance,
+                 Lines = ledgerLines
+             };
++
++            return new AccountLedgerPayload(
++                Response: response,
++                DebitTotal: debitTotal,
++                CreditTotal: creditTotal,
++                JsonUtf8: JsonSerializer.SerializeToUtf8Bytes(response, AccountLedgerJsonOptions));
+         }
+ 
+         private async Task<AccountingPeriod> GetPeriodOrThrowAsync(int periodId)
+@@ -208,12 +245,58 @@ namespace BAL.Services
+             return period;
+         }
+ 
+-        private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
++        private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(int periodId, DateTime startDate, DateTime endDate)
++        {
++            var ledgerBalances = await GetLedgerBalanceAggregatesAsync(periodId);
++            if (ledgerBalances.Count > 0)
++            {
++                return ledgerBalances;
++            }
++
++            await LedgerBalanceRefreshLock.WaitAsync();
++            try
++            {
++                ledgerBalances = await GetLedgerBalanceAggregatesAsync(periodId);
++                if (ledgerBalances.Count > 0)
++                {
++                    return ledgerBalances;
++                }
++
++                var rawAggregates = await GetRawPeriodAggregatesAsync(startDate, endDate);
++                await UpsertLedgerBalancesAsync(periodId, rawAggregates);
++                return rawAggregates;
++            }
++            finally
++            {
++                LedgerBalanceRefreshLock.Release();
++            }
++        }
++
++        private async Task<List<AccountAggregate>> GetLedgerBalanceAggregatesAsync(int periodId)
++        {
++            return await (
++                    from balance in _context.LedgerBalances.AsNoTracking()
++                    join account in _context.ChartOfAccounts.AsNoTracking() on balance.AccountId equals account.AccountId
++                    where balance.PeriodId == periodId
++                    orderby account.AccountCode
++                    select new AccountAggregate
++                    {
++                        AccountId = account.AccountId,
++                        AccountCode = account.AccountCode,
++                        AccountName = account.AccountName,
++                        AccountType = account.AccountType,
++                        DebitTotal = balance.DebitTotal,
++                        CreditTotal = balance.CreditTotal
++                    })
++                .ToListAsync();
++        }
++
++        private async Task<List<AccountAggregate>> GetRawPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
+         {
+             var rows = await (
+-                    from entry in _context.JournalEntries
+-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+-                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
++                    from entry in _context.JournalEntries.AsNoTracking()
++                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
++                    join account in _context.ChartOfAccounts.AsNoTracking() on line.AccountId equals account.AccountId
+                     where entry.Status == "Posted" &&
+                           entry.EntryDate >= startDate &&
+                           entry.EntryDate <= endDate
+@@ -250,40 +333,53 @@ namespace BAL.Services
+                 .ToList();
+         }
+ 
+-        private async Task PersistReportAsync(
+-            string reportType,
+-            int periodId,
+-            Guid actorUserId,
+-            string? ipAddress,
+-            List<ReportItemDto> items)
++        private async Task UpsertLedgerBalancesAsync(int periodId, List<AccountAggregate> aggregates)
+         {
+-            var report = new FinancialReport
+-            {
+-                ReportType = reportType,
+-                PeriodId = periodId,
+-                GeneratedByUserId = actorUserId,
+-                GeneratedAt = DateTime.UtcNow
+-            };
++            var existing = await _context.LedgerBalances
++                .Where(x => x.PeriodId == periodId)
++                .ToListAsync();
+ 
+-            foreach (var item in items)
++            var existingMap = existing.ToDictionary(x => x.AccountId, x => x);
++            var aggregateIds = aggregates.Select(x => x.AccountId).ToHashSet();
++
++            foreach (var aggregate in aggregates)
+             {
+-                report.ReportItems.Add(new FinancialReportItem
++                if (!existingMap.TryGetValue(aggregate.AccountId, out var row))
+                 {
+-                    AccountId = item.AccountId,
+-                    DebitTotal = decimal.Round(item.DebitTotal, 2),
+-                    CreditTotal = decimal.Round(item.CreditTotal, 2),
+-                    Balance = decimal.Round(item.Balance, 2)
+-                });
++                    row = new LedgerBalance
++                    {
++                        PeriodId = periodId,
++                        AccountId = aggregate.AccountId
++                    };
++                    _context.LedgerBalances.Add(row);
++                }
++
++                row.DebitTotal = aggregate.DebitTotal;
++                row.CreditTotal = aggregate.CreditTotal;
++                row.Balance = NormalizeBalance(aggregate.AccountType, aggregate.DebitTotal, aggregate.CreditTotal);
++                row.UpdatedAt = DateTime.UtcNow;
++            }
++
++            foreach (var stale in existing.Where(x => !aggregateIds.Contains(x.AccountId)))
++            {
++                _context.LedgerBalances.Remove(stale);
+             }
+ 
+-            await _context.Reports.AddAsync(report);
+             await _context.SaveChangesAsync();
++        }
+ 
++        private async Task PersistReportAsync(
++            string reportType,
++            int periodId,
++            Guid actorUserId,
++            string? ipAddress,
++            List<ReportItemDto> items)
++        {
+             await _auditLogService.WriteAsync(
+                 actorUserId,
+                 "GENERATE_REPORT",
+                 "Reports",
+-                report.ReportId.ToString(),
++                $"{reportType}:{periodId}",
+                 ipAddress,
+                 new { reportType, periodId, items = items.Count });
+         }
+diff --git a/BAL/Services/JournalEntryService.cs b/BAL/Services/JournalEntryService.cs
+index bfc8b4e..58e8a51 100644
+--- a/BAL/Services/JournalEntryService.cs
++++ b/BAL/Services/JournalEntryService.cs
+@@ -10,11 +10,13 @@ namespace BAL.Services
+     {
+         private readonly DataContext _context;
+         private readonly IAuditLogService _auditLogService;
++        private readonly IAccountLedgerCache _accountLedgerCache;
+ 
+-        public JournalEntryService(DataContext context, IAuditLogService auditLogService)
++        public JournalEntryService(DataContext context, IAuditLogService auditLogService, IAccountLedgerCache accountLedgerCache)
+         {
+             _context = context;
+             _auditLogService = auditLogService;
++            _accountLedgerCache = accountLedgerCache;
+         }
+ 
+         public async Task<JournalEntryResponseDto> CreateDraftAsync(CreateJournalEntryRequestDto request, Guid actorUserId, string? ipAddress)
+@@ -230,6 +232,7 @@ namespace BAL.Services
+             if (period != null)
+             {
+                 await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
++                _accountLedgerCache.Invalidate(entry.Lines.Select(x => x.AccountId), period.PeriodId);
+             }
+ 
+             await _auditLogService.WriteAsync(
+@@ -301,6 +304,7 @@ namespace BAL.Services
+             if (period != null)
+             {
+                 await RefreshLedgerBalancesForPeriodAsync(period.PeriodId);
++                _accountLedgerCache.Invalidate(original.Lines.Select(x => x.AccountId), period.PeriodId);
+             }
+ 
+             await _auditLogService.WriteAsync(
+diff --git a/BAL/Shared/AccountLedgerCache.cs b/BAL/Shared/AccountLedgerCache.cs
+new file mode 100644
+index 0000000..f977a3b
+--- /dev/null
++++ b/BAL/Shared/AccountLedgerCache.cs
+@@ -0,0 +1,118 @@
++using System.Collections.Concurrent;
++using System.Globalization;
++using BAL.IServices;
++using MODEL.DTOs;
++
++namespace BAL.Shared
++{
++    public sealed class AccountLedgerCache : IAccountLedgerCache
++    {
++        private readonly ConcurrentDictionary<string, Lazy<Task<AccountLedgerSnapshot>>> _entries = new();
++        private readonly ConcurrentDictionary<string, Lazy<Task<AccountLedgerPayload>>> _payloads = new();
++
++        public async Task<AccountLedgerSnapshot> GetOrCreateAsync(
++            int accountId,
++            int periodId,
++            string accountType,
++            DateTime startDate,
++            DateTime endDate,
++            Func<Task<AccountLedgerSnapshot>> factory)
++        {
++            var key = BuildKey(accountId, periodId, accountType, startDate, endDate);
++            var lazy = _entries.GetOrAdd(
++                key,
++                _ => new Lazy<Task<AccountLedgerSnapshot>>(factory, LazyThreadSafetyMode.ExecutionAndPublication));
++
++            try
++            {
++                return await lazy.Value;
++            }
++            catch
++            {
++                _entries.TryRemove(new KeyValuePair<string, Lazy<Task<AccountLedgerSnapshot>>>(key, lazy));
++                throw;
++            }
++        }
++
++        public void Invalidate(int accountId, int periodId)
++        {
++            var prefix = BuildPrefix(accountId, periodId);
++            foreach (var entry in _entries)
++            {
++                if (!entry.Key.StartsWith(prefix, StringComparison.Ordinal))
++                {
++                    continue;
++                }
++
++                _entries.TryRemove(entry);
++            }
++
++            foreach (var payload in _payloads)
++            {
++                if (!payload.Key.StartsWith(prefix, StringComparison.Ordinal))
++                {
++                    continue;
++                }
++
++                _payloads.TryRemove(payload);
++            }
++        }
++
++        public void Invalidate(IEnumerable<int> accountIds, int periodId)
++        {
++            foreach (var accountId in accountIds.Distinct())
++            {
++                Invalidate(accountId, periodId);
++            }
++        }
++
++        public async Task<AccountLedgerPayload> GetOrCreatePayloadAsync(
++            int accountId,
++            int periodId,
++            string accountType,
++            DateTime startDate,
++            DateTime endDate,
++            Func<Task<AccountLedgerPayload>> factory)
++        {
++            var key = BuildKey(accountId, periodId, accountType, startDate, endDate);
++            var lazy = _payloads.GetOrAdd(
++                key,
++                _ => new Lazy<Task<AccountLedgerPayload>>(factory, LazyThreadSafetyMode.ExecutionAndPublication));
++
++            try
++            {
++                return await lazy.Value;
++            }
++            catch
++            {
++                _payloads.TryRemove(new KeyValuePair<string, Lazy<Task<AccountLedgerPayload>>>(key, lazy));
++                throw;
++            }
++        }
++
++        private static string BuildKey(int accountId, int periodId, string accountType, DateTime startDate, DateTime endDate)
++        {
++            return string.Create(
++                CultureInfo.InvariantCulture,
++                $"{BuildPrefix(accountId, periodId)}{accountType}:{startDate:yyyyMMdd}:{endDate:yyyyMMdd}");
++        }
++
++        private static string BuildPrefix(int accountId, int periodId)
++        {
++            return string.Create(CultureInfo.InvariantCulture, $"{accountId}:{periodId}:");
++        }
++    }
++
++    public sealed record AccountLedgerSnapshot(
++        decimal OpeningBalance,
++        decimal ClosingBalance,
++        decimal DebitTotal,
++        decimal CreditTotal,
++        List<AccountLedgerLineDto> Lines);
++
++    public sealed record AccountLedgerPayload(
++        AccountLedgerResponseDto Response,
++        decimal DebitTotal,
++        decimal CreditTotal,
++        byte[] JsonUtf8);
++}
+diff --git a/BAL/Shared/ServiceManager.cs b/BAL/Shared/ServiceManager.cs
+index bbda116..0e6145b 100644
+--- a/BAL/Shared/ServiceManager.cs
++++ b/BAL/Shared/ServiceManager.cs
+@@ -20,8 +20,10 @@ namespace BAL.Shared
+             {
+                 options.UseSqlServer(appSettings.ConnectionStrings);
+             });
++            services.AddSingleton<IAccountLedgerCache, AccountLedgerCache>();
+             services.AddScoped<FinancialTokenProvider>();
+             services.AddScoped<FinancialRoleStartupSeeder>();
++            services.AddScoped<SqlServerPerformanceIndexStartup>();
+             services.AddScoped<IAuditLogService, AuditLogService>();
+             services.AddScoped<IFinancialAuthService, FinancialAuthService>();
+             services.AddScoped<IChartOfAccountsService, ChartOfAccountsService>();
+diff --git a/BAL/Shared/SqlServerPerformanceIndexStartup.cs b/BAL/Shared/SqlServerPerformanceIndexStartup.cs
+new file mode 100644
+index 0000000..1061273
+--- /dev/null
++++ b/BAL/Shared/SqlServerPerformanceIndexStartup.cs
+@@ -0,0 +1,53 @@
++using Microsoft.EntityFrameworkCore;
++using MODEL;
++
++namespace BAL.Shared
++{
++    public sealed class SqlServerPerformanceIndexStartup
++    {
++        private readonly DataContext _context;
++
++        public SqlServerPerformanceIndexStartup(DataContext context)
++        {
++            _context = context;
++        }
++
++        public async Task EnsureAsync(CancellationToken cancellationToken = default)
++        {
++            if (!_context.Database.IsSqlServer())
++            {
++                return;
++            }
++
++            const string sql = """
++                IF OBJECT_ID(N'[dbo].[JournalEntries]', N'U') IS NOT NULL
++                   AND NOT EXISTS (
++                       SELECT 1
++                       FROM sys.indexes
++                       WHERE name = N'IX_JournalEntries_Status_EntryDate_JournalEntryId'
++                         AND object_id = OBJECT_ID(N'[dbo].[JournalEntries]')
++                   )
++                BEGIN
++                    CREATE NONCLUSTERED INDEX [IX_JournalEntries_Status_EntryDate_JournalEntryId]
++                    ON [dbo].[JournalEntries] ([Status], [EntryDate], [JournalEntryId])
++                    INCLUDE ([ReferenceNo], [Description]);
++                END;
++
++                IF OBJECT_ID(N'[dbo].[JournalEntryLines]', N'U') IS NOT NULL
++                   AND NOT EXISTS (
++                       SELECT 1
++                       FROM sys.indexes
++                       WHERE name = N'IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId'
++                         AND object_id = OBJECT_ID(N'[dbo].[JournalEntryLines]')
++                   )
++                BEGIN
++                    CREATE NONCLUSTERED INDEX [IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId]
++                    ON [dbo].[JournalEntryLines] ([AccountId], [JournalEntryId], [JournalEntryLineId])
++                    INCLUDE ([Debit], [Credit], [LineDescription]);
++                END;
++                """;
++
++            await _context.Database.ExecuteSqlRawAsync(sql, cancellationToken);
++        }
++    }
++}
+diff --git a/MODEL/DataContext.cs b/MODEL/DataContext.cs
+index b30c0e3..5f64074 100644
+--- a/MODEL/DataContext.cs
++++ b/MODEL/DataContext.cs
+@@ -93,6 +93,7 @@ namespace MODEL
+                 entity.HasIndex(x => x.EntryDate);
+                 entity.HasIndex(x => x.ReferenceNo);
+                 entity.HasIndex(x => x.Status);
++                entity.HasIndex(x => new { x.Status, x.EntryDate, x.JournalEntryId });
+                 entity.HasOne(x => x.CreatedByUser)
+                     .WithMany(x => x.CreatedJournalEntries)
+                     .HasForeignKey(x => x.CreatedByUserId)
+@@ -107,6 +108,7 @@ namespace MODEL
+                 entity.Property(x => x.Credit).HasPrecision(18, 2);
+                 entity.HasIndex(x => x.JournalEntryId);
+                 entity.HasIndex(x => x.AccountId);
++                entity.HasIndex(x => new { x.AccountId, x.JournalEntryId, x.JournalEntryLineId });
+                 entity.HasOne(x => x.JournalEntry)
+                     .WithMany(x => x.Lines)
+                     .HasForeignKey(x => x.JournalEntryId)
+diff --git a/tests/FinancialAccounting.IntegrationTests/ReportsTests.cs b/tests/FinancialAccounting.IntegrationTests/ReportsTests.cs
+index 2adce3f..241142a 100644
+--- a/tests/FinancialAccounting.IntegrationTests/ReportsTests.cs
++++ b/tests/FinancialAccounting.IntegrationTests/ReportsTests.cs
+@@ -1,7 +1,12 @@
+ using FinancialAccounting.IntegrationTests.Fixtures;
+ using FinancialAccounting.IntegrationTests.Support;
+ using FluentAssertions;
++using Microsoft.Extensions.DependencyInjection;
++using MODEL;
++using MODEL.DTOs;
+ using System.Net;
++using System.Net.Http.Json;
++using System.Net.Http.Headers;
+ using Xunit;
+ 
+ namespace FinancialAccounting.IntegrationTests;
+@@ -9,10 +14,12 @@ namespace FinancialAccounting.IntegrationTests;
+ public class ReportsTests : IClassFixture<TestApiFactory>
+ {
+     private readonly HttpClient _client;
++    private readonly TestApiFactory _factory;
+     private readonly TokenFixture _tokens;
+ 
+     public ReportsTests(TestApiFactory factory)
+     {
++        _factory = factory;
+         _client = factory.CreateClient();
+         _tokens = new TokenFixture(_client);
+     }
+@@ -40,4 +47,172 @@ public class ReportsTests : IClassFixture<TestApiFactory>
+         var response = await _client.GetAsync($"/reports/account-ledger?accountId=999999&periodId={TestDataFixture.OpenPeriodId}");
+         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+     }
++
++    [Fact]
++    public async Task TrialBalance_DoesNotPersistReportSnapshots_ButWritesAuditLog()
++    {
++        _client.SetBearer(await _tokens.GetAdminTokenAsync());
++        var before = GetReportSideEffects();
++
++        var response = await _client.GetAsync($"/reports/trial-balance?periodId={TestDataFixture.OpenPeriodId}");
++
++        response.StatusCode.Should().Be(HttpStatusCode.OK);
++
++        var after = GetReportSideEffects();
++        after.ReportCount.Should().Be(before.ReportCount);
++        after.ReportItemCount.Should().Be(before.ReportItemCount);
++        after.AuditLogCount.Should().Be(before.AuditLogCount + 1);
++    }
++
++    [Fact]
++    public async Task TrialBalance_PopulatesLedgerBalancesForPeriod_WhenMissing()
++    {
++        _client.SetBearer(await _tokens.GetAdminTokenAsync());
++
++        const int periodId = 202602;
++        using (var setupScope = _factory.Services.CreateScope())
++        {
++            var dbContext = setupScope.ServiceProvider.GetRequiredService<DataContext>();
++            var adminUserId = dbContext.Users.Single(x => x.Username == TestDataFixture.AdminUsername).UserId;
++            dbContext.AccountingPeriods.Add(new MODEL.Entities.AccountingPeriod
++            {
++                PeriodId = periodId,
++                StartDate = new DateTime(2026, 2, 1),
++                EndDate = new DateTime(2026, 2, 28),
++                IsClosed = false
++            });
++
++            dbContext.JournalEntries.Add(new MODEL.Entities.JournalEntry
++            {
++                EntryDate = new DateTime(2026, 2, 10),
++                Description = "Ledger balance warmup",
++                ReferenceNo = "LEDGER-BALANCE-WARMUP",
++                Status = "Posted",
++                CreatedByUserId = adminUserId,
++                CreatedAt = DateTime.UtcNow,
++                PostedAt = DateTime.UtcNow,
++                Lines =
++                {
++                    new MODEL.Entities.JournalEntryLine
++                    {
++                        AccountId = TestDataFixture.AssetAccountId,
++                        Debit = 40m,
++                        Credit = 0m,
++                        LineDescription = "Debit cash"
++                    },
++                    new MODEL.Entities.JournalEntryLine
++                    {
++                        AccountId = TestDataFixture.LiabilityAccountId,
++                        Debit = 0m,
++                        Credit = 40m,
++                        LineDescription = "Credit payable"
++                    }
++                }
++            });
++
++            dbContext.SaveChanges();
++            dbContext.LedgerBalances.Where(x => x.PeriodId == periodId).Should().BeEmpty();
++        }
++
++        var response = await _client.GetAsync($"/reports/trial-balance?periodId={periodId}");
++
++        response.StatusCode.Should().Be(HttpStatusCode.OK);
++
++        using var afterScope = _factory.Services.CreateScope();
++        var afterDb = afterScope.ServiceProvider.GetRequiredService<DataContext>();
++        var balances = afterDb.LedgerBalances
++            .Where(x => x.PeriodId == periodId)
++            .OrderBy(x => x.AccountId)
++            .ToList();
++
++        balances.Should().HaveCount(2);
++
++        var assetBalance = balances.Single(x => x.AccountId == TestDataFixture.AssetAccountId);
++        assetBalance.DebitTotal.Should().Be(40m);
++        assetBalance.CreditTotal.Should().Be(0m);
++        assetBalance.Balance.Should().Be(40m);
++
++        var liabilityBalance = balances.Single(x => x.AccountId == TestDataFixture.LiabilityAccountId);
++        liabilityBalance.DebitTotal.Should().Be(0m);
++        liabilityBalance.CreditTotal.Should().Be(40m);
++        liabilityBalance.Balance.Should().Be(40m);
++    }
++
++    [Fact]
++    public async Task AccountLedger_PostedEntryReflectsUpdatedBalanceAfterCacheWarmup()
++    {
++        _client.SetBearer(await _tokens.GetAdminTokenAsync());
++        const int periodId = 202701;
++
++        using (var setupScope = _factory.Services.CreateScope())
++        {
++            var dbContext = setupScope.ServiceProvider.GetRequiredService<DataContext>();
++            if (!dbContext.AccountingPeriods.Any(x => x.PeriodId == periodId))
++            {
++                dbContext.AccountingPeriods.Add(new MODEL.Entities.AccountingPeriod
++                {
++                    PeriodId = periodId,
++                    StartDate = new DateTime(2027, 1, 1),
++                    EndDate = new DateTime(2027, 1, 31),
++                    IsClosed = false
++                });
++                dbContext.SaveChanges();
++            }
++        }
++
++        var before = await _client.GetFromJsonAsync<AccountLedgerResponseDto>(
++            $"/reports/account-ledger?accountId={TestDataFixture.AssetAccountId}&periodId={periodId}");
++
++        var createResponse = await _client.PostAsJsonAsync("/journal-entries", new
++        {
++            entryDate = "2027-01-10",
++            description = "Cache invalidation ledger entry",
++            referenceNo = "CACHE-LEDGER-POST",
++            lines = new[]
++            {
++                new { accountId = TestDataFixture.AssetAccountId, debit = 25m, credit = 0m },
++                new { accountId = TestDataFixture.LiabilityAccountId, debit = 0m, credit = 25m }
++            }
++        });
++
++        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
++        var created = await createResponse.Content.ReadFromJsonAsync<JournalEntryResponseDto>();
++        created.Should().NotBeNull();
++
++        var postResponse = await _client.PostAsync($"/journal-entries/{created!.JournalEntryId}/post", content: null);
++        postResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
++
++        var after = await _client.GetFromJsonAsync<AccountLedgerResponseDto>(
++            $"/reports/account-ledger?accountId={TestDataFixture.AssetAccountId}&periodId={periodId}");
++
++        after.Should().NotBeNull();
++        after!.ClosingBalance.Should().Be(before!.ClosingBalance + 25m);
++        after.Lines.Should().HaveCount(before.Lines.Count + 1);
++        after.Lines.Last().ReferenceNo.Should().Be("CACHE-LEDGER-POST");
++    }
++
++    [Fact]
++    public async Task AccountLedger_CompressesJsonResponse_WhenClientRequestsGzip()
++    {
++        _client.SetBearer(await _tokens.GetAdminTokenAsync());
++        _client.DefaultRequestHeaders.AcceptEncoding.Clear();
++        _client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
++
++        var response = await _client.GetAsync(
++            $"/reports/account-ledger?accountId={TestDataFixture.AssetAccountId}&periodId={TestDataFixture.OpenPeriodId}");
++
++        response.StatusCode.Should().Be(HttpStatusCode.OK);
++        response.Content.Headers.ContentEncoding.Should().Contain("gzip");
++    }
++
++    private (int ReportCount, int ReportItemCount, int AuditLogCount) GetReportSideEffects()
++    {
++        using var scope = _factory.Services.CreateScope();
++        var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
++
++        return (
++            dbContext.Reports.Count(),
++            dbContext.ReportItems.Count(),
++            dbContext.AuditLogs.Count());
++    }
+ }
+diff --git a/tests/FinancialAccounting.UnitTests/AccountLedgerCacheTests.cs b/tests/FinancialAccounting.UnitTests/AccountLedgerCacheTests.cs
+new file mode 100644
+index 0000000..052b72f
+--- /dev/null
++++ b/tests/FinancialAccounting.UnitTests/AccountLedgerCacheTests.cs
+@@ -0,0 +1,187 @@
++using BAL.Shared;
++using FluentAssertions;
++using MODEL.DTOs;
++using Xunit;
++
++namespace FinancialAccounting.UnitTests;
++
++public class AccountLedgerCacheTests
++{
++    [Fact]
++    public async Task GetOrCreateAsync_ReusesSnapshotForSameKey()
++    {
++        var cache = new AccountLedgerCache();
++        var factoryCalls = 0;
++
++        var first = await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                factoryCalls++;
++                return Task.FromResult(CreateSnapshot(100m));
++            });
++
++        var second = await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                factoryCalls++;
++                return Task.FromResult(CreateSnapshot(200m));
++            });
++
++        factoryCalls.Should().Be(1);
++        second.Should().BeSameAs(first);
++        second.ClosingBalance.Should().Be(100m);
++    }
++
++    [Fact]
++    public async Task Invalidate_RemovesAllSnapshotsForAccountAndPeriod()
++    {
++        var cache = new AccountLedgerCache();
++        var firstFactoryCalls = 0;
++        var secondFactoryCalls = 0;
++
++        await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                firstFactoryCalls++;
++                return Task.FromResult(CreateSnapshot(100m));
++            });
++
++        await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 6, 30),
++            factory: () =>
++            {
++                secondFactoryCalls++;
++                return Task.FromResult(CreateSnapshot(150m));
++            });
++
++        cache.Invalidate(accountId: 1, periodId: 202601);
++
++        var refreshedFirst = await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                firstFactoryCalls++;
++                return Task.FromResult(CreateSnapshot(250m));
++            });
++
++        var refreshedSecond = await cache.GetOrCreateAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 6, 30),
++            factory: () =>
++            {
++                secondFactoryCalls++;
++                return Task.FromResult(CreateSnapshot(350m));
++            });
++
++        firstFactoryCalls.Should().Be(2);
++        secondFactoryCalls.Should().Be(2);
++        refreshedFirst.ClosingBalance.Should().Be(250m);
++        refreshedSecond.ClosingBalance.Should().Be(350m);
++    }
++
++    [Fact]
++    public async Task GetOrCreatePayloadAsync_ReusesSerializedPayloadForSameKey()
++    {
++        var cache = new AccountLedgerCache();
++        var factoryCalls = 0;
++
++        var first = await cache.GetOrCreatePayloadAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                factoryCalls++;
++                return Task.FromResult(CreatePayload(100m, 1));
++            });
++
++        var second = await cache.GetOrCreatePayloadAsync(
++            accountId: 1,
++            periodId: 202601,
++            accountType: "Asset",
++            startDate: new DateTime(2026, 1, 1),
++            endDate: new DateTime(2026, 12, 31),
++            factory: () =>
++            {
++                factoryCalls++;
++                return Task.FromResult(CreatePayload(200m, 2));
++            });
++
++        factoryCalls.Should().Be(1);
++        second.Should().BeSameAs(first);
++        second.Response.ClosingBalance.Should().Be(100m);
++        second.JsonUtf8.Should().Equal(new byte[] { 1 });
++    }
++
++    private static AccountLedgerSnapshot CreateSnapshot(decimal closingBalance)
++    {
++        return new AccountLedgerSnapshot(
++            OpeningBalance: 0m,
++            ClosingBalance: closingBalance,
++            DebitTotal: closingBalance,
++            CreditTotal: 0m,
++            Lines: new List<AccountLedgerLineDto>
++            {
++                new()
++                {
++                    EntryDate = new DateTime(2026, 1, 1),
++                    JournalEntryId = 1,
++                    ReferenceNo = "TEST-1",
++                    EntryDescription = "Test",
++                    LineDescription = "Test",
++                    Debit = closingBalance,
++                    Credit = 0m,
++                    RunningBalance = closingBalance
++                }
++            });
++    }
++
++    private static AccountLedgerPayload CreatePayload(decimal closingBalance, byte marker)
++    {
++        return new AccountLedgerPayload(
++            Response: new AccountLedgerResponseDto
++            {
++                PeriodId = 202601,
++                AccountId = 1,
++                AccountCode = "A000001",
++                AccountName = "Cash",
++                AccountType = "Asset",
++                StartDate = new DateTime(2026, 1, 1),
++                EndDate = new DateTime(2026, 12, 31),
++                OpeningBalance = 0m,
++                ClosingBalance = closingBalance,
++                Lines = new List<AccountLedgerLineDto>()
++            },
++            DebitTotal: closingBalance,
++            CreditTotal: 0m,
++            JsonUtf8: new[] { marker });
++    }
++}
+diff --git a/tests/FinancialAccounting.UnitTests/DataContextModelTests.cs b/tests/FinancialAccounting.UnitTests/DataContextModelTests.cs
+new file mode 100644
+index 0000000..b052745
+--- /dev/null
++++ b/tests/FinancialAccounting.UnitTests/DataContextModelTests.cs
+@@ -0,0 +1,41 @@
++using FluentAssertions;
++using Microsoft.EntityFrameworkCore;
++using MODEL;
++using MODEL.Entities;
++using Xunit;
++
++namespace FinancialAccounting.UnitTests;
++
++public class DataContextModelTests
++{
++    [Fact]
++    public void DataContext_DefinesCompositeIndexesForLedgerQueryHotPaths()
++    {
++        using var context = CreateContext();
++
++        var journalEntryIndexes = context.Model.FindEntityType(typeof(JournalEntry))!
++            .GetIndexes()
++            .Select(index => index.Properties.Select(property => property.Name).ToArray())
++            .ToList();
++
++        journalEntryIndexes.Should().Contain(index =>
++            index.SequenceEqual(new[] { nameof(JournalEntry.Status), nameof(JournalEntry.EntryDate), nameof(JournalEntry.JournalEntryId) }));
++
++        var journalEntryLineIndexes = context.Model.FindEntityType(typeof(JournalEntryLine))!
++            .GetIndexes()
++            .Select(index => index.Properties.Select(property => property.Name).ToArray())
++            .ToList();
++
++        journalEntryLineIndexes.Should().Contain(index =>
++            index.SequenceEqual(new[] { nameof(JournalEntryLine.AccountId), nameof(JournalEntryLine.JournalEntryId), nameof(JournalEntryLine.JournalEntryLineId) }));
++    }
++
++    private static DataContext CreateContext()
++    {
++        var options = new DbContextOptionsBuilder<DataContext>()
++            .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=FinancialAccountingModelTests;Trusted_Connection=True;TrustServerCertificate=True;")
++            .Options;
++
++        return new DataContext(options);
++    }
++}
