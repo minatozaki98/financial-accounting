@@ -33,6 +33,12 @@ HEADING_STYLE_SIZES = {
 
 TABLE_CAPTION_TITLES = {
     (
+        "Review dimension",
+        "Decision rule",
+        "Observed evidence",
+        "Disposition",
+    ): "Operational review rubric linking measured gates to observed decisions.",
+    (
         "Study and setup",
         "Reported result",
         "Boundary for this thesis",
