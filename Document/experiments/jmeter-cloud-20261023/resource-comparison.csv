@@ -1,0 +1,6 @@
+profile,api_p95_cpu_cores_before,api_p95_cpu_cores_after,sql_p95_cpu_cores_before,sql_p95_cpu_cores_after,generator_p95_cpu_cores_after,sql_throttled_period_pct_before,sql_throttled_period_pct_after,api_peak_ram_pct_cap_after,sql_peak_ram_pct_cap_after,generator_peak_ram_pct_cap_after,minimum_host_available_mib,maximum_host_swap_used_mib,maximum_container_oom_kills
+p50,0.84,0.65,1.76,0.55,0.23,27.14,0.0,10.0,29.2,33.2,5847.1,0.0,0
+p100,0.95,1.07,2.06,1.02,0.39,87.62,0.35,11.4,29.7,38.2,5751.8,0.0,0
+p500,1.01,1.64,2.08,1.93,0.96,86.76,30.66,23.8,30.3,56.7,5100.0,0.0,0
+soak,0.93,1.09,2.05,1.24,0.35,87.82,1.52,12.0,29.9,54.1,5158.3,0.0,0
+spike,0.99,1.67,2.06,1.96,0.68,90.61,31.89,27.6,29.8,56.8,5073.2,0.0,0
