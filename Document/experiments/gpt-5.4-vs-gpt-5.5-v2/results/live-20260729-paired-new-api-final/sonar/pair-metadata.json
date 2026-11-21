@@ -1,0 +1,9 @@
+﻿{
+    "runId":  "live-20260729-paired-new-api-final",
+    "sonarImage":  "sonarqube:community",
+    "sonarVersion":  "26.7.0.124771",
+    "scannerVersion":  "SonarScanner for .NET 11.1",
+    "server":  "temporary isolated server; removed after export",
+    "profile":  "same fresh default profile for both candidates",
+    "completedAtUtc":  "2026-07-29T16:43:19.8533026Z"
+}

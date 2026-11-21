@@ -1,0 +1,42 @@
+﻿{
+    "modelLabel":  "GPT-5.4",
+    "projectKey":  "financial-accounting-sonar-v2-gpt54-final",
+    "qualityGate":  "OK",
+    "issueCount":  0,
+    "ruleCounts":  {
+
+                   },
+    "typeCounts":  {
+
+                   },
+    "severityCounts":  {
+
+                       },
+    "measures":  {
+                     "coverage":  "76.2",
+                     "bugs":  "0",
+                     "complexity":  "1467",
+                     "reliability_rating":  "1.0",
+                     "code_smells":  "0",
+                     "duplicated_lines_density":  "0.0",
+                     "cognitive_complexity":  "340",
+                     "security_rating":  "1.0",
+                     "ncloc":  "5395",
+                     "vulnerabilities":  "0",
+                     "security_hotspots":  "0"
+                 },
+    "source":  {
+                   "path":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-sonar-v2",
+                   "headSha":  "33ec4293653874baaeff07a1a4b23a78112f33ff",
+                   "dirty":  false,
+                   "status":  [
+
+                              ],
+                   "patchSha256":  "F01A374E9C81E3DB89B3A42940C4D6A5447684986A1296E42BF13F196EED6295"
+               },
+    "scannerVersion":  "SonarScanner for .NET 11.1",
+    "sonarUrl":  "http://localhost:9001",
+    "ceTaskId":  "dc0bae49-7033-4a90-a591-6656c8b20f60",
+    "analysisId":  "028eef04-110e-467e-8275-b3f08244019f",
+    "completedAtUtc":  "2026-07-29T16:41:43.1067348Z"
+}

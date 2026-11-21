@@ -1,0 +1,74 @@
+﻿{
+    "metadata":  {
+                     "projectKey":  "financial-accounting-sonar-v2-gpt55-live",
+                     "projectVersion":  "1.0",
+                     "sourceRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-sonar-v2",
+                     "sourceSha":  "59e2e3d73172fd4aef8814573bde8af96c7d1f74",
+                     "sonarUrl":  "http://localhost:9001",
+                     "scannerVersion":  "SonarScanner for .NET 11.1",
+                     "exportedAtUtc":  "2026-07-29T15:30:36.3612264Z"
+                 },
+    "issueCount":  6,
+    "issueCountByRule":  [
+                             {
+                                 "rule":  "csharpsquid:S1118",
+                                 "count":  2
+                             },
+                             {
+                                 "rule":  "csharpsquid:S2325",
+                                 "count":  1
+                             },
+                             {
+                                 "rule":  "external_roslyn:CA1822",
+                                 "count":  1
+                             },
+                             {
+                                 "rule":  "external_roslyn:CA1859",
+                                 "count":  1
+                             },
+                             {
+                                 "rule":  "csharpsquid:S3923",
+                                 "count":  1
+                             }
+                         ],
+    "issueCountByType":  [
+                             {
+                                 "type":  "BUG",
+                                 "count":  1
+                             },
+                             {
+                                 "type":  "CODE_SMELL",
+                                 "count":  5
+                             }
+                         ],
+    "issueCountBySeverity":  [
+                                 {
+                                     "severity":  "INFO",
+                                     "count":  2
+                                 },
+                                 {
+                                     "severity":  "MAJOR",
+                                     "count":  3
+                                 },
+                                 {
+                                     "severity":  "MINOR",
+                                     "count":  1
+                                 }
+                             ],
+    "measures":  {
+                     "coverage":  "74.9",
+                     "bugs":  "1",
+                     "complexity":  "1545",
+                     "reliability_rating":  "3.0",
+                     "code_smells":  "5",
+                     "duplicated_lines_density":  "0.0",
+                     "cognitive_complexity":  "331",
+                     "security_rating":  "1.0",
+                     "ncloc":  "5463",
+                     "vulnerabilities":  "0",
+                     "security_hotspots":  "0",
+                     "sqale_rating":  "1.0"
+                 },
+    "qualityGateStatus":  "OK",
+    "ignoredConditions":  false
+}

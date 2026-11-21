@@ -1,0 +1,110 @@
+{
+  "analysis_protocol_version": 2,
+  "valid_run": true,
+  "concurrency": {
+    "valid": true,
+    "target_users": 50,
+    "observed_peak": 50,
+    "ramp_peak": 50,
+    "unique_threads": 50,
+    "hold_bins": 120,
+    "bins_observed": 120,
+    "full_bins": 120,
+    "min_hold_active": 50,
+    "median_hold_active": 50.0,
+    "failures": [],
+    "jtl_missing_bins": 0,
+    "jtl_diagnostics": {
+      "valid": true,
+      "target_users": 50,
+      "observed_peak": 50,
+      "ramp_peak": 50,
+      "unique_threads": 50,
+      "hold_bins": 120,
+      "bins_observed": 120,
+      "full_bins": 120,
+      "min_hold_active": 50,
+      "median_hold_active": 50.0,
+      "failures": []
+    },
+    "lifecycle": {
+      "valid": true,
+      "failures": [],
+      "target_users": 50,
+      "started_threads": 50,
+      "finished_threads": 50,
+      "active_at_window_start": 50,
+      "minimum_active": 50,
+      "maximum_active": 50,
+      "settle_seconds": 0
+    }
+  },
+  "jmeter_log_error_count": 0,
+  "hold": {
+    "samples": 115246,
+    "errors": 0,
+    "error_pct": 0.0,
+    "requests_per_second": 192.0767,
+    "p50_ms": 9,
+    "p95_ms": 156,
+    "p99_ms": 468
+  },
+  "endpoints": {
+    "GET /accounts": {
+      "samples": 23492,
+      "errors": 0,
+      "p95_ms": 25,
+      "p99_ms": 76
+    },
+    "GET /journal-entries": {
+      "samples": 23495,
+      "errors": 0,
+      "p95_ms": 78,
+      "p99_ms": 528
+    },
+    "GET /periods": {
+      "samples": 23495,
+      "errors": 0,
+      "p95_ms": 23,
+      "p99_ms": 72
+    },
+    "GET /reports/account-ledger": {
+      "samples": 3544,
+      "errors": 0,
+      "p95_ms": 366,
+      "p99_ms": 1189
+    },
+    "GET /reports/balance-sheet": {
+      "samples": 3544,
+      "errors": 0,
+      "p95_ms": 300,
+      "p99_ms": 1176
+    },
+    "GET /reports/profit-loss": {
+      "samples": 3545,
+      "errors": 0,
+      "p95_ms": 311,
+      "p99_ms": 966
+    },
+    "GET /reports/trial-balance": {
+      "samples": 3546,
+      "errors": 0,
+      "p95_ms": 318,
+      "p99_ms": 1763
+    },
+    "GET /users/me": {
+      "samples": 27039,
+      "errors": 0,
+      "p95_ms": 36,
+      "p99_ms": 110
+    },
+    "POST /journal-entries/bulk": {
+      "samples": 3546,
+      "errors": 0,
+      "p95_ms": 95,
+      "p99_ms": 350
+    }
+  },
+  "error_codes": {},
+  "test_start_ms": 1792923014927
+}

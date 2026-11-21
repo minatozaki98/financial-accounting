@@ -1,0 +1,52 @@
+﻿{
+    "baseUrl":  "http://localhost:5296",
+    "openApiUrl":  "http://localhost:5296/swagger/v1/swagger.json",
+    "dockerOpenApiUrl":  "http://host.docker.internal:5296/swagger/v1/swagger.json",
+    "image":  "ghcr.io/zaproxy/zaproxy:stable",
+    "outputPrefix":  "zap-gpt54-live",
+    "skipZapScan":  false,
+    "safeMode":  false,
+    "zapExitCode":  0,
+    "endpointCoveragePath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\endpoint-coverage.json",
+    "endpointCoverageSummaryPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\endpoint-coverage-summary.json",
+    "verifiedAlertsPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\verified-alerts.json",
+    "htmlReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\zap-gpt54-live.html",
+    "jsonReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\zap-gpt54-live.json",
+    "markdownReportPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\zap\\gpt-5.4\\zap-gpt54-live.md",
+    "verifiedBusinessAlertInstances":  12,
+    "distinctAlertIds":  4,
+    "mediumOrHigherInstances":  1,
+    "alertGroups":  [
+                        {
+                            "alertId":  "10049",
+                            "count":  5,
+                            "name":  "Non-Storable Content",
+                            "risk":  "Informational"
+                        },
+                        {
+                            "alertId":  "10104",
+                            "count":  5,
+                            "name":  "User Agent Fuzzer",
+                            "risk":  "Informational"
+                        },
+                        {
+                            "alertId":  "10106",
+                            "count":  1,
+                            "name":  "HTTP Only Site",
+                            "risk":  "Medium"
+                        },
+                        {
+                            "alertId":  "10024",
+                            "count":  1,
+                            "name":  "Information Disclosure - Sensitive Information in URL",
+                            "risk":  "Informational"
+                        }
+                    ],
+    "validityGate":  {
+                         "endpointCoverage":  true,
+                         "atLeastEightBusinessAlertInstances":  true,
+                         "atLeastFourDistinctAlertIds":  true,
+                         "atLeastTwoMediumOrHigherInstances":  false
+                     },
+    "completedAtUtc":  "2026-07-29T15:48:09.7656375Z"
+}

@@ -1,0 +1,432 @@
+﻿[
+    {
+        "method":  "POST",
+        "route":  "/auth/login",
+        "role":  "Admin",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "authentication",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "POST",
+        "route":  "/users",
+        "role":  "Admin",
+        "requestStatus":  201,
+        "expectedStatus":  [
+                               201
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  "Created FinanceManager probe user"
+    },
+    {
+        "method":  "POST",
+        "route":  "/auth/login",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "authentication",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "POST",
+        "route":  "/users",
+        "role":  "Admin",
+        "requestStatus":  201,
+        "expectedStatus":  [
+                               201
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  "Created User probe user"
+    },
+    {
+        "method":  "POST",
+        "route":  "/auth/login",
+        "role":  "User",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "authentication",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "POST",
+        "route":  "/users",
+        "role":  "Admin",
+        "requestStatus":  201,
+        "expectedStatus":  [
+                               201
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  "Created Auditor probe user"
+    },
+    {
+        "method":  "POST",
+        "route":  "/auth/login",
+        "role":  "Auditor",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "authentication",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/users/me",
+        "role":  "Admin",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/users/me",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/users/me",
+        "role":  "User",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/users/me",
+        "role":  "Auditor",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/accounts",
+        "role":  "Admin",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/periods",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "workflow-setup",
+        "businessStateValid":  true,
+        "notes":  ""
+    },
+    {
+        "method":  "GET",
+        "route":  "/periods/{id}/close-preview",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Valid period-close preview"
+    },
+    {
+        "method":  "POST",
+        "route":  "/periods/{id}/close",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Valid period-close execution"
+    },
+    {
+        "method":  "POST",
+        "route":  "/periods/{id}/close",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Idempotent period-close replay"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/validate",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Valid multipart journal import"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/{guid}/commit",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Commit valid journal import"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/{guid}/commit",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Replay valid journal import commit"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/validate",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Invalid atomic multipart journal import validation"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/{guid}/commit",
+        "role":  "FinanceManager",
+        "requestStatus":  400,
+        "expectedStatus":  [
+                               400,
+                               409
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Invalid atomic import commit rejection"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-entries",
+        "role":  "FinanceManager",
+        "requestStatus":  201,
+        "expectedStatus":  [
+                               201
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Create reconciliation setup draft"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-entries/{id}/post",
+        "role":  "FinanceManager",
+        "requestStatus":  204,
+        "expectedStatus":  [
+                               204
+                           ],
+        "contentType":  "",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Post reconciliation setup journal entry"
+    },
+    {
+        "method":  "POST",
+        "route":  "/reconciliations",
+        "role":  "FinanceManager",
+        "requestStatus":  201,
+        "expectedStatus":  [
+                               201
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Create valid reconciliation"
+    },
+    {
+        "method":  "POST",
+        "route":  "/reconciliations/{guid}/auto-match",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Auto-match valid reconciliation"
+    },
+    {
+        "method":  "GET",
+        "route":  "/reconciliations/{guid}/exceptions",
+        "role":  "Auditor",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Auditor exception listing"
+    },
+    {
+        "method":  "POST",
+        "route":  "/reconciliations/{guid}/finalize",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Finalize valid reconciliation"
+    },
+    {
+        "method":  "POST",
+        "route":  "/reconciliations/{guid}/finalize",
+        "role":  "FinanceManager",
+        "requestStatus":  200,
+        "expectedStatus":  [
+                               200
+                           ],
+        "contentType":  "application/json; charset=utf-8",
+        "probeKind":  "business-workflow",
+        "businessStateValid":  true,
+        "notes":  "Replay reconciliation finalization"
+    },
+    {
+        "method":  "GET",
+        "route":  "/periods",
+        "role":  "Anonymous",
+        "requestStatus":  401,
+        "expectedStatus":  [
+                               401
+                           ],
+        "contentType":  "",
+        "probeKind":  "authorization-boundary",
+        "businessStateValid":  false,
+        "notes":  "Unauthenticated periods probe"
+    },
+    {
+        "method":  "POST",
+        "route":  "/journal-imports/validate",
+        "role":  "User",
+        "requestStatus":  403,
+        "expectedStatus":  [
+                               403
+                           ],
+        "contentType":  "",
+        "probeKind":  "authorization-boundary",
+        "businessStateValid":  false,
+        "notes":  "Forbidden import validation role"
+    },
+    {
+        "method":  "POST",
+        "route":  "/reconciliations",
+        "role":  "Auditor",
+        "requestStatus":  403,
+        "expectedStatus":  [
+                               403
+                           ],
+        "contentType":  "",
+        "probeKind":  "authorization-boundary",
+        "businessStateValid":  false,
+        "notes":  "Forbidden reconciliation create role"
+    },
+    {
+        "method":  "GET",
+        "route":  "/reconciliations/{guid}/exceptions",
+        "role":  "User",
+        "requestStatus":  403,
+        "expectedStatus":  [
+                               403
+                           ],
+        "contentType":  "",
+        "probeKind":  "authorization-boundary",
+        "businessStateValid":  false,
+        "notes":  "Forbidden exception listing role"
+    },
+    {
+        "method":  "POST",
+        "route":  "/periods/{id}/close",
+        "role":  "User",
+        "requestStatus":  403,
+        "expectedStatus":  [
+                               403
+                           ],
+        "contentType":  "",
+        "probeKind":  "authorization-boundary",
+        "businessStateValid":  false,
+        "notes":  "Forbidden period-close role"
+    }
+]

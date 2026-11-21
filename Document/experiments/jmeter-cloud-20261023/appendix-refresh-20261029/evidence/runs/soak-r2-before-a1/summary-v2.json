@@ -1,0 +1,253 @@
+{
+  "analysis_protocol_version": 2,
+  "valid_run": true,
+  "concurrency": {
+    "valid": true,
+    "target_users": 100,
+    "observed_peak": 100,
+    "ramp_peak": 100,
+    "unique_threads": 100,
+    "hold_bins": 540,
+    "bins_observed": 540,
+    "full_bins": 540,
+    "min_hold_active": 100,
+    "median_hold_active": 100.0,
+    "failures": [],
+    "jtl_missing_bins": 0,
+    "jtl_diagnostics": {
+      "valid": true,
+      "target_users": 100,
+      "observed_peak": 100,
+      "ramp_peak": 100,
+      "unique_threads": 100,
+      "hold_bins": 540,
+      "bins_observed": 540,
+      "full_bins": 540,
+      "min_hold_active": 100,
+      "median_hold_active": 100.0,
+      "failures": []
+    },
+    "lifecycle": {
+      "valid": true,
+      "failures": [],
+      "target_users": 100,
+      "started_threads": 100,
+      "finished_threads": 100,
+      "active_at_window_start": 100,
+      "minimum_active": 100,
+      "maximum_active": 100,
+      "settle_seconds": 0
+    }
+  },
+  "jmeter_log_error_count": 0,
+  "hold": {
+    "samples": 778633,
+    "errors": 0,
+    "error_pct": 0.0,
+    "requests_per_second": 288.3826,
+    "p50_ms": 45,
+    "p95_ms": 672,
+    "p99_ms": 1152
+  },
+  "endpoints": {
+    "GET /accounts": {
+      "samples": 170391,
+      "errors": 0,
+      "p95_ms": 66,
+      "p99_ms": 134
+    },
+    "GET /journal-entries": {
+      "samples": 170406,
+      "errors": 0,
+      "p95_ms": 295,
+      "p99_ms": 946
+    },
+    "GET /periods": {
+      "samples": 170394,
+      "errors": 0,
+      "p95_ms": 64,
+      "p99_ms": 126
+    },
+    "GET /reports/account-ledger": {
+      "samples": 16177,
+      "errors": 0,
+      "p95_ms": 1208,
+      "p99_ms": 2718
+    },
+    "GET /reports/balance-sheet": {
+      "samples": 16176,
+      "errors": 0,
+      "p95_ms": 1164,
+      "p99_ms": 2703
+    },
+    "GET /reports/profit-loss": {
+      "samples": 16178,
+      "errors": 0,
+      "p95_ms": 1171,
+      "p99_ms": 2720
+    },
+    "GET /reports/trial-balance": {
+      "samples": 16175,
+      "errors": 0,
+      "p95_ms": 1180,
+      "p99_ms": 2786
+    },
+    "GET /users/me": {
+      "samples": 186563,
+      "errors": 0,
+      "p95_ms": 105,
+      "p99_ms": 197
+    },
+    "POST /journal-entries/bulk": {
+      "samples": 16173,
+      "errors": 0,
+      "p95_ms": 404,
+      "p99_ms": 1639
+    }
+  },
+  "error_codes": {},
+  "test_start_ms": 1792947889663,
+  "soak": {
+    "first_10_minutes": {
+      "samples": 174965,
+      "errors": 0,
+      "error_pct": 0.0,
+      "requests_per_second": 291.6083,
+      "p95_ms": 652,
+      "p99_ms": 1182,
+      "error_codes": {},
+      "endpoints": {
+        "GET /accounts": {
+          "samples": 38250,
+          "errors": 0,
+          "p95_ms": 65,
+          "p99_ms": 135
+        },
+        "GET /journal-entries": {
+          "samples": 38271,
+          "errors": 0,
+          "p95_ms": 280,
+          "p99_ms": 904
+        },
+        "GET /periods": {
+          "samples": 38254,
+          "errors": 0,
+          "p95_ms": 64,
+          "p99_ms": 140
+        },
+        "GET /reports/account-ledger": {
+          "samples": 3658,
+          "errors": 0,
+          "p95_ms": 1206,
+          "p99_ms": 2733
+        },
+        "GET /reports/balance-sheet": {
+          "samples": 3658,
+          "errors": 0,
+          "p95_ms": 1174,
+          "p99_ms": 2699
+        },
+        "GET /reports/profit-loss": {
+          "samples": 3655,
+          "errors": 0,
+          "p95_ms": 1143,
+          "p99_ms": 2647
+        },
+        "GET /reports/trial-balance": {
+          "samples": 3654,
+          "errors": 0,
+          "p95_ms": 1190,
+          "p99_ms": 2900
+        },
+        "GET /users/me": {
+          "samples": 41912,
+          "errors": 0,
+          "p95_ms": 103,
+          "p99_ms": 460
+        },
+        "POST /journal-entries/bulk": {
+          "samples": 3653,
+          "errors": 0,
+          "p95_ms": 388,
+          "p99_ms": 1743
+        }
+      }
+    },
+    "last_10_minutes": {
+      "samples": 167618,
+      "errors": 0,
+      "error_pct": 0.0,
+      "requests_per_second": 279.3633,
+      "p95_ms": 724,
+      "p99_ms": 1202,
+      "error_codes": {},
+      "endpoints": {
+        "GET /accounts": {
+          "samples": 36796,
+          "errors": 0,
+          "p95_ms": 68,
+          "p99_ms": 477
+        },
+        "GET /journal-entries": {
+          "samples": 36794,
+          "errors": 0,
+          "p95_ms": 312,
+          "p99_ms": 1028
+        },
+        "GET /periods": {
+          "samples": 36793,
+          "errors": 0,
+          "p95_ms": 66,
+          "p99_ms": 110
+        },
+        "GET /reports/account-ledger": {
+          "samples": 3407,
+          "errors": 0,
+          "p95_ms": 1260,
+          "p99_ms": 3089
+        },
+        "GET /reports/balance-sheet": {
+          "samples": 3405,
+          "errors": 0,
+          "p95_ms": 1202,
+          "p99_ms": 3264
+        },
+        "GET /reports/profit-loss": {
+          "samples": 3407,
+          "errors": 0,
+          "p95_ms": 1217,
+          "p99_ms": 3257
+        },
+        "GET /reports/trial-balance": {
+          "samples": 3407,
+          "errors": 0,
+          "p95_ms": 1175,
+          "p99_ms": 2953
+        },
+        "GET /users/me": {
+          "samples": 40201,
+          "errors": 0,
+          "p95_ms": 109,
+          "p99_ms": 191
+        },
+        "POST /journal-entries/bulk": {
+          "samples": 3408,
+          "errors": 0,
+          "p95_ms": 427,
+          "p99_ms": 1771
+        }
+      }
+    },
+    "p95_drift_pct": 11.043
+  },
+  "legacy_first_last_20pct_samples": {
+    "window_samples": 161572,
+    "first_p95_ms": 626,
+    "last_p95_ms": 705,
+    "drift_pct": 12.62
+  },
+  "performance_gates": {
+    "error_pct_at_most_1": true,
+    "p95_drift_at_most_20": true
+  }
+}

@@ -1,0 +1,71 @@
+﻿diff --git a/API/SonarChallenge/SonarChallengeRequestInspector.cs b/API/SonarChallenge/SonarChallengeRequestInspector.cs
+index 33553fe..0ab7157 100644
+--- a/API/SonarChallenge/SonarChallengeRequestInspector.cs
++++ b/API/SonarChallenge/SonarChallengeRequestInspector.cs
+@@ -5,6 +5,10 @@ namespace API.SonarChallenge
+         private const string ManualReviewRequired = "manual-review-required";
+         private const string SwaggerDocumentationLink = "http://localhost:5296/swagger/v1/swagger.json";
+ 
++        private SonarChallengeRequestInspector()
++        {
++        }
++
+         public static string BuildAuditTrace(RequestAuditTrace trace)
+         {
+             ArgumentNullException.ThrowIfNull(trace);
+@@ -37,11 +41,8 @@ namespace API.SonarChallenge
+ 
+         public static string ResolveDocumentationLink(string routeName)
+         {
+-            return routeName switch
+-            {
+-                "periods" or "journal-imports" or "reconciliations" => SwaggerDocumentationLink,
+-                _ => SwaggerDocumentationLink
+-            };
++            _ = routeName;
++            return SwaggerDocumentationLink;
+         }
+ 
+         public static void ThrowForUnsupportedRoute(string routeName)
+diff --git a/BAL/Services/JournalImportService.cs b/BAL/Services/JournalImportService.cs
+index 9576794..93cbc58 100644
+--- a/BAL/Services/JournalImportService.cs
++++ b/BAL/Services/JournalImportService.cs
+@@ -354,7 +354,7 @@ namespace BAL.Services
+ 
+         private static void ValidateReferenceGroup(
+             IGrouping<string, JournalImportRow> group,
+-            ISet<string> duplicateReferences)
++            HashSet<string> duplicateReferences)
+         {
+             if (group.Key.Length == 0)
+             {
+diff --git a/BAL/Services/SonarChallengeReconciliationAnalyzer.cs b/BAL/Services/SonarChallengeReconciliationAnalyzer.cs
+index 6ca65ed..d9306b7 100644
+--- a/BAL/Services/SonarChallengeReconciliationAnalyzer.cs
++++ b/BAL/Services/SonarChallengeReconciliationAnalyzer.cs
+@@ -6,6 +6,10 @@ namespace BAL.Services
+         private const string AmbiguousStatus = "Ambiguous";
+         private const string UnmatchedStatus = "Unmatched";
+ 
++        private SonarChallengeReconciliationAnalyzer()
++        {
++        }
++
+         public static string BuildCandidateNarrative(ReconciliationCandidateNarrative narrative)
+         {
+             ArgumentNullException.ThrowIfNull(narrative);
+diff --git a/MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs b/MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs
+index 4989b35..120aa6d 100644
+--- a/MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs
++++ b/MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs
+@@ -33,7 +33,7 @@ namespace MODEL.SonarChallenge
+             return OpenReviewStatus;
+         }
+ 
+-        public decimal NormalizeBalance(decimal debit, decimal credit)
++        public static decimal NormalizeBalance(decimal debit, decimal credit)
+         {
+             return debit - credit;
+         }
+

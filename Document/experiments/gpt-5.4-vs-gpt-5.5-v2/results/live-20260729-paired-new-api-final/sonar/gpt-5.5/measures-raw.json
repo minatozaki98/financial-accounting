@@ -1,0 +1,62 @@
+﻿{
+    "component":  {
+                      "key":  "financial-accounting-sonar-v2-gpt55-final",
+                      "name":  "Financial Accounting Sonar v2 GPT-5.5 Final",
+                      "qualifier":  "TRK",
+                      "measures":  [
+                                       {
+                                           "metric":  "coverage",
+                                           "value":  "74.8",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "bugs",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "complexity",
+                                           "value":  "1543"
+                                       },
+                                       {
+                                           "metric":  "reliability_rating",
+                                           "value":  "1.0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "code_smells",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "duplicated_lines_density",
+                                           "value":  "0.0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "cognitive_complexity",
+                                           "value":  "329",
+                                           "bestValue":  false
+                                       },
+                                       {
+                                           "metric":  "security_rating",
+                                           "value":  "1.0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "ncloc",
+                                           "value":  "5466"
+                                       },
+                                       {
+                                           "metric":  "vulnerabilities",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       },
+                                       {
+                                           "metric":  "security_hotspots",
+                                           "value":  "0",
+                                           "bestValue":  true
+                                       }
+                                   ]
+                  }
+}

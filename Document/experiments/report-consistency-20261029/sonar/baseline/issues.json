@@ -1,0 +1,1073 @@
+{
+  "total": 17,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 17
+  },
+  "effortTotal": 96,
+  "issues": [
+    {
+      "key": "92e565db-2915-4b3a-8b68-8b1f8ef60d55",
+      "rule": "csharpsquid:S1118",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:API/Program.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 190,
+      "hash": "c65d7262225e479c211afd60b3418b45",
+      "textRange": {
+        "startLine": 190,
+        "endLine": 190,
+        "startOffset": 21,
+        "endOffset": 28
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration.",
+      "effort": "10min",
+      "debt": "10min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-02-19T21:26:02+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6da3fa66-2445-457e-a4c6-6a4f5f0fceef",
+      "rule": "external_roslyn:xUnit1042",
+      "severity": "INFO",
+      "component": "financial-accounting-thesis-baseline-v01:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 35,
+      "hash": "a4c7baca5474c7ca78c2a4569784aaa5",
+      "textRange": {
+        "startLine": 35,
+        "endLine": 35,
+        "startOffset": 5,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "The member referenced by the MemberData attribute returns untyped data rows, such as object[]. Consider using TheoryData<> as the return type to provide better type safety.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [],
+      "creationDate": "2026-02-19T21:26:02+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "20521d9c-aed8-4b69-8088-e57eea8ffab3",
+      "rule": "external_roslyn:CA1861",
+      "severity": "INFO",
+      "component": "financial-accounting-thesis-baseline-v01:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 46,
+      "hash": "f3c8a6a5420fa5a4c91c4df54510a426",
+      "textRange": {
+        "startLine": 46,
+        "endLine": 46,
+        "startOffset": 12,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [],
+      "creationDate": "2026-02-19T21:26:02+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "ae5c58d3-1f84-4e9b-b9b9-a45eb66db95e",
+      "rule": "external_roslyn:CA1861",
+      "severity": "INFO",
+      "component": "financial-accounting-thesis-baseline-v01:tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 37,
+      "hash": "7feacad2f6dde2b238bd145c2cd88cb2",
+      "textRange": {
+        "startLine": 37,
+        "endLine": 37,
+        "startOffset": 66,
+        "endOffset": 91
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [],
+      "creationDate": "2026-02-19T21:26:02+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "43a58e8d-4103-4428-898f-c8aa7f8c4a1a",
+      "rule": "csharpsquid:S107",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:API/Controllers/JournalEntriesController.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 62,
+      "hash": "3e8279ce2143830bc7795590e212121f",
+      "textRange": {
+        "startLine": 62,
+        "endLine": 70,
+        "startOffset": 49,
+        "endOffset": 56
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Method has 8 parameters, which is greater than the 7 authorized.",
+      "effort": "20min",
+      "debt": "20min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "50f6d055-5672-4a9d-ac42-0211c8e812d3",
+      "rule": "csharpsquid:S107",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/IServices/IJournalEntryService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 10,
+      "hash": "e29e14333e492ee70e7303beb77cc18b",
+      "textRange": {
+        "startLine": 10,
+        "endLine": 18,
+        "startOffset": 67,
+        "endOffset": 25
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Method has 8 parameters, which is greater than the 7 authorized.",
+      "effort": "20min",
+      "debt": "20min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "43190cde-eb85-413a-935c-85f55f0d2c40",
+      "rule": "external_roslyn:CA1862",
+      "severity": "INFO",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Services/FinancialAuthService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 130,
+      "hash": "f26e94ad4e0e36ea170f185b5d8aec70",
+      "textRange": {
+        "startLine": 130,
+        "endLine": 130,
+        "startOffset": 42,
+        "endOffset": 84
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison, but keep in mind that this might cause subtle changes in behavior, so make sure to conduct thorough testing after applying the suggestion, or if culturally sensitive comparison is not required, consider using 'StringComparison.OrdinalIgnoreCase'",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "02b7fe6a-9233-4c56-8621-0d22953e3ee7",
+      "rule": "csharpsquid:S3260",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Services/FinancialReportService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 317,
+      "hash": "4eea2b0d98711ab6acffe5affb065d6f",
+      "textRange": {
+        "startLine": 317,
+        "endLine": 317,
+        "startOffset": 22,
+        "endOffset": 38
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Private classes which are not derived in the current assembly should be marked as 'sealed'.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "performance"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "EFFICIENT",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "3fc33786-32ea-4225-9889-98b3727623d4",
+      "rule": "csharpsquid:S1192",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 29,
+      "hash": "e6eb48f97f70e417d27932fb8c96bc5b",
+      "textRange": {
+        "startLine": 29,
+        "endLine": 29,
+        "startOffset": 25,
+        "endOffset": 32
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 77,
+                "endLine": 77,
+                "startOffset": 29,
+                "endOffset": 36
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 207,
+                "endLine": 207,
+                "startOffset": 62,
+                "endOffset": 69
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 323,
+                "endLine": 323,
+                "startOffset": 64,
+                "endOffset": 71
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of using this literal 'Draft' 4 times.",
+      "effort": "4min",
+      "debt": "4min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "f29d1521-7669-4547-9103-8c1deb31ba3b",
+      "rule": "csharpsquid:S1192",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 51,
+      "hash": "7132c853fa45fce54a5808b6cc3c7f45",
+      "textRange": {
+        "startLine": 51,
+        "endLine": 51,
+        "startOffset": 16,
+        "endOffset": 32
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 102,
+                "endLine": 102,
+                "startOffset": 16,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 238,
+                "endLine": 238,
+                "startOffset": 16,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 309,
+                "endLine": 309,
+                "startOffset": 16,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 335,
+                "endLine": 335,
+                "startOffset": 16,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of using this literal 'JournalEntries' 5 times.",
+      "effort": "4min",
+      "debt": "4min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "b6928a1f-9f04-4369-9a0f-e2f1908d9a8f",
+      "rule": "csharpsquid:S1192",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 225,
+      "hash": "7582b77181bb7214440ce34256b6927d",
+      "textRange": {
+        "startLine": 225,
+        "endLine": 225,
+        "startOffset": 27,
+        "endOffset": 35
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 257,
+                "endLine": 257,
+                "startOffset": 48,
+                "endOffset": 56
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 278,
+                "endLine": 278,
+                "startOffset": 25,
+                "endOffset": 33
+              },
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+              "textRange": {
+                "startLine": 390,
+                "endLine": 390,
+                "startOffset": 42,
+                "endOffset": 50
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of using this literal 'Posted' 4 times.",
+      "effort": "4min",
+      "debt": "4min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "f3e74d06-b0e0-4c73-a393-f747bea55ee2",
+      "rule": "csharpsquid:S125",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:MODEL/DataContext.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 38,
+      "hash": "cffd37dc03cd166a6646bde424740230",
+      "textRange": {
+        "startLine": 38,
+        "endLine": 38,
+        "startOffset": 16,
+        "endOffset": 69
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2026-02-18T00:10:26+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "45216e25-33ba-436c-baed-bd6217023149",
+      "rule": "csharpsquid:S6966",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:API/Program.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 188,
+      "hash": "2c00f42b764b8134043380893434076b",
+      "textRange": {
+        "startLine": 188,
+        "endLine": 188,
+        "startOffset": 0,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Await RunAsync instead.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "async-await"
+      ],
+      "creationDate": "2025-08-24T15:00:11+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "de6af286-f5de-420d-8a4f-69bfc119470d",
+      "rule": "azureresourcemanager:S117",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 38,
+      "hash": "fc5adde5f460bec94b8a10ae18eeba7b",
+      "textRange": {
+        "startLine": 38,
+        "endLine": 38,
+        "startOffset": 4,
+        "endOffset": 25
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Rename this variable \"appServicePlan_name\" to match the regular expression \"^[a-z][a-zA-Z0-9]*$\".",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "convention"
+      ],
+      "creationDate": "2025-08-24T15:00:11+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "IDENTIFIABLE",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fcb4dc96-a7a1-40e1-bb55-8dc4700ccc4c",
+      "rule": "azureresourcemanager:S117",
+      "severity": "MINOR",
+      "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 39,
+      "hash": "fa77de60ad4832637068a27c09c13135",
+      "textRange": {
+        "startLine": 39,
+        "endLine": 39,
+        "startOffset": 4,
+        "endOffset": 31
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Rename this variable \"appServicePlan_ResourceId\" to match the regular expression \"^[a-z][a-zA-Z0-9]*$\".",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "convention"
+      ],
+      "creationDate": "2025-08-24T15:00:11+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "IDENTIFIABLE",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "cd8aa516-7e2e-492f-b0d6-38f522996809",
+      "rule": "azureresourcemanager:S6952",
+      "severity": "CRITICAL",
+      "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 50,
+      "hash": "bdfa123c5db3402afd77699506217a3f",
+      "textRange": {
+        "startLine": 50,
+        "endLine": 50,
+        "startOffset": 21,
+        "endOffset": 39
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 59,
+                "endLine": 59,
+                "startOffset": 34,
+                "endOffset": 52
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 91,
+                "endLine": 91,
+                "startOffset": 124,
+                "endOffset": 142
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 92,
+                "endLine": 92,
+                "startOffset": 131,
+                "endOffset": 149
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 93,
+                "endLine": 93,
+                "startOffset": 125,
+                "endOffset": 143
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this explicit dependency as it is already defined implicitly.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [],
+      "creationDate": "2025-08-24T15:00:11+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "1066e347-2878-4d9f-a77e-487c02a8a302",
+      "rule": "csharpsquid:S1118",
+      "severity": "MAJOR",
+      "component": "financial-accounting-thesis-baseline-v01:BAL/Shared/ServiceManager.cs",
+      "project": "financial-accounting-thesis-baseline-v01",
+      "line": 15,
+      "hash": "4340902db131e34b5ff57dfeeabd8c6f",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 15,
+        "startOffset": 17,
+        "endOffset": 31
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration.",
+      "effort": "10min",
+      "debt": "10min",
+      "author": "138420416+minatozaki98@users.noreply.github.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2025-08-24T15:00:11+07:00",
+      "updateDate": "2026-09-22T18:29:54+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "financial-accounting-thesis-baseline-v01:BAL/Services/JournalEntryService.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "JournalEntryService.cs",
+      "longName": "BAL/Services/JournalEntryService.cs",
+      "path": "BAL/Services/JournalEntryService.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:BAL/Services/FinancialAuthService.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "FinancialAuthService.cs",
+      "longName": "BAL/Services/FinancialAuthService.cs",
+      "path": "BAL/Services/FinancialAuthService.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:BAL/Services/FinancialReportService.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "FinancialReportService.cs",
+      "longName": "BAL/Services/FinancialReportService.cs",
+      "path": "BAL/Services/FinancialReportService.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:BAL/Shared/ServiceManager.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "ServiceManager.cs",
+      "longName": "BAL/Shared/ServiceManager.cs",
+      "path": "BAL/Shared/ServiceManager.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:MODEL/DataContext.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "DataContext.cs",
+      "longName": "MODEL/DataContext.cs",
+      "path": "MODEL/DataContext.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "profile.arm.json",
+      "longName": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "path": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "Financial Accounting Thesis baseline",
+      "longName": "Financial Accounting Thesis baseline"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:API/Program.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Program.cs",
+      "longName": "API/Program.cs",
+      "path": "API/Program.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:API/Controllers/JournalEntriesController.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "JournalEntriesController.cs",
+      "longName": "API/Controllers/JournalEntriesController.cs",
+      "path": "API/Controllers/JournalEntriesController.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "profile.arm.json",
+      "longName": "API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "path": "API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "RbacMatrixTests.cs",
+      "longName": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "path": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "FinancialTokenProviderTests.cs",
+      "longName": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "path": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs"
+    },
+    {
+      "key": "financial-accounting-thesis-baseline-v01:BAL/IServices/IJournalEntryService.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "IJournalEntryService.cs",
+      "longName": "BAL/IServices/IJournalEntryService.cs",
+      "path": "BAL/IServices/IJournalEntryService.cs"
+    }
+  ],
+  "facets": []
+}

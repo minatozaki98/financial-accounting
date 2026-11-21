@@ -1,0 +1,814 @@
+{
+  "analysis": "Post-hoc threshold sensitivity using all 30 accepted runs",
+  "source_sha256": "d3b861c4325582a4c374a144f02fe05a3706bd6e9f90fe8176ec8b6dc91ff994",
+  "latency": [
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "0.50",
+      "p95_limit_ms": 150,
+      "error_limit_pct": 0.5,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "0.50",
+      "p95_limit_ms": 150,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "0.50",
+      "p95_limit_ms": 250,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "0.50",
+      "p95_limit_ms": 250,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "0.50",
+      "p95_limit_ms": 600,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "0.50",
+      "p95_limit_ms": 600,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "0.75",
+      "p95_limit_ms": 225,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-before-a2",
+        "p50-r2-before-a1",
+        "p50-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "0.75",
+      "p95_limit_ms": 225,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "0.75",
+      "p95_limit_ms": 375,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "0.75",
+      "p95_limit_ms": 375,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "0.75",
+      "p95_limit_ms": 900,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "0.75",
+      "p95_limit_ms": 900,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "1.00",
+      "p95_limit_ms": 300,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-before-a2",
+        "p50-r2-before-a1",
+        "p50-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "1.00",
+      "p95_limit_ms": 300,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "1.00",
+      "p95_limit_ms": 500,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "1.00",
+      "p95_limit_ms": 500,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "1.00",
+      "p95_limit_ms": 1200,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "1.00",
+      "p95_limit_ms": 1200,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "1.25",
+      "p95_limit_ms": 375,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-before-a2",
+        "p50-r2-before-a1",
+        "p50-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "1.25",
+      "p95_limit_ms": 375,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "1.25",
+      "p95_limit_ms": 625,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "1.25",
+      "p95_limit_ms": 625,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "1.25",
+      "p95_limit_ms": 1500,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "1.25",
+      "p95_limit_ms": 1500,
+      "error_limit_pct": 2,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p500-r1-after-a1",
+        "p500-r2-after-a1",
+        "p500-r3-after-a4"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "1.50",
+      "p95_limit_ms": 450,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-before-a2",
+        "p50-r2-before-a1",
+        "p50-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "1.50",
+      "p95_limit_ms": 450,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "1.50",
+      "p95_limit_ms": 750,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-before-a1",
+        "p100-r2-before-a1",
+        "p100-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "1.50",
+      "p95_limit_ms": 750,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "1.50",
+      "p95_limit_ms": 1800,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "1.50",
+      "p95_limit_ms": 1800,
+      "error_limit_pct": 2,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p500-r1-after-a1",
+        "p500-r2-after-a1",
+        "p500-r3-after-a4"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "before",
+      "multiplier": "2.00",
+      "p95_limit_ms": 600,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-before-a2",
+        "p50-r2-before-a1",
+        "p50-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p50",
+      "side": "after",
+      "multiplier": "2.00",
+      "p95_limit_ms": 600,
+      "error_limit_pct": 0.5,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p50-r1-after-a2",
+        "p50-r2-after-a1",
+        "p50-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "before",
+      "multiplier": "2.00",
+      "p95_limit_ms": 1000,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-before-a1",
+        "p100-r2-before-a1",
+        "p100-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "p100",
+      "side": "after",
+      "multiplier": "2.00",
+      "p95_limit_ms": 1000,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p100-r1-after-a1",
+        "p100-r2-after-a1",
+        "p100-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "p500",
+      "side": "before",
+      "multiplier": "2.00",
+      "p95_limit_ms": 2400,
+      "error_limit_pct": 2,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "p500",
+      "side": "after",
+      "multiplier": "2.00",
+      "p95_limit_ms": 2400,
+      "error_limit_pct": 2,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "p500-r1-after-a1",
+        "p500-r2-after-a1",
+        "p500-r3-after-a4"
+      ]
+    }
+  ],
+  "drift": [
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 10,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 10,
+      "error_limit_pct": 1,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 10,
+      "error_limit_pct": 3,
+      "passes": 2,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 10,
+      "error_limit_pct": 3,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 20,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 20,
+      "error_limit_pct": 1,
+      "passes": 1,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 20,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 20,
+      "error_limit_pct": 3,
+      "passes": 0,
+      "runs": 3,
+      "passing_run_ids": []
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 30,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 30,
+      "error_limit_pct": 1,
+      "passes": 1,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 30,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 30,
+      "error_limit_pct": 3,
+      "passes": 1,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r2-after-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 40,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 40,
+      "error_limit_pct": 1,
+      "passes": 1,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 40,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 40,
+      "error_limit_pct": 3,
+      "passes": 2,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-after-a1",
+        "spike-r2-after-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 50,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 50,
+      "error_limit_pct": 1,
+      "passes": 2,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r2-after-a1",
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 50,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 50,
+      "error_limit_pct": 3,
+      "passes": 2,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-after-a1",
+        "spike-r2-after-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 80,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 80,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-after-a1",
+        "soak-r2-after-a1",
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 80,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 80,
+      "error_limit_pct": 3,
+      "passes": 2,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-after-a1",
+        "spike-r2-after-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "before",
+      "drift_limit_pct": 100,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-before-a1",
+        "soak-r2-before-a1",
+        "soak-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "soak",
+      "side": "after",
+      "drift_limit_pct": 100,
+      "error_limit_pct": 1,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "soak-r1-after-a1",
+        "soak-r2-after-a1",
+        "soak-r3-after-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "before",
+      "drift_limit_pct": 100,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-before-a1",
+        "spike-r2-before-a1",
+        "spike-r3-before-a1"
+      ]
+    },
+    {
+      "profile": "spike",
+      "side": "after",
+      "drift_limit_pct": 100,
+      "error_limit_pct": 3,
+      "passes": 3,
+      "runs": 3,
+      "passing_run_ids": [
+        "spike-r1-after-a1",
+        "spike-r2-after-a1",
+        "spike-r3-after-a1"
+      ]
+    }
+  ],
+  "largest_observed_values": {
+    "p50": {
+      "before": "170",
+      "after": "33"
+    },
+    "p100": {
+      "before": "694",
+      "after": "49"
+    },
+    "p500": {
+      "before": "21850",
+      "after": "1298"
+    },
+    "soak": {
+      "before": "11.061",
+      "after": "64.103"
+    },
+    "spike": {
+      "before": "11.037",
+      "after": "81.481"
+    }
+  },
+  "inference": "Descriptive counts for three repeats per revision. Error ceilings held at original values. Original acceptance decisions retained. Threshold ranges are declared analysis choices."
+}

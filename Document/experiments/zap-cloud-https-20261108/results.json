@@ -1,0 +1,43 @@
+{
+  "revision": "5f3bd3cc",
+  "rule": "10106",
+  "scope": "authenticated OpenAPI import and targeted active scan; one VM; private research certificate",
+  "runs": {
+    "http": {
+      "zap_version": "2.17.0",
+      "zap_authenticated_users_me": true,
+      "authenticated_probe": 200,
+      "anonymous_probe": 401,
+      "imported_urls": 27,
+      "scan_progress": 100,
+      "alert_10106": [
+        {
+          "name": "HTTP Only Site",
+          "risk": "Medium",
+          "url": "http://localhost/accounts/10"
+        }
+      ]
+    },
+    "https": {
+      "zap_version": "2.17.0",
+      "zap_authenticated_users_me": true,
+      "authenticated_probe": 200,
+      "anonymous_probe": 401,
+      "imported_urls": 27,
+      "scan_progress": 100,
+      "alert_10106": []
+    }
+  },
+  "http_redirect": "308 https://localhost/users/me",
+  "runtime_images": [
+    "ghcr.io/zaproxy/zaproxy@sha256:9624669db72f54d86c4b46a7064518bd9bf79d8c61a4c31befa9923489f328af",
+    "mcr.microsoft.com/mssql/server@sha256:cf8f0ab2ebe61feec2eed2629061a07d247f791c2a8ddda74a4ac9f06a291718"
+  ],
+  "source_commit": "5f3bd3ccd9e0d460f52cac6a8a0d5fdceff1ce3d",
+  "completed_utc": "2026-11-08T09:48:39.880140+00:00",
+  "provider": {
+    "region": "sg-sin-2",
+    "plan": "g6-standard-4",
+    "hourly_usd": 0.072
+  }
+}

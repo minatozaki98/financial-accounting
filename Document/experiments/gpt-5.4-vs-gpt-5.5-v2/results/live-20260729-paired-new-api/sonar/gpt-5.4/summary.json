@@ -1,0 +1,37 @@
+﻿{
+    "metadata":  {
+                     "projectKey":  "financial-accounting-sonar-v2-gpt54-live",
+                     "projectVersion":  "1.0",
+                     "sourceRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-sonar-v2",
+                     "sourceSha":  "33ec4293653874baaeff07a1a4b23a78112f33ff",
+                     "sonarUrl":  "http://localhost:9001",
+                     "scannerVersion":  "SonarScanner for .NET 11.1",
+                     "exportedAtUtc":  "2026-07-29T15:29:33.3564642Z"
+                 },
+    "issueCount":  0,
+    "issueCountByRule":  [
+
+                         ],
+    "issueCountByType":  [
+
+                         ],
+    "issueCountBySeverity":  [
+
+                             ],
+    "measures":  {
+                     "coverage":  "76.2",
+                     "bugs":  "0",
+                     "complexity":  "1467",
+                     "reliability_rating":  "1.0",
+                     "code_smells":  "0",
+                     "duplicated_lines_density":  "0.0",
+                     "cognitive_complexity":  "340",
+                     "security_rating":  "1.0",
+                     "ncloc":  "5395",
+                     "vulnerabilities":  "0",
+                     "security_hotspots":  "0",
+                     "sqale_rating":  "1.0"
+                 },
+    "qualityGateStatus":  "OK",
+    "ignoredConditions":  false
+}

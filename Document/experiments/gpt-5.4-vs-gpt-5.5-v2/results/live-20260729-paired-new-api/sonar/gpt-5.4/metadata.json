@@ -1,0 +1,9 @@
+﻿{
+    "projectKey":  "financial-accounting-sonar-v2-gpt54-live",
+    "projectVersion":  "1.0",
+    "sourceRoot":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.4-sonar-v2",
+    "sourceSha":  "33ec4293653874baaeff07a1a4b23a78112f33ff",
+    "sonarUrl":  "http://localhost:9001",
+    "scannerVersion":  "SonarScanner for .NET 11.1",
+    "exportedAtUtc":  "2026-07-29T15:29:33.3564642Z"
+}

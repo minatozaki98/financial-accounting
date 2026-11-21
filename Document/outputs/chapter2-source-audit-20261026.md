@@ -1,0 +1,24 @@
+# Chapter 2 source and claim audit — 26 October 2026
+
+Target: `final-report-methods-citations-20261023.docx` and its PDF in this directory.
+
+## Source policy
+
+Chapter 2 has 24 bibliography entries: 19 published research papers in conference proceedings or journals, three explicitly labelled arXiv preprints (Chen et al.; Peng et al.; Yetiştiren et al.), one explicitly labelled bachelor's thesis (Fajkovic and Rundberg), and one official SonarSource documentation entry. The preprints, thesis, and tool documentation are supplemental; they are not presented as peer-reviewed IEEE evidence. The thesis's own stack choice and seven-group API scope are identified as research-design decisions, not recommendations proved by another paper.
+
+## Primary-source checks and corrections
+
+| Report claim | Primary source checked | Audit result |
+| --- | --- | --- |
+| GPT background | [Brown et al., NeurIPS 2020](https://proceedings.neurips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html); [Ouyang et al., NeurIPS 2022](https://proceedings.neurips.cc/paper/2022/hash/b1efde53be364a73914f58805a001731-Abstract.html) | Few-shot GPT-3 and instruction-following background only; neither tests this Codex configuration. |
+| ChatGPT versus Copilot | [Ságodi et al., IEEE Access 2024, author-institution PDF](https://publicatio.bibl.u-szeged.hu/36184/1/Methodology_for_Code_Synthesis_Evaluation_of_LLMs_Presented_by_a_Case_Study_of_ChatGPT_and_Copilot.pdf) | Confirmed 25 C++/Java tasks and **17** perfect ChatGPT solutions versus **13** Copilot solutions on average. |
+| Backend frameworks | [Buljic et al., IEEE INFOTEH 2025](https://ieeexplore.ieee.org/document/10959250/); [Godinho et al., Journal of Software and Systems Development 2024](https://ibimapublishing.com/articles/JSSD/2024/478010/) | Reported latency and method-specific CPU/RAM results retained. A deployment-time winner was removed because the accessible Buljic abstract and body disagree. Godinho's PUT stress result is described as lower Java CPU and tail latency, not half the average latency. |
+| Scanner-guided AI repair | [Patcas and Motogna, Empirical Software Engineering 2026](https://link.springer.com/article/10.1007/s10664-026-10858-8) | Confirmed six models and 36.02% mean reduction in SonarQube-reported issues. This does not rank the model used in the thesis. |
+| Security API misuse | [Mousavi et al., ACM AsiaCCS 2024 author preprint](https://arxiv.org/abs/2404.03823); [Szabó and Bilicki, Future Internet 2023](https://www.mdpi.com/1999-5903/15/10/326) | Confirmed 48 Java tasks/approximately 70% misuse in the former and GPT-4's 88.76% accuracy for the specific CWE-653 detection task in the latter. Neither result is a general C# security-fix rate. |
+| Generated code and human review | [Pearce et al., IEEE SP 2022 author preprint](https://arxiv.org/abs/2108.09293); [Sandoval et al., USENIX Security 2023](https://www.usenix.org/conference/usenixsecurity23/presentation/sandoval); [Khoury et al., IEEE SMC 2023 author preprint](https://arxiv.org/abs/2304.09655) | Confirmed Pearce's 89 scenarios/approximately 40% vulnerable programs and Sandoval's 58-person C-task study. Khoury's finding is stated without unsupported task/language counts. |
+| Web API and accounting selection | [Zhang et al., IEEE TSE author PDF](https://seal-queensu.github.io/publications/pdf/TSE-Neng-2022.pdf); [Kim et al., ACM ISSTA author preprint](https://arxiv.org/abs/2204.08348); [Debreceny and Gray, Elsevier 2010](https://www.sciencedirect.com/science/article/pii/S1467089510000540); [Werner, Elsevier 2017](https://www.sciencedirect.com/science/article/pii/S1467089516300264) | Confirmed the Web-API survey, the 20-service REST-testing benchmark, journal-entry data from 29 organizations, and accounting-data process dependencies. These motivate linked workflow coverage; they do not prescribe exactly seven groups or prove every route was tested. |
+| SonarQube interpretation | [Lenarduzzi et al., IEEE SANER author preprint](https://arxiv.org/abs/1907.00376) | Replaced the unsupported “minority of rules” claim with the paper's narrower finding that SonarQube bug labels are weak fault predictors in its 21-project analysis. |
+
+Chapter 2 now states what each source measured and its limit. The original long descriptions were replaced where they attributed unverified methods or outcomes to a source, including alleged GPTutor user interviews, an alleged Özpolat controlled benchmark, and a CodeWhisperer cloud-API ranking. The thesis and arXiv sources remain labelled as such instead of being presented as IEEE publications.
+
+This audit checks source identity and the explicit methodological/numerical claims used in Chapter 2. It does not establish that any cited result generalizes to the financial-accounting API; that requires this thesis's own experiment.

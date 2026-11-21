@@ -1,0 +1,136 @@
+{
+  "target": {
+    "full": {
+      "samples": 158,
+      "first_utc": "2026-10-25T09:56:24.701219+00:00",
+      "last_utc": "2026-10-25T10:09:29.747259+00:00",
+      "host_min_available_mib": 5872.9,
+      "host_max_swap_total_mib": 0.0,
+      "host_max_swap_used_mib": 0.0,
+      "host_swap_pages_in_delta": 0,
+      "host_swap_pages_out_delta": 0,
+      "host_cpu_p95_pct": 37.06,
+      "containers": {
+        "jmeter-research-api-1": {
+          "samples": 158,
+          "cpu_p95_pct_of_one_core": 65.45,
+          "cpu_peak_pct_of_one_core": 68.59,
+          "memory_peak_pct_of_limit": 13.87,
+          "container_thread_count_min": 18,
+          "container_thread_count_peak": 28,
+          "cpu_effective_cores_p95": 0.65,
+          "cpu_effective_cores_peak": 0.76,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 12797,
+          "cpu_throttled_period_fraction": 0.0003
+        },
+        "jmeter-research-sql-1": {
+          "samples": 158,
+          "cpu_p95_pct_of_one_core": 58.02,
+          "cpu_peak_pct_of_one_core": 66.62,
+          "memory_peak_pct_of_limit": 29.85,
+          "container_thread_count_min": 198,
+          "container_thread_count_peak": 205,
+          "cpu_effective_cores_p95": 0.54,
+          "cpu_effective_cores_peak": 0.59,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 0,
+          "cpu_throttled_period_fraction": 0.0
+        }
+      }
+    },
+    "scored_hold": {
+      "samples": 120,
+      "first_utc": "2026-10-25T09:58:29.705021+00:00",
+      "last_utc": "2026-10-25T10:08:24.745788+00:00",
+      "host_min_available_mib": 5958.4,
+      "host_max_swap_total_mib": 0.0,
+      "host_max_swap_used_mib": 0.0,
+      "host_swap_pages_in_delta": 0,
+      "host_swap_pages_out_delta": 0,
+      "host_cpu_p95_pct": 37.12,
+      "containers": {
+        "jmeter-research-api-1": {
+          "samples": 120,
+          "cpu_p95_pct_of_one_core": 65.45,
+          "cpu_peak_pct_of_one_core": 66.72,
+          "memory_peak_pct_of_limit": 10.0,
+          "container_thread_count_min": 23,
+          "container_thread_count_peak": 28,
+          "cpu_effective_cores_p95": 0.66,
+          "cpu_effective_cores_peak": 0.76,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 12797,
+          "cpu_throttled_period_fraction": 0.0003
+        },
+        "jmeter-research-sql-1": {
+          "samples": 120,
+          "cpu_p95_pct_of_one_core": 58.02,
+          "cpu_peak_pct_of_one_core": 66.62,
+          "memory_peak_pct_of_limit": 29.03,
+          "container_thread_count_min": 198,
+          "container_thread_count_peak": 205,
+          "cpu_effective_cores_p95": 0.55,
+          "cpu_effective_cores_peak": 0.59,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 0,
+          "cpu_throttled_period_fraction": 0.0
+        }
+      }
+    }
+  },
+  "generator": {
+    "full": {
+      "samples": 158,
+      "first_utc": "2026-10-25T09:56:25.342450+00:00",
+      "last_utc": "2026-10-25T10:09:30.365890+00:00",
+      "host_min_available_mib": 6086.7,
+      "host_max_swap_total_mib": 0.0,
+      "host_max_swap_used_mib": 0.0,
+      "host_swap_pages_in_delta": 0,
+      "host_swap_pages_out_delta": 0,
+      "host_cpu_p95_pct": 11.17,
+      "containers": {
+        "jmeter-research-jmeter": {
+          "samples": 150,
+          "cpu_p95_pct_of_one_core": 42.39,
+          "cpu_peak_pct_of_one_core": 310.2,
+          "memory_peak_pct_of_limit": 33.42,
+          "container_thread_count_min": 78,
+          "container_thread_count_peak": 78,
+          "cpu_effective_cores_p95": 0.39,
+          "cpu_effective_cores_peak": 0.85,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 0,
+          "cpu_throttled_period_fraction": 0.0
+        }
+      }
+    },
+    "scored_hold": {
+      "samples": 120,
+      "first_utc": "2026-10-25T09:58:30.346305+00:00",
+      "last_utc": "2026-10-25T10:08:25.362949+00:00",
+      "host_min_available_mib": 6090.0,
+      "host_max_swap_total_mib": 0.0,
+      "host_max_swap_used_mib": 0.0,
+      "host_swap_pages_in_delta": 0,
+      "host_swap_pages_out_delta": 0,
+      "host_cpu_p95_pct": 6.64,
+      "containers": {
+        "jmeter-research-jmeter": {
+          "samples": 120,
+          "cpu_p95_pct_of_one_core": 32.59,
+          "cpu_peak_pct_of_one_core": 65.85,
+          "memory_peak_pct_of_limit": 33.34,
+          "container_thread_count_min": 78,
+          "container_thread_count_peak": 78,
+          "cpu_effective_cores_p95": 0.24,
+          "cpu_effective_cores_peak": 0.4,
+          "oom_kill_delta": 0,
+          "cpu_throttled_usec_delta": 0,
+          "cpu_throttled_period_fraction": 0.0
+        }
+      }
+    }
+  }
+}

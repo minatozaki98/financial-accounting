@@ -1,0 +1,45 @@
+﻿{
+    "modelLabel":  "GPT-5.5",
+    "projectKey":  "financial-accounting-sonar-v2-gpt55-final",
+    "qualityGate":  "OK",
+    "issueCount":  0,
+    "ruleCounts":  {
+
+                   },
+    "typeCounts":  {
+
+                   },
+    "severityCounts":  {
+
+                       },
+    "measures":  {
+                     "coverage":  "74.8",
+                     "bugs":  "0",
+                     "complexity":  "1543",
+                     "reliability_rating":  "1.0",
+                     "code_smells":  "0",
+                     "duplicated_lines_density":  "0.0",
+                     "cognitive_complexity":  "329",
+                     "security_rating":  "1.0",
+                     "ncloc":  "5466",
+                     "vulnerabilities":  "0",
+                     "security_hotspots":  "0"
+                 },
+    "source":  {
+                   "path":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-sonar-v2",
+                   "headSha":  "59e2e3d73172fd4aef8814573bde8af96c7d1f74",
+                   "dirty":  true,
+                   "status":  [
+                                  " M API/SonarChallenge/SonarChallengeRequestInspector.cs",
+                                  " M BAL/Services/JournalImportService.cs",
+                                  " M BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+                                  " M MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs"
+                              ],
+                   "patchSha256":  "C36914B1183C514ADF09B711E9EDD2815CC1C186C43353DC507D7D996EA524AB"
+               },
+    "scannerVersion":  "SonarScanner for .NET 11.1",
+    "sonarUrl":  "http://localhost:9001",
+    "ceTaskId":  "576c06b6-591d-4ef9-a146-55fcbc013701",
+    "analysisId":  "ca94b87e-aac5-4331-ac4a-2a3ac5e25eef",
+    "completedAtUtc":  "2026-07-29T16:43:19.8371929Z"
+}

@@ -1,0 +1,4 @@
+﻿ M API/SonarChallenge/SonarChallengeRequestInspector.cs
+ M BAL/Services/JournalImportService.cs
+ M BAL/Services/SonarChallengeReconciliationAnalyzer.cs
+ M MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs

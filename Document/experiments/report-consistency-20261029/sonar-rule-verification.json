@@ -1,0 +1,153 @@
+{
+  "baseline_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "after_commit": "a2279bcbdc20751529335cf72f8baac1bc6f994b",
+  "run_id": "20260922-183352",
+  "baseline_total": 17,
+  "after_total": 0,
+  "rule_counts": {
+    "S1118": 2,
+    "xUnit1042": 1,
+    "CA1861": 2,
+    "S107": 2,
+    "CA1862": 1,
+    "S3260": 1,
+    "S1192": 3,
+    "S125": 1,
+    "S6966": 1,
+    "S117": 2,
+    "S6952": 1
+  },
+  "representative_rules": [
+    "S107",
+    "S1118",
+    "S1192",
+    "S6966"
+  ],
+  "unsupported_report_rule_ids_removed": [
+    "S2325",
+    "S3267",
+    "S6602"
+  ],
+  "issues": [
+    {
+      "key": "92e565db-2915-4b3a-8b68-8b1f8ef60d55",
+      "rule": "csharpsquid:S1118",
+      "file": "API/Program.cs",
+      "line": 190,
+      "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration."
+    },
+    {
+      "key": "6da3fa66-2445-457e-a4c6-6a4f5f0fceef",
+      "rule": "external_roslyn:xUnit1042",
+      "file": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "line": 35,
+      "message": "The member referenced by the MemberData attribute returns untyped data rows, such as object[]. Consider using TheoryData<> as the return type to provide better type safety."
+    },
+    {
+      "key": "20521d9c-aed8-4b69-8088-e57eea8ffab3",
+      "rule": "external_roslyn:CA1861",
+      "file": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "line": 46,
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array"
+    },
+    {
+      "key": "ae5c58d3-1f84-4e9b-b9b9-a45eb66db95e",
+      "rule": "external_roslyn:CA1861",
+      "file": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "line": 37,
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array"
+    },
+    {
+      "key": "43a58e8d-4103-4428-898f-c8aa7f8c4a1a",
+      "rule": "csharpsquid:S107",
+      "file": "API/Controllers/JournalEntriesController.cs",
+      "line": 62,
+      "message": "Method has 8 parameters, which is greater than the 7 authorized."
+    },
+    {
+      "key": "50f6d055-5672-4a9d-ac42-0211c8e812d3",
+      "rule": "csharpsquid:S107",
+      "file": "BAL/IServices/IJournalEntryService.cs",
+      "line": 10,
+      "message": "Method has 8 parameters, which is greater than the 7 authorized."
+    },
+    {
+      "key": "43190cde-eb85-413a-935c-85f55f0d2c40",
+      "rule": "external_roslyn:CA1862",
+      "file": "BAL/Services/FinancialAuthService.cs",
+      "line": 130,
+      "message": "Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison, but keep in mind that this might cause subtle changes in behavior, so make sure to conduct thorough testing after applying the suggestion, or if culturally sensitive comparison is not required, consider using 'StringComparison.OrdinalIgnoreCase'"
+    },
+    {
+      "key": "02b7fe6a-9233-4c56-8621-0d22953e3ee7",
+      "rule": "csharpsquid:S3260",
+      "file": "BAL/Services/FinancialReportService.cs",
+      "line": 317,
+      "message": "Private classes which are not derived in the current assembly should be marked as 'sealed'."
+    },
+    {
+      "key": "3fc33786-32ea-4225-9889-98b3727623d4",
+      "rule": "csharpsquid:S1192",
+      "file": "BAL/Services/JournalEntryService.cs",
+      "line": 29,
+      "message": "Define a constant instead of using this literal 'Draft' 4 times."
+    },
+    {
+      "key": "f29d1521-7669-4547-9103-8c1deb31ba3b",
+      "rule": "csharpsquid:S1192",
+      "file": "BAL/Services/JournalEntryService.cs",
+      "line": 51,
+      "message": "Define a constant instead of using this literal 'JournalEntries' 5 times."
+    },
+    {
+      "key": "b6928a1f-9f04-4369-9a0f-e2f1908d9a8f",
+      "rule": "csharpsquid:S1192",
+      "file": "BAL/Services/JournalEntryService.cs",
+      "line": 225,
+      "message": "Define a constant instead of using this literal 'Posted' 4 times."
+    },
+    {
+      "key": "f3e74d06-b0e0-4c73-a393-f747bea55ee2",
+      "rule": "csharpsquid:S125",
+      "file": "MODEL/DataContext.cs",
+      "line": 38,
+      "message": "Remove this commented out code."
+    },
+    {
+      "key": "45216e25-33ba-436c-baed-bd6217023149",
+      "rule": "csharpsquid:S6966",
+      "file": "API/Program.cs",
+      "line": 188,
+      "message": "Await RunAsync instead."
+    },
+    {
+      "key": "de6af286-f5de-420d-8a4f-69bfc119470d",
+      "rule": "azureresourcemanager:S117",
+      "file": "API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "line": 38,
+      "message": "Rename this variable \"appServicePlan_name\" to match the regular expression \"^[a-z][a-zA-Z0-9]*$\"."
+    },
+    {
+      "key": "fcb4dc96-a7a1-40e1-bb55-8dc4700ccc4c",
+      "rule": "azureresourcemanager:S117",
+      "file": "API/Properties/ServiceDependencies/crc-api-test - Web Deploy/profile.arm.json",
+      "line": 39,
+      "message": "Rename this variable \"appServicePlan_ResourceId\" to match the regular expression \"^[a-z][a-zA-Z0-9]*$\"."
+    },
+    {
+      "key": "cd8aa516-7e2e-492f-b0d6-38f522996809",
+      "rule": "azureresourcemanager:S6952",
+      "file": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "line": 50,
+      "message": "Remove this explicit dependency as it is already defined implicitly."
+    },
+    {
+      "key": "1066e347-2878-4d9f-a77e-487c02a8a302",
+      "rule": "csharpsquid:S1118",
+      "file": "BAL/Shared/ServiceManager.cs",
+      "line": 15,
+      "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration."
+    }
+  ],
+  "source_directory": "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\thesis-reproducibility-design\\docs\\appendix\\verification-runs\\research\\sonar"
+}

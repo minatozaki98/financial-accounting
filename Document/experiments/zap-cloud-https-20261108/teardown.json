@@ -1,0 +1,7 @@
+{
+  "instance_absent": true,
+  "test_firewall_absent": true,
+  "balance_due_usd": 0.0,
+  "uninvoiced_usd_at_check": 0.08,
+  "checked_utc": "2026-11-08T09:48:45.317887+00:00"
+}

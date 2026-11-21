@@ -1,0 +1,48 @@
+﻿{
+    "baseUrl":  "http://localhost:5296",
+    "openApiUrl":  "http://localhost:5296/swagger/v1/swagger.json",
+    "runId":  "20260729223456277",
+    "totalProbeCount":  33,
+    "validBusinessProbeCount":  15,
+    "authorizationBoundaryProbeCount":  5,
+    "requiredBusinessRoutes":  [
+                                   "GET /periods/{id}/close-preview",
+                                   "POST /periods/{id}/close",
+                                   "POST /journal-imports/validate",
+                                   "POST /journal-imports/{guid}/commit",
+                                   "POST /journal-entries",
+                                   "POST /journal-entries/{id}/post",
+                                   "POST /reconciliations",
+                                   "POST /reconciliations/{guid}/auto-match",
+                                   "GET /reconciliations/{guid}/exceptions",
+                                   "POST /reconciliations/{guid}/finalize"
+                               ],
+    "missingBusinessRoutes":  [
+
+                              ],
+    "failedCoverageCount":  0,
+    "createdProbeUsers":  [
+                              {
+                                  "role":  "FinanceManager",
+                                  "username":  "zapv2-financemanager-20260729223456277"
+                              },
+                              {
+                                  "role":  "User",
+                                  "username":  "zapv2-user-20260729223456277"
+                              },
+                              {
+                                  "role":  "Auditor",
+                                  "username":  "zapv2-auditor-20260729223456277"
+                              }
+                          ],
+    "selectedIds":  {
+                        "closePeriodId":  202701,
+                        "assetAccountId":  1,
+                        "offsetAccountId":  3,
+                        "journalEntryId":  50006,
+                        "reconciliationId":  "1dc9b747-cc4b-4be9-984b-b3abc7f8eda3",
+                        "importId":  "25dc0681-be5a-4d71-b347-bfe122bca422"
+                    },
+    "valid":  true,
+    "completedAtUtc":  "2026-07-29T15:35:04.5044475Z"
+}

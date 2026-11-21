@@ -1,0 +1,18 @@
+{
+  "report_pages": 133,
+  "contents_entries_checked": 171,
+  "slides": 35,
+  "speaker_notes_checked": 35,
+  "verified_sonar_rule_counts": {
+    "S107": 2,
+    "S1118": 2,
+    "S1192": 3,
+    "S6966": 1
+  },
+  "styles_preserved": true,
+  "slide_theme_preserved": true,
+  "screenshots_preserved": 4,
+  "cloud_charts_match_source": true,
+  "chapter2_unchanged": true,
+  "report_and_slide_status_terms_consistent": true
+}

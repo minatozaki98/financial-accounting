@@ -1,0 +1,12 @@
+﻿{
+    "projectKey":  "financial-accounting-sonar-v2-gpt55-live",
+    "projectName":  "Financial Accounting Sonar v2 GPT-5.5",
+    "projectVersion":  "59e2e3d",
+    "solutionPath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\.worktrees\\gpt-model-retest-v2-labs-isolated\\gpt-5.5-sonar-v2\\API\\API.sln",
+    "outputDir":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\sonar\\gpt-5.5",
+    "coveragePath":  "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting\\Document\\experiments\\gpt-5.4-vs-gpt-5.5-v2\\results\\live-20260729-paired-new-api\\sonar\\gpt-5.5\\coverage.xml",
+    "ceTaskId":  "c46e0503-3350-400a-b531-469f5ca5160d",
+    "ceTaskStatus":  "SUCCESS",
+    "analysisId":  "380d49e4-17e7-42f6-8b9f-100bac3c7c01",
+    "completedAtUtc":  "2026-07-29T15:30:35.8147362Z"
+}

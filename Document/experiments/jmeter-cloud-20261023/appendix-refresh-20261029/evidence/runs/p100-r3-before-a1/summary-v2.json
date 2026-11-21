@@ -1,0 +1,110 @@
+{
+  "analysis_protocol_version": 2,
+  "valid_run": true,
+  "concurrency": {
+    "valid": true,
+    "target_users": 100,
+    "observed_peak": 100,
+    "ramp_peak": 100,
+    "unique_threads": 100,
+    "hold_bins": 120,
+    "bins_observed": 120,
+    "full_bins": 120,
+    "min_hold_active": 100,
+    "median_hold_active": 100.0,
+    "failures": [],
+    "jtl_missing_bins": 0,
+    "jtl_diagnostics": {
+      "valid": true,
+      "target_users": 100,
+      "observed_peak": 100,
+      "ramp_peak": 100,
+      "unique_threads": 100,
+      "hold_bins": 120,
+      "bins_observed": 120,
+      "full_bins": 120,
+      "min_hold_active": 100,
+      "median_hold_active": 100.0,
+      "failures": []
+    },
+    "lifecycle": {
+      "valid": true,
+      "failures": [],
+      "target_users": 100,
+      "started_threads": 100,
+      "finished_threads": 100,
+      "active_at_window_start": 100,
+      "minimum_active": 100,
+      "maximum_active": 100,
+      "settle_seconds": 0
+    }
+  },
+  "jmeter_log_error_count": 0,
+  "hold": {
+    "samples": 171214,
+    "errors": 0,
+    "error_pct": 0.0,
+    "requests_per_second": 285.3567,
+    "p50_ms": 45,
+    "p95_ms": 694,
+    "p99_ms": 1457
+  },
+  "endpoints": {
+    "GET /accounts": {
+      "samples": 37501,
+      "errors": 0,
+      "p95_ms": 70,
+      "p99_ms": 803
+    },
+    "GET /journal-entries": {
+      "samples": 37510,
+      "errors": 0,
+      "p95_ms": 304,
+      "p99_ms": 1102
+    },
+    "GET /periods": {
+      "samples": 37509,
+      "errors": 0,
+      "p95_ms": 67,
+      "p99_ms": 727
+    },
+    "GET /reports/account-ledger": {
+      "samples": 3533,
+      "errors": 0,
+      "p95_ms": 1354,
+      "p99_ms": 2750
+    },
+    "GET /reports/balance-sheet": {
+      "samples": 3533,
+      "errors": 0,
+      "p95_ms": 1219,
+      "p99_ms": 2760
+    },
+    "GET /reports/profit-loss": {
+      "samples": 3528,
+      "errors": 0,
+      "p95_ms": 1287,
+      "p99_ms": 2832
+    },
+    "GET /reports/trial-balance": {
+      "samples": 3532,
+      "errors": 0,
+      "p95_ms": 1336,
+      "p99_ms": 2671
+    },
+    "GET /users/me": {
+      "samples": 41032,
+      "errors": 0,
+      "p95_ms": 108,
+      "p99_ms": 506
+    },
+    "POST /journal-entries/bulk": {
+      "samples": 3536,
+      "errors": 0,
+      "p95_ms": 431,
+      "p99_ms": 1863
+    }
+  },
+  "error_codes": {},
+  "test_start_ms": 1792928796819
+}

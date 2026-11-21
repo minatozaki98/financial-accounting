@@ -1,0 +1,117 @@
+[
+  {
+    "label": "September local profile table (historical)",
+    "rows": [
+      [
+        "Profile",
+        "Metric",
+        "Baseline",
+        "After fixes",
+        "Change",
+        "Status"
+      ],
+      [
+        "50 VU",
+        "Total p95 response time",
+        "33.00 ms",
+        "199.90 ms",
+        "+505.8%",
+        "Regression"
+      ],
+      [
+        "100 VU",
+        "Total p95 response time",
+        "255.90 ms",
+        "1146.90 ms",
+        "+348.2%",
+        "FAIL"
+      ],
+      [
+        "500 VU",
+        "Total p95 response time",
+        "106.00 ms",
+        "1547.95 ms",
+        "+1360.3%",
+        "FAIL"
+      ],
+      [
+        "soak",
+        "Total p95 response time",
+        "443.95 ms",
+        "171.00 ms",
+        "-61.5%",
+        "Improved"
+      ],
+      [
+        "spike",
+        "Total p95 response time",
+        "33401.75 ms",
+        "4730.85 ms",
+        "-85.8%",
+        "Improved"
+      ],
+      [
+        "Core gate",
+        "Threshold result",
+        "PASS",
+        "FAIL",
+        "100 VU and 500 VU exceeded thresholds",
+        "NOT ACHIEVED"
+      ]
+    ]
+  },
+  {
+    "label": "September local endpoint table (historical)",
+    "rows": [
+      [
+        "Endpoint",
+        "Profile metric",
+        "Baseline",
+        "After fixes",
+        "Fresh interpretation"
+      ],
+      [
+        "GET /reports/account-ledger",
+        "Soak p95",
+        "741.95 ms",
+        "3825.70 ms",
+        "Regression under the fresh sustained-load run"
+      ],
+      [
+        "GET /reports/account-ledger",
+        "Spike p95",
+        "50288.30 ms",
+        "12910.20 ms",
+        "Improved under spike, but remained the slowest report endpoint"
+      ],
+      [
+        "GET /reports/trial-balance",
+        "Spike p95",
+        "31142.45 ms",
+        "2797.70 ms",
+        "Large spike-profile improvement"
+      ],
+      [
+        "GET /reports/profit-loss",
+        "Spike p95",
+        "31487.90 ms",
+        "2342.75 ms",
+        "Large spike-profile improvement"
+      ],
+      [
+        "GET /reports/balance-sheet",
+        "Spike p95",
+        "32732.65 ms",
+        "2554.90 ms",
+        "Large spike-profile improvement"
+      ],
+      [
+        "POST /journal-entries/bulk",
+        "Spike p95",
+        "12734.75 ms",
+        "2544.10 ms",
+        "Large spike-profile improvement"
+      ]
+    ]
+  }
+]

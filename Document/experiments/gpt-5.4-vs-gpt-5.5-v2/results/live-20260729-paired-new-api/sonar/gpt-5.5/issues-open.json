@@ -1,0 +1,200 @@
+﻿[
+    {
+        "key":  "483bcfe7-7d42-43d6-bcde-a9eaea062429",
+        "rule":  "csharpsquid:S3923",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  40,
+        "message":  "Remove this conditional structure or edit its code blocks so that they\u0027re not all the same.",
+        "type":  "BUG",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "RELIABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "15min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T08:50:10+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  40,
+                          "endLine":  40,
+                          "startOffset":  29,
+                          "endOffset":  35
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "624e482b-763d-47f5-9f16-df4d20e534fc",
+        "rule":  "external_roslyn:CA1859",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:BAL/Services/JournalImportService.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  357,
+        "message":  "Change type of parameter \u0027duplicateReferences\u0027 from \u0027System.Collections.Generic.ISet\u003cstring\u003e\u0027 to \u0027System.Collections.Generic.HashSet\u003cstring\u003e\u0027 for improved performance",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T08:50:10+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  357,
+                          "endLine":  357,
+                          "startOffset":  25,
+                          "endOffset":  44
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "c4e4a01e-5685-4317-8721-4540838a483d",
+        "rule":  "csharpsquid:S1118",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:API/SonarChallenge/SonarChallengeRequestInspector.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  3,
+        "message":  "Add a \u0027private\u0027 constructor or the \u0027static\u0027 keyword to the class declaration.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "10min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:55:49+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  3,
+                          "endLine":  3,
+                          "startOffset":  26,
+                          "endOffset":  56
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "58ba4ba0-6a93-40b2-8eb6-e169ffbfc2b9",
+        "rule":  "csharpsquid:S1118",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:BAL/Services/SonarChallengeReconciliationAnalyzer.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  3,
+        "message":  "Add a \u0027private\u0027 constructor or the \u0027static\u0027 keyword to the class declaration.",
+        "type":  "CODE_SMELL",
+        "severity":  "MAJOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "MEDIUM"
+                        }
+                    ],
+        "effort":  "10min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:55:49+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+                     "design"
+                 ],
+        "textRange":  {
+                          "startLine":  3,
+                          "endLine":  3,
+                          "startOffset":  26,
+                          "endOffset":  62
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "0d1cff4c-98b6-4469-a045-456599139454",
+        "rule":  "csharpsquid:S2325",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  36,
+        "message":  "Make \u0027NormalizeBalance\u0027 a static method.",
+        "type":  "CODE_SMELL",
+        "severity":  "MINOR",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "LOW"
+                        }
+                    ],
+        "effort":  "5min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:55:49+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+                     "pitfall"
+                 ],
+        "textRange":  {
+                          "startLine":  36,
+                          "endLine":  36,
+                          "startOffset":  23,
+                          "endOffset":  39
+                      },
+        "flows":  [
+
+                  ]
+    },
+    {
+        "key":  "56cb5dbe-2d44-445b-8c24-03645c68fb0e",
+        "rule":  "external_roslyn:CA1822",
+        "component":  "financial-accounting-sonar-v2-gpt55-live:MODEL/SonarChallenge/SonarChallengeLedgerProjection.cs",
+        "project":  "financial-accounting-sonar-v2-gpt55-live",
+        "line":  36,
+        "message":  "Member \u0027NormalizeBalance\u0027 does not access instance data and can be marked as static",
+        "type":  "CODE_SMELL",
+        "severity":  "INFO",
+        "impacts":  [
+                        {
+                            "softwareQuality":  "MAINTAINABILITY",
+                            "severity":  "INFO"
+                        }
+                    ],
+        "effort":  "0min",
+        "status":  "OPEN",
+        "resolution":  null,
+        "creationDate":  "2026-07-20T04:55:49+0000",
+        "updateDate":  "2026-07-29T15:30:09+0000",
+        "tags":  [
+
+                 ],
+        "textRange":  {
+                          "startLine":  36,
+                          "endLine":  36,
+                          "startOffset":  23,
+                          "endOffset":  39
+                      },
+        "flows":  [
+
+                  ]
+    }
+]

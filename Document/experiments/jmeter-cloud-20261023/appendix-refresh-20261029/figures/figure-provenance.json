@@ -1,0 +1,152 @@
+[
+  {
+    "figure": "L.9",
+    "profile": "p50",
+    "side": "before",
+    "file": "figure-L-09-p50-before.png",
+    "run_ids": [
+      "p50-r1-before-a2",
+      "p50-r2-before-a1",
+      "p50-r3-before-a1"
+    ],
+    "sha256": "05b9306fc24bcf15fead658260dd35febdb112e7eb6e2e93ef51b04f59c0a75b",
+    "source_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "validity_passes": 3,
+    "performance_passes": 3
+  },
+  {
+    "figure": "L.10",
+    "profile": "p100",
+    "side": "before",
+    "file": "figure-L-10-p100-before.png",
+    "run_ids": [
+      "p100-r1-before-a1",
+      "p100-r2-before-a1",
+      "p100-r3-before-a1"
+    ],
+    "sha256": "1ab8497dbe38dbe102ee3c44de07bafdcbbefbadb0d3a0a7ec0a1c0cfa118f17",
+    "source_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "validity_passes": 3,
+    "performance_passes": 0
+  },
+  {
+    "figure": "L.11",
+    "profile": "p500",
+    "side": "before",
+    "file": "figure-L-11-p500-before.png",
+    "run_ids": [
+      "p500-r1-before-a1",
+      "p500-r2-before-a1",
+      "p500-r3-before-a4"
+    ],
+    "sha256": "dd02ed48b1a5a3636f5cf565aeaddb5087c2d911e5d05890c599afe59c3c0b13",
+    "source_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "validity_passes": 3,
+    "performance_passes": 0
+  },
+  {
+    "figure": "L.12",
+    "profile": "soak",
+    "side": "before",
+    "file": "figure-L-12-soak-before.png",
+    "run_ids": [
+      "soak-r1-before-a1",
+      "soak-r2-before-a1",
+      "soak-r3-before-a1"
+    ],
+    "sha256": "561bf8728d617cdc5ebe6704b11813df15ee2a81a1e995bc495e97d6083c1675",
+    "source_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "validity_passes": 3,
+    "performance_passes": 3
+  },
+  {
+    "figure": "L.13",
+    "profile": "spike",
+    "side": "before",
+    "file": "figure-L-13-spike-before.png",
+    "run_ids": [
+      "spike-r1-before-a1",
+      "spike-r2-before-a1",
+      "spike-r3-before-a1"
+    ],
+    "sha256": "58ae5e48c23e2fe94189946b50716135c5e8a5af1f29806ac24b16d3f8a669cf",
+    "source_commit": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "validity_passes": 3,
+    "performance_passes": 3
+  },
+  {
+    "figure": "L.14",
+    "profile": "p50",
+    "side": "after",
+    "file": "figure-L-14-p50-after.png",
+    "run_ids": [
+      "p50-r1-after-a2",
+      "p50-r2-after-a1",
+      "p50-r3-after-a1"
+    ],
+    "sha256": "0a48c1f05aadb39297a0ec8eb0bad0f40c56b28a862a54373711348bfba75453",
+    "source_commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "validity_passes": 3,
+    "performance_passes": 3
+  },
+  {
+    "figure": "L.15",
+    "profile": "p100",
+    "side": "after",
+    "file": "figure-L-15-p100-after.png",
+    "run_ids": [
+      "p100-r1-after-a1",
+      "p100-r2-after-a1",
+      "p100-r3-after-a1"
+    ],
+    "sha256": "ce9227375f1b35d3186882bd4ff906ee87268d2a1faa5a1553e3e1e72aa7591a",
+    "source_commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "validity_passes": 3,
+    "performance_passes": 3
+  },
+  {
+    "figure": "L.16",
+    "profile": "p500",
+    "side": "after",
+    "file": "figure-L-16-p500-after.png",
+    "run_ids": [
+      "p500-r1-after-a1",
+      "p500-r2-after-a1",
+      "p500-r3-after-a4"
+    ],
+    "sha256": "d9d979206b64b56575b1355e8c7b19658f703de94541acf09761605e7eae4aab",
+    "source_commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "validity_passes": 3,
+    "performance_passes": 0
+  },
+  {
+    "figure": "L.17",
+    "profile": "soak",
+    "side": "after",
+    "file": "figure-L-17-soak-after.png",
+    "run_ids": [
+      "soak-r1-after-a1",
+      "soak-r2-after-a1",
+      "soak-r3-after-a1"
+    ],
+    "sha256": "186ac2b28a8448e66522b37eaf6c55be3c8dafcc44899958f640dda4ddc0c9cd",
+    "source_commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "validity_passes": 3,
+    "performance_passes": 1
+  },
+  {
+    "figure": "L.18",
+    "profile": "spike",
+    "side": "after",
+    "file": "figure-L-18-spike-after.png",
+    "run_ids": [
+      "spike-r1-after-a1",
+      "spike-r2-after-a1",
+      "spike-r3-after-a1"
+    ],
+    "sha256": "361c20f733ee82840aac94e5bc4aaae5dbbeef65a83d3432214b2988f5f19308",
+    "source_commit": "78b08b62570dcf6fe436354e8e6b770ab2074445",
+    "validity_passes": 3,
+    "performance_passes": 0
+  }
+]

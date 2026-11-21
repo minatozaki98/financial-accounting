@@ -1,0 +1,12 @@
+{
+  "accepted_runs": 30,
+  "accepted_pairs": 15,
+  "profiles": 5,
+  "raw_files_rehashed": 150,
+  "analysis_protocol_version": 2,
+  "metric_match_to_published_summary": true,
+  "resource_validity_rechecked": true,
+  "first_start_bangkok": "2026-10-25T16:28:23.816000+07:00",
+  "last_start_bangkok": "2026-10-26T03:48:53.441000+07:00",
+  "comparison_sha256": "e09d40657fd6f234ddc1d4752eed6d5285aa9f01220839ade4448322f97d20c7"
+}
