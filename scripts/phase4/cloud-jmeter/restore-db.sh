@@ -24,6 +24,16 @@ if [[ "$counts" != "120 30000 5000" ]]; then
   exit 1
 fi
 
+if [[ -n "${2:-}" ]]; then
+  schema="/opt/jmeter-research/schema/$side.sql"
+  if [[ ! "$2" =~ ^[a-f0-9]{64}$ ]] || [[ "$(sha256sum "$schema" | cut -d ' ' -f1)" != "$2" ]]; then
+    echo "Post-restore SQL checksum mismatch for $side" >&2
+    exit 1
+  fi
+  docker exec -i jmeter-research-sql-1 bash -c 'SQLCMDPASSWORD="$MSSQL_SA_PASSWORD" /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -b -d Financial' < "$schema"
+  printf 'applied_schema_sha256=%s\n' "$2"
+fi
+
 sed -i -E "s/^API_IMAGE=.*/API_IMAGE=financial-api:$side/" .env
 chmod 600 .env
 docker compose --env-file .env -f compose-target.yaml up -d --force-recreate api

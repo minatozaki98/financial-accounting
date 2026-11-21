@@ -12,7 +12,7 @@ from run_matrix import PROFILES, check_profiles, provider_ips, run_side
 BUILDS = ("baseline", "gpt55", "luna", "terra", "sol")
 
 
-def make_plan(builds):
+def make_plan(builds, schema_dir):
     if set(builds) != set(BUILDS):
         raise ValueError("Expected baseline, gpt55, luna, terra and sol builds")
     for name, build in builds.items():
@@ -20,6 +20,11 @@ def make_plan(builds):
                 not re.fullmatch(r"sha256:[a-f0-9]{64}", build["image_id"]) or
                 build["tag"] != f"financial-api:bench56-{name}"):
             raise ValueError(f"Invalid frozen build identity for {name}")
+        schema = build["schema_sha256"]
+        if schema is not None:
+            path = schema_dir / f"bench56-{name}.sql"
+            if hashlib.sha256(path.read_bytes()).hexdigest() != schema:
+                raise ValueError(f"Post-restore SQL differs for {name}")
     hashes = {name: values["sha256"] for name, values in check_profiles().items()}
     blocks = []
     for index, profile in enumerate(PROFILES):
@@ -78,7 +83,8 @@ def execute(plan, state):
             runs = {}
             for name in block["order"]:
                 runs[name] = run_side(profile, repeat, "bench56-"+name, attempt, state,
-                                      ips, protocol, manifest, plan["builds"][name]["image_id"])
+                                      ips, protocol, manifest, plan["builds"][name]["image_id"],
+                                      plan["builds"][name]["schema_sha256"])
             write_json(marker, dict(fingerprint=fingerprint, runs=runs))
         rows = []
         for profile, (users, ramp, hold, _) in PROFILES.items():
@@ -121,7 +127,8 @@ def main():
     parser.add_argument("--state-dir", type=Path)
     parser.add_argument("--output", type=Path, help="Save the offline schedule")
     args = parser.parse_args()
-    plan = make_plan(json.loads(args.builds.read_text(encoding="utf-8-sig")))
+    plan = make_plan(json.loads(args.builds.read_text(encoding="utf-8-sig")),
+                     args.builds.parent / "schema")
     if args.output:
         write_json(args.output, plan)
     if args.execute:

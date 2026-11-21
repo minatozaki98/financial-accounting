@@ -143,7 +143,7 @@ def next_attempt(evidence: Path, profile: str, repeat: int) -> int:
 
 def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
              ips: dict[str, str], protocol: dict, manifest: dict,
-             expected_image: str | None = None) -> dict:
+             expected_image: str | None = None, schema_sha256: str | None = None) -> dict:
     target, generator = ips["target"], ips["generator"]
     users, ramp, hold, guard = PROFILES[profile]
     duration = ramp + hold + guard
@@ -152,8 +152,13 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
     local = state / "evidence/matrix" / run_id
     local.mkdir(parents=True, exist_ok=False)
     remote = f"/opt/jmeter-research/results/matrix/{run_id}"
-    ssh(target, state, f"bash /opt/jmeter-research/restore-db.sh {side}",
-        timeout=150, output=local / "restore.log")
+    restore = f"bash /opt/jmeter-research/restore-db.sh {side}"
+    if schema_sha256 is not None:
+        if not re.fullmatch(r"[a-f0-9]{64}", schema_sha256):
+            raise ValueError("Invalid post-restore schema digest")
+        restore += " " + schema_sha256
+    ssh(target, state, restore,
+        timeout=300, output=local / "restore.log")
     if expected_image is None:
         image_manifest = json.loads((ROOT / "Document/experiments/jmeter-cloud-20261023/container-images.json").read_text())
         expected_image = image_manifest["built_api_images"][side]
