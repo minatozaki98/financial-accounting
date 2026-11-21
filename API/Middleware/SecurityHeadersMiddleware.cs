@@ -5,6 +5,10 @@ namespace API.Middleware
 {
     public sealed class SecurityHeadersMiddleware
     {
+        private const string SwaggerContentSecurityPolicy =
+            "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; " +
+            "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';";
+
         private readonly RequestDelegate _next;
         private readonly SecurityHeadersOptions _options;
 
@@ -20,7 +24,13 @@ namespace API.Middleware
             {
                 context.Response.OnStarting(() =>
                 {
-                    SetHeaderIfMissing(context, "Content-Security-Policy", _options.ContentSecurityPolicy);
+                    var contentSecurityPolicy = context.Request.Path.StartsWithSegments(
+                        "/swagger",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? SwaggerContentSecurityPolicy
+                        : _options.ContentSecurityPolicy;
+
+                    SetHeaderIfMissing(context, "Content-Security-Policy", contentSecurityPolicy);
                     SetHeaderIfMissing(context, "X-Frame-Options", _options.XFrameOptions);
                     SetHeaderIfMissing(context, "X-Content-Type-Options", _options.XContentTypeOptions);
                     SetHeaderIfMissing(context, "Permissions-Policy", _options.PermissionsPolicy);
