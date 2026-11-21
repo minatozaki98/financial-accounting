@@ -11,6 +11,8 @@ namespace FinancialAccounting.UnitTests;
 
 public class FinancialTokenProviderTests
 {
+    private static readonly string[] ExpectedRoles = { "Admin", "User" };
+
     [Fact]
     public void CreateAccessToken_ContainsExpectedClaims()
     {
@@ -34,7 +36,7 @@ public class FinancialTokenProviderTests
             PhoneNumber = string.Empty
         };
 
-        var (token, expiresAt) = provider.CreateAccessToken(user, new[] { "Admin", "User" });
+        var (token, expiresAt) = provider.CreateAccessToken(user, ExpectedRoles);
 
         token.Should().NotBeNullOrWhiteSpace();
         expiresAt.Should().BeAfter(DateTime.UtcNow);

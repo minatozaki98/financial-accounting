@@ -53,7 +53,7 @@ namespace API.Middleware
 
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/problem+json";
-            await context.Response.WriteAsJsonAsync(problem);
+            await context.Response.WriteAsJsonAsync(problem, cancellationToken: context.RequestAborted);
         }
     }
 }
