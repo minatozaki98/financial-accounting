@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-side=${1:?use before or after}
-if [[ "$side" != before && "$side" != after ]]; then
-  echo 'Expected before or after.' >&2
-  exit 2
-fi
+side=${1:?supply an API build label}
+case "$side" in
+  before|after|bench56-baseline|bench56-gpt55|bench56-luna|bench56-terra|bench56-sol) ;;
+  *) echo 'Unknown API build label.' >&2; exit 2 ;;
+esac
 
 cd /opt/jmeter-research
 expected=2c2e7ce6aac675ab1f2924e4dea4a07bae70dbd587618fd5c64e4ebb5e7365b4

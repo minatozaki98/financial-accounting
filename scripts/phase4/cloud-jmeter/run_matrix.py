@@ -142,7 +142,8 @@ def next_attempt(evidence: Path, profile: str, repeat: int) -> int:
 
 
 def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
-             ips: dict[str, str], protocol: dict, manifest: dict) -> dict:
+             ips: dict[str, str], protocol: dict, manifest: dict,
+             expected_image: str | None = None) -> dict:
     target, generator = ips["target"], ips["generator"]
     users, ramp, hold, guard = PROFILES[profile]
     duration = ramp + hold + guard
@@ -153,8 +154,9 @@ def run_side(profile: str, repeat: int, side: str, attempt: int, state: Path,
     remote = f"/opt/jmeter-research/results/matrix/{run_id}"
     ssh(target, state, f"bash /opt/jmeter-research/restore-db.sh {side}",
         timeout=150, output=local / "restore.log")
-    image_manifest = json.loads((ROOT / "Document/experiments/jmeter-cloud-20261023/container-images.json").read_text())
-    expected_image = image_manifest["built_api_images"][side]
+    if expected_image is None:
+        image_manifest = json.loads((ROOT / "Document/experiments/jmeter-cloud-20261023/container-images.json").read_text())
+        expected_image = image_manifest["built_api_images"][side]
     actual_image = ssh(target, state, "docker inspect jmeter-research-api-1 --format={{.Image}}")
     if actual_image != expected_image:
         raise ValueError(f"{side} API image differs from frozen source build")
