@@ -46,9 +46,6 @@
       "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
-      "dependsOn": [
-        "[parameters('resourceGroupName')]"
-      ],
       "properties": {
         "mode": "Incremental",
         "expressionEvaluationOptions": {
