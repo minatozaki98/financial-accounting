@@ -1,0 +1,21 @@
+{
+  "id": "e619bc39-1a77-45c9-a25b-3107444f4351",
+  "type": "REPORT",
+  "componentId": "42bfc555-de34-4d60-8d8d-f142947f9a96",
+  "componentKey": "fa-55-reference",
+  "componentName": "Financial Accounting",
+  "componentQualifier": "TRK",
+  "analysisId": "4381a9ae-7eed-44fd-95b5-2347f65c1db0",
+  "status": "SUCCESS",
+  "submittedAt": "2026-11-21T15:47:04+07:00",
+  "submitterLogin": "admin",
+  "startedAt": "2026-11-21T15:47:05+07:00",
+  "executedAt": "2026-11-21T15:47:08+07:00",
+  "executionTimeMs": 2339,
+  "hasScannerContext": true,
+  "warningCount": 1,
+  "warnings": [
+    "SCM provider autodetection failed. Please use \"sonar.scm.provider\" to define SCM of your project, or disable the SCM Sensor in the project settings."
+  ],
+  "infoMessages": []
+}

@@ -1,0 +1,18 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "e75b57a8e65e3ba64f4e58f5d643bb3d102e8f8d",
+  "ref": "refs/heads/codex/benchmark-20261121-sol-security",
+  "files": [
+    "API/API.csproj",
+    "API/Middleware/SecurityHeadersMiddleware.cs",
+    "API/Program.cs",
+    "API/wwwroot/swagger/LICENSE",
+    "API/wwwroot/swagger/NOTICE",
+    "API/wwwroot/swagger/swagger-ui-bundle.js",
+    "API/wwwroot/swagger/swagger-ui-bundle.js.LICENSE.txt",
+    "API/wwwroot/swagger/swagger-ui-standalone-preset.js",
+    "API/wwwroot/swagger/swagger-ui-standalone-preset.js.LICENSE.txt",
+    "API/wwwroot/swagger/swagger-ui.css",
+    "tests/FinancialAccounting.IntegrationTests/HealthTests.cs"
+  ]
+}

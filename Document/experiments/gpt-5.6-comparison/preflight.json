@@ -1,0 +1,15 @@
+{
+  "gpt55_security": "aa1a9bd7cefe4f3a07c3bd10d0bde7d5409e3f4b",
+  "status": "Source workspaces prepared. Fresh baseline measurements and remediation pending. Deployment and JMeter load testing deferred.",
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "model_check": "Separate explicitly selected read-only Codex CLI calls each returned READY. Model catalog refresh warnings occurred.",
+  "workspace_root": "C:\\Users\\Asus\\Documents\\GitHub\\school\\financial-accounting-benchmark-20261121",
+  "gpt55_performance": "8d0be3b918008f1cf38a7c61669f8d7609df0963",
+  "workspace_count": 9,
+  "gpt55_sonar": "19763f15cbc8412eb74ff5b9d706be69456e62ff",
+  "models": [
+    "gpt-5.6-luna",
+    "gpt-5.6-terra",
+    "gpt-5.6-sol"
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "suite": "integration",
+    "total": 96,
+    "passed": 96,
+    "failed": 0
+  },
+  {
+    "suite": "unit",
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  }
+]

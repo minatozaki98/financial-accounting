@@ -1,0 +1,2 @@
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 201 ms - FinancialAccounting.UnitTests.dll (net8.0)
+Passed!  - Failed:     0, Passed:   100, Skipped:     0, Total:   100, Duration: 6 s - FinancialAccounting.IntegrationTests.dll (net8.0)

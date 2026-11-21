@@ -1,0 +1,29 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "gpt55Sonar": "19763f15cbc8412eb74ff5b9d706be69456e62ff",
+  "gpt55Security": "aa1a9bd7cefe4f3a07c3bd10d0bde7d5409e3f4b",
+  "models": [
+    "gpt-5.6-luna",
+    "gpt-5.6-terra",
+    "gpt-5.6-sol"
+  ],
+  "reasoning": "high",
+  "sonarImage": "sha256:7b2296713a92b8ea0dd7a083a25faadc59376c9a1e6daf2744a89711c54ea1ba",
+  "zapImage": "ghcr.io/zaproxy/zaproxy@sha256:781a2bdaea47324e7bab583e2263f21d257b0aee61ed51521a5be45f5f5081ef",
+  "zapVersion": "2.17.0",
+  "fixtureSha256": "718AAB5CFF8B2B638C997A8A60F2ADC6AE7F4AE7D6E1D83083308048F3355CD0",
+  "seed": {
+    "accounts": 12,
+    "posted": 10,
+    "journalEntries": 40,
+    "period": 202601
+  },
+  "database": "Dedicated SQL Server LocalDB instance restored from a common backup before every ZAP measurement",
+  "baselineMode": "Packaged spider and passive scan, 5-minute spider limit, common baseline rules",
+  "apiMode": "Packaged safe-mode OpenAPI import and passive scan (-S), pinned API rules, synthetic admin bearer and X-Api-Version 1.0. Interactive login and role checks run separately before scanning.",
+  "origin": "Local HTTP on port 19561, Development profile",
+  "timeZone": "Asia/Bangkok",
+  "sdk": "9.0.308",
+  "sonarScanner": "SonarScanner for .NET 12.1",
+  "sonarVersion": "26.11.0.134175"
+}

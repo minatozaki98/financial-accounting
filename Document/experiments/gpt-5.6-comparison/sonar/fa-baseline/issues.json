@@ -1,0 +1,459 @@
+{
+  "total": 7,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 7
+  },
+  "effortTotal": 11,
+  "issues": [
+    {
+      "key": "c8e9e236-0558-465f-8e9f-ce1103369db9",
+      "rule": "csharpsquid:S8949",
+      "severity": "MAJOR",
+      "component": "fa-baseline:API/Middleware/GlobalExceptionMiddleware.cs",
+      "project": "fa-baseline",
+      "line": 56,
+      "hash": "48afb0b3d7c444d5c8048a59da2c7e1d",
+      "textRange": {
+        "startLine": 56,
+        "endLine": 56,
+        "startOffset": 18,
+        "endOffset": 51
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "fa-baseline:API/Middleware/GlobalExceptionMiddleware.cs",
+              "textRange": {
+                "startLine": 40,
+                "endLine": 40,
+                "startOffset": 57,
+                "endOffset": 64
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Pass the 'context.RequestAborted' to this method to allow cancellation of the operation, or use 'CancellationToken.None' to opt out explicitly.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [
+        "async",
+        "performance",
+        "concurrency"
+      ],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fdab7198-4e56-417a-852e-9432ecfa511d",
+      "rule": "csharpsquid:S6966",
+      "severity": "MAJOR",
+      "component": "fa-baseline:API/Program.cs",
+      "project": "fa-baseline",
+      "line": 188,
+      "hash": "2c00f42b764b8134043380893434076b",
+      "textRange": {
+        "startLine": 188,
+        "endLine": 188,
+        "startOffset": 0,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Await RunAsync instead.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [
+        "async-await"
+      ],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "a9858d36-e787-4e88-ba0f-a4bbeb76b07a",
+      "rule": "azureresourcemanager:S6952",
+      "severity": "CRITICAL",
+      "component": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "project": "fa-baseline",
+      "line": 50,
+      "hash": "bdfa123c5db3402afd77699506217a3f",
+      "textRange": {
+        "startLine": 50,
+        "endLine": 50,
+        "startOffset": 21,
+        "endOffset": 39
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 59,
+                "endLine": 59,
+                "startOffset": 34,
+                "endOffset": 52
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 91,
+                "endLine": 91,
+                "startOffset": 124,
+                "endOffset": 142
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 92,
+                "endLine": 92,
+                "startOffset": 131,
+                "endOffset": 149
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+              "textRange": {
+                "startLine": 93,
+                "endLine": 93,
+                "startOffset": 125,
+                "endOffset": 143
+              },
+              "msg": "Implicit dependency is created via a symbolic name.",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Remove this explicit dependency as it is already defined implicitly.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6f4dcf1c-a3ad-495b-b543-e0b977d754ed",
+      "rule": "external_roslyn:CA1862",
+      "severity": "INFO",
+      "component": "fa-baseline:BAL/Services/FinancialAuthService.cs",
+      "project": "fa-baseline",
+      "line": 130,
+      "hash": "f26e94ad4e0e36ea170f185b5d8aec70",
+      "textRange": {
+        "startLine": 130,
+        "endLine": 130,
+        "startOffset": 42,
+        "endOffset": 84
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison, but keep in mind that this might cause subtle changes in behavior, so make sure to conduct thorough testing after applying the suggestion, or if culturally sensitive comparison is not required, consider using 'StringComparison.OrdinalIgnoreCase'",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "886c47be-b91c-444b-a5a6-21c24b44628a",
+      "rule": "external_roslyn:xUnit1042",
+      "severity": "INFO",
+      "component": "fa-baseline:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "project": "fa-baseline",
+      "line": 35,
+      "hash": "a4c7baca5474c7ca78c2a4569784aaa5",
+      "textRange": {
+        "startLine": 35,
+        "endLine": 35,
+        "startOffset": 5,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "The member referenced by the MemberData attribute returns untyped data rows, such as object[]. Consider using TheoryData<> as the return type to provide better type safety.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "e95bfd76-8ccf-4192-97ab-9ed4841e5db7",
+      "rule": "external_roslyn:CA1861",
+      "severity": "INFO",
+      "component": "fa-baseline:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "project": "fa-baseline",
+      "line": 46,
+      "hash": "f3c8a6a5420fa5a4c91c4df54510a426",
+      "textRange": {
+        "startLine": 46,
+        "endLine": 46,
+        "startOffset": 12,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "57b11a50-290a-40a7-b4fa-d9a5a12f8906",
+      "rule": "external_roslyn:CA1861",
+      "severity": "INFO",
+      "component": "fa-baseline:tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "project": "fa-baseline",
+      "line": 37,
+      "hash": "7feacad2f6dde2b238bd145c2cd88cb2",
+      "textRange": {
+        "startLine": 37,
+        "endLine": 37,
+        "startOffset": 66,
+        "endOffset": 91
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-11-21T14:37:59+07:00",
+      "updateDate": "2026-11-21T14:37:59+07:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "fa-baseline:API/Program.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Program.cs",
+      "longName": "API/Program.cs",
+      "path": "API/Program.cs"
+    },
+    {
+      "key": "fa-baseline:API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "profile.arm.json",
+      "longName": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "path": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json"
+    },
+    {
+      "key": "fa-baseline:BAL/Services/FinancialAuthService.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "FinancialAuthService.cs",
+      "longName": "BAL/Services/FinancialAuthService.cs",
+      "path": "BAL/Services/FinancialAuthService.cs"
+    },
+    {
+      "key": "fa-baseline",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "Financial Accounting",
+      "longName": "Financial Accounting"
+    },
+    {
+      "key": "fa-baseline:tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "FinancialTokenProviderTests.cs",
+      "longName": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "path": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs"
+    },
+    {
+      "key": "fa-baseline:tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "RbacMatrixTests.cs",
+      "longName": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "path": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs"
+    },
+    {
+      "key": "fa-baseline:API/Middleware/GlobalExceptionMiddleware.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "GlobalExceptionMiddleware.cs",
+      "longName": "API/Middleware/GlobalExceptionMiddleware.cs",
+      "path": "API/Middleware/GlobalExceptionMiddleware.cs"
+    }
+  ],
+  "facets": []
+}

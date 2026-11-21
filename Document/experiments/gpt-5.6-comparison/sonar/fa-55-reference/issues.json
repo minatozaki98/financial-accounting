@@ -1,0 +1,92 @@
+{
+  "total": 1,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 1
+  },
+  "effortTotal": 1,
+  "issues": [
+    {
+      "key": "0a3e6ffc-354d-4f8d-80c8-3b6d64dccaf2",
+      "rule": "csharpsquid:S8949",
+      "severity": "MAJOR",
+      "component": "fa-55-reference:API/Middleware/GlobalExceptionMiddleware.cs",
+      "project": "fa-55-reference",
+      "line": 56,
+      "hash": "48afb0b3d7c444d5c8048a59da2c7e1d",
+      "textRange": {
+        "startLine": 56,
+        "endLine": 56,
+        "startOffset": 18,
+        "endOffset": 51
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "fa-55-reference:API/Middleware/GlobalExceptionMiddleware.cs",
+              "textRange": {
+                "startLine": 40,
+                "endLine": 40,
+                "startOffset": 57,
+                "endOffset": 64
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Pass the 'context.RequestAborted' to this method to allow cancellation of the operation, or use 'CancellationToken.None' to opt out explicitly.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [
+        "async",
+        "performance",
+        "concurrency"
+      ],
+      "creationDate": "2026-11-21T15:46:53+07:00",
+      "updateDate": "2026-11-21T15:46:53+07:00",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "fa-55-reference:API/Middleware/GlobalExceptionMiddleware.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "GlobalExceptionMiddleware.cs",
+      "longName": "API/Middleware/GlobalExceptionMiddleware.cs",
+      "path": "API/Middleware/GlobalExceptionMiddleware.cs"
+    },
+    {
+      "key": "fa-55-reference",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "Financial Accounting",
+      "longName": "Financial Accounting"
+    }
+  ],
+  "facets": []
+}

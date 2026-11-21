@@ -1,0 +1,127 @@
+diff --git a/API/Middleware/GlobalExceptionMiddleware.cs b/API/Middleware/GlobalExceptionMiddleware.cs
+index ff00dae..1c581ec 100644
+--- a/API/Middleware/GlobalExceptionMiddleware.cs
++++ b/API/Middleware/GlobalExceptionMiddleware.cs
+@@ -53,7 +53,7 @@ namespace API.Middleware
+ 
+             context.Response.StatusCode = statusCode;
+             context.Response.ContentType = "application/problem+json";
+-            await context.Response.WriteAsJsonAsync(problem);
++            await context.Response.WriteAsJsonAsync(problem, context.RequestAborted);
+         }
+     }
+ }
+diff --git a/API/Program.cs b/API/Program.cs
+index 08a0019..9a39e94 100644
+--- a/API/Program.cs
++++ b/API/Program.cs
+@@ -185,7 +185,7 @@ else
+ 
+ app.MapFallback(() => Results.NotFound()).ExcludeFromDescription();
+ app.MapControllers();
+-app.Run();
++await app.RunAsync();
+ 
+ public partial class Program
+ {
+diff --git a/API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json b/API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json
+index 4bd9bad..413f173 100644
+--- a/API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json	
++++ b/API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json	
+@@ -46,9 +46,6 @@
+       "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+       "resourceGroup": "[parameters('resourceGroupName')]",
+       "apiVersion": "2019-10-01",
+-      "dependsOn": [
+-        "[parameters('resourceGroupName')]"
+-      ],
+       "properties": {
+         "mode": "Incremental",
+         "expressionEvaluationOptions": {
+@@ -171,4 +168,4 @@
+       }
+     }
+   ]
+-}
+\ No newline at end of file
++}
+diff --git a/BAL/Services/FinancialAuthService.cs b/BAL/Services/FinancialAuthService.cs
+index da872c7..a7c4771 100644
+--- a/BAL/Services/FinancialAuthService.cs
++++ b/BAL/Services/FinancialAuthService.cs
+@@ -125,9 +125,10 @@ namespace BAL.Services
+                 throw new InvalidOperationException($"Email '{email}' already exists.");
+             }
+ 
+-            var role = await _context.FinancialRoles
++            var role = (await _context.FinancialRoles
+                 .AsNoTracking()
+-                .FirstOrDefaultAsync(x => x.RoleName.ToLower() == roleName.ToLower());
++                .ToListAsync())
++                .FirstOrDefault(x => string.Equals(x.RoleName, roleName, StringComparison.CurrentCultureIgnoreCase));
+             if (role == null)
+             {
+                 throw new InvalidOperationException($"Role '{roleName}' is invalid.");
+diff --git a/tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs b/tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs
+index 11eec81..b2bf951 100644
+--- a/tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs
++++ b/tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs
+@@ -10,6 +10,7 @@ namespace FinancialAccounting.IntegrationTests;
+ public class RbacMatrixTests : IClassFixture<TestApiFactory>
+ {
+     private static readonly string[] Roles = { "Admin", "FinanceManager", "User", "Auditor", "Anonymous" };
++    private static readonly int[] AcceptedCloseStatuses = { 204, 404 };
+ 
+     private readonly HttpClient _client;
+     private readonly TokenFixture _tokens;
+@@ -20,15 +21,18 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
+         _tokens = new TokenFixture(_client);
+     }
+ 
+-    public static IEnumerable<object[]> Cases()
++    public static TheoryData<string, string> Cases()
+     {
++        var data = new TheoryData<string, string>();
+         foreach (var endpoint in ExpectedStatusMatrix.EndpointRoleStatus.Keys)
+         {
+             foreach (var role in Roles)
+             {
+-                yield return new object[] { endpoint, role };
++                data.Add(endpoint, role);
+             }
+         }
++
++        return data;
+     }
+ 
+     [Theory]
+@@ -43,7 +47,7 @@ public class RbacMatrixTests : IClassFixture<TestApiFactory>
+         var actual = (int)response.StatusCode;
+         if (endpointKey == "POST /periods/{id}/close" && (role == "Admin" || role == "FinanceManager"))
+         {
+-            new[] { 204, 404 }.Should().Contain(actual);
++            AcceptedCloseStatuses.Should().Contain(actual);
+             return;
+         }
+ 
+diff --git a/tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs b/tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs
+index ba74f04..80bdc56 100644
+--- a/tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs
++++ b/tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs
+@@ -11,6 +11,7 @@ namespace FinancialAccounting.UnitTests;
+ 
+ public class FinancialTokenProviderTests
+ {
++    private static readonly string[] ExpectedRoles = { "Admin", "User" };
+     [Fact]
+     public void CreateAccessToken_ContainsExpectedClaims()
+     {
+@@ -34,7 +35,7 @@ public class FinancialTokenProviderTests
+             PhoneNumber = string.Empty
+         };
+ 
+-        var (token, expiresAt) = provider.CreateAccessToken(user, new[] { "Admin", "User" });
++        var (token, expiresAt) = provider.CreateAccessToken(user, ExpectedRoles);
+ 
+         token.Should().NotBeNullOrWhiteSpace();
+         expiresAt.Should().BeAfter(DateTime.UtcNow);

@@ -1,0 +1,13 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "fb28daddd19e28b014b29ce12cfad2d22db6da55",
+  "ref": "refs/heads/codex/benchmark-20261121-luna-sonar",
+  "files": [
+    "API/Middleware/GlobalExceptionMiddleware.cs",
+    "API/Program.cs",
+    "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+    "BAL/Services/FinancialAuthService.cs",
+    "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+    "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs"
+  ]
+}

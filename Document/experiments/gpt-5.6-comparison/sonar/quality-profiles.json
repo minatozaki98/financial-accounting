@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Sonar way core",
+    "language": "azureresourcemanager",
+    "activeRuleCount": 27,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "cloudformation",
+    "activeRuleCount": 22,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "cs",
+    "activeRuleCount": 121,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "css",
+    "activeRuleCount": 30,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "docker",
+    "activeRuleCount": 18,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "flex",
+    "activeRuleCount": 11,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "go",
+    "activeRuleCount": 6,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "ipynb",
+    "activeRuleCount": 230,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "java",
+    "activeRuleCount": 263,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "js",
+    "activeRuleCount": 200,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way comprehensive",
+    "language": "json",
+    "activeRuleCount": 0,
+    "rulesUpdatedAt": "2026-11-21T14:36:42+07:00"
+  },
+  {
+    "name": "Sonar way comprehensive",
+    "language": "jsp",
+    "activeRuleCount": 0,
+    "rulesUpdatedAt": "2026-11-21T14:36:41+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "kotlin",
+    "activeRuleCount": 54,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "kubernetes",
+    "activeRuleCount": 18,
+    "rulesUpdatedAt": "2026-11-21T14:36:42+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "php",
+    "activeRuleCount": 78,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "py",
+    "activeRuleCount": 232,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "secrets",
+    "activeRuleCount": 30,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "terraform",
+    "activeRuleCount": 49,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "text",
+    "activeRuleCount": 3,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "ts",
+    "activeRuleCount": 199,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "vbnet",
+    "activeRuleCount": 55,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "web",
+    "activeRuleCount": 36,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way core",
+    "language": "xml",
+    "activeRuleCount": 20,
+    "rulesUpdatedAt": "2026-11-21T14:36:43+07:00"
+  },
+  {
+    "name": "Sonar way comprehensive",
+    "language": "yaml",
+    "activeRuleCount": 0,
+    "rulesUpdatedAt": "2026-11-21T14:36:42+07:00"
+  }
+]

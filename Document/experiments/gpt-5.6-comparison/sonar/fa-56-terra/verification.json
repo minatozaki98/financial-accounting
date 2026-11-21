@@ -1,0 +1,44 @@
+{
+  "variant": "gpt-5.6-terra",
+  "criterion": "sonarqube",
+  "projectKey": "fa-56-terra",
+  "sonarUrl": "http://localhost:19061",
+  "scanLog": "terra-sonar-scan-attempt1.log",
+  "analysis": {
+    "computeEngineStatus": "SUCCESS",
+    "analysisId": "55ccf4ff-6c19-44b6-91f2-0141da1b34e8",
+    "qualityGate": "OK",
+    "issues": 0,
+    "metrics": {
+      "bugs": 0,
+      "vulnerabilities": 0,
+      "codeSmells": 0,
+      "coveragePercent": 74.4,
+      "reliabilityRating": 1.0,
+      "securityRating": 1.0
+    }
+  },
+  "verification": {
+    "sdk": "C:/Users/Asus/Documents/GitHub/school/financial-accounting-benchmark-20261121/sdk",
+    "build": {
+      "configuration": "Debug",
+      "warnings": 0,
+      "errors": 0
+    },
+    "unitTests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "integrationTests": {
+      "passed": 96,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "notes": [
+    "All nine requested attempt-1 source edits were applied exactly once.",
+    "Target source files retain CRLF line endings.",
+    "The Sonar scanner warned that no SCM repository was detected; this does not invalidate the completed analysis."
+  ]
+}

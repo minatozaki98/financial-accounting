@@ -1,0 +1,42 @@
+{
+  "variant": "gpt-5.6-terra",
+  "criterion": "passive-zap-remediation",
+  "sourceReport": "zap-final/terra-security/baseline/report.json",
+  "remainingBeforeAttempt": {
+    "vulnerableSwaggerDomPurify": "3.4.0",
+    "cspFindings": [
+      "form-action missing",
+      "script-src unsafe-inline",
+      "style-src unsafe-inline"
+    ]
+  },
+  "changes": [
+    "CSP for the root and Swagger now uses only same-origin default sources, adds form-action 'self', and omits unsafe-inline.",
+    "Vendored the upstream swagger-ui-dist 5.35.1 swagger-ui-bundle.js before Swashbuckle's embedded asset using UseStaticFiles.",
+    "The vendored bundle contains DOMPurify 3.4.17; its upstream license file is retained."
+  ],
+  "vendoredBundle": {
+    "path": "terra-security/API/wwwroot/swagger/swagger-ui-bundle.js",
+    "sha256": "D0E0BEE93732408C91FBAD05CB0C2812E9AD37E94D12799C5503A9FE7AFA2B82",
+    "swaggerUiDistVersion": "5.35.1",
+    "domPurifyVersion": "3.4.17"
+  },
+  "verification": {
+    "unitTests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "integrationTests": {
+      "passed": 98,
+      "failed": 0,
+      "skipped": 0
+    },
+    "swaggerRegression": [
+      "Swagger UI and OpenAPI document return security headers.",
+      "The rendered Swagger document contains the Bearer scheme and 23 operations.",
+      "The served Swagger bundle identifies DOMPurify 3.4.17."
+    ]
+  },
+  "scanStatus": "No ZAP scan was run in this workspace; controller-owned retest is required."
+}

@@ -1,0 +1,10 @@
+{
+  "model": "gpt-5.6-luna",
+  "launchHeader": [
+    "model: gpt-5.6-luna",
+    "reasoning effort: high",
+    "session id: 01a1fd13-b92b-7a42-859a-93301577b38f"
+  ],
+  "logSHA256": "2F071E1ADD52B0F9ABB3E317DC60340CED59B8A8EF5123A7877D6AA89E71FC48",
+  "proposalSHA256": "5ADEFCE33DE99782ABF85525FD84726D6CC6260F1816B56A650FB4DF40E9ADCE"
+}

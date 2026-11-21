@@ -1,0 +1,12 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "d8571e639f179eed33915b92b1f645644c24733c",
+  "ref": "refs/heads/codex/benchmark-20261121-luna-security",
+  "files": [
+    "API/API.csproj",
+    "API/Program.cs",
+    "API/appsettings.json",
+    "MODEL/ApplicationConfig/AppSettings.cs",
+    "tests/FinancialAccounting.IntegrationTests/SwaggerUiTests.cs"
+  ]
+}

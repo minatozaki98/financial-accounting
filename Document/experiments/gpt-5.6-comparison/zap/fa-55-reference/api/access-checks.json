@@ -1,0 +1,36 @@
+{
+  "UnauthorizedChecks": {
+    "/users/me": 401,
+    "/accounts": 401,
+    "/periods": 401,
+    "/journal-entries": 401,
+    "/reports/trial-balance?periodId=202601": 401,
+    "/audit-logs?page=1&pageSize=10": 401
+  },
+  "CreatedProbeUsers": [
+    {
+      "Role": "User",
+      "Username": "zap-user-20261121161551903",
+      "Status": 201
+    },
+    {
+      "Role": "FinanceManager",
+      "Username": "zap-financemanager-20261121161551903",
+      "Status": 201
+    },
+    {
+      "Role": "Auditor",
+      "Username": "zap-auditor-20261121161551903",
+      "Status": 201
+    }
+  ],
+  "RbacChecks": {
+    "User->POST /accounts": 403,
+    "User->POST /periods": 403,
+    "User->GET /reports/trial-balance": 403,
+    "FinanceManager->POST /users": 403,
+    "FinanceManager->POST /accounts": 403,
+    "Auditor->POST /journal-entries": 403,
+    "Auditor->GET /audit-logs": 200
+  }
+}

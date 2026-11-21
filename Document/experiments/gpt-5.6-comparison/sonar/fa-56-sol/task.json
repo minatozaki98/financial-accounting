@@ -1,0 +1,21 @@
+{
+  "id": "7e0f33f6-2434-49af-afa9-03d64c912352",
+  "type": "REPORT",
+  "componentId": "8337f992-98cc-4201-ab58-3e038f972ad8",
+  "componentKey": "fa-56-sol",
+  "componentName": "Financial Accounting GPT-5.6 Sol",
+  "componentQualifier": "TRK",
+  "analysisId": "d22b5313-bcd1-4a52-bce2-23a4d4caa845",
+  "status": "SUCCESS",
+  "submittedAt": "2026-11-21T15:49:20+07:00",
+  "submitterLogin": "admin",
+  "startedAt": "2026-11-21T15:49:22+07:00",
+  "executedAt": "2026-11-21T15:49:23+07:00",
+  "executionTimeMs": 1494,
+  "hasScannerContext": true,
+  "warningCount": 1,
+  "warnings": [
+    "SCM provider autodetection failed. Please use \"sonar.scm.provider\" to define SCM of your project, or disable the SCM Sensor in the project settings."
+  ],
+  "infoMessages": []
+}

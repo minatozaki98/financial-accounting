@@ -1,0 +1,13 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "5ff182d584073ec3c4672b025065f135d0d30d10",
+  "ref": "refs/heads/codex/benchmark-20261121-terra-security",
+  "files": [
+    "API/API.csproj",
+    "API/Middleware/SecurityHeadersMiddleware.cs",
+    "API/Program.cs",
+    "API/appsettings.json",
+    "MODEL/ApplicationConfig/AppSettings.cs",
+    "tests/FinancialAccounting.IntegrationTests/SwaggerSecurityHeadersTests.cs"
+  ]
+}

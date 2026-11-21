@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-11-21T16:08:30.4523248+07:00",
+  "inputReports": [
+    "zap-final/sol-security/baseline/report.json",
+    "zap-final/sol-security/api/report.json"
+  ],
+  "unitTests": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2
+  },
+  "integrationTests": {
+    "passed": 100,
+    "failed": 0,
+    "total": 100
+  },
+  "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';",
+  "swashbuckleVersion": "10.3.1",
+  "swaggerUiDistVersion": "5.35.1",
+  "domPurifyVersion": "3.4.17",
+  "sourceFiles": [
+    {
+      "path": "API\\API.csproj",
+      "sha256": "97D1874EB78F7C197AAC896D8E8DE13FC0B736601D8EEE47CCBDB2F20A6440B1",
+      "crlf": 28,
+      "bareLf": 0
+    },
+    {
+      "path": "API\\Program.cs",
+      "sha256": "667FDDB4ED4AFDE86BA47B23674A695C809FB8A83040BA11ED543EF3DBA08A93",
+      "crlf": 184,
+      "bareLf": 0
+    },
+    {
+      "path": "API\\Middleware\\SecurityHeadersMiddleware.cs",
+      "sha256": "AF79FE249458D96CDC93DF74DDCAA43D11B07602F0EBCBE2667E81885F15EAF3",
+      "crlf": 55,
+      "bareLf": 0
+    },
+    {
+      "path": "tests\\FinancialAccounting.IntegrationTests\\HealthTests.cs",
+      "sha256": "27510218C6C3E741A9D0BA6F465C32CE48C1CB44427F66B360132521C8C192DC",
+      "crlf": 81,
+      "bareLf": 0
+    }
+  ],
+  "vendorAssets": [
+    {
+      "name": "LICENSE",
+      "bytes": 11358,
+      "sha256": "CFC7749B96F63BD31C3C42B5C471BF756814053E847C10F3EB003417BC523D30"
+    },
+    {
+      "name": "NOTICE",
+      "bytes": 55,
+      "sha256": "0D20D1ADEF18AEE3F40DD258172155521CE702AC445CB5F7B7D60ED32DAD2FB2"
+    },
+    {
+      "name": "swagger-ui-bundle.js",
+      "bytes": 1732839,
+      "sha256": "D0E0BEE93732408C91FBAD05CB0C2812E9AD37E94D12799C5503A9FE7AFA2B82"
+    },
+    {
+      "name": "swagger-ui-bundle.js.LICENSE.txt",
+      "bytes": 4606,
+      "sha256": "37EB6E7E59AED57B2C1ACF076574B818EA07B74265717E0BD67B59E0BAF9ABBB"
+    },
+    {
+      "name": "swagger-ui-standalone-preset.js",
+      "bytes": 267767,
+      "sha256": "5243D492E14505E0CAB87AC8B0195D0E615943E651743B2B698450A46EB470BE"
+    },
+    {
+      "name": "swagger-ui-standalone-preset.js.LICENSE.txt",
+      "bytes": 1732,
+      "sha256": "000580E4E2255EA6CCDE0C47F6D75E2F703A1931298FDE58756793B67C0DAED9"
+    },
+    {
+      "name": "swagger-ui.css",
+      "bytes": 187956,
+      "sha256": "5ED08757E53DA3E026D6CBECC61FE5D43585C9560B302D534AD56692519A273D"
+    }
+  ]
+}

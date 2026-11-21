@@ -1,0 +1,16 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "3193b06abe969ae9023fe31f261c9ee36e8f2438",
+  "ref": "refs/heads/codex/benchmark-20261121-terra-security",
+  "files": [
+    "API/API.csproj",
+    "API/Middleware/SecurityHeadersMiddleware.cs",
+    "API/Program.cs",
+    "API/appsettings.json",
+    "API/wwwroot/swagger/README.md",
+    "API/wwwroot/swagger/swagger-ui-bundle.js",
+    "API/wwwroot/swagger/swagger-ui-bundle.js.LICENSE.txt",
+    "MODEL/ApplicationConfig/AppSettings.cs",
+    "tests/FinancialAccounting.IntegrationTests/SwaggerSecurityHeadersTests.cs"
+  ]
+}

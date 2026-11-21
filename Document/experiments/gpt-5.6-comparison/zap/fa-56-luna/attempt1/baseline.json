@@ -1,0 +1,101 @@
+{
+  "categories": 6,
+  "instances": 16,
+  "instances_by_risk": {
+    "3": 1,
+    "2": 2,
+    "1": 5,
+    "0": 8
+  },
+  "business_paths_with_medium_or_high": [],
+  "observed_scanner_routes": [
+    "GET /",
+    "GET /robots.txt",
+    "GET /sitemap.xml",
+    "GET /swagger",
+    "GET /swagger/favicon-16x16.png",
+    "GET /swagger/favicon-32x32.png",
+    "GET /swagger/index.css",
+    "GET /swagger/index.html",
+    "GET /swagger/index.js",
+    "GET /swagger/swagger-ui-bundle.js",
+    "GET /swagger/swagger-ui-standalone-preset.js",
+    "GET /swagger/swagger-ui.css"
+  ],
+  "scanner_statuses": {
+    "GET / 302": 2,
+    "GET /robots.txt 404": 1,
+    "GET /sitemap.xml 404": 1,
+    "GET /swagger 301": 2,
+    "GET /swagger/favicon-16x16.png 200": 1,
+    "GET /swagger/favicon-32x32.png 200": 1,
+    "GET /swagger/index.css 200": 1,
+    "GET /swagger/index.html 200": 2,
+    "GET /swagger/index.js 200": 1,
+    "GET /swagger/swagger-ui-bundle.js 200": 1,
+    "GET /swagger/swagger-ui-standalone-preset.js 200": 1,
+    "GET /swagger/swagger-ui.css 200": 1
+  },
+  "alerts": [
+    {
+      "rule": "10003",
+      "alert": "Vulnerable JS Library",
+      "severity": "High (Medium)",
+      "count": 1,
+      "paths": [
+        "/swagger/swagger-ui-bundle.js"
+      ]
+    },
+    {
+      "rule": "10055",
+      "alert": "CSP: Failure to Define Directive with No Fallback",
+      "severity": "Medium (High)",
+      "count": 2,
+      "paths": [
+        "",
+        "/swagger/index.html"
+      ]
+    },
+    {
+      "rule": "10096",
+      "alert": "Timestamp Disclosure - Unix",
+      "severity": "Low (Low)",
+      "count": 5,
+      "paths": [
+        "/swagger/swagger-ui-standalone-preset.js"
+      ]
+    },
+    {
+      "rule": "10109",
+      "alert": "Modern Web Application",
+      "severity": "Informational (Medium)",
+      "count": 2,
+      "paths": [
+        "",
+        "/swagger/index.html"
+      ]
+    },
+    {
+      "rule": "10049",
+      "alert": "Non-Storable Content",
+      "severity": "Informational (Medium)",
+      "count": 1,
+      "paths": [
+        ""
+      ]
+    },
+    {
+      "rule": "10049",
+      "alert": "Storable and Cacheable Content",
+      "severity": "Informational (Medium)",
+      "count": 5,
+      "paths": [
+        "/robots.txt",
+        "/sitemap.xml",
+        "/swagger",
+        "/swagger/favicon-32x32.png",
+        "/swagger/index.css"
+      ]
+    }
+  ]
+}

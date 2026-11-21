@@ -1,0 +1,21 @@
+{
+  "id": "51c9a162-3c2a-4573-b8b9-bd31ab9dde59",
+  "type": "REPORT",
+  "componentId": "27c42381-2c73-42b3-9313-38632ca22d3d",
+  "componentKey": "fa-56-luna",
+  "componentName": "GPT-5.6 Luna Sonar",
+  "componentQualifier": "TRK",
+  "analysisId": "4d49de32-a1fc-4dba-a0f3-99629701b029",
+  "status": "SUCCESS",
+  "submittedAt": "2026-11-21T15:53:01+07:00",
+  "submitterLogin": "admin",
+  "startedAt": "2026-11-21T15:53:02+07:00",
+  "executedAt": "2026-11-21T15:53:05+07:00",
+  "executionTimeMs": 2916,
+  "hasScannerContext": true,
+  "warningCount": 1,
+  "warnings": [
+    "SCM provider autodetection failed. Please use \"sonar.scm.provider\" to define SCM of your project, or disable the SCM Sensor in the project settings."
+  ],
+  "infoMessages": []
+}

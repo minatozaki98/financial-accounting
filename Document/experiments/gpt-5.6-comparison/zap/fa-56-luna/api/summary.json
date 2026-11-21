@@ -1,0 +1,111 @@
+{
+  "categories": 4,
+  "instances": 18,
+  "instances_by_risk": {
+    "0": 18
+  },
+  "business_paths_with_medium_or_high": [],
+  "observed_scanner_routes": [
+    "DELETE /journal-entries/10",
+    "GET /accounts",
+    "GET /accounts/10",
+    "GET /accounts/10/balance",
+    "GET /audit-logs",
+    "GET /journal-entries",
+    "GET /journal-entries/10",
+    "GET /periods",
+    "GET /reports/account-ledger",
+    "GET /reports/balance-sheet",
+    "GET /reports/profit-loss",
+    "GET /reports/trial-balance",
+    "GET /swagger/v1/swagger.json",
+    "GET /users/me",
+    "POST /accounts",
+    "POST /auth/login",
+    "POST /journal-entries",
+    "POST /journal-entries/10/post",
+    "POST /journal-entries/10/reverse",
+    "POST /journal-entries/bulk",
+    "POST /periods",
+    "POST /periods/10/close",
+    "POST /users",
+    "PUT /accounts/10"
+  ],
+  "scanner_statuses": {
+    "DELETE /journal-entries/10 404": 1,
+    "GET /accounts 200": 1,
+    "GET /accounts/10 200": 1,
+    "GET /accounts/10/balance 200": 1,
+    "GET /audit-logs 400": 1,
+    "GET /journal-entries 400": 1,
+    "GET /journal-entries/10 200": 1,
+    "GET /periods 200": 1,
+    "GET /reports/account-ledger 200": 1,
+    "GET /reports/balance-sheet 200": 1,
+    "GET /reports/profit-loss 200": 1,
+    "GET /reports/trial-balance 200": 1,
+    "GET /swagger/v1/swagger.json 200": 1,
+    "GET /users/me 200": 1,
+    "POST /accounts 400": 1,
+    "POST /auth/login 401": 1,
+    "POST /journal-entries 400": 1,
+    "POST /journal-entries/10/post 404": 1,
+    "POST /journal-entries/10/reverse 200": 1,
+    "POST /journal-entries/bulk 400": 1,
+    "POST /periods 201": 1,
+    "POST /periods/10/close 204": 1,
+    "POST /users 400": 1,
+    "PUT /accounts/10 400": 1
+  },
+  "alerts": [
+    {
+      "rule": "100000",
+      "alert": "A Client Error response code was returned by the server",
+      "severity": "Informational (High)",
+      "count": 10,
+      "paths": [
+        "/accounts",
+        "/accounts/10",
+        "/audit-logs",
+        "/auth/login",
+        "/journal-entries",
+        "/journal-entries/10",
+        "/journal-entries/10/post",
+        "/journal-entries/bulk",
+        "/users"
+      ]
+    },
+    {
+      "rule": "10111",
+      "alert": "Authentication Request Identified",
+      "severity": "Informational (Low)",
+      "count": 2,
+      "paths": [
+        "/auth/login",
+        "/users"
+      ]
+    },
+    {
+      "rule": "10024",
+      "alert": "Information Disclosure - Sensitive Information in URL",
+      "severity": "Informational (Medium)",
+      "count": 1,
+      "paths": [
+        "/audit-logs"
+      ]
+    },
+    {
+      "rule": "10049",
+      "alert": "Non-Storable Content",
+      "severity": "Informational (Medium)",
+      "count": 5,
+      "paths": [
+        "/accounts/10",
+        "/journal-entries",
+        "/journal-entries/10",
+        "/journal-entries/bulk",
+        "/periods"
+      ]
+    }
+  ]
+}

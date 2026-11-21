@@ -1,0 +1,21 @@
+{
+  "id": "20eb8fb9-723d-4304-8354-9d81831ea2a2",
+  "type": "REPORT",
+  "componentId": "6e7b6ce9-ff60-4229-9e96-65957b58daf9",
+  "componentKey": "fa-56-terra",
+  "componentName": "Financial Accounting GPT-5.6 Terra",
+  "componentQualifier": "TRK",
+  "analysisId": "55ccf4ff-6c19-44b6-91f2-0141da1b34e8",
+  "status": "SUCCESS",
+  "submittedAt": "2026-11-21T15:49:09+07:00",
+  "submitterLogin": "admin",
+  "startedAt": "2026-11-21T15:49:10+07:00",
+  "executedAt": "2026-11-21T15:49:12+07:00",
+  "executionTimeMs": 1432,
+  "hasScannerContext": true,
+  "warningCount": 1,
+  "warnings": [
+    "SCM provider autodetection failed. Please use \"sonar.scm.provider\" to define SCM of your project, or disable the SCM Sensor in the project settings."
+  ],
+  "infoMessages": []
+}

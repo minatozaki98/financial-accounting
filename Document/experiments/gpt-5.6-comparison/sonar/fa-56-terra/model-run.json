@@ -1,0 +1,10 @@
+{
+  "model": "gpt-5.6-terra",
+  "launchHeader": [
+    "model: gpt-5.6-terra",
+    "reasoning effort: high",
+    "session id: 01a1fd13-b928-7480-a384-d64d3ab361e4"
+  ],
+  "logSHA256": "5FA792141FD99F2C64A4F18BE98FA2279D22A9F700959FBB5DFE0531E088D1F4",
+  "proposalSHA256": "2715DC5FB4D3C590512F0C582AED1AE6DFE520A0B0D9720098707ABB838D1809"
+}

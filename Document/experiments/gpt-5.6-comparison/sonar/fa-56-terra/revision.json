@@ -1,0 +1,13 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "5ef474e48269c5a5f763afc7ba7910b937231427",
+  "ref": "refs/heads/codex/benchmark-20261121-terra-sonar",
+  "files": [
+    "API/Middleware/GlobalExceptionMiddleware.cs",
+    "API/Program.cs",
+    "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+    "BAL/Services/FinancialAuthService.cs",
+    "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+    "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs"
+  ]
+}

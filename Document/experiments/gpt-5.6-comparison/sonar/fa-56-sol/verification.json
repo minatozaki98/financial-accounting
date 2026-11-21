@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-11-21T15:51:30.0038467+07:00",
+  "projectKey": "fa-56-sol",
+  "analysisId": "d22b5313-bcd1-4a52-bce2-23a4d4caa845",
+  "ceTaskId": "7e0f33f6-2434-49af-afa9-03d64c912352",
+  "qualityGate": "OK",
+  "unitTests": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "integrationTests": {
+    "total": 96,
+    "passed": 96,
+    "failed": 0
+  },
+  "files": [
+    {
+      "path": "API/Middleware/GlobalExceptionMiddleware.cs",
+      "editCount": 1,
+      "matchesExpected": true,
+      "sha256": "D8D64FE1AF427729366B362CC6EBE3258AFBC10DCEB34E99FA8AE7748B2A82D0",
+      "crlf": 59,
+      "bareLf": 0
+    },
+    {
+      "path": "API/Program.cs",
+      "editCount": 1,
+      "matchesExpected": true,
+      "sha256": "90F02500DB1736E998B64E5FBEAF21EFAF235D43C6F5BF33271133DB187EA1FC",
+      "crlf": 192,
+      "bareLf": 0
+    },
+    {
+      "path": "API/Properties/ServiceDependencies/crc-api-test - Zip Deploy/profile.arm.json",
+      "editCount": 1,
+      "matchesExpected": true,
+      "sha256": "64D0C86BDEE0846F9E218F8FA4E2C2BA13EA0C6141C148D87AA3AADE5E0535D1",
+      "crlf": 170,
+      "bareLf": 0
+    },
+    {
+      "path": "BAL/Services/FinancialAuthService.cs",
+      "editCount": 1,
+      "matchesExpected": true,
+      "sha256": "E9C43123AED58C3224B7E2519E20F0EDCB2AEE2FE9272E695C38BA33DBC86A74",
+      "crlf": 234,
+      "bareLf": 0
+    },
+    {
+      "path": "tests/FinancialAccounting.IntegrationTests/RbacMatrixTests.cs",
+      "editCount": 3,
+      "matchesExpected": true,
+      "sha256": "E26B18CDAE912C8A4DBF38BC6641C7CFDBA3100E1E3B38161FF2F6C708C0D72A",
+      "crlf": 154,
+      "bareLf": 0
+    },
+    {
+      "path": "tests/FinancialAccounting.UnitTests/FinancialTokenProviderTests.cs",
+      "editCount": 2,
+      "matchesExpected": true,
+      "sha256": "B5BA1FA28075A367895A8CE19E72389016CB9664F629465D75D7B98FF9C46FA6",
+      "crlf": 51,
+      "bareLf": 0
+    }
+  ]
+}

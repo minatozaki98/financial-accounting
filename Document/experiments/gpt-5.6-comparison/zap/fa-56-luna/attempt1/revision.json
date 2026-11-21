@@ -1,0 +1,8 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "e06dd601a1d39a03a2a7946e155d3cf2fa6e6c1c",
+  "ref": "refs/heads/codex/benchmark-20261121-luna-security",
+  "files": [
+    "API/Program.cs"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "component": {
+    "key": "fa-baseline",
+    "name": "Financial Accounting",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "74.4",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "1",
+        "bestValue": false
+      },
+      {
+        "metric": "complexity",
+        "value": "886"
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "3.0",
+        "bestValue": false
+      },
+      {
+        "metric": "code_smells",
+        "value": "6",
+        "bestValue": false
+      },
+      {
+        "metric": "ncloc",
+        "value": "3211"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      }
+    ]
+  }
+}
