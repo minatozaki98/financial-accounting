@@ -29,6 +29,16 @@ Health endpoints:
 - `GET /health/live`
 - `GET /health/ready`
 
+## Apply Report Performance Indexes
+
+After restoring an existing `Financial` database, apply the report indexes before starting the API or collecting performance measurements:
+
+```powershell
+sqlcmd -S localhost -d Financial -E -b -i Document/sql/performance_report_indexes.sql
+```
+
+The script runs both index creations in one transaction, fails if the expected tables are missing, and checks `sys.indexes` before each creation. It is safe to run again against the same restored database. Fresh databases created from `Document/sql/financial_accounting_schema.sql` receive the same indexes, and the EF Core model carries the matching definitions for `EnsureCreated` environments.
+
 ## Test and Quality Commands
 
 ### Start Persistent Tool Containers
