@@ -111,6 +111,7 @@ namespace BAL.Services
         {
             var entity = await _context.JournalEntries
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.Lines)
                 .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync(x => x.JournalEntryId == journalEntryId);
@@ -179,6 +180,7 @@ namespace BAL.Services
 
             var entries = await _context.JournalEntries
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Where(x => pageIds.Contains(x.JournalEntryId))
                 .Include(x => x.Lines)
                 .ThenInclude(x => x.Account)

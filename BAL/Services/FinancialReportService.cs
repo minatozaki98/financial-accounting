@@ -99,15 +99,17 @@ namespace BAL.Services
         public async Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress)
         {
             var period = await GetPeriodOrThrowAsync(periodId);
-            var account = await _context.ChartOfAccounts.AsNoTracking().FirstOrDefaultAsync(x => x.AccountId == accountId);
+            var account = await _context.ChartOfAccounts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.AccountId == accountId);
             if (account == null)
             {
                 throw new InvalidOperationException("Account was not found.");
             }
 
             var openingSums = await (
-                    from entry in _context.JournalEntries
-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+                    from entry in _context.JournalEntries.AsNoTracking()
+                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
                     where entry.Status == "Posted" &&
                           line.AccountId == accountId &&
                           entry.EntryDate < period.StartDate
@@ -126,8 +128,8 @@ namespace BAL.Services
                 decimal.Round(Convert.ToDecimal(openingSums?.CreditTotal ?? 0d), 2));
 
             var lines = await (
-                    from entry in _context.JournalEntries
-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+                    from entry in _context.JournalEntries.AsNoTracking()
+                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
                     where entry.Status == "Posted" &&
                           line.AccountId == accountId &&
                           entry.EntryDate >= period.StartDate &&
@@ -199,7 +201,9 @@ namespace BAL.Services
 
         private async Task<AccountingPeriod> GetPeriodOrThrowAsync(int periodId)
         {
-            var period = await _context.AccountingPeriods.AsNoTracking().FirstOrDefaultAsync(x => x.PeriodId == periodId);
+            var period = await _context.AccountingPeriods
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.PeriodId == periodId);
             if (period == null)
             {
                 throw new InvalidOperationException($"Accounting period '{periodId}' was not found.");
@@ -211,9 +215,9 @@ namespace BAL.Services
         private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
         {
             var rows = await (
-                    from entry in _context.JournalEntries
-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
-                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
+                    from entry in _context.JournalEntries.AsNoTracking()
+                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
+                    join account in _context.ChartOfAccounts.AsNoTracking() on line.AccountId equals account.AccountId
                     where entry.Status == "Posted" &&
                           entry.EntryDate >= startDate &&
                           entry.EntryDate <= endDate

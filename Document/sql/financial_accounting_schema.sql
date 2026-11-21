@@ -396,6 +396,12 @@ BEGIN
 END;
 GO
 
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntries') AND name = N'IX_JournalEntries_Status_EntryDate')
+BEGIN
+    CREATE INDEX IX_JournalEntries_Status_EntryDate ON dbo.JournalEntries(Status, EntryDate);
+END;
+GO
+
 IF OBJECT_ID(N'dbo.JournalEntryLines', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.JournalEntryLines
@@ -422,6 +428,12 @@ GO
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines') AND name = N'IX_JournalEntryLines_AccountId')
 BEGIN
     CREATE INDEX IX_JournalEntryLines_AccountId ON dbo.JournalEntryLines(AccountId);
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines') AND name = N'IX_JournalEntryLines_AccountId_JournalEntryId')
+BEGIN
+    CREATE INDEX IX_JournalEntryLines_AccountId_JournalEntryId ON dbo.JournalEntryLines(AccountId, JournalEntryId);
 END;
 GO
 

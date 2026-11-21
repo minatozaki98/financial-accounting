@@ -48,11 +48,10 @@ namespace BAL.Services
                     x.AccountName.Contains(keyword));
             }
 
-            var entities = await query
+            return await query
                 .OrderBy(x => x.AccountCode)
+                .Select(MapToDtoExpression())
                 .ToListAsync();
-
-            return entities.Select(MapToDto).ToList();
         }
 
         public async Task<AccountResponseDto?> GetByIdAsync(int accountId)
@@ -168,6 +167,20 @@ namespace BAL.Services
         private static AccountResponseDto MapToDto(ChartOfAccount account)
         {
             return new AccountResponseDto
+            {
+                AccountId = account.AccountId,
+                AccountCode = account.AccountCode,
+                AccountName = account.AccountName,
+                AccountType = account.AccountType,
+                IsActive = account.IsActive,
+                CreatedAt = account.CreatedAt,
+                UpdatedAt = account.UpdatedAt
+            };
+        }
+
+        private static System.Linq.Expressions.Expression<Func<ChartOfAccount, AccountResponseDto>> MapToDtoExpression()
+        {
+            return account => new AccountResponseDto
             {
                 AccountId = account.AccountId,
                 AccountCode = account.AccountCode,
