@@ -20,7 +20,10 @@ namespace API.Middleware
             {
                 context.Response.OnStarting(() =>
                 {
-                    SetHeaderIfMissing(context, "Content-Security-Policy", _options.ContentSecurityPolicy);
+                    var contentSecurityPolicy = context.Request.Path.StartsWithSegments("/swagger")
+                        ? _options.SwaggerContentSecurityPolicy
+                        : _options.ContentSecurityPolicy;
+                    SetHeaderIfMissing(context, "Content-Security-Policy", contentSecurityPolicy);
                     SetHeaderIfMissing(context, "X-Frame-Options", _options.XFrameOptions);
                     SetHeaderIfMissing(context, "X-Content-Type-Options", _options.XContentTypeOptions);
                     SetHeaderIfMissing(context, "Permissions-Policy", _options.PermissionsPolicy);
