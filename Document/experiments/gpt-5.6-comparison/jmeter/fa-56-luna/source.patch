@@ -1,0 +1,269 @@
+diff --git a/BAL/Services/ChartOfAccountsService.cs b/BAL/Services/ChartOfAccountsService.cs
+index d50bd9e..8827a9f 100644
+--- a/BAL/Services/ChartOfAccountsService.cs
++++ b/BAL/Services/ChartOfAccountsService.cs
+@@ -48,11 +48,10 @@ namespace BAL.Services
+                     x.AccountName.Contains(keyword));
+             }
+ 
+-            var entities = await query
++            return await query
+                 .OrderBy(x => x.AccountCode)
++                .Select(MapToDtoExpression())
+                 .ToListAsync();
+-
+-            return entities.Select(MapToDto).ToList();
+         }
+ 
+         public async Task<AccountResponseDto?> GetByIdAsync(int accountId)
+@@ -179,6 +178,20 @@ namespace BAL.Services
+             };
+         }
+ 
++        private static System.Linq.Expressions.Expression<Func<ChartOfAccount, AccountResponseDto>> MapToDtoExpression()
++        {
++            return account => new AccountResponseDto
++            {
++                AccountId = account.AccountId,
++                AccountCode = account.AccountCode,
++                AccountName = account.AccountName,
++                AccountType = account.AccountType,
++                IsActive = account.IsActive,
++                CreatedAt = account.CreatedAt,
++                UpdatedAt = account.UpdatedAt
++            };
++        }
++
+         private static string NormalizeAccountType(string accountType)
+         {
+             if (string.IsNullOrWhiteSpace(accountType))
+diff --git a/BAL/Services/FinancialReportService.cs b/BAL/Services/FinancialReportService.cs
+index c1a8612..eb00e2b 100644
+--- a/BAL/Services/FinancialReportService.cs
++++ b/BAL/Services/FinancialReportService.cs
+@@ -99,15 +99,17 @@ namespace BAL.Services
+         public async Task<AccountLedgerResponseDto> GetAccountLedgerAsync(int accountId, int periodId, Guid actorUserId, string? ipAddress)
+         {
+             var period = await GetPeriodOrThrowAsync(periodId);
+-            var account = await _context.ChartOfAccounts.AsNoTracking().FirstOrDefaultAsync(x => x.AccountId == accountId);
++            var account = await _context.ChartOfAccounts
++                .AsNoTracking()
++                .FirstOrDefaultAsync(x => x.AccountId == accountId);
+             if (account == null)
+             {
+                 throw new InvalidOperationException("Account was not found.");
+             }
+ 
+             var openingSums = await (
+-                    from entry in _context.JournalEntries
+-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
++                    from entry in _context.JournalEntries.AsNoTracking()
++                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
+                     where entry.Status == "Posted" &&
+                           line.AccountId == accountId &&
+                           entry.EntryDate < period.StartDate
+@@ -126,8 +128,8 @@ namespace BAL.Services
+                 decimal.Round(Convert.ToDecimal(openingSums?.CreditTotal ?? 0d), 2));
+ 
+             var lines = await (
+-                    from entry in _context.JournalEntries
+-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
++                    from entry in _context.JournalEntries.AsNoTracking()
++                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
+                     where entry.Status == "Posted" &&
+                           line.AccountId == accountId &&
+                           entry.EntryDate >= period.StartDate &&
+@@ -199,7 +201,9 @@ namespace BAL.Services
+ 
+         private async Task<AccountingPeriod> GetPeriodOrThrowAsync(int periodId)
+         {
+-            var period = await _context.AccountingPeriods.AsNoTracking().FirstOrDefaultAsync(x => x.PeriodId == periodId);
++            var period = await _context.AccountingPeriods
++                .AsNoTracking()
++                .FirstOrDefaultAsync(x => x.PeriodId == periodId);
+             if (period == null)
+             {
+                 throw new InvalidOperationException($"Accounting period '{periodId}' was not found.");
+@@ -211,9 +215,9 @@ namespace BAL.Services
+         private async Task<List<AccountAggregate>> GetPeriodAggregatesAsync(DateTime startDate, DateTime endDate)
+         {
+             var rows = await (
+-                    from entry in _context.JournalEntries
+-                    join line in _context.JournalEntryLines on entry.JournalEntryId equals line.JournalEntryId
+-                    join account in _context.ChartOfAccounts on line.AccountId equals account.AccountId
++                    from entry in _context.JournalEntries.AsNoTracking()
++                    join line in _context.JournalEntryLines.AsNoTracking() on entry.JournalEntryId equals line.JournalEntryId
++                    join account in _context.ChartOfAccounts.AsNoTracking() on line.AccountId equals account.AccountId
+                     where entry.Status == "Posted" &&
+                           entry.EntryDate >= startDate &&
+                           entry.EntryDate <= endDate
+diff --git a/BAL/Services/JournalEntryService.cs b/BAL/Services/JournalEntryService.cs
+index bfc8b4e..80b8a52 100644
+--- a/BAL/Services/JournalEntryService.cs
++++ b/BAL/Services/JournalEntryService.cs
+@@ -111,6 +111,7 @@ namespace BAL.Services
+         {
+             var entity = await _context.JournalEntries
+                 .AsNoTracking()
++                .AsSplitQuery()
+                 .Include(x => x.Lines)
+                 .ThenInclude(x => x.Account)
+                 .FirstOrDefaultAsync(x => x.JournalEntryId == journalEntryId);
+@@ -179,6 +180,7 @@ namespace BAL.Services
+ 
+             var entries = await _context.JournalEntries
+                 .AsNoTracking()
++                .AsSplitQuery()
+                 .Where(x => pageIds.Contains(x.JournalEntryId))
+                 .Include(x => x.Lines)
+                 .ThenInclude(x => x.Account)
+diff --git a/Document/performance/luna-performance-remediation.md b/Document/performance/luna-performance-remediation.md
+new file mode 100644
+index 0000000..f8ead1c
+--- /dev/null
++++ b/Document/performance/luna-performance-remediation.md
+@@ -0,0 +1,21 @@
++# Luna performance remediation
++
++The report and account-ledger queries filter posted journal entries by date and
++join journal-entry lines by account. The model now declares composite indexes
++for those access paths, and the read queries avoid retaining entity graphs in
++the request context. Journal-entry list reads also use split queries to avoid
++duplicating entry columns for every line.
++
++## Restored-database application
++
++The benchmark runner restores its disposable SQL database before each
++measurement. Applying only the EF model does not add indexes to an already
++restored database, so the runner must apply the standalone
++`Document/sql/luna-performance-indexes.sql` file to that disposable copy
++before starting the API. It adds the two indexes with `IF NOT EXISTS` guards,
++so applying it after every restore (including twice during a validation pass)
++is safe and does not alter data. The full schema script contains the same
++guarded index definitions for fresh schema setup.
++
++No JMeter, load, deployment, or workload configuration was changed by this
++remediation.
+diff --git a/Document/sql/financial_accounting_schema.sql b/Document/sql/financial_accounting_schema.sql
+index f4d6f4d..111ced2 100644
+--- a/Document/sql/financial_accounting_schema.sql
++++ b/Document/sql/financial_accounting_schema.sql
+@@ -396,6 +396,12 @@ BEGIN
+ END;
+ GO
+ 
++IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntries') AND name = N'IX_JournalEntries_Status_EntryDate')
++BEGIN
++    CREATE INDEX IX_JournalEntries_Status_EntryDate ON dbo.JournalEntries(Status, EntryDate);
++END;
++GO
++
+ IF OBJECT_ID(N'dbo.JournalEntryLines', N'U') IS NULL
+ BEGIN
+     CREATE TABLE dbo.JournalEntryLines
+@@ -425,6 +431,12 @@ BEGIN
+ END;
+ GO
+ 
++IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines') AND name = N'IX_JournalEntryLines_AccountId_JournalEntryId')
++BEGIN
++    CREATE INDEX IX_JournalEntryLines_AccountId_JournalEntryId ON dbo.JournalEntryLines(AccountId, JournalEntryId);
++END;
++GO
++
+ IF OBJECT_ID(N'dbo.AccountingPeriods', N'U') IS NULL
+ BEGIN
+     CREATE TABLE dbo.AccountingPeriods
+diff --git a/Document/sql/luna-performance-indexes.sql b/Document/sql/luna-performance-indexes.sql
+new file mode 100644
+index 0000000..38eb63a
+--- /dev/null
++++ b/Document/sql/luna-performance-indexes.sql
+@@ -0,0 +1,28 @@
++-- Idempotent indexes for report and account-ledger read paths.
++-- Apply this file to the restored disposable benchmark database before each run.
++
++IF NOT EXISTS
++(
++    SELECT 1
++    FROM sys.indexes
++    WHERE object_id = OBJECT_ID(N'dbo.JournalEntries')
++      AND name = N'IX_JournalEntries_Status_EntryDate'
++)
++BEGIN
++    CREATE INDEX IX_JournalEntries_Status_EntryDate
++        ON dbo.JournalEntries(Status, EntryDate);
++END;
++GO
++
++IF NOT EXISTS
++(
++    SELECT 1
++    FROM sys.indexes
++    WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines')
++      AND name = N'IX_JournalEntryLines_AccountId_JournalEntryId'
++)
++BEGIN
++    CREATE INDEX IX_JournalEntryLines_AccountId_JournalEntryId
++        ON dbo.JournalEntryLines(AccountId, JournalEntryId);
++END;
++GO
+diff --git a/MODEL/DataContext.cs b/MODEL/DataContext.cs
+index b30c0e3..28fc5a9 100644
+--- a/MODEL/DataContext.cs
++++ b/MODEL/DataContext.cs
+@@ -93,6 +93,7 @@ namespace MODEL
+                 entity.HasIndex(x => x.EntryDate);
+                 entity.HasIndex(x => x.ReferenceNo);
+                 entity.HasIndex(x => x.Status);
++                entity.HasIndex(x => new { x.Status, x.EntryDate });
+                 entity.HasOne(x => x.CreatedByUser)
+                     .WithMany(x => x.CreatedJournalEntries)
+                     .HasForeignKey(x => x.CreatedByUserId)
+@@ -107,6 +108,7 @@ namespace MODEL
+                 entity.Property(x => x.Credit).HasPrecision(18, 2);
+                 entity.HasIndex(x => x.JournalEntryId);
+                 entity.HasIndex(x => x.AccountId);
++                entity.HasIndex(x => new { x.AccountId, x.JournalEntryId });
+                 entity.HasOne(x => x.JournalEntry)
+                     .WithMany(x => x.Lines)
+                     .HasForeignKey(x => x.JournalEntryId)
+diff --git a/tests/FinancialAccounting.UnitTests/DataContextPerformanceIndexTests.cs b/tests/FinancialAccounting.UnitTests/DataContextPerformanceIndexTests.cs
+new file mode 100644
+index 0000000..c170085
+--- /dev/null
++++ b/tests/FinancialAccounting.UnitTests/DataContextPerformanceIndexTests.cs
+@@ -0,0 +1,33 @@
++using FluentAssertions;
++using Microsoft.EntityFrameworkCore;
++using MODEL;
++using MODEL.Entities;
++using Xunit;
++
++namespace FinancialAccounting.UnitTests;
++
++public class DataContextPerformanceIndexTests
++{
++    [Fact]
++    public void JournalEntryIndexes_ShouldSupportReportAndLedgerLookups()
++    {
++        var options = new DbContextOptionsBuilder<DataContext>()
++            .UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=PerformanceIndexTests;Integrated Security=true;TrustServerCertificate=true")
++            .Options;
++        using var context = new DataContext(options);
++
++        var journalEntryIndexes = context.Model
++            .FindEntityType(typeof(JournalEntry))!
++            .GetIndexes()
++            .Select(index => index.Properties.Select(property => property.Name).ToArray())
++            .ToList();
++        var journalEntryLineIndexes = context.Model
++            .FindEntityType(typeof(JournalEntryLine))!
++            .GetIndexes()
++            .Select(index => index.Properties.Select(property => property.Name).ToArray())
++            .ToList();
++
++        journalEntryIndexes.Should().Contain(index => index.SequenceEqual(new[] { nameof(JournalEntry.Status), nameof(JournalEntry.EntryDate) }));
++        journalEntryLineIndexes.Should().Contain(index => index.SequenceEqual(new[] { nameof(JournalEntryLine.AccountId), nameof(JournalEntryLine.JournalEntryId) }));
++    }
++}

@@ -1,0 +1,22 @@
+{
+  "variant": "luna",
+  "fixture_counts": [
+    120,
+    30000,
+    5000
+  ],
+  "new_index_columns": [
+    "JournalEntries/IX_JournalEntries_Status_EntryDate/EntryDate/2/0",
+    "JournalEntries/IX_JournalEntries_Status_EntryDate/Status/1/0",
+    "JournalEntryLines/IX_JournalEntryLines_AccountId_JournalEntryId/AccountId/1/0",
+    "JournalEntryLines/IX_JournalEntryLines_AccountId_JournalEntryId/JournalEntryId/2/0"
+  ],
+  "readiness_checks": 2,
+  "schema_applications": 2,
+  "report_payload_hashes": {
+    "/reports/trial-balance?periodId=202601": "ae8e5ee23fc48cc52433f5f485006d2eb1e65e600924626cb17446338aebbfd1",
+    "/reports/account-ledger?periodId=202601&accountId=1": "b7387a1a45c5184ce279b5cbdb16cffc3b6e109cca3733b32f2eecf8bf1f59f1"
+  },
+  "reports_created": 2,
+  "report_audit_events": 2
+}

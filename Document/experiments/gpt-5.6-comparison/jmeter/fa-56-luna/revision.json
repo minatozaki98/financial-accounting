@@ -1,0 +1,15 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "c05fb6d9d387335522f42d66aec2e4f0fa597192",
+  "ref": "refs/heads/codex/benchmark-20261121-luna-performance",
+  "files": [
+    "BAL/Services/ChartOfAccountsService.cs",
+    "BAL/Services/FinancialReportService.cs",
+    "BAL/Services/JournalEntryService.cs",
+    "Document/performance/luna-performance-remediation.md",
+    "Document/sql/financial_accounting_schema.sql",
+    "Document/sql/luna-performance-indexes.sql",
+    "MODEL/DataContext.cs",
+    "tests/FinancialAccounting.UnitTests/DataContextPerformanceIndexTests.cs"
+  ]
+}

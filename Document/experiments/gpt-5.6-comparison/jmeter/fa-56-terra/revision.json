@@ -1,0 +1,13 @@
+{
+  "baseline": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+  "revision": "2ba92cdb196f2b67a33329d8cb3ab833b0fd8ca0",
+  "ref": "refs/heads/codex/benchmark-20261121-terra-performance",
+  "files": [
+    "Document/performance/report-read-index-remediation.md",
+    "Document/sql/20261121_report_read_indexes.sql",
+    "Document/sql/financial_accounting_schema.sql",
+    "MODEL/DataContext.cs",
+    "tests/FinancialAccounting.IntegrationTests/PerformanceSchemaTests.cs",
+    "tests/FinancialAccounting.IntegrationTests/ReportsTests.cs"
+  ]
+}

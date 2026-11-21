@@ -1,0 +1,205 @@
+diff --git a/Document/sql/financial_accounting_schema.sql b/Document/sql/financial_accounting_schema.sql
+index f4d6f4d..6d84f21 100644
+--- a/Document/sql/financial_accounting_schema.sql
++++ b/Document/sql/financial_accounting_schema.sql
+@@ -396,6 +396,13 @@ BEGIN
+ END;
+ GO
+ 
++IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntries') AND name = N'IX_JournalEntries_Status_EntryDate_JournalEntryId')
++BEGIN
++    CREATE INDEX IX_JournalEntries_Status_EntryDate_JournalEntryId
++        ON dbo.JournalEntries(Status, EntryDate, JournalEntryId);
++END;
++GO
++
+ IF OBJECT_ID(N'dbo.JournalEntryLines', N'U') IS NULL
+ BEGIN
+     CREATE TABLE dbo.JournalEntryLines
+@@ -425,6 +432,14 @@ BEGIN
+ END;
+ GO
+ 
++IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines') AND name = N'IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId')
++BEGIN
++    CREATE INDEX IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId
++        ON dbo.JournalEntryLines(AccountId, JournalEntryId, JournalEntryLineId)
++        INCLUDE (Debit, Credit);
++END;
++GO
++
+ IF OBJECT_ID(N'dbo.AccountingPeriods', N'U') IS NULL
+ BEGIN
+     CREATE TABLE dbo.AccountingPeriods
+diff --git a/Document/sql/performance_report_indexes.sql b/Document/sql/performance_report_indexes.sql
+new file mode 100644
+index 0000000..e15e4e7
+--- /dev/null
++++ b/Document/sql/performance_report_indexes.sql
+@@ -0,0 +1,47 @@
++SET NOCOUNT ON;
++SET XACT_ABORT ON;
++GO
++
++BEGIN TRY
++    BEGIN TRANSACTION;
++
++    IF OBJECT_ID(N'dbo.JournalEntries', N'U') IS NULL
++        THROW 50001, 'dbo.JournalEntries does not exist.', 1;
++
++    IF OBJECT_ID(N'dbo.JournalEntryLines', N'U') IS NULL
++        THROW 50002, 'dbo.JournalEntryLines does not exist.', 1;
++
++    IF NOT EXISTS
++    (
++        SELECT 1
++        FROM sys.indexes
++        WHERE object_id = OBJECT_ID(N'dbo.JournalEntries')
++          AND name = N'IX_JournalEntries_Status_EntryDate_JournalEntryId'
++    )
++    BEGIN
++        CREATE INDEX IX_JournalEntries_Status_EntryDate_JournalEntryId
++            ON dbo.JournalEntries(Status, EntryDate, JournalEntryId);
++    END;
++
++    IF NOT EXISTS
++    (
++        SELECT 1
++        FROM sys.indexes
++        WHERE object_id = OBJECT_ID(N'dbo.JournalEntryLines')
++          AND name = N'IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId'
++    )
++    BEGIN
++        CREATE INDEX IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId
++            ON dbo.JournalEntryLines(AccountId, JournalEntryId, JournalEntryLineId)
++            INCLUDE (Debit, Credit);
++    END;
++
++    COMMIT TRANSACTION;
++END TRY
++BEGIN CATCH
++    IF @@TRANCOUNT > 0
++        ROLLBACK TRANSACTION;
++
++    THROW;
++END CATCH;
++GO
+diff --git a/MODEL/DataContext.cs b/MODEL/DataContext.cs
+index b30c0e3..79be672 100644
+--- a/MODEL/DataContext.cs
++++ b/MODEL/DataContext.cs
+@@ -93,6 +93,8 @@ namespace MODEL
+                 entity.HasIndex(x => x.EntryDate);
+                 entity.HasIndex(x => x.ReferenceNo);
+                 entity.HasIndex(x => x.Status);
++                entity.HasIndex(x => new { x.Status, x.EntryDate, x.JournalEntryId })
++                    .HasDatabaseName("IX_JournalEntries_Status_EntryDate_JournalEntryId");
+                 entity.HasOne(x => x.CreatedByUser)
+                     .WithMany(x => x.CreatedJournalEntries)
+                     .HasForeignKey(x => x.CreatedByUserId)
+@@ -107,6 +109,9 @@ namespace MODEL
+                 entity.Property(x => x.Credit).HasPrecision(18, 2);
+                 entity.HasIndex(x => x.JournalEntryId);
+                 entity.HasIndex(x => x.AccountId);
++                entity.HasIndex(x => new { x.AccountId, x.JournalEntryId, x.JournalEntryLineId })
++                    .HasDatabaseName("IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId")
++                    .IncludeProperties(x => new { x.Debit, x.Credit });
+                 entity.HasOne(x => x.JournalEntry)
+                     .WithMany(x => x.Lines)
+                     .HasForeignKey(x => x.JournalEntryId)
+diff --git a/README.md b/README.md
+index 9787865..07d7fee 100644
+--- a/README.md
++++ b/README.md
+@@ -29,6 +29,16 @@ Health endpoints:
+ - `GET /health/live`
+ - `GET /health/ready`
+ 
++## Apply Report Performance Indexes
++
++After restoring an existing `Financial` database, apply the report indexes before starting the API or collecting performance measurements:
++
++```powershell
++sqlcmd -S localhost -d Financial -E -b -i Document/sql/performance_report_indexes.sql
++```
++
++The script runs both index creations in one transaction, fails if the expected tables are missing, and checks `sys.indexes` before each creation. It is safe to run again against the same restored database. Fresh databases created from `Document/sql/financial_accounting_schema.sql` receive the same indexes, and the EF Core model carries the matching definitions for `EnsureCreated` environments.
++
+ ## Test and Quality Commands
+ 
+ ### Start Persistent Tool Containers
+diff --git a/tests/FinancialAccounting.UnitTests/DataContextIndexTests.cs b/tests/FinancialAccounting.UnitTests/DataContextIndexTests.cs
+new file mode 100644
+index 0000000..50622bd
+--- /dev/null
++++ b/tests/FinancialAccounting.UnitTests/DataContextIndexTests.cs
+@@ -0,0 +1,69 @@
++using FluentAssertions;
++using Microsoft.EntityFrameworkCore;
++using Microsoft.EntityFrameworkCore.Metadata;
++using MODEL;
++using MODEL.Entities;
++using Xunit;
++
++namespace FinancialAccounting.UnitTests;
++
++public class DataContextIndexTests
++{
++    [Fact]
++    public void JournalEntries_HasCompositeIndexForPostedPeriodReports()
++    {
++        using var context = CreateContext();
++
++        var index = FindIndex<JournalEntry>(
++            context,
++            "IX_JournalEntries_Status_EntryDate_JournalEntryId");
++
++        index.Properties.Select(property => property.Name)
++            .Should()
++            .Equal(
++                nameof(JournalEntry.Status),
++                nameof(JournalEntry.EntryDate),
++                nameof(JournalEntry.JournalEntryId));
++    }
++
++    [Fact]
++    public void JournalEntryLines_HasCoveringIndexForAccountLedgerReports()
++    {
++        using var context = CreateContext();
++
++        var index = FindIndex<JournalEntryLine>(
++            context,
++            "IX_JournalEntryLines_AccountId_JournalEntryId_JournalEntryLineId");
++
++        index.Properties.Select(property => property.Name)
++            .Should()
++            .Equal(
++                nameof(JournalEntryLine.AccountId),
++                nameof(JournalEntryLine.JournalEntryId),
++                nameof(JournalEntryLine.JournalEntryLineId));
++        index.FindAnnotation("SqlServer:Include")?.Value
++            .Should()
++            .BeEquivalentTo(new[]
++            {
++                nameof(JournalEntryLine.Debit),
++                nameof(JournalEntryLine.Credit)
++            });
++    }
++
++    private static DataContext CreateContext()
++    {
++        var options = new DbContextOptionsBuilder<DataContext>()
++            .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=FinancialAccountingIndexTests;Trusted_Connection=True")
++            .Options;
++
++        return new DataContext(options);
++    }
++
++    private static IIndex FindIndex<TEntity>(DataContext context, string databaseName)
++        where TEntity : class
++    {
++        return context.Model.FindEntityType(typeof(TEntity))!
++            .GetIndexes()
++            .Single(index => index.GetDatabaseName() == databaseName);
++    }
++}

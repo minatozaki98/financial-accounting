@@ -1,0 +1,14 @@
+[
+  {
+    "failed": 0,
+    "passed": 4,
+    "total": 4,
+    "assembly": "financialaccounting.unittests.dll"
+  },
+  {
+    "failed": 0,
+    "passed": 96,
+    "total": 96,
+    "assembly": "financialaccounting.integrationtests.dll"
+  }
+]

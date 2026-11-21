@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "tag": "financial-api:bench56-baseline",
+    "image_id": "sha256:4a7044c320add884eb5fa7a948229b00bdbb4a69d09925ccd220ccd8dd367d37",
+    "revision": "7a0469d9401a3061941b44fcd46b3beca1c9c729",
+    "schema_sha256": null
+  },
+  "gpt55": {
+    "tag": "financial-api:bench56-gpt55",
+    "image_id": "sha256:c58f83a55e452679e338dc0345465dbd91058fe66441689f455d435583f16e10",
+    "revision": "8d0be3b918008f1cf38a7c61669f8d7609df0963",
+    "schema_sha256": null
+  },
+  "luna": {
+    "image_id": "sha256:c9557aaae8ead968c48c952c3173a9efd60cca62458bd93d9ace61a7c02e90d8",
+    "revision": "c05fb6d9d387335522f42d66aec2e4f0fa597192",
+    "tag": "financial-api:bench56-luna",
+    "schema_sha256": "a77504162bbf9685b3ca223af2be9e1b6528130ab04f2f6268eb40a21d4681e5"
+  },
+  "terra": {
+    "image_id": "sha256:aa0705187e4fef5a8490e348f20ea46a24d3b7d985cbe4d82a024e8a04b025b3",
+    "revision": "2ba92cdb196f2b67a33329d8cb3ab833b0fd8ca0",
+    "tag": "financial-api:bench56-terra",
+    "schema_sha256": "5bc4630226c71b6655bd8633fc53b9c42164fae530058c9ad8f1418625cc6a3d"
+  },
+  "sol": {
+    "tag": "financial-api:bench56-sol",
+    "image_id": "sha256:9a97316e678ffbd45324be89e787db955029004dd9e88f84f8ad9abca7cd11ed",
+    "revision": "eea341f31c44df4689244829258f633750602e17",
+    "schema_sha256": "fc8857a228ff8f31f55593db92e99017c62e34ee271a76cf8fa04d75c66ca5c7"
+  }
+}

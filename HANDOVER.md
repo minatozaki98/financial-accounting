@@ -9,3 +9,9 @@ The [Luna, Terra, and Sol protocol](docs/superpowers/plans/gpt-5-6-luna-terra-so
 ## 2026-11-21 benchmark measurements
 
 The [GPT-5.6 comparison report](Document/experiments/gpt-5.6-comparison/RESULTS.md) records the finished SonarQube and passive ZAP measurements for the pre-fix build, saved GPT-5.5 fixes, and separate Luna, Terra, and Sol candidates. Local Git branches under codex/benchmark-20261121 preserve the measured model fixes. Terra and Sol cleared all High and Medium passive alerts. The final Luna revision retained one High alert in the Swagger UI JavaScript bundle. Deployment and JMeter load testing remain deferred.
+
+## 2026-11-21 JMeter preparation
+
+The [preparation report](Document/experiments/gpt-5.6-comparison/jmeter/README.md) links the frozen inputs and local verification for the three performance candidates. The branches are `codex/benchmark-20261121-luna-performance` (99 tests passed), `codex/benchmark-20261121-terra-performance` (100), and `codex/benchmark-20261121-sol-performance` (100). Each candidate preserved the baseline ledger and trial-balance results and expected audit writes on the restored 30,000-entry fixture.
+
+The comparison runner is on `codex/jmeter-five-build-runner` at `355342b`. Its [schedule](Document/experiments/gpt-5.6-comparison/jmeter/schedule.json) covers 75 scored runs across five builds, five profiles and three repetitions. The [manifest](Document/experiments/gpt-5.6-comparison/jmeter/builds.json) identifies the five local images and the SQL to apply after each restore. Deployment and load testing are pending. Performance gains remain unmeasured.
